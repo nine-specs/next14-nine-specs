@@ -10,7 +10,7 @@ interface InputProps {
 }
 
 export default function Input({
-  type = "text",
+  type,
   placeholder,
   value,
   label,
