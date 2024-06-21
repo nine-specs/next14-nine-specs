@@ -1,4 +1,4 @@
-type BodyProps = {
+type BodyFontProps = {
   level: "1" | "2" | "3" | "4" | "5";
   weight: "bold" | "medium" | "regular";
   className?: string;
@@ -18,12 +18,12 @@ const weightVariants = {
   regular: "font-normal",
 };
 
-export default function Body({
+export default function BodyFont({
   level,
   weight,
   className,
   children,
-}: BodyProps) {
+}: BodyFontProps) {
   return (
     <>
       <p

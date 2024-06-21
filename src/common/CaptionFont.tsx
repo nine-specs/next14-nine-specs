@@ -1,4 +1,4 @@
-type CaptionProps = {
+type CaptionFontProps = {
   weight: "medium" | "regular";
   className?: string;
   children: React.ReactNode;
@@ -9,7 +9,11 @@ const weightVariants = {
   regular: "font-normal",
 };
 
-export default function Caption({ weight, className, children }: CaptionProps) {
+export default function CaptionFont({
+  weight,
+  className,
+  children,
+}: CaptionFontProps) {
   return (
     <>
       <p

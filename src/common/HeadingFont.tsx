@@ -1,4 +1,4 @@
-type HeadingProps = {
+type HeadingFontProps = {
   level: "1" | "2" | "3" | "4";
   weight: "extrabold" | "bold" | "medium";
   className?: string;
@@ -17,12 +17,12 @@ const weightVariants = {
   medium: "font-medium",
 };
 
-export default function Heading({
+export default function HeadingFont({
   level,
   weight,
   className,
   children,
-}: HeadingProps) {
+}: HeadingFontProps) {
   const Tag = `h${level}` as keyof JSX.IntrinsicElements;
 
   return (
