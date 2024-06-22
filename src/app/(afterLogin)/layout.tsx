@@ -1,7 +1,14 @@
+import Header from "@/common/Header/Header";
+
 export default function AfterLoginLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <>{children}</>;
+  return (
+    <>
+      <Header isLoggedIn />
+      {children}
+    </>
+  );
 }
