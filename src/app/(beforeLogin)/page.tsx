@@ -1,9 +1,7 @@
-import Main from "./_component/Main";
-
 export default async function Home() {
   return (
     <>
-      <Main />
+      <h1>비회원 홈 페이지 Component</h1>
     </>
   );
 }
