@@ -4,21 +4,25 @@ interface InputProps {
   value?: string;
   label?: string;
   description?: string;
-  duplicateCheckLabel?: string;
+  checkLabel?: string;
   className?: string;
-  onDuplicateCheck?: () => void;
+  children?: React.ReactNode;
 }
 
 export default function Input({
-  type,
+  type = "text", //기본 속성타입
   placeholder,
   value,
   label,
   description,
-  duplicateCheckLabel,
+  checkLabel,
+  children,
+  className,
 }: InputProps) {
   return (
-    <div className=" w-96 h-auto rounded-lg flex flex-col p-4 box-border">
+    <div
+      className={`w-96 h-auto rounded-lg flex flex-col p-4 box-border ${className}`}
+    >
       {label && <label className="block mb-2">{label}</label>}
       <div className="relative w-full">
         <input
@@ -27,13 +31,14 @@ export default function Input({
           placeholder={placeholder}
           value={value}
         />
-        {duplicateCheckLabel && (
+        {checkLabel && (
           <button className="absolute right-2 top-1/2 transform -translate-y-1/2 h-10 rounded-lg border border-gray-300 px-4 bg-gray-200 cursor-pointer">
-            {duplicateCheckLabel}
+            {checkLabel}
           </button>
         )}
       </div>
       {description && <label className="block mt-2">{description}</label>}
+      {children}
     </div>
   );
 }
