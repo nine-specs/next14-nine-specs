@@ -1,0 +1,19 @@
+{
+  // 한 줄의 최대 길이를 80자로 제한합니다.
+  "printWidth": 80,
+
+  // 들여쓰기를 공백 2칸으로 설정합니다.
+  "tabWidth": 2,
+
+  // 코드 끝에 세미콜론(;)을 항상 추가합니다.
+  "semi": true,
+
+  // 문자열을 큰따옴표(")로 감쌉니다.
+  "singleQuote": false,
+
+  // JSX 속성 값에 큰따옴표(")를 사용합니다.
+  "jsxSingleQuote": false,
+
+  // 가능한 모든 곳에 쉼표(콤마)를 추가합니다.
+  "trailingComma": "all"
+}
