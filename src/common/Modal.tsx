@@ -9,7 +9,6 @@ type ModalProps = {
   S2 :   로그인 /회원가입
   S3-6 : 설정
   S7-8 : 관심주식 
-  
   */
   size: "S1" | "S2" | "S3" | "S4" | "S5" | "S6" | "S7" | "S8";
   children: React.ReactNode;
