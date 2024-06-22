@@ -39,9 +39,11 @@ export default function Header({
             </ul>
           )}
         </div>
-        <TextButton variant="outline" size="sm" className="w-[102px]">
-          {isLoggedIn ? "로그아웃" : "로그인"}
-        </TextButton>
+        <div className="w-[102px]">
+          <TextButton variant="outline" size="sm">
+            {isLoggedIn ? "로그아웃" : "로그인"}
+          </TextButton>
+        </div>
       </nav>
     </header>
   );
