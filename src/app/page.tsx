@@ -1,6 +1,3 @@
-import { LanguageButton } from "@/common/LanguageButton";
-import { Modal } from "@/common/Modal";
-
 export default function page() {
   return (
     <>

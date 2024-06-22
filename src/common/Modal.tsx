@@ -11,10 +11,11 @@ type ModalProps = {
   */
   size: "S1" | "S2" | "S3" | "S4" | "S5" | "S6" | "S7" | "S8";
   children: React.ReactNode;
+  onClose?: () => void;
 };
 
 /**Size props 필요 */
-export const Modal: React.FC<ModalProps> = ({ size, children }) => {
+export const Modal: React.FC<ModalProps> = ({ size, children, onClose }) => {
   const selectedSize: Record<ModalProps["size"], string> = {
     S1: "w-[386px] h-[156px]",
     S2: "w-[386px] h-[212px]",
@@ -28,11 +29,15 @@ export const Modal: React.FC<ModalProps> = ({ size, children }) => {
 
   return (
     <>
-      <div className="w-full h-full fixed left-0 top-0 bg-[#4c4c4c]/[0.53] z-30 flex flex-col items-center justify-center ">
+      <div
+        className="w-full h-full fixed left-0 top-0 bg-[#4c4c4c]/[0.53] z-30 flex flex-col items-center justify-center "
+        onClick={onClose}
+      >
         <div
           className={`flex justify-center items-start flex-grow-0 flex-shrink-0 rounded-[32px] bg-white
           ${selectedSize[size]}
             `}
+          onClick={(e) => e.stopPropagation()} // 이벤트버블링 방지
         >
           {children}
         </div>
