@@ -16,7 +16,7 @@ const countryObj = {
   FR: { langImg: <FrImg />, langText: "프랑스어" },
 };
 
-export const LanguageButton: React.FC<LanguageBTNProps> = ({ country }) => {
+export const LanguageButton = ({ country }: LanguageBTNProps) => {
   /**현재 languageButton이 나타내는 언어 */
   const language = countryObj[country];
 

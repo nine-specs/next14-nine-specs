@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 
 type ModalProps = {
@@ -15,7 +16,7 @@ type ModalProps = {
 };
 
 /**Size props 필요 */
-export const Modal: React.FC<ModalProps> = ({ size, children, onClose }) => {
+export const Modal = ({ size, children, onClose }: ModalProps) => {
   const selectedSize: Record<ModalProps["size"], string> = {
     S1: "w-[386px] h-[156px]",
     S2: "w-[386px] h-[212px]",
