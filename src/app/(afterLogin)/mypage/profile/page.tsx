@@ -1,4 +1,5 @@
 import BodyFont from "@/common/BodyFont";
+import Input from "@/common/Input";
 import Link from "next/link";
 
 const sideBarCSS = "h-[60px] py-[16px] px-[24px]";
@@ -25,6 +26,7 @@ const sideMenuList = [
 export default function ProfilPage() {
   return (
     <div className=" w-[1200px] min-h-[720px] flex gap-[27px] mt-[20px]">
+      {/* 사이드바 */}
       <div className="w-[285px] h-[720px] bg-grayscale-0 rounded-[16px]">
         <div className="mt-[24px] flex-col">
           {sideMenuList.map((a, i) => (
@@ -40,7 +42,15 @@ export default function ProfilPage() {
           ))}
         </div>
       </div>
-      <div className="w-[888px] h-[720px] bg-grayscale-0 rounded-[16px]"></div>
+      {/* 우측 영역 */}
+      <div className="w-[888px] h-[720px] bg-grayscale-0 rounded-[16px]">
+        <Input
+          type="text"
+          placeholder="아이디를 입력"
+          label="아이디"
+          checkLabel="검색"
+        ></Input>
+      </div>
     </div>
   );
 }

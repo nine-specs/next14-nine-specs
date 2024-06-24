@@ -25,6 +25,7 @@ const sideMenuList = [
 export default function language() {
   return (
     <div className=" w-[1200px] min-h-[720px] flex gap-[27px] mt-[20px]">
+      {/* 사이드바 */}
       <div className="w-[285px] h-[720px] bg-grayscale-0 rounded-[16px]">
         <div className="mt-[24px] flex-col">
           {sideMenuList.map((a, i) => (
@@ -40,6 +41,7 @@ export default function language() {
           ))}
         </div>
       </div>
+      {/* 우측 영역 */}
       <div className="w-[888px] h-[720px] bg-grayscale-0 rounded-[16px]"></div>
     </div>
   );

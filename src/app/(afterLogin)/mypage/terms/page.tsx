@@ -1,9 +1,10 @@
+"use client";
 import BodyFont from "@/common/BodyFont";
 import Link from "next/link";
+import TermsComponents from "./termsComponents";
 
 const sideBarCSS = "h-[60px] py-[16px] px-[24px]";
 const activeMenuCSS = "border-l-8 border-l-primary-900 box-border !pl-[16px]";
-
 const sideMenuList = [
   {
     selected: false,
@@ -24,8 +25,13 @@ const sideMenuList = [
 
 export default function terms() {
   return (
-    <div className=" w-[1200px] min-h-[720px] flex gap-[27px] mt-[20px]">
-      <div className="w-[285px] h-[720px] bg-grayscale-0 rounded-[16px]">
+    <div className=" w-[1200px] min-h-[720px] flex flex-grow gap-[27px] mt-[20px] mb-[112px] border border-red-600">
+      {/* 사이드바 */}
+      <div
+        className={`parent w-[285px]  bg-grayscale-0 rounded-[16px]
+            min-h-[720px]
+      `}
+      >
         <div className="mt-[24px] flex-col">
           {sideMenuList.map((a, i) => (
             <div className={`${sideBarCSS} ${a.selected ? activeMenuCSS : ""}`}>
@@ -40,7 +46,19 @@ export default function terms() {
           ))}
         </div>
       </div>
-      <div className="w-[888px] h-[720px] bg-grayscale-0 rounded-[16px]"></div>
+      {/* 우측 영역 */}
+      <div
+        className={`flex w-[888px]  bg-grayscale-0 flex-grow rounded-[16px]
+            min-h-[720px]
+        `}
+      >
+        <div className="p-[32px] flex flex-col flex-grow gap-[66px]">
+          {/*서비스이용약관 컨테이너*/}
+          <TermsComponents option="termsOfService" />
+          {/*개인정보처리방침 컨테이너 */}
+          <TermsComponents option="privacyPolicy" />
+        </div>
+      </div>
     </div>
   );
 }

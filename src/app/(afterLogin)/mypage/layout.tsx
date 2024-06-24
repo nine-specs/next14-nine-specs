@@ -6,9 +6,12 @@ export default function MyPageLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="bg-background w-full h-[940px] flex justify-center box-border">
+    <div
+      className="bg-background w-full h-auto flex flex-grow justify-center box-border "
+      id="background"
+    >
       <div
-        className="  min-w-[1200px] h-[776px] mt-[56px] box-border"
+        className="min-w-[1200px] h-auto mt-[56px] box-border border border-sky-400"
         id="container"
       >
         <HeadingFont level="4" weight="bold" className="text-primary-900">

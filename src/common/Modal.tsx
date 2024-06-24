@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 import React from "react";
 
 type ModalProps = {
@@ -39,7 +39,7 @@ export const Modal = ({ size, children, onClose }: ModalProps) => {
           className={`flex justify-center items-start flex-grow-0 flex-shrink-0 rounded-[32px] bg-white
           ${selectedSize[size]}
             `}
-          onClick={(e) => e.stopPropagation()} // 이벤트버블링 방지
+          // onClick={(e) => e.stopPropagation()} // 이벤트버블링 방지
         >
           {children}
         </div>
