@@ -52,7 +52,7 @@ export default function terms() {
             min-h-[720px]
         `}
       >
-        <div className="p-[32px] flex flex-col flex-grow gap-[66px]">
+        <div className="p-[32px] w-full h-full flex flex-col flex-grow gap-[66px]">
           {/*서비스이용약관 컨테이너*/}
           <TermsComponents option="termsOfService" />
           {/*개인정보처리방침 컨테이너 */}
