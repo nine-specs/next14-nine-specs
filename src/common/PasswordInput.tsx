@@ -1,6 +1,6 @@
 "use client";
 
-import useFuntion from "@/app/login/_hooks/useFunction";
+import useFuntion from "@/app/(beforeLogin)/login/_hooks/useFunction";
 import Image from "next/image";
 interface InputProps {
   type?: string;
