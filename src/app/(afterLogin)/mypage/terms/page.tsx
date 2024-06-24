@@ -25,7 +25,7 @@ const sideMenuList = [
 
 export default function terms() {
   return (
-    <div className=" w-[1200px] min-h-[720px] flex flex-grow gap-[27px] mt-[20px] mb-[112px] border border-red-600">
+    <div className=" w-[1200px] min-h-[720px] flex flex-grow gap-[27px] mt-[20px] mb-[112px] ">
       {/* 사이드바 */}
       <div
         className={`parent w-[285px]  bg-grayscale-0 rounded-[16px]

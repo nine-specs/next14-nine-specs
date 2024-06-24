@@ -15,7 +15,7 @@ export default function TermsComponents({ option }: TTermsComponents) {
   return (
     <>
       <div
-        className={`border border-fuchsia-500 w-[822px]  flex-grow
+        className={` w-[822px]  flex-grow
               ${isOpened ? "h-auto" : "h-[294px]"}
           `}
       >
@@ -39,7 +39,7 @@ export default function TermsComponents({ option }: TTermsComponents) {
           }`}
         >
           <div
-            className={`w-full h-full border ${
+            className={`w-full h-full ${
               isOpened ? "h-auto" : "overflow-hidden"
             }`}
           >

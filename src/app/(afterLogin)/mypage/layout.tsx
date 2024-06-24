@@ -11,7 +11,7 @@ export default function MyPageLayout({
       id="background"
     >
       <div
-        className="min-w-[1200px] h-auto mt-[56px] box-border border border-sky-400"
+        className="min-w-[1200px] h-auto mt-[56px] box-border "
         id="container"
       >
         <HeadingFont level="4" weight="bold" className="text-primary-900">
