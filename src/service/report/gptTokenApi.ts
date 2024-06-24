@@ -15,6 +15,7 @@ export const gptTokenApi = async (): Promise<string> => {
     const response = await fetch(URL, {
       method: "POST",
       body: formData,
+      cache: "no-cache",
     });
 
     if (!response.ok) {
