@@ -1,32 +1,44 @@
-import { gptTokenApi } from "./gptTokenApi";
+export interface GptReplyApiProps {
+  token: string;
+  userMessage: string;
+  temperature: number;
+  topP: number;
+  stream: boolean;
+}
 
 /**
  * gpt 통신 함수 (스트림)
  * message를 받아서 gpt에 요청을 보내고 응답을 받아옴
+ * @param {string} token - gpt 인증 토큰
  * @param {string} user_message - 사용자가 입력한 메세지
- * @param {number} temperature - 온도
- * @param {number} top_p - top_p
+ * @param {number} temperature - 온도 값 (0~1 의 값)  창의성과 무작위성을 보이는 정도
+ * 값이 높을 수록 다양한 답변이 나옴 일관된 답변을 위해서는 낮은 값을 사용
+ * @param {number} topP - top_p 값 (0~1의 값) nucleus sampling 값 너무 빈번하게 발생하는 단어만을 선택하는 것을 방지
+ * 값이 높을 수록  더 다양하고 흥미로운 텍스트를 생성할 수 있도록 하기 위해 사용
  * @param {boolean} stream - 스트림 여부
  * @returns
  */
-export async function gptReplyApi(
-  user_message: string = `<|begin_of_text|><|start_header_id|>user<|end_header_id|>
+export async function gptReplyApi({
+  token,
+  userMessage = `<|begin_of_text|><|start_header_id|>user<|end_header_id|>
+주식 기초에 대해 알려줘<|eot_id|>
+<|start_header_id|>assistant<|end_header_id|>`,
+  temperature = 0.5,
+  topP = 0.5,
+  stream = false,
+}: GptReplyApiProps): Promise<string | null> {
+  // 사용자가 입력한 메세지를 gpt에 요청을 보내기 위해 사전에 준비한 Propmt 형식으로 변환
 
-한글로 답변하고 파리에 대해 알려줘<|eot_id|><|start_header_id|>assistant<|end_header_id|>`,
-  temperature: number = 0.8,
-  top_p: number = 0.8,
-  stream: boolean = false,
-): Promise<string | null> {
   const generateBody = {
-    user_message: user_message,
+    user_message: userMessage,
     temperature: temperature,
-    top_p: top_p,
+    top_p: topP,
     stream: stream,
   };
   const URL = process.env.NEXT_PUBLIC_GPT_REPLY_URL || "";
+
   try {
-    let token = await gptTokenApi();
-    console.log(token);
+    // let token = await gptTokenApi(); // 토큰을 인자로 받아 올 것인지 gpt 통신시 받아올 것인지 고민
     const response = await fetch(URL, {
       method: "POST",
       headers: {
@@ -36,22 +48,25 @@ export async function gptReplyApi(
       body: JSON.stringify(generateBody),
       cache: "no-store",
     });
-
     if (response && response.body) {
-      const reader = response.body.getReader();
-      let result = "";
+      const reader = response.body.getReader(); // getReader를 사용하는 이유는 response.body가 스트림이기 때문에 스트림을 읽어오기 위해 사용
+      // 스트림이란? 데이터를 조각조각 받아오는 것
+
+      let result = ""; // 스트림 데이터를 저장할 변수
       while (true) {
-        const { done, value } = await reader.read();
+        const { done, value } = await reader.read(); // reader.read()는 데이터의 조각 즉 스트림을 비동기적으로 읽어옴
+        // done 은 스트림이 끝났는지 아닌지를 나타내는 값, value는 스트림의 데이터를 나타냄
+        // 해당 작업이 끝나면 done이 true가 됨
         if (done) {
           console.log("통신 완료");
-          return result;
+          return result; // 스트림이 끝나면 result를 반환
         }
-        result += new TextDecoder().decode(value);
+        result += new TextDecoder().decode(value); // 스트림 데이터를 누적하여 result에 저장
       }
     }
-    return null;
+    return null; // response.body가 없을 경우 null 반환
   } catch (error) {
     console.error("Fetch error:", error);
-    return null;
+    return null; // 통신 장애 에러 발생 시 null 반환
   }
 }
