@@ -7,14 +7,20 @@ import LogoDark from "../../../public/images/logo/LOGO_Dark.svg";
 import LogoLight from "../../../public/images/logo/LOGO_Light.svg";
 
 import navList from "./navList";
+import { headers } from "next/headers";
 
 export default function Header({
   isLoggedIn = false,
 }: {
   isLoggedIn?: boolean;
 }) {
-  const bgStyle = isLoggedIn ? "bg-grayscale-0" : "bg-translate";
-  const logoImg = isLoggedIn ? <LogoDark /> : <LogoLight />;
+  const headersList = headers();
+  const pathname = headersList.get("x-pathname");
+
+  const isBeforeLoginMain = pathname === "/";
+
+  const bgStyle = isBeforeLoginMain ? "bg-translate" : "bg-grayscale-0";
+  const logoImg = isBeforeLoginMain ? <LogoLight /> : <LogoDark />;
 
   return (
     <header className={`${bgStyle} h-[84px] flex items-center`}>
