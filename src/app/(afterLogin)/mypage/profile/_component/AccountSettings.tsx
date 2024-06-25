@@ -11,6 +11,7 @@ export default function AccountSetting({ onClose }: TAccountSetting) {
   return (
     <>
       <Modal size="S3" onClose={onClose}>
+        {/*비밀번호 인증*/}
         <form className="w-full h-full py-[80px] px-[102px] ">
           <div className="w-full h-full flex flex-col justify-center items-center ">
             <HeadingFont level="3" weight="bold" className="text-primary-900 ">
@@ -28,6 +29,7 @@ export default function AccountSetting({ onClose }: TAccountSetting) {
              <TextButton size="lg" variant="primary">
               확인
             </TextButton> */}
+            {/*비밀번호 인증 끝*/}
           </div>
         </form>
       </Modal>
