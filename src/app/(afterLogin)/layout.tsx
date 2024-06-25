@@ -1,4 +1,4 @@
-import Chatbot from "@/common/Chatbot/Chatbot";
+import ChatIconButton from "@/common/Chatbot/ChatIconButton";
 import Header from "@/common/Header/Header";
 
 export default function AfterLoginLayout({
@@ -10,7 +10,7 @@ export default function AfterLoginLayout({
     <>
       <Header isLoggedIn />
       {children}
-      <Chatbot />
+      <ChatIconButton />
     </>
   );
 }
