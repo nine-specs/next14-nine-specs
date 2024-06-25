@@ -5,7 +5,6 @@ import { Modal } from "@/common/Modal";
 import TextButton from "@/common/TextButton";
 import ProfileSVG from "/public/images/profile.svg";
 import EditLgIcon from "/public/images/Edit_icon_lg.svg";
-import EditIcon from "/public/images/Edit_icon.svg";
 import Input from "@/common/Input";
 
 interface TProfileEdit {
@@ -16,7 +15,7 @@ export default function ProfileEdit({ onClose }: TProfileEdit) {
   return (
     <>
       <Modal size="S5" onClose={onClose}>
-        <div className="w-full h-full py-[80px] px-[102px] ">
+        <form className="w-full h-full py-[80px] px-[102px] ">
           <div className="w-auto h-auto flex flex-col justify-center items-center">
             <HeadingFont level="3" weight="bold" className="text-primary-900">
               프로필 수정
@@ -39,7 +38,7 @@ export default function ProfileEdit({ onClose }: TProfileEdit) {
               수정하기
             </TextButton>
           </div>
-        </div>
+        </form>
       </Modal>
     </>
   );
