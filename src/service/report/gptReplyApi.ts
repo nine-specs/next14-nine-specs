@@ -1,35 +1,57 @@
 import { gptTokenApi } from "./gptTokenApi";
 
-export const gptReplyApi = async () => {
-  const URL = "http://43.203.238.76:8000/generate";
+/**
+ * gpt 통신 함수 (스트림)
+ * message를 받아서 gpt에 요청을 보내고 응답을 받아옴
+ * @param {string} user_message - 사용자가 입력한 메세지
+ * @param {number} temperature - 온도
+ * @param {number} top_p - top_p
+ * @param {boolean} stream - 스트림 여부
+ * @returns
+ */
+export async function gptReplyApi(
+  user_message: string = `<|begin_of_text|><|start_header_id|>user<|end_header_id|>
 
+한글로 답변하고 파리에 대해 알려줘<|eot_id|><|start_header_id|>assistant<|end_header_id|>`,
+  temperature: number = 0.8,
+  top_p: number = 0.8,
+  stream: boolean = false,
+): Promise<string | null> {
   const generateBody = {
-    user_message:
-      "As a stock analyst, you are an agent who gives stock-related information on behalf of customers when they want to obtain information such as stock-related information, current status, or statistics. If there are any stock-related terms to answer a question, you should put the term description below the answ \n\nquestion: 너가 생각하기에 하이닉스의 재무재표 분석하고, d 투자하기 좋아보이는지 판단하고 상, 중, 하 중에 하나로 대답해줘.",
-    temperature: 0.9,
-    top_p: 0.9,
-    stream: false,
+    user_message: user_message,
+    temperature: temperature,
+    top_p: top_p,
+    stream: stream,
   };
-  const token = await gptTokenApi();
-  console.log(token);
+  const URL = process.env.NEXT_PUBLIC_GPT_REPLY_URL || "";
   try {
+    let token = await gptTokenApi();
+    console.log(token);
     const response = await fetch(URL, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
-        "Content-Type": "application/application/x-www-form-urlencoded",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(generateBody),
-      cache: "no-cache",
+      cache: "no-store",
     });
-    console.log(await response.json());
-    // const text = await response.text();
-    // const data = JSON.parse(text);
-    // console.log(data);
 
-    return await response.json();
+    if (response && response.body) {
+      const reader = response.body.getReader();
+      let result = "";
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) {
+          console.log("통신 완료");
+          return result;
+        }
+        result += new TextDecoder().decode(value);
+      }
+    }
+    return null;
   } catch (error) {
     console.error("Fetch error:", error);
-    throw error;
+    return null;
   }
-};
+}
