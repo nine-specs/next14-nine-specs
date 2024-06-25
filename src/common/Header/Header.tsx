@@ -25,7 +25,7 @@ export default function Header({
 
   return (
     <header className={`${bgStyle} h-[84px] flex items-center`}>
-      <nav className="w-full mx-[120px] flex justify-between items-center">
+      <nav className="w-[1200px] mx-auto flex justify-between items-center">
         <div className="flex gap-[20px] items-center">
           <Link href={"/"}>{logoImg}</Link>
 
@@ -37,7 +37,7 @@ export default function Header({
                     <BodyFont
                       level="3"
                       weight="medium"
-                      className="inline-block"
+                      className="inline-block text-primary-900"
                     >
                       {nav.name}
                     </BodyFont>
