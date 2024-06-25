@@ -3,8 +3,8 @@ import Link from "next/link";
 import TextButton from "../TextButton";
 import BodyFont from "../BodyFont";
 
-import LogoDark from "../../../public/images/logo/LOGO_Dark.svg";
-import LogoLight from "../../../public/images/logo/LOGO_Light.svg";
+import LOGO_DARK from "../../../public/images/logo/LOGO_Dark.svg";
+import LOGO_LIGHT from "../../../public/images/logo/LOGO_Light.svg";
 
 import navList from "./navList";
 import { headers } from "next/headers";
@@ -20,7 +20,7 @@ export default function Header({
   const isBeforeLoginMain = pathname === "/";
 
   const bgStyle = isBeforeLoginMain ? "bg-translate" : "bg-grayscale-0";
-  const logoImg = isBeforeLoginMain ? <LogoLight /> : <LogoDark />;
+  const logoImg = isBeforeLoginMain ? <LOGO_LIGHT /> : <LOGO_DARK />;
 
   return (
     <header className={`${bgStyle} h-[84px] flex items-center`}>
