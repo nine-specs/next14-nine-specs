@@ -9,9 +9,8 @@ export default function terms() {
       <SideBar menu="terms" />
       {/* 우측 영역 */}
       <div
-        className={`flex w-[888px]  bg-grayscale-0 flex-grow rounded-[16px]
-            min-h-[720px]
-        `}
+        className="flex w-[888px] bg-grayscale-0 flex-grow rounded-[16px] min-h-[720px]
+        "
       >
         <div className="p-[32px] w-full h-full flex flex-col flex-grow gap-[66px]">
           {/*서비스이용약관 컨테이너*/}
