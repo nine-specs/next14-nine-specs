@@ -1,7 +1,12 @@
+"use client";
 import BodyFont from "@/common/BodyFont";
 import TextButton from "@/common/TextButton";
 import Link from "next/link";
 import ProfileSVG from "/public/images/profile_sm.svg";
+import { Modal } from "@/common/Modal";
+import { useState } from "react";
+import ProfileEdit from "./ProfileEdit";
+import AccountSetting from "./AccountSettings";
 
 const sideBarCSS = "h-[60px] py-[16px] px-[24px]";
 const activeMenuCSS = "border-l-8 border-l-primary-900 box-border !pl-[16px]";
@@ -31,13 +36,18 @@ const accountInfo = {
 };
 
 export default function ProfilPage() {
+  const [isProfileModalOpened, setProfileModalOpened] = useState(false);
+  const [isAccountModalOpened, setAccountModalOpened] = useState(false);
   return (
     <div className=" w-[1200px] min-h-[720px] flex gap-[27px] mt-[20px] mb-[112px]">
       {/* 사이드바 */}
       <div className="w-[285px] h-[720px] bg-grayscale-0 rounded-[16px]">
         <div className="mt-[24px] flex-col">
           {sideMenuList.map((a, i) => (
-            <div className={`${sideBarCSS} ${a.selected ? activeMenuCSS : ""}`}>
+            <div
+              key={i}
+              className={`${sideBarCSS} ${a.selected ? activeMenuCSS : ""}`}
+            >
               <BodyFont
                 level="2"
                 weight={`${a.selected ? "bold" : "medium"}`}
@@ -67,7 +77,14 @@ export default function ProfilPage() {
                   설정해보세요.
                 </BodyFont>
               </div>
-              <TextButton variant="primary" size="sm" className="!w-[160px] ">
+              <TextButton
+                variant="primary"
+                size="sm"
+                className="!w-[160px]"
+                onClick={(e) => {
+                  setProfileModalOpened(!isProfileModalOpened);
+                }}
+              >
                 프로필 수정
               </TextButton>
             </div>
@@ -98,13 +115,20 @@ export default function ProfilPage() {
                   연동하여 다양한 서비스를 이용해보세요.
                 </BodyFont>
               </div>
-              <TextButton variant="primary" size="sm" className="!w-[160px]">
+              <TextButton
+                variant="primary"
+                size="sm"
+                className="!w-[160px]"
+                onClick={() => {
+                  setAccountModalOpened(!isAccountModalOpened);
+                }}
+              >
                 계정정보 수정
               </TextButton>
             </div>
             <div className="pt-6">
               {Object.entries(accountInfo).map(([key, value]) => (
-                <div className="flex items-center mb-6">
+                <div key={key} className="flex items-center mb-6">
                   <BodyFont
                     level="3"
                     weight="medium"
@@ -125,6 +149,12 @@ export default function ProfilPage() {
           </div>
         </div>
       </div>
+      {isProfileModalOpened && (
+        <ProfileEdit onClose={() => setProfileModalOpened(false)} />
+      )}
+      {isAccountModalOpened && (
+        <AccountSetting onClose={() => setAccountModalOpened(false)} />
+      )}
     </div>
   );
 }

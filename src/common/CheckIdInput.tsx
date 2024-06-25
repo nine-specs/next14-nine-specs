@@ -41,7 +41,9 @@ export default function CheckIdInput({
           </button>
         )}
       </div>
-      {description && <label className=" text-sm text-grayscale-700">{description}</label>}
+      {description && (
+        <label className=" text-sm text-grayscale-700">{description}</label>
+      )}
     </div>
   );
 }

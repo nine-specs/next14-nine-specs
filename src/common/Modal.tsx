@@ -1,4 +1,4 @@
-// "use client";
+"use client";
 import React from "react";
 
 type ModalProps = {
@@ -32,14 +32,14 @@ export const Modal = ({ size, children, onClose }: ModalProps) => {
   return (
     <>
       <div
-        className="w-full h-full fixed left-0 top-0 bg-[#4c4c4c]/[0.53] z-30 flex flex-col items-center justify-center "
+        className="w-full h-full   fixed left-0 top-0 bg-[#4c4c4c]/[0.53] z-30 flex flex-col flex-grow items-center justify-center "
         onClick={onClose}
       >
         <div
-          className={`flex justify-center items-start flex-grow-0 flex-shrink-0 rounded-[32px] bg-white
+          className={`flex justify-center items-start flex-grow-0 flex-shrink-0 rounded-[32px] bg-white 
           ${selectedSize[size]}
             `}
-          // onClick={(e) => e.stopPropagation()} // 이벤트버블링 방지
+          onClick={(e) => e.stopPropagation()} // 이벤트버블링 방지
         >
           {children}
         </div>

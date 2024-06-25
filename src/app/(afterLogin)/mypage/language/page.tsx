@@ -30,7 +30,10 @@ export default function language() {
       <div className="w-[285px] h-[720px] bg-grayscale-0 rounded-[16px]">
         <div className="mt-[24px] flex-col">
           {sideMenuList.map((a, i) => (
-            <div className={`${sideBarCSS} ${a.selected ? activeMenuCSS : ""}`}>
+            <div
+              key={i}
+              className={`${sideBarCSS} ${a.selected ? activeMenuCSS : ""}`}
+            >
               <BodyFont
                 level="2"
                 weight={`${a.selected ? "bold" : "medium"}`}

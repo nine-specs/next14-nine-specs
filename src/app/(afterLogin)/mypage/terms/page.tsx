@@ -34,7 +34,10 @@ export default function terms() {
       >
         <div className="mt-[24px] flex-col">
           {sideMenuList.map((a, i) => (
-            <div className={`${sideBarCSS} ${a.selected ? activeMenuCSS : ""}`}>
+            <div
+              key={i}
+              className={`${sideBarCSS} ${a.selected ? activeMenuCSS : ""}`}
+            >
               <BodyFont
                 level="2"
                 weight={`${a.selected ? "bold" : "medium"}`}
