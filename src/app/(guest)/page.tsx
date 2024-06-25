@@ -29,7 +29,7 @@ export default function Home() {
       <Image
         src={MOCKUP_IMG}
         alt="아잇나우 사이트 이미지"
-        width={840}
+        width={1038}
         className="mx-auto"
       />
     </div>
