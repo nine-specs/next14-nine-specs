@@ -12,7 +12,7 @@ interface TAccountSetting {
 }
 
 export default function AccountSetting({ onClose }: TAccountSetting) {
-  const [modalHandler, setModalHandler] = useState("2");
+  const [modalHandler, setModalHandler] = useState("1");
   return (
     <>
       {modalHandler == "1" && (
@@ -94,7 +94,6 @@ export default function AccountSetting({ onClose }: TAccountSetting) {
                 />
               </div>
             </div>
-            {/* 로그인 버튼이랑 회원가입 버튼 시작 */}
             <div className="w-[386px] flex flex-col items-center gap-2">
               <TextButton disabled type="submit">
                 수정하기
@@ -108,7 +107,40 @@ export default function AccountSetting({ onClose }: TAccountSetting) {
       )}
       {modalHandler == "3" && (
         <Modal size="S4" onClose={onClose}>
-          <div></div>
+          <div className="w-full h-full py-[80px] px-[102px] ">
+            <div className=" w-[386px] h-[384px] flex flex-col justify-center items-center ">
+              <HeadingFont
+                level="3"
+                weight="bold"
+                className="text-primary-900 "
+              >
+                회원탈퇴
+              </HeadingFont>
+              {/*<<--인풋박스-*/}
+              <div className=" w-[386px] h-[184px] mt-[40px] mb-[56px]">
+                <BodyFont
+                  level="4"
+                  weight="medium"
+                  className="text-primary-900 mb-1"
+                >
+                  회원탈퇴 사유
+                </BodyFont>
+                <Input type=""></Input>
+                <BodyFont
+                  level="4"
+                  weight="medium"
+                  className="text-primary-900 mt-4 mb-1"
+                >
+                  비밀번호 입력
+                </BodyFont>
+                <Input type="password"></Input>
+              </div>
+              {/*인풋박스-->>*/}
+              <TextButton size="lg" className="!text-grayscale-300" disabled>
+                회원탈퇴
+              </TextButton>
+            </div>
+          </div>
         </Modal>
       )}
     </>
