@@ -53,6 +53,9 @@ const config: Config = {
         warning: "#FF294F",
         success: "#1FCE65",
       },
+      backgroundImage: {
+        main: "url('../../public/images/main/background_img.png')",
+      },
     },
   },
   plugins: [],
