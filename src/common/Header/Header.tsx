@@ -16,6 +16,7 @@ export default function Header({
 }: {
   isLoggedIn?: boolean;
 }) {
+  // 게스트 랜딩페이지 경로 진입 조건문
   const pathname = usePathname();
   const isBeforeLoginMain = pathname === "/";
 
@@ -23,10 +24,11 @@ export default function Header({
   const logoImg = isBeforeLoginMain ? <LOGO_LIGHT /> : <LOGO_DARK />;
 
   return (
-    <header className={`${bgStyle} h-[84px] flex items-center relative z-[1]`}>
+    <header className={`${bgStyle} h-[84px] flex items-center`}>
       <nav className="w-full mx-[120px] flex justify-between items-center">
         <div className="flex gap-[20px] items-center">
           <Link href={"/"}>{logoImg}</Link>
+
           {isLoggedIn && (
             <ul className="flex">
               {navList.map((nav) => (
@@ -45,6 +47,7 @@ export default function Header({
             </ul>
           )}
         </div>
+
         {isLoggedIn && (
           <div className="w-[102px]">
             <TextButton variant="outline" size="sm">
