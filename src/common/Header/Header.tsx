@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 
 import TextButton from "../TextButton";
@@ -7,23 +9,21 @@ import LOGO_DARK from "../../../public/images/logo/LOGO_Dark.svg";
 import LOGO_LIGHT from "../../../public/images/logo/LOGO_Light.svg";
 
 import navList from "./navList";
-import { headers } from "next/headers";
+import { usePathname } from "next/navigation";
 
 export default function Header({
   isLoggedIn = false,
 }: {
   isLoggedIn?: boolean;
 }) {
-  const headersList = headers();
-  const pathname = headersList.get("x-pathname");
-
+  const pathname = usePathname();
   const isBeforeLoginMain = pathname === "/";
 
   const bgStyle = isBeforeLoginMain ? "bg-translate" : "bg-grayscale-0";
   const logoImg = isBeforeLoginMain ? <LOGO_LIGHT /> : <LOGO_DARK />;
 
   return (
-    <header className={`${bgStyle} h-[84px] flex items-center`}>
+    <header className={`${bgStyle} h-[84px] flex items-center relative z-[1]`}>
       <nav className="w-full mx-[120px] flex justify-between items-center">
         <div className="flex gap-[20px] items-center">
           <Link href={"/"}>{logoImg}</Link>
@@ -45,11 +45,13 @@ export default function Header({
             </ul>
           )}
         </div>
-        <div className="w-[102px]">
-          <TextButton variant="outline" size="sm">
-            {isLoggedIn ? "로그아웃" : "로그인"}
-          </TextButton>
-        </div>
+        {isLoggedIn && (
+          <div className="w-[102px]">
+            <TextButton variant="outline" size="sm">
+              로그아웃
+            </TextButton>
+          </div>
+        )}
       </nav>
     </header>
   );
