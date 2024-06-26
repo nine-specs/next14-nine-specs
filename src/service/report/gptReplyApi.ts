@@ -1,35 +1,72 @@
-import { gptTokenApi } from "./gptTokenApi";
+export interface GptReplyApiProps {
+  token: string;
+  userMessage: string;
+  temperature: number;
+  topP: number;
+  stream: boolean;
+}
 
-export const gptReplyApi = async () => {
-  const URL = "http://43.203.238.76:8000/generate";
+/**
+ * gpt 통신 함수 (스트림)
+ * message를 받아서 gpt에 요청을 보내고 응답을 받아옴
+ * @param {string} token - gpt 인증 토큰
+ * @param {string} user_message - 사용자가 입력한 메세지
+ * @param {number} temperature - 온도 값 (0~1 의 값)  창의성과 무작위성을 보이는 정도
+ * 값이 높을 수록 다양한 답변이 나옴 일관된 답변을 위해서는 낮은 값을 사용
+ * @param {number} topP - top_p 값 (0~1의 값) nucleus sampling 값 너무 빈번하게 발생하는 단어만을 선택하는 것을 방지
+ * 값이 높을 수록  더 다양하고 흥미로운 텍스트를 생성할 수 있도록 하기 위해 사용
+ * @param {boolean} stream - 스트림 여부
+ * @returns
+ */
+export async function gptReplyApi({
+  token,
+  userMessage = `<|begin_of_text|><|start_header_id|>user<|end_header_id|>
+주식 기초에 대해 알려줘<|eot_id|>
+<|start_header_id|>assistant<|end_header_id|>`,
+  temperature = 0.5,
+  topP = 0.5,
+  stream = false,
+}: GptReplyApiProps): Promise<string | null> {
+  // 사용자가 입력한 메세지를 gpt에 요청을 보내기 위해 사전에 준비한 Propmt 형식으로 변환
 
   const generateBody = {
-    user_message:
-      "As a stock analyst, you are an agent who gives stock-related information on behalf of customers when they want to obtain information such as stock-related information, current status, or statistics. If there are any stock-related terms to answer a question, you should put the term description below the answ \n\nquestion: 너가 생각하기에 하이닉스의 재무재표 분석하고, d 투자하기 좋아보이는지 판단하고 상, 중, 하 중에 하나로 대답해줘.",
-    temperature: 0.9,
-    top_p: 0.9,
-    stream: false,
+    user_message: userMessage,
+    temperature: temperature,
+    top_p: topP,
+    stream: stream,
   };
-  const token = await gptTokenApi();
-  console.log(token);
+  const URL = process.env.NEXT_PUBLIC_GPT_REPLY_URL || "";
+
   try {
+    // let token = await gptTokenApi(); // 토큰을 인자로 받아 올 것인지 gpt 통신시 받아올 것인지 고민
     const response = await fetch(URL, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
-        "Content-Type": "application/application/x-www-form-urlencoded",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(generateBody),
-      cache: "no-cache",
+      cache: "no-store",
     });
-    console.log(await response.json());
-    // const text = await response.text();
-    // const data = JSON.parse(text);
-    // console.log(data);
+    if (response && response.body) {
+      const reader = response.body.getReader(); // getReader를 사용하는 이유는 response.body가 스트림이기 때문에 스트림을 읽어오기 위해 사용
+      // 스트림이란? 데이터를 조각조각 받아오는 것
 
-    return await response.json();
+      let result = ""; // 스트림 데이터를 저장할 변수
+      while (true) {
+        const { done, value } = await reader.read(); // reader.read()는 데이터의 조각 즉 스트림을 비동기적으로 읽어옴
+        // done 은 스트림이 끝났는지 아닌지를 나타내는 값, value는 스트림의 데이터를 나타냄
+        // 해당 작업이 끝나면 done이 true가 됨
+        if (done) {
+          console.log("통신 완료");
+          return result; // 스트림이 끝나면 result를 반환
+        }
+        result += new TextDecoder().decode(value); // 스트림 데이터를 누적하여 result에 저장
+      }
+    }
+    return null; // response.body가 없을 경우 null 반환
   } catch (error) {
     console.error("Fetch error:", error);
-    throw error;
+    return null; // 통신 장애 에러 발생 시 null 반환
   }
-};
+}
