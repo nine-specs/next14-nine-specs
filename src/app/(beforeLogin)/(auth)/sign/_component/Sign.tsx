@@ -2,7 +2,7 @@ import CheckIdInput from "@/common/CheckIdInput";
 import CheckPwInput from "@/common/CheckPwInput";
 import Input from "@/common/Input";
 import TextButton from "@/common/TextButton";
-import { register } from "../../../../hooks/sign/useSign";
+import { register } from "../../../../../hooks/sign/useSign";
 import HeadingFont from "@/common/HeadingFont";
 
 export default function Sign() {

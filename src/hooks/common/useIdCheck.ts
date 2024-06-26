@@ -2,10 +2,18 @@ import { useState, useRef } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { firestore } from "@/firebase/firebaseConfig";
 
-export function useFunction() {
+export function useFunction(description: string) {
   const [userInput, setUserInput] = useState(""); // 유저가 입력값 상태
   const [isPasswordShow, setPasswordShow] = useState(false); // 이미지 숨김 상태
-  const [isValidUser, setIsValidUser] = useState(false); // 사용 가능한 userId 여부 상태
+  const [isValidUser, setIsValidUser] = useState(true); // 사용 가능한 userId 여부 상태
+  const [labelColor, setLabelColor] = useState("text-black"); // 라벨 색상 상태
+  const [inputBorderColor, setInputBorderColor] = useState(
+    "border-grayscale-300",
+  ); // 보더 색상 상태
+  const [inputColor, setInputColor] = useState("border-grayscale-300"); // 입력값 색상
+  const [descriptionColor, setdescriptionColor] =
+    useState("text-grayscale-700"); // 켑션 색상 상태
+  const [descriptionText, setDescriptionText] = useState(description); // 설명 텍스트 상태
 
   // 이미지 값에 따라 보여주고 안보여주고 동작
   const togglePasswordShow = () => {
@@ -16,6 +24,11 @@ export function useFunction() {
   const handleUserIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserInput(event.target.value);
     setIsValidUser(false); // 인풋 값이 변경될 때마다 유효성 상태 초기화
+    setLabelColor("text-black"); // 라벨 색상을 검정색으로 초기화
+    setInputBorderColor("border-gray-300"); // 인풋 테두리 색상 초기화
+    setInputColor("text-black"); // 인풋 텍스트 색상 초기화
+    setdescriptionColor("text-grayscale-700"); // 설명 텍스트 색상 초기화
+    setDescriptionText(description); // 설명 텍스트 초기화
   };
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -50,9 +63,19 @@ export function useFunction() {
       if (existingUsers.includes(userId)) {
         console.log("이미 존재하는 userId입니다.");
         setIsValidUser(false); // 중복된 경우 유효하지 않은 userId로 설정
+        setLabelColor("text-warning");
+        setInputBorderColor("border-warning");
+        setInputColor("text-warning");
+        setdescriptionColor("text-warning"); // 중복되는 경우 경고 색상으로 설정
+        setDescriptionText("중복된 아이디입니다.다른 아이디를 사용해주세요"); // 설명 텍스트 업데이트
       } else {
         console.log("사용할 수 있는 userId입니다.");
         setIsValidUser(true); // 사용 가능한 경우 유효한 userId로 설정
+        setLabelColor("text-black");
+        setInputBorderColor("border-success");
+        setInputColor("text-black");
+        setdescriptionColor("text-green-500");
+        setDescriptionText("* 사용가능한 아이디입니다."); // 설명 텍스트 업데이트
       }
     } catch (error) {
       console.error(
@@ -70,5 +93,10 @@ export function useFunction() {
     inputRef,
     handleButtonClick,
     isValidUser,
+    labelColor,
+    inputColor,
+    inputBorderColor,
+    descriptionColor,
+    descriptionText,
   };
 }

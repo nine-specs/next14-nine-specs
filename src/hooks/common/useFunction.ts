@@ -1,14 +1,16 @@
-// import { useState } from "react";
+import { useState, useEffect } from "react";
 
-// export default function usePasswordToggle() {
-//   const [isPasswordShow, setPasswordShow] = useState(false);
+//입력값에 스타일 변화를 주기위함에 필요하다
+export function useCheckInputEmpty(userInput: string) {
+  const [isInputEmpty, setIsInputEmpty] = useState(true);
 
-//   const togglePasswordShow = () => {
-//     setPasswordShow(!isPasswordShow);
-//   };
+  useEffect(() => {
+    setIsInputEmpty(!userInput); // 입력 필드가 비어있는지 확인
+  }, [userInput]);
 
-//   return {
-//     isPasswordShow,
-//     togglePasswordShow,
-//   };
-// }
+  const buttonClass = isInputEmpty
+    ? "bg-grayscale-200 text-grayscale-300"
+    : "bg-primary-900 hover:bg-primary-700 text-white";
+
+  return { isInputEmpty, buttonClass };
+}
