@@ -1,4 +1,4 @@
-import Report from "@/app/components/Report/Report";
+import ReportContainer from "@/app/components/Report/ReportContainer";
 import { gptReplyApi } from "@/service/report/gptReplyApi";
 import { gptTokenApi } from "@/service/report/gptTokenApi";
 import { stockPriceApi } from "@/service/report/stockPriceApi";
@@ -11,7 +11,6 @@ interface Props {
 export default async function page({ params }: Props) {
   const { id } = params;
 
-  // console.log(token);
   // const priceData = await stockPriceApi("TSLA.O", "dayCandle", "NASDAQ");
   // console.log(priceData);
 
@@ -27,19 +26,19 @@ export default async function page({ params }: Props) {
   // 무엇을 도와주실 수 있나요? : 사용자 메시지
   // <|start_header_id|>assistant<|end_header_id|> : 모델 생성을 시작하라는 메시지를 표시하기 위해 보조 헤더로 끝납니다.
   console.log("페이지 통신 시작");
-  const token = await gptTokenApi();
-  const res = await gptReplyApi({
-    token: token,
-    userMessage: userMessageForPropmt,
-    temperature: 0.5,
-    topP: 0.5,
-    stream: false,
-  });
-  console.log("gpt 응답 데이타 ", res);
+  // const token = await gptTokenApi();
+  // const res = await gptReplyApi({
+  //   token: token,
+  //   userMessage: userMessageForPropmt,
+  //   temperature: 0.5,
+  //   topP: 0.5,
+  //   stream: false,
+  // });
+  // console.log("gpt 응답 데이타 ", res);
   return (
     <div>
       {/* <div>{JSON.stringify(res)}</div> */}
-      {/* <Report /> */}
+      <ReportContainer />
     </div>
   );
 }
