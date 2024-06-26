@@ -1,14 +1,20 @@
 import CardWrap from "@/common/CardWrap";
-import StockIcon from "./Stock/StockIcon";
-import BodyFont from "@/common/BodyFont";
-import HeadingFont from "@/common/HeadingFont";
-import TextButton from "@/common/TextButton";
-import StockAnalysis from "./Stock/StockAnalysis";
-import StockSumary from "./Stock/StockSumary";
-import StockChart from "./Stock/StockChart";
-import StockReport from "./Stock/StockReport";
-import StockHeader from "./Stock/StockHeader";
 
+import { exchangeApi } from "@/service/report/exchangeApi";
+import dynamic from "next/dynamic";
+import BodyFont from "@/common/BodyFont";
+import StockHeader from "./StockHeader/StockHeader";
+import StockSumary from "./StockSumary/StockSumary";
+import StockReport from "./StockReport/StockReport";
+import StockAnalysis from "./StockAnalysis/StockAnalysis";
+const StockAreaChart = dynamic(() => import("./StockChart/StockAreaChart"), {
+  ssr: false, // Disable SSR for this component
+  loading: () => (
+    <BodyFont level="1" weight="bold">
+      주가 차트
+    </BodyFont>
+  ), // Component to render while loading
+});
 interface StockPrice {
   date: string;
   price: number;
@@ -29,7 +35,9 @@ interface Props {
  * @param {StockPrice[]} StockPrice - 주식 차트 데이터
  * @returns
  */
-export default function Report({ SumaryData }: Props) {
+export default async function ReportContainer({ SumaryData }: Props) {
+  const exchangeRate: string = await exchangeApi();
+
   return (
     <div className=" w-[1200px] mx-auto py-12  ">
       <div className="flex flex-col flex-wrap gap-6">
@@ -38,10 +46,10 @@ export default function Report({ SumaryData }: Props) {
         {/* 첫번째 줄 */}
         <article className="flex justify-between flex-wrap ">
           <CardWrap width="488px" height="256px" padding>
-            <StockSumary />
+            <StockSumary exchangeRate={exchangeRate} />
           </CardWrap>
           <CardWrap width="690px" height="256px" padding>
-            <StockChart />
+            <StockAreaChart />
           </CardWrap>
         </article>
 
