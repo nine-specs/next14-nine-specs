@@ -9,6 +9,7 @@ interface InputProps {
   checkLabel?: string;
   className?: string;
   children?: React.ReactNode;
+  name?: string;
 }
 
 export default function Input({
@@ -17,6 +18,7 @@ export default function Input({
   value,
   label, //위에 경고 관련 (아이디, 비밀번호)
   description, //입력값 설명
+  name, //form data 로 필요함
   children,
   className, //스타일 추가 할때 사용
 }: InputProps) {
@@ -27,11 +29,14 @@ export default function Input({
         <input
           className="w-[314px] [border:none] [outline:none] font-body-5-r text-base bg-[transparent] h-full leading-[24px] text-grayscale-400 text-left flex items-center max-w-[314px] p-0"
           type={type}
+          name={name}
           placeholder={placeholder}
           value={value}
         />
       </div>
-      {description && <label className=" text-sm text-grayscale-700">{description}</label>}
+      {description && (
+        <label className=" text-sm text-grayscale-700">{description}</label>
+      )}
     </div>
   );
 }
