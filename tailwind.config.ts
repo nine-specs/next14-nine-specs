@@ -53,6 +53,23 @@ const config: Config = {
         warning: "#FF294F",
         success: "#1FCE65",
       },
+      backgroundImage: {
+        main: "url('../../public/images/main/background_img.png')",
+      },
+      keyframes: {
+        wiggle: {
+          "0%, 100%": { transform: "rotate(-3deg)" },
+          "50%": { transform: "rotate(3deg)" },
+        },
+        fadeUp: {
+          "0%": { opacity: "0", transform: "translateY(2rem)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+      },
+      animation: {
+        wiggle: "wiggle 1s ease-in-out infinite",
+        fadeUp: "faseUp 1s ease-in-out both",
+      },
     },
   },
   plugins: [],
