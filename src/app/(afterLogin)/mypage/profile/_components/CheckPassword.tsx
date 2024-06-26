@@ -2,7 +2,7 @@ import HeadingFont from "@/common/HeadingFont";
 import Input from "@/common/Input";
 import { Modal } from "@/common/Modal";
 import TextButton from "@/common/TextButton";
-import { Dispatch, SetStateAction, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
 interface TCheckPassword {
   onClose: () => void;
