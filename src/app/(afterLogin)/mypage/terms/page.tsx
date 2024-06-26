@@ -1,6 +1,6 @@
 "use client";
 import TermsComponents from "./termsComponents";
-import SideBar from "../_component/SideBar";
+import SideBar from "../_components/SideBar";
 
 export default function terms() {
   return (

@@ -1,12 +1,11 @@
 "use client";
 import BodyFont from "@/common/BodyFont";
 import TextButton from "@/common/TextButton";
-import Link from "next/link";
 import ProfileSVG from "/public/images/profile_sm.svg";
 import { useState } from "react";
-import ProfileEdit from "./_component/ProfileEdit";
-import AccountSetting from "./_component/AccountSettings";
-import SideBar from "../_component/SideBar";
+import ProfileEdit from "./_components/ProfileEdit";
+import AccountSetting from "./_components/AccountSettings";
+import SideBar from "../_components/SideBar";
 
 const accountInfo = {
   아이디: "sfacspaceid",

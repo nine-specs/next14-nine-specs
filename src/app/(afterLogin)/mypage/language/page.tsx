@@ -1,6 +1,7 @@
+"use client";
 import BodyFont from "@/common/BodyFont";
 import { LanguageButton } from "@/common/LanguageButton";
-import SideBar from "../_component/SideBar";
+import SideBar from "../_components/SideBar";
 
 export default function language() {
   return (

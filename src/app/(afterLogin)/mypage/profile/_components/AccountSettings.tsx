@@ -6,43 +6,23 @@ import Input from "@/common/Input";
 import { Modal } from "@/common/Modal";
 import TextButton from "@/common/TextButton";
 import { useState } from "react";
+import CheckPassword from "./CheckPassword";
 
 interface TAccountSetting {
   onClose: () => void;
 }
 
 export default function AccountSetting({ onClose }: TAccountSetting) {
-  const [modalHandler, setModalHandler] = useState("1");
+  const [modalHandler, setModalHandler] = useState("CheckPassword");
+
+  const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setModalHandler("3");
+  };
+
   return (
     <>
-      {modalHandler == "1" && (
-        <Modal size="S3" onClose={onClose}>
-          {/*비밀번호 인증*/}
-          <div className="w-full h-full py-[80px] px-[102px] ">
-            <div className=" w-[386px] h-[284px] flex flex-col justify-center items-center ">
-              <HeadingFont
-                level="3"
-                weight="bold"
-                className="text-primary-900 "
-              >
-                비밀번호 인증
-              </HeadingFont>
-
-              <div className="w-[384px] h-[184px] flex flex-col gap-[16px]  mt-[40px] mb-[56]">
-                <Input type="password" label="현재 비밀번호입력"></Input>
-              </div>
-              <TextButton size="lg" className="!text-grayscale-300" disabled>
-                확인
-              </TextButton>
-
-              {/* 비밀번호 입력 후 disavled 해제 
-             <TextButton size="lg" variant="primary">
-              확인
-            </TextButton> */}
-              {/*비밀번호 인증 끝*/}
-            </div>
-          </div>
-        </Modal>
+      {modalHandler == "CheckPassword" && (
+        <CheckPassword onClose={onClose} setModalHandler={setModalHandler} />
       )}
       {modalHandler == "2" && (
         <Modal
@@ -98,9 +78,11 @@ export default function AccountSetting({ onClose }: TAccountSetting) {
               <TextButton disabled type="submit">
                 수정하기
               </TextButton>
-              <CaptionFont weight="regular" className="text-warning">
-                회원탈퇴
-              </CaptionFont>
+              <button onClick={onClick}>
+                <CaptionFont weight="regular" className="text-warning">
+                  회원탈퇴
+                </CaptionFont>
+              </button>
             </div>
           </form>
         </Modal>

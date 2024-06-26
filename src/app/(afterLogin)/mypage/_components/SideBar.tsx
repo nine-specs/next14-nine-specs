@@ -1,6 +1,6 @@
 import BodyFont from "@/common/BodyFont";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const sideBarCSS = "h-[60px] py-[16px] px-[24px]";
 const activeMenuCSS = "border-l-8 border-l-primary-900 box-border !pl-[16px]";
@@ -20,27 +20,27 @@ interface TSideMenuList {
   terms: TSideMenuListMenu;
 }
 
-const sideMenuList = {
-  profile: {
-    selected: false,
-    menuText: "개인정보 수정",
-    href: "profile",
-  },
-  language: {
-    selected: false,
-    menuText: "언어 설정",
-    href: "language",
-  },
-  terms: {
-    selected: false,
-    menuText: "서비스 이용약관",
-    href: "terms",
-  },
-};
-
 export default function SideBar({ menu }: TSidebar) {
-  console.log(menu);
+  const sideMenuList = {
+    profile: {
+      selected: false,
+      menuText: "개인정보 수정",
+      href: "profile",
+    },
+    language: {
+      selected: false,
+      menuText: "언어 설정",
+      href: "language",
+    },
+    terms: {
+      selected: false,
+      menuText: "서비스 이용약관",
+      href: "terms",
+    },
+  };
+  // props 전달된 menu만 css 적용.
   sideMenuList[menu].selected = true;
+
   return (
     <div
       className={`parent w-[285px]  bg-grayscale-0 rounded-[16px]
