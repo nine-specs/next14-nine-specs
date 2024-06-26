@@ -47,9 +47,9 @@ export default function TextButton({
     <>
       <button
         {...restButtonProps}
-        className={`w-full rounded-lg ${variantVariants[variant]} ${padding} ${
-          restButtonProps.disabled ? disabledStyle : ""
-        } ${className}`}
+        className={`w-full rounded-lg ${
+          restButtonProps.disabled ? disabledStyle : variantVariants[variant]
+        } ${padding} ${className}`}
       >
         <BodyFont level={level} weight="medium">
           {children}
