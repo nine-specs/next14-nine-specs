@@ -50,7 +50,8 @@ export async function register(formData: FormData) {
     return;
   } else {
     //비밀번호 유효성 검사 (~20자 이내 숫자, 특수문자, 영문자 중 2가지 이상 조합, @ $ 제외)
-    /* 비밀번호 입력하기 귀찮아서 일단 6월26일 정규식 제외 함
+    // 비밀번호 입력하기 귀찮아서 일단 6월26일 정규식 제외 함
+    /*
     const passwordRegex =
       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^@$A-Za-z\d])[A-Za-z\d@$!%*#?&]{8,20}$/;
     if (!passwordRegex.test(password)) {
