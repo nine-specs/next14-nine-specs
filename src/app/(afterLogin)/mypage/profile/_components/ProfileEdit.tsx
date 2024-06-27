@@ -77,9 +77,9 @@ export default function ProfileEdit({ onClose }: TProfileEdit) {
                 <CheckIdInput
                   label="닉네임"
                   checkLabel="중복확인"
-                  value="김스낵1"
+                  placeholder="김스낵"
                 />
-                <Input label="관심종목" value="#테슬라 #애플 #코카콜라" />
+                <Input label="관심종목" placeholder="#테슬라 #애플 #코카콜라" />
               </div>
             </div>
             <TextButton variant="primary" size="lg">

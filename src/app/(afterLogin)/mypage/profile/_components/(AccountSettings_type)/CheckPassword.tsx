@@ -13,7 +13,7 @@ export default function CheckPassword({
   onClose,
   setModalHandler,
 }: TCheckPassword) {
-  //비밀번호 스테이트에 저장
+  // 비밀번호 스테이트 저장 -> 추후 변경
   const [password, setPassword] = useState("");
   const [activeBtn, setActiveBtn] = useState(false);
 
@@ -27,7 +27,7 @@ export default function CheckPassword({
     //임시 비밀번호와 일치시 정보 수정 모달창으로 이동.
     const loginPassword = "11111111";
     if (password == loginPassword) {
-      setModalHandler("2");
+      setModalHandler("UpdateUserInfo");
     } else {
       alert("GET OUT!!");
     }
