@@ -1,7 +1,6 @@
 "use client";
-import { useCheckInputEmpty } from "@/hooks/common/useFunction";
-import { useFunction } from "@/hooks/common/useIdCheck";
-import { useState, useEffect } from "react";
+import { useIdCheck } from "@/hooks/common/useIdCheck";
+import TextButton from "./TextButton";
 
 interface InputProps {
   type?: string;
@@ -33,42 +32,49 @@ export default function CheckIdInput({
     inputRef,
     handleButtonClick,
     isValidUser,
-    labelColor,
-    inputColor,
-    inputBorderColor,
-    descriptionColor,
+    styles,
     descriptionText,
-  } = useFunction(description || "");
-  const { buttonClass } = useCheckInputEmpty(userInput);
+  } = useIdCheck(description || "");
 
   return (
     <div className="self-stretch flex flex-col items-start justify-start gap-[4px]">
-      {label && <label className={`block mb-2 ${labelColor}`}>{label}</label>}
+      {label && (
+        <label className={`block mb-2 ${styles.labelColor}`}>{label}</label>
+      )}
       <div
-        className={`${inputBorderColor} self-stretch rounded-lg bg-grayscale-0 flex flex-row items-center justify-between py-0 px-[15px] h-[56px] gap-[16px] border-[1px] border-solid `}
+        className={`${styles.inputBorderColor} self-stretch rounded-lg bg-grayscale-0 flex flex-row items-center justify-between py-0 px-[15px] h-[56px] gap-[16px] border-[1px] border-solid `}
       >
         <input
-          className={`w-[314px] [border:none] [outline:none] font-body-5-r text-base bg-[transparent] h-full leading-[24px] ${inputColor} text-left flex items-center max-w-[314px] p-0`}
+          className={`w-[314px] border-none outline-none font-body-5-r text-base bg-transparent h-full leading-[24px] ${styles.inputColor} text-left flex items-center max-w-[314px] p-0`}
           type={type}
           name={name}
           placeholder={placeholder}
           value={userInput}
           onChange={handleUserIdChange}
           ref={inputRef}
+          {...restInputProps}
         />
 
         {checkLabel && (
-          <button
-            className={`relative text-sm leading-[20px] font-medium font-body-3-m text-center inline-block min-w-[120px] min-h-[36px] rounded-[8px] ${buttonClass}`}
-            type="button"
+          <TextButton
+            variant={
+              userInput
+                ? styles.inputColor === "text-warning"
+                  ? "warning"
+                  : "primary"
+                : "default"
+            }
             onClick={handleButtonClick}
+            size="sm"
           >
             {checkLabel}
-          </button>
+          </TextButton>
         )}
       </div>
       {description && (
-        <label className={`text-sm ${descriptionColor}`}>{descriptionText}</label>
+        <label className={`text-sm ${styles.descriptionColor}`}>
+          {descriptionText}
+        </label>
       )}
     </div>
   );

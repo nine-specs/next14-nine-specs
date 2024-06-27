@@ -1,5 +1,5 @@
 "use client";
-import { useFunction } from "@/hooks/common/useIdCheck";
+import { usePwShow } from "@/hooks/common/usePwShow";
 import Image from "next/image";
 interface InputProps {
   type?: string;
@@ -22,7 +22,7 @@ export default function CheckPwInput({
   children, //필요하면 사용
   className, //스타일 추가 할때 사용
 }: InputProps) {
-  const { isPasswordShow, togglePasswordShow } = useFunction();
+  const { isPasswordShow, togglePasswordShow } = usePwShow();
   const inputType = type === "password" && isPasswordShow ? "text" : type;
 
   return (
