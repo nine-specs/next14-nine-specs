@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BodyFont from "@/common/BodyFont";
 import Input from "@/common/Input";
 import TextButton from "@/common/TextButton";
@@ -17,6 +17,8 @@ export default function SearchId() {
     createdAt: "",
   });
   const [showSearchedId, setShowSearchedId] = useState<boolean>(false);
+  const [name, setName] = useState<string>("");
+  const [phone, setPhone] = useState<string>("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -39,7 +41,7 @@ export default function SearchId() {
   return (
     <>
       <section className="flex flex-row items-center justify-center py-0 px-5 box-border my-20 ">
-        {!showSearchedId ? ( // showSearchedId 상태에 따라 렌더링할 컴포넌트를 선택
+        {!showSearchedId ? (
           <form
             className="flex flex-col items-center justify-start m-0 w-[590px] h-[564px] shadow-[0px_0px_10px_5px_rgba(203,_203,_203,_0.25)] rounded-[32px] bg-grayscale-0 py-20 pr-5 pl-[22px] box-border gap-[16px] max-w-full mq725:pt-[52px] mq725:pb-[52px] mq725:box-border"
             onSubmit={handleSubmit}
@@ -56,6 +58,8 @@ export default function SearchId() {
                   placeholder="이름을 입력해주세요"
                   label="이름"
                   name="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                 />
                 {/* 이름 입력란 끝 */}
 
@@ -64,6 +68,8 @@ export default function SearchId() {
                   placeholder="전화번호를 입력해주세요"
                   label="휴대폰 번호"
                   name="phone"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
                 />
                 {/* 전화번호 입력란 끝 */}
               </div>
@@ -71,7 +77,9 @@ export default function SearchId() {
 
             {/* 로그인 버튼 및 회원가입 버튼 영역 시작 */}
             <div className="w-[386px] flex flex-col items-start justify-start max-w-full">
-              <TextButton type="submit">아이디 찾기</TextButton>
+              <TextButton type="submit" disabled={!(name && phone)}>
+                아이디 찾기
+              </TextButton>
             </div>
             {/* 로그인 버튼 및 회원가입 버튼 영역 끝 */}
           </form>
