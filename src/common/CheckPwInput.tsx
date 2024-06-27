@@ -12,6 +12,7 @@ interface InputProps {
   children?: React.ReactNode;
   name?: string;
   onChange?: (value: string) => void;
+  passwordMatch?: boolean;
 }
 
 export default function CheckPwInput({
@@ -24,6 +25,7 @@ export default function CheckPwInput({
   onChange,
   children, //필요하면 사용
   className, //스타일 추가 할때 사용
+  passwordMatch,
 }: InputProps) {
   const { isPasswordShow, togglePasswordShow } = usePwShow();
   const [showDescription, setShowDescription] = useState(false);
@@ -38,10 +40,26 @@ export default function CheckPwInput({
     setShowDescription(true); // 입력 필드에 포커스 시 description 보이기
   };
 
+  // name 이 confirmPassword  이면 C 그게아니면 I
+
   return (
     <div className="self-stretch flex flex-col items-start justify-start gap-[4px]">
-      {label && <label className="block mb-2">{label}</label>}
-      <div className="self-stretch rounded-lg bg-grayscale-0 flex flex-row items-center justify-between py-0 px-[15px] h-[56px] gap-[16px] border-[1px] border-solid border-grayscale-300">
+      {label && (
+        <label
+          className={`block mb-2 ${
+            passwordMatch ? "text-black" : "text-warning"
+          }`}
+        >
+          {label}
+        </label>
+      )}
+      <div
+        className={`self-stretch rounded-lg bg-grayscale-0 flex flex-row items-center justify-between py-0 px-[15px] h-[56px] gap-[16px] border-[1px] border-solid border-grayscale-300 ${
+          passwordMatch
+            ? "border-grayscale-300 [&>input]:text-black"
+            : "border-warning [&>input]:text-warning"
+        }`}
+      >
         <input
           className="w-[314px] [border:none] [outline:none] font-body-5-r text-base bg-[transparent] h-full leading-[24px] text-grayscale-400 text-left flex items-center max-w-[314px] p-0"
           type={inputType}
@@ -69,7 +87,13 @@ export default function CheckPwInput({
         </button>
       </div>
       {description && showDescription && (
-        <label className="text-sm text-grayscale-700">{description}</label>
+        <label
+          className={`text-sm ${
+            passwordMatch ? "text-grayscale-700" : "text-warning"
+          }`}
+        >
+          {description}
+        </label>
       )}
     </div>
   );

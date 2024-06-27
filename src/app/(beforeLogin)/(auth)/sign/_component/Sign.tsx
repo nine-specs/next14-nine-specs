@@ -77,6 +77,7 @@ export default function Sign() {
                 value={password}
                 //onChange={(e) => setPassword(e.target.value)}
                 onChange={handlePasswordChange}
+                passwordMatch={passwordMatch}
               />
               {/* 비밀번호 입력 하는곳 끝 */}
 
@@ -89,6 +90,7 @@ export default function Sign() {
                 value={confirmPassword}
                 // onChange={(e) => setConfirmPassword(e.target.value)}
                 onChange={handleConfirmPasswordChange}
+                passwordMatch={passwordMatch}
                 description={
                   passwordMatch
                     ? "비밀번호가 일치합니다."

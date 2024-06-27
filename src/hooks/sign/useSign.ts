@@ -15,7 +15,7 @@ export async function register(formData: FormData) {
     birthdate: formData.get("birthdate") as string,
     // email: formData.get("email") as string,
   };
- 
+
   const { name, userId, password, confirmPassword, phone, birthdate } =
     userData;
 
