@@ -2,10 +2,22 @@
 import BodyFont from "@/common/BodyFont";
 import TextButton from "@/common/TextButton";
 import ProfileSVG from "/public/images/profile_sm.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProfileEdit from "./_components/ProfileEdit";
 import AccountSetting from "./_components/AccountSettings";
 import SideBar from "../_components/SideBar";
+
+type TUser = {
+  birthdate: string;
+  email: string;
+  favorite: string;
+  lang: string;
+  profileImage: string;
+  phone: string;
+  userId: string;
+  username: string;
+  //   createdAt: string;
+};
 
 const accountInfo = {
   아이디: "sfacspaceid",
@@ -16,6 +28,30 @@ const accountInfo = {
 export default function ProfilePage() {
   const [isProfileModalOpened, setProfileModalOpened] = useState(false);
   const [isAccountModalOpened, setAccountModalOpened] = useState(false);
+  const [profileData, setProfileData] = useState<TUser>();
+
+  // 유저 기본 정보 가져오기
+  useEffect(() => {
+    fetch("/api/profile")
+      .then((r) => r.json())
+      .then((result) => {
+        console.log(result);
+        setProfileData(result.data);
+      })
+      .catch((error) => {
+        console.error("에러발생:", error);
+      });
+  }, []);
+
+  // profileData를 가져왔다면 바인딩 재설정
+  useEffect(() => {
+    if (profileData) {
+      accountInfo.이름 = profileData.username;
+      accountInfo.아이디 = profileData.userId;
+      accountInfo.생년월일 = profileData.birthdate;
+    }
+  }, [profileData]);
+
   return (
     <div className=" w-[1200px] min-h-[720px] flex gap-[27px] mt-[20px] mb-[112px]">
       {/* 사이드바 */}
@@ -52,7 +88,11 @@ export default function ProfilePage() {
             <div className=" w-[754px] h-[56px]  mt-6 flex justify-between gap-[122px]">
               <p className="text-base">프로필</p>
               <div className="w-[590px] h-[56px] flex justify-between gap-4 items-center">
-                <ProfileSVG width="56px" height="56px" />
+                {profileData ? (
+                  <img src={profileData.profileImage} width={56} height={56} />
+                ) : (
+                  <ProfileSVG width="56px" height="56px" />
+                )}
                 <div className="w-[518px]">
                   <BodyFont level="4" weight="medium">
                     김스펙
