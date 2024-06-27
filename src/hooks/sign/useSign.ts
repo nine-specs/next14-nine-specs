@@ -119,6 +119,7 @@ export async function register(formData: FormData) {
       birthdate: birthdate,
       //   email: email,
       createdAt: createdAt,
+      accountType: "A",//일반회원가입
     });
     console.log("회원 가입 성공!");
   } catch (error) {

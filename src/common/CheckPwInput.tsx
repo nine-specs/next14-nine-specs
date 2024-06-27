@@ -47,7 +47,11 @@ export default function CheckPwInput({
       {label && (
         <label
           className={`block mb-2 ${
-            passwordMatch ? "text-black" : "text-warning"
+            name === "confirmPassword"
+              ? passwordMatch
+                ? "text-black"
+                : "text-warning"
+              : "text-black"
           }`}
         >
           {label}
@@ -55,9 +59,11 @@ export default function CheckPwInput({
       )}
       <div
         className={`self-stretch rounded-lg bg-grayscale-0 flex flex-row items-center justify-between py-0 px-[15px] h-[56px] gap-[16px] border-[1px] border-solid border-grayscale-300 ${
-          passwordMatch
-            ? "border-grayscale-300 [&>input]:text-black"
-            : "border-warning [&>input]:text-warning"
+          name === "confirmPassword"
+            ? passwordMatch
+              ? "border-grayscale-300 [&>input]:text-black"
+              : "border-warning [&>input]:text-warning"
+            : "border-grayscale-300 [&>input]:text-black"
         }`}
       >
         <input
@@ -89,7 +95,11 @@ export default function CheckPwInput({
       {description && showDescription && (
         <label
           className={`text-sm ${
-            passwordMatch ? "text-grayscale-700" : "text-warning"
+            name === "confirmPassword"
+              ? passwordMatch
+                ? "text-grayscale-700"
+                : "text-warning"
+              : "text-grayscale-700"
           }`}
         >
           {description}

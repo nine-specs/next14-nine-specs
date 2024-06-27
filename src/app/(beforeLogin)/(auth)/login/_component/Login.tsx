@@ -8,8 +8,8 @@ import Link from "next/link";
 import TextButton from "@/common/TextButton";
 
 // import { useState } from "react";
-import SearchId from "../../../searchId/_component/SearchId";
-import SerchPw from "../../../searchPw/_component/SearchPw";
+import SearchId from "../../../search/searchId/_component/SearchId";
+import SerchPw from "../../../search/searchPw/_component/SearchPw";
 import CheckPwInput from "@/common/CheckPwInput";
 
 const logoImg = [
