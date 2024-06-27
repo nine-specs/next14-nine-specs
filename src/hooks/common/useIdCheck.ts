@@ -6,43 +6,17 @@ export function useIdCheck(description: string) {
   const [userInput, setUserInput] = useState(""); // 유저가 입력값 상태
   const [isValidUser, setIsValidUser] = useState(true); // 사용 가능한 userId 여부 상태
   const [descriptionText, setDescriptionText] = useState(description); // 설명 텍스트 상태
+  const [styleStatus, setStyleStatus] = useState<
+    "default" | "warning" | "success"
+  >("default");
 
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const defaultStyles = {
-    labelColor: "text-black",
-    inputBorderColor: "border-grayscale-300",
-    inputColor: "text-black",
-    descriptionColor: "text-grayscale-700",
-  };
-
-  const warningStyles = {
-    labelColor: "text-warning",
-    inputBorderColor: "border-warning",
-    inputColor: "text-warning",
-    descriptionColor: "text-warning",
-  };
-
-  const successStyles = {
-    labelColor: "text-black",
-    inputBorderColor: "border-grayscale-300",
-    inputColor: "text-black",
-    descriptionColor: "text-green-500",
-  };
-
-  const [styles, setStyles] = useState(defaultStyles);
-
-  const resetStyles = () => setStyles(defaultStyles);
-
-  const applyWarningStyles = () => setStyles(warningStyles);
-
-  const applySuccessStyles = () => setStyles(successStyles);
 
   // 유저 입력 값 조회를 위한 로직
   const handleUserIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserInput(event.target.value);
     setIsValidUser(false); // 인풋 값이 변경될 때마다 유효성 상태 초기화
-    resetStyles(); // 스타일 초기화
+    setStyleStatus("default");
     setDescriptionText(description); // 설명 텍스트 초기화
   };
 
@@ -59,7 +33,7 @@ export function useIdCheck(description: string) {
     if (!userId) {
       console.log("아이디를 입력하세요.");
       alert("아이디를 입력해주세요.");
-      applyWarningStyles();
+      setStyleStatus("warning");
       setDescriptionText("아이디를 입력해주세요.");
       return;
     }
@@ -67,7 +41,7 @@ export function useIdCheck(description: string) {
     if (!userIdRegex.test(userId)) {
       console.log("아이디 형식이 올바르지 않습니다.");
       // alert("아이디는 영문자와 숫자를 포함한 6~12자로 이루어져야 합니다.");
-      applyWarningStyles();
+      setStyleStatus("warning");
       setDescriptionText(
         "아이디는 영문자와 숫자를 포함한 6~12자로 이루어져야 합니다.",
       );
@@ -85,12 +59,12 @@ export function useIdCheck(description: string) {
       if (existingUsers.includes(userId)) {
         console.log("이미 존재하는 userId입니다.");
         setIsValidUser(false); // 중복된 경우 유효하지 않은 userId로 설정
-        applyWarningStyles();
+        setStyleStatus("warning");
         setDescriptionText("중복된 아이디입니다. 다른 아이디를 사용해주세요.");
       } else {
         console.log("사용할 수 있는 userId입니다.");
         setIsValidUser(true); // 사용 가능한 경우 유효한 userId로 설정
-        applySuccessStyles();
+        setStyleStatus("success");
         setDescriptionText("* 사용가능한 아이디입니다.");
       }
     } catch (error) {
@@ -98,7 +72,7 @@ export function useIdCheck(description: string) {
         "파이어베이스에서 문서를 가져오는 중 오류가 발생했습니다:",
         error,
       );
-      applyWarningStyles();
+      setStyleStatus("warning");
       setDescriptionText("오류가 발생했습니다. 다시 시도해주세요.");
     }
   };
@@ -109,7 +83,7 @@ export function useIdCheck(description: string) {
     inputRef,
     handleButtonClick,
     isValidUser,
-    styles,
+    styleStatus,
     descriptionText,
   };
 }

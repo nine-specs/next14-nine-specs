@@ -1,6 +1,7 @@
 "use client";
 import { usePwShow } from "@/hooks/common/usePwShow";
 import Image from "next/image";
+import { useState } from "react";
 interface InputProps {
   type?: string;
   placeholder?: string;
@@ -10,6 +11,7 @@ interface InputProps {
   className?: string;
   children?: React.ReactNode;
   name?: string;
+  onChange?: (value: string) => void;
 }
 
 export default function CheckPwInput({
@@ -19,11 +21,22 @@ export default function CheckPwInput({
   label, //위에 경고 관련 (아이디, 비밀번호)
   description, //입력값 설명
   name,
+  onChange,
   children, //필요하면 사용
   className, //스타일 추가 할때 사용
 }: InputProps) {
   const { isPasswordShow, togglePasswordShow } = usePwShow();
+  const [showDescription, setShowDescription] = useState(false);
   const inputType = type === "password" && isPasswordShow ? "text" : type;
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (onChange) {
+      onChange(e.target.value); // 입력값을 부모 컴포넌트로 전달
+    }
+  };
+  const handleFocus = () => {
+    setShowDescription(true); // 입력 필드에 포커스 시 description 보이기
+  };
 
   return (
     <div className="self-stretch flex flex-col items-start justify-start gap-[4px]">
@@ -35,6 +48,8 @@ export default function CheckPwInput({
           name={name}
           placeholder={placeholder}
           value={value}
+          onChange={handleChange}
+          onFocus={handleFocus}
         />
         <button
           type="button"
@@ -53,7 +68,7 @@ export default function CheckPwInput({
           />
         </button>
       </div>
-      {description && (
+      {description && showDescription && (
         <label className="text-sm text-grayscale-700">{description}</label>
       )}
     </div>

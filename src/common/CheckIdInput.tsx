@@ -1,4 +1,5 @@
 "use client";
+
 import { useIdCheck } from "@/hooks/common/useIdCheck";
 import TextButton from "./TextButton";
 
@@ -13,6 +14,22 @@ interface InputProps {
   children?: React.ReactNode;
   name?: string;
 }
+
+const labelVariants = {
+  default: "text-black",
+  warning: "text-warning",
+  success: "text-black",
+};
+const inputVariants = {
+  default: "border-grayscale-300 [&>input]:text-black",
+  warning: "border-warning [&>input]:text-warning",
+  success: "border-grayscale-300",
+};
+const descriptionVariants = {
+  default: "text-grayscale-700",
+  warning: "text-warning",
+  success: "text-green-500",
+};
 
 export default function CheckIdInput({
   type = "text", // 기본 속성 타입
@@ -31,21 +48,27 @@ export default function CheckIdInput({
     handleUserIdChange,
     inputRef,
     handleButtonClick,
-    isValidUser,
-    styles,
+    styleStatus,
     descriptionText,
   } = useIdCheck(description || "");
+
+  const getButtonVariant = () => {
+    if (!userInput) return "default";
+    return styleStatus === "success" ? "primary" : styleStatus;
+  };
 
   return (
     <div className="self-stretch flex flex-col items-start justify-start gap-[4px]">
       {label && (
-        <label className={`block mb-2 ${styles.labelColor}`}>{label}</label>
+        <label className={`block mb-2 ${labelVariants[styleStatus]}`}>
+          {label}
+        </label>
       )}
       <div
-        className={`${styles.inputBorderColor} self-stretch rounded-lg bg-grayscale-0 flex flex-row items-center justify-between py-0 px-[15px] h-[56px] gap-[16px] border-[1px] border-solid `}
+        className={`self-stretch rounded-lg bg-grayscale-0 flex flex-row items-center justify-between py-0 px-[15px] h-[56px] gap-[16px] border ${inputVariants[styleStatus]}`}
       >
         <input
-          className={`w-[314px] border-none outline-none font-body-5-r text-base bg-transparent h-full leading-[24px] ${styles.inputColor} text-left flex items-center max-w-[314px] p-0`}
+          className={`w-[314px] border-none outline-none font-body-5-r text-base bg-transparent h-full leading-[24px] text-left flex items-center max-w-[314px] p-0`}
           type={type}
           name={name}
           placeholder={placeholder}
@@ -57,13 +80,7 @@ export default function CheckIdInput({
 
         {checkLabel && (
           <TextButton
-            variant={
-              userInput
-                ? styles.inputColor === "text-warning"
-                  ? "warning"
-                  : "primary"
-                : "default"
-            }
+            variant={getButtonVariant()}
             onClick={handleButtonClick}
             size="sm"
           >
@@ -72,7 +89,7 @@ export default function CheckIdInput({
         )}
       </div>
       {description && (
-        <label className={`text-sm ${styles.descriptionColor}`}>
+        <label className={`text-sm ${descriptionVariants[styleStatus]}`}>
           {descriptionText}
         </label>
       )}

@@ -10,6 +10,7 @@ interface InputProps {
   className?: string;
   children?: React.ReactNode;
   name?: string;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function Input({
@@ -19,6 +20,7 @@ export default function Input({
   label, //위에 경고 관련 (아이디, 비밀번호)
   description, //입력값 설명
   name, //form data 로 필요함
+  onChange,
   children,
   className, //스타일 추가 할때 사용
 }: InputProps) {
@@ -32,6 +34,7 @@ export default function Input({
           name={name}
           placeholder={placeholder}
           value={value}
+          onChange={onChange}
         />
       </div>
       {description && (

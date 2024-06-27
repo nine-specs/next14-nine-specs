@@ -1,11 +1,37 @@
+"use client";
 import CheckIdInput from "@/common/CheckIdInput";
 import CheckPwInput from "@/common/CheckPwInput";
 import Input from "@/common/Input";
 import TextButton from "@/common/TextButton";
 import { register } from "../../../../../hooks/sign/useSign";
 import HeadingFont from "@/common/HeadingFont";
+import { useFormCheck } from "@/hooks/common/useFormCheck";
+import { useEffect, useState } from "react";
 
 export default function Sign() {
+  const {
+    name,
+    setName,
+    password,
+    setPassword,
+    confirmPassword,
+    setConfirmPassword,
+    passwordMatch,
+    phone,
+    setPhone,
+    birthdate,
+    setBirthdate,
+    isFormValid,
+    handlePasswordChange,
+    handleConfirmPasswordChange,
+  } = useFormCheck();
+
+  useEffect(() => {
+    // useFormCheck 훅에서 반환한 객체가 변경될 때마다 호출되는 부분입니다.
+    // 이 예제에서는 마운트 후 처음에 한 번만 실행됩니다.
+    console.log("isFormValid:", isFormValid());
+  }, [name, password, confirmPassword, phone, birthdate]);
+
   return (
     <>
       <section
@@ -27,6 +53,8 @@ export default function Sign() {
                 placeholder="이름을 입력해주세요"
                 label="이름"
                 name="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
 
               {/* 아이디 입력 하는곳 시작 */}
@@ -46,6 +74,9 @@ export default function Sign() {
                 name="password"
                 type="password"
                 description="* 8~20자 이내 숫자,특수문자,영문자로 조합해주세요"
+                value={password}
+                //onChange={(e) => setPassword(e.target.value)}
+                onChange={handlePasswordChange}
               />
               {/* 비밀번호 입력 하는곳 끝 */}
 
@@ -55,6 +86,14 @@ export default function Sign() {
                 label="비밀번호 확인"
                 name="confirmPassword"
                 type="password"
+                value={confirmPassword}
+                // onChange={(e) => setConfirmPassword(e.target.value)}
+                onChange={handleConfirmPasswordChange}
+                description={
+                  passwordMatch
+                    ? "비밀번호가 일치합니다."
+                    : "비밀번호가 일치하지 않습니다."
+                }
               />
               {/* 비밀번호 확인 입력 하는곳 끝 */}
 
@@ -63,6 +102,8 @@ export default function Sign() {
                 placeholder="-를 제외한 휴대폰번호를 입력해주세요"
                 label="휴대폰번호"
                 name="phone"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
               />
               {/* 휴대폰번호 입력 하는곳 끝 */}
 
@@ -71,6 +112,8 @@ export default function Sign() {
                 placeholder="생년월일 6자를 입력해주세요(예시:990101)"
                 label="생년월일"
                 name="birthdate"
+                value={birthdate}
+                onChange={(e) => setBirthdate(e.target.value)}
               />
               {/* 생년월일 입력 하는곳 끝 */}
             </div>
@@ -78,7 +121,12 @@ export default function Sign() {
 
           {/* 로그인 버튼이랑 회원가입 버튼 시작 */}
           <div className="w-[386px] flex flex-col items-start justify-start max-w-full">
-            <TextButton variant="primary">가입</TextButton>
+            <TextButton
+              variant={isFormValid() ? "primary" : "default"}
+              disabled={!isFormValid()}
+            >
+              가입
+            </TextButton>
           </div>
         </form>
       </section>
