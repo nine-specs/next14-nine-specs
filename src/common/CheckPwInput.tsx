@@ -1,6 +1,5 @@
 "use client";
-
-import useFuntion from "@/app/(beforeLogin)/login/_hooks/useFunction";
+import { useFunction } from "@/hooks/common/useIdCheck";
 import Image from "next/image";
 interface InputProps {
   type?: string;
@@ -10,18 +9,20 @@ interface InputProps {
   description?: string;
   className?: string;
   children?: React.ReactNode;
+  name?: string;
 }
 
-export default function IdInput({
-  type = "text", //기본 속성타입
+export default function CheckPwInput({
+  type = "password", //기본 속성타입
   placeholder, //속성 text
   value,
   label, //위에 경고 관련 (아이디, 비밀번호)
   description, //입력값 설명
+  name,
   children, //필요하면 사용
   className, //스타일 추가 할때 사용
 }: InputProps) {
-  const { isPasswordShow, togglePasswordShow } = useFuntion();
+  const { isPasswordShow, togglePasswordShow } = useFunction();
   const inputType = type === "password" && isPasswordShow ? "text" : type;
 
   return (
@@ -31,6 +32,7 @@ export default function IdInput({
         <input
           className="w-[314px] [border:none] [outline:none] font-body-5-r text-base bg-[transparent] h-full leading-[24px] text-grayscale-400 text-left flex items-center max-w-[314px] p-0"
           type={inputType}
+          name={name}
           placeholder={placeholder}
           value={value}
         />
@@ -51,7 +53,9 @@ export default function IdInput({
           />
         </button>
       </div>
-      {description && <label className="block mt-2">{description}</label>}
+      {description && (
+        <label className="text-sm text-grayscale-700">{description}</label>
+      )}
     </div>
   );
 }

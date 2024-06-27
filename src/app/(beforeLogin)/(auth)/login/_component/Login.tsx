@@ -2,15 +2,15 @@
 
 import BodyFont from "@/common/BodyFont";
 import Image from "next/image";
-import PasswordInput from "@/common/PasswordInput";
 import Input from "@/common/Input";
 import Checkbox from "@/common/Checkbox";
 import Link from "next/link";
 import TextButton from "@/common/TextButton";
 
 // import { useState } from "react";
-import SearchId from "../../searchId/_component/SearchId";
-import SerchPw from "../../searchPw/_component/SearchPw";
+import SearchId from "../../../searchId/_component/SearchId";
+import SerchPw from "../../../searchPw/_component/SearchPw";
+import CheckPwInput from "@/common/CheckPwInput";
 
 const logoImg = [
   { name: "Kakao", src: "/images/logo/kakao.svg" },
@@ -39,7 +39,7 @@ export default function LoginComponent() {
               <Input placeholder="아이디를 입력해주세요" />
               {/* 아이디 입력 하는곳 끝 */}
               {/* 비밀번호 입력 하는곳 시작 */}
-              <PasswordInput
+              <CheckPwInput
                 type="password"
                 placeholder="비밀번호를 입력해주세요"
                 // showImage={showImage}
