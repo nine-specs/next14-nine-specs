@@ -67,7 +67,7 @@ export default function LoginComponent() {
             </div>
 
             <div className="flex flex-row items-start justify-start gap-[8px]">
-              <Link href="/searchId">
+              <Link href="/search/searchId">
                 <BodyFont level="5" weight="regular">
                   아이디 찾기
                 </BodyFont>
@@ -76,7 +76,7 @@ export default function LoginComponent() {
                 |
               </div>
 
-              <Link href="/searchPw">
+              <Link href="/search/searchPw">
                 <BodyFont level="5" weight="regular">
                   비밀번호 찾기
                 </BodyFont>
