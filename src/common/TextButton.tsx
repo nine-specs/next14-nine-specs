@@ -14,12 +14,13 @@ type TextButtonProps = React.ComponentProps<"button"> & {
 };
 
 const variantVariants = {
-  primary: "bg-primary-900 hover:bg-primary-800 text-white",
-  secondary: "bg-secondary-500 hover:bg-secondary-300 text-white",
-  warning: "bg-warning hover:bg-[#FF5271] text-white",
-  success: "bg-success hover:bg-[#33E078] text-white",
+  primary: "bg-primary-900 hover:bg-primary-800 text-white border-current",
+  secondary:
+    "bg-secondary-500 hover:bg-secondary-300 text-white border-current",
+  warning: "bg-warning hover:bg-[#FF5271] text-white border-current",
+  success: "bg-success hover:bg-[#33E078] text-white border-current",
   outline:
-    "bg-white border border-primary-900 text-primary-900 hover:border-primary-800 hover:text-primary-800",
+    "bg-white border-primary-900 text-primary-900 hover:border-primary-800 hover:text-primary-800",
   default: "bg-grayscale-200 text-grayscale-600",
 };
 
@@ -47,7 +48,7 @@ export default function TextButton({
     <>
       <button
         {...restButtonProps}
-        className={`w-full rounded-lg ${
+        className={`w-full rounded-lg border ${
           restButtonProps.disabled ? disabledStyle : variantVariants[variant]
         } ${padding} ${className}`}
       >
