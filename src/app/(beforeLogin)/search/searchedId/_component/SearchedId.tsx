@@ -16,11 +16,7 @@ export default function SearchedId({ searchResult }: Props) {
   const formattedDate = searchResult.createdAt.split("T")[0];
 
   return (
-    <div
-      className={`flex flex-row items-center justify-center py-0 px-5 box-border ${
-        searchResult?.userId && searchResult?.createdAt ? "" : "my-[60px]"
-      }`}
-    >
+    <>
       <div
         className={`flex flex-col items-center justify-start m-0 w-[590px] ${
           searchResult?.userId && searchResult?.createdAt
@@ -77,6 +73,6 @@ export default function SearchedId({ searchResult }: Props) {
           </Link>
         </div>
       </div>
-    </div>
+    </>
   );
 }

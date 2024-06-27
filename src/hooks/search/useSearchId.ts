@@ -1,9 +1,7 @@
-// useSearchId.ts
 "use server";
 
 import { firestore } from "@/firebase/firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { redirect } from "next/navigation";
 
 export async function registeredId(formData: FormData) {
   const userSearchData = {
