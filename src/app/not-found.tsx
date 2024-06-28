@@ -1,5 +1,4 @@
 import GlobalErrorPage from "@/common/GlobalErrorPage";
-import LoadingPage from "@/common/LoadingPage";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -14,7 +13,7 @@ export const metadata: Metadata = {
 export default function NotFound() {
   return (
     <>
-      <LoadingPage />;{/* <GlobalErrorPage />; */}
+      <GlobalErrorPage />;
     </>
   );
 }
