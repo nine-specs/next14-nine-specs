@@ -50,12 +50,6 @@ export default function LoginComponent() {
                   </BodyFont>
                 </div>
               </Checkbox>
-
-              {/* <div className="flex flex-col items-start justify-start pt-0.5 px-0 pb-0">
-                <BodyFont level="5" weight="regular">
-                  자동 로그인
-                </BodyFont>
-              </div> */}
             </div>
 
             <div className="flex flex-row items-start justify-start gap-[8px]">

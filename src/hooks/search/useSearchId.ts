@@ -45,6 +45,8 @@ export async function registeredId(formData: FormData) {
       const userDoc = querySnapshot.docs[0];
       const userData = userDoc.data();
 
+      userData.docId = userDoc.id; //고유한 문서 ID 값 가져오기
+
       if (userData.createdAt && userData.createdAt.toDate) {
         userData.createdAt = userData.createdAt.toDate().toISOString();
       }
