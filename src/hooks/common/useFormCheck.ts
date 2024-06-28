@@ -48,6 +48,5 @@ export function useFormCheck() {
     handlePasswordChange,
     handleConfirmPasswordChange,
     passwordMatch,
-    
   };
 }

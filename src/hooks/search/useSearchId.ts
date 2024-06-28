@@ -45,13 +45,22 @@ export async function registeredId(formData: FormData) {
       const userDoc = querySnapshot.docs[0];
       const userData = userDoc.data();
 
-      userData.docId = userDoc.id; //고유한 문서 ID 값 가져오기
+      // 비밀번호 필드를 제외한 사용자 데이터 추출
+      const { password, ...userWithoutPassword } = userData;
 
-      if (userData.createdAt && userData.createdAt.toDate) {
-        userData.createdAt = userData.createdAt.toDate().toISOString();
+      userWithoutPassword.docId = userDoc.id; //고유한 문서 ID 값 넣어주기
+
+      if (
+        userWithoutPassword.createdAt &&
+        userWithoutPassword.createdAt.toDate
+      ) {
+        userWithoutPassword.createdAt = userWithoutPassword.createdAt
+          .toDate()
+          .toISOString();
       }
-      console.log(userData);
-      return { success: true, userData };
+
+      console.log(userWithoutPassword);
+      return { success: true, userData: userWithoutPassword };
     } else {
       // 사용자가 존재하지 않는 경우
       return { success: false, message: "사용자를 찾을 수 없습니다." };
@@ -59,7 +68,5 @@ export async function registeredId(formData: FormData) {
   } catch (error) {
     console.error("Error searching document: ", error);
     return { success: false, message: "문서 검색 중 오류가 발생했습니다." };
-  } finally {
-    // redirect("/search/searchedId");
   }
 }
