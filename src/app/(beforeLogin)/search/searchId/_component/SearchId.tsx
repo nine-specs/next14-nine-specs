@@ -54,17 +54,15 @@ export default function SearchId() {
             </div>
           </div>
 
-          {/* 로그인 버튼 및 회원가입 버튼 영역 시작 */}
           <div className="w-[386px] flex flex-col items-start justify-start max-w-full">
             {name && phone ? (
-              <TextButton type="submit">아이디 찾기</TextButton>
+              <TextButton type="submit" variant="primary">아이디 찾기</TextButton>
             ) : (
               <TextButton type="submit" disabled>
                 아이디 찾기
               </TextButton>
             )}
           </div>
-          {/* 로그인 버튼 및 회원가입 버튼 영역 끝 */}
         </form>
       ) : (
         <SearchedId searchResult={searchResult} />

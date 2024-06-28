@@ -1,15 +1,9 @@
-// "use client";
-
 import BodyFont from "@/common/BodyFont";
 import Image from "next/image";
 import Input from "@/common/Input";
 import Checkbox from "@/common/Checkbox";
 import Link from "next/link";
 import TextButton from "@/common/TextButton";
-
-// import { useState } from "react";
-import SearchId from "../../../search/searchId/_component/SearchId";
-import SerchPw from "../../../search/searchPw/_component/SearchPw";
 import CheckPwInput from "@/common/CheckPwInput";
 
 const logoImg = [
@@ -19,12 +13,10 @@ const logoImg = [
 ];
 
 export default function LoginComponent() {
-  // const [showImage, setShowImage] = useState(true);
-
   return (
     <>
       <section
-        className=" flex flex-row items-center justify-center h-screen py-0 px-5 box-border 
+        className=" flex flex-row items-center justify-center py-0 px-5 box-border my-14
       "
       >
         <form className="flex flex-col items-center justify-start m-0 w-[590px] h-[668px]shadow-[0px_0px_10px_5px_rgba(203,_203,_203,_0.25)] rounded-[32px] bg-grayscale-0  py-20 pr-5 pl-[22px] box-border gap-[16px] max-w-full mq725:pt-[52px] mq725:pb-[52px] mq725:box-border ">
