@@ -1,5 +1,4 @@
 "use server";
-
 import { firestore } from "@/firebase/firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
 
@@ -58,7 +57,6 @@ export async function registeredId(formData: FormData) {
           .toDate()
           .toISOString();
       }
-
       console.log(userWithoutPassword);
       return { success: true, userData: userWithoutPassword };
     } else {

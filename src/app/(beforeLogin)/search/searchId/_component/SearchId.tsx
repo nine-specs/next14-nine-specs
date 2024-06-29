@@ -5,18 +5,64 @@ import TextButton from "@/common/TextButton";
 import { registeredId } from "@/hooks/search/useSearchId";
 import { useState } from "react";
 
+type SearchResultState = {
+  success: boolean;
+  userData: { userId: string; createdAt: string } | null;
+};
+
 export default function SearchId() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const [searchResult, setSearchResult] = useState<SearchResultState>({
+    success: true,
+    userData: null,
+  });
+
   const activate = name && phone;
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("phone", phone);
+
+    // 타입 단언을 사용하여 result 객체의 타입을 명시적으로 지정
+    const result = (await registeredId(formData)) as {
+      success: boolean;
+      userData?: { userId: string; createdAt: string };
+      message?: string;
+    };
+    console.log("123", result);
+
+    if (
+      result.userData &&
+      typeof result.userData.userId === "string" &&
+      typeof result.userData.createdAt === "string"
+    ) {
+      setSearchResult({
+        success: result.success,
+        userData: result.userData,
+      });
+
+      // Navigate programmatically
+      const { userId, createdAt } = result.userData;
+      const url = `/search/name=${userId}created=${createdAt}`;
+      window.location.href = url;
+    } else {
+      setSearchResult({
+        success: result.success,
+        userData: null,
+      });
+      const urls = `/search/searchedId`; //일단 이동은 시켜야되니까 이쪽으로 보내줌
+      window.location.href = urls;
+    }
+  };
+
   return (
-    <section
-      className={`flex flex-row items-center justify-center py-0 px-5 box-border  my-[90px]`}
-    >
+    <section className="flex flex-row items-center justify-center py-0 px-5 box-border my-[90px]">
       <form
+        onSubmit={handleSubmit}
         className="flex flex-col items-center justify-start m-0 w-[590px] h-[564px] shadow-[0px_0px_10px_5px_rgba(203,_203,_203,_0.25)] rounded-[32px] bg-grayscale-0 py-20 pr-5 pl-[22px] box-border gap-[16px] max-w-full mq725:pt-[52px] mq725:pb-[52px] mq725:box-border"
-        action={registeredId}
       >
         <div className="w-[386px] flex flex-col items-center justify-start gap-[40px] max-w-full mq450:gap-[20px]">
           {/* 타이틀 영역 시작 */}
