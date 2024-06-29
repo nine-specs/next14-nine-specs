@@ -8,6 +8,7 @@ import Input from "@/common/Input";
 import { useRef, useState } from "react";
 import DropDownB from "./(ProfileEdit)/DropDownB";
 import { TUser } from "@/app/api/profile/route";
+import { useUpdateProfile } from "@/hooks/profile/useUpdateProfile";
 
 type TProfileEdit = {
   onClose: () => void;
@@ -19,10 +20,12 @@ type TProfileEdit = {
 
 export default function ProfileEdit({ onClose, profileData }: TProfileEdit) {
   const [file, setFile] = useState<File | null>(null);
-
   const fileInputRef = useRef<HTMLInputElement>(null);
   //프로필 아이콘 클릭시 숨겨진 input이 클릭
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const 닉네임 = document.getElementsByName("displayname");
+    console.log("닉네임:" + 닉네임[0]);
+
     e.preventDefault();
     // 참조 이상없는지 확인
     if (fileInputRef.current) {
@@ -39,7 +42,7 @@ export default function ProfileEdit({ onClose, profileData }: TProfileEdit) {
       const validImageTypes = ["image/jpeg", "image/png", "image/gif"];
       if (validImageTypes.includes(selectedFile.type)) {
         if (selectedFile.size <= 500000) {
-          // 5MB 이하로 제한
+          // 500KB 이하로 제한
           setFile(selectedFile);
         } else {
           alert("파일 크기는 500KB 이하로 업로드할 수 있습니다.");
@@ -53,7 +56,10 @@ export default function ProfileEdit({ onClose, profileData }: TProfileEdit) {
   return (
     <>
       <Modal size="S5" onClose={onClose}>
-        <form className="w-full h-full py-[80px] px-[102px] ">
+        <form
+          action={useUpdateProfile}
+          className="w-full h-full py-[80px] px-[102px] "
+        >
           <div className="w-auto h-auto flex flex-col justify-center items-center">
             <HeadingFont level="3" weight="bold" className="text-primary-900">
               프로필 수정
@@ -87,6 +93,7 @@ export default function ProfileEdit({ onClose, profileData }: TProfileEdit) {
                 <CheckIdInput
                   label="닉네임"
                   checkLabel="중복확인"
+                  name="displayName"
                   placeholder={profileData.profileData?.displayName}
                 />
                 {/* <Input label="관심종목" placeholder="#테슬라 #애플 #코카콜라" /> */}
