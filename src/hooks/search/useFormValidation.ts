@@ -8,7 +8,7 @@ const useFormValidation = () => {
     const nameValid = /^[^\d\s~`!@#$%^&*()\-_=+[\]{}|\\;:'",.<>?/]+$/.test(
       fields.name || "",
     );
-    const phoneValid = /^\d{11}$/.test(fields.phone || "");
+    const phoneValid = /^\d{1,11}$/.test(fields.phone || "");
     return nameValid && phoneValid;
   };
 
@@ -17,14 +17,15 @@ const useFormValidation = () => {
       (field) => field.trim() !== "",
     );
     const areFieldsValid = validateFields(fields);
-    setIsButtonDisabled(!(areFieldsFilled && areFieldsValid));
+    const disabled = !areFieldsFilled || !areFieldsValid;
+    setIsButtonDisabled(disabled);
+    console.log("isButtonDisabled:", disabled);
   }, [fields]);
 
   const handleFieldChange = (fieldName: string, value: string) => {
     if (fieldName === "phone" && !/^\d{0,11}$/.test(value)) {
       return;
     }
-
     setFields((prevFields) => ({ ...prevFields, [fieldName]: value }));
   };
 
