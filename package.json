@@ -11,6 +11,8 @@
   "dependencies": {
     "@date-io/dayjs": "^3.0.0",
     "dayjs": "^1.11.11",
+    "@types/bcrypt": "^5.0.2",
+    "bcrypt": "^5.1.1",
     "firebase": "^10.12.2",
     "next": "14.2.4",
     "next-auth": "^5.0.0-beta.19",
