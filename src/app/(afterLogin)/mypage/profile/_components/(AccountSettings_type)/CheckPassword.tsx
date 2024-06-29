@@ -24,11 +24,13 @@ export default function CheckPassword({
   };
 
   const checkPwd = (e: React.MouseEvent<HTMLButtonElement>) => {
-    //임시 비밀번호와 일치시 정보 수정 모달창으로 이동.
+    //임시 비밀번호 설정
     const loginPassword = "11111111";
     if (password == loginPassword) {
+      //임시 비밀번호와 일치시 정보 수정 모달창으로 이동.
       setModalHandler("UpdateUserInfo");
     } else {
+      // 비밀번호 틀릴 시 경고창 -> 추후 변경예정
       alert("GET OUT!!");
     }
   };

@@ -6,18 +6,7 @@ import { useEffect, useState } from "react";
 import ProfileEdit from "./_components/ProfileEdit";
 import AccountSetting from "./_components/AccountSettings";
 import SideBar from "../_components/SideBar";
-
-type TUser = {
-  birthdate: string;
-  email: string;
-  favorite: string;
-  lang: string;
-  profileImage: string;
-  phone: string;
-  userId: string;
-  username: string;
-  //   createdAt: string;
-};
+import { TUser } from "@/app/api/profile/route";
 
 const accountInfo = {
   아이디: "sfacspaceid",
@@ -95,7 +84,7 @@ export default function ProfilePage() {
                 )}
                 <div className="w-[518px]">
                   <BodyFont level="4" weight="medium">
-                    김스펙
+                    {profileData?.displayName}
                   </BodyFont>
                 </div>
               </div>
@@ -151,7 +140,10 @@ export default function ProfilePage() {
         </div>
       </div>
       {isProfileModalOpened && (
-        <ProfileEdit onClose={() => setProfileModalOpened(false)} />
+        <ProfileEdit
+          onClose={() => setProfileModalOpened(false)}
+          profileData={{ profileData, setProfileData }}
+        />
       )}
       {isAccountModalOpened && (
         <AccountSetting onClose={() => setAccountModalOpened(false)} />

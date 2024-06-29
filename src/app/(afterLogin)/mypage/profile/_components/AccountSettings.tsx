@@ -1,10 +1,3 @@
-import BodyFont from "@/common/BodyFont";
-import CaptionFont from "@/common/CaptionFont";
-import CheckIdInput from "@/common/CheckIdInput";
-import HeadingFont from "@/common/HeadingFont";
-import Input from "@/common/Input";
-import { Modal } from "@/common/Modal";
-import TextButton from "@/common/TextButton";
 import { useState } from "react";
 import CheckPassword from "./(AccountSettings_type)/CheckPassword";
 import DeleteAccount from "./(AccountSettings_type)/DeleteAccount";
@@ -14,6 +7,7 @@ interface TAccountSetting {
   onClose: () => void;
 }
 
+// 모달창 핸들러 역할
 export default function AccountSetting({ onClose }: TAccountSetting) {
   const [modalHandler, setModalHandler] = useState("CheckPassword");
 

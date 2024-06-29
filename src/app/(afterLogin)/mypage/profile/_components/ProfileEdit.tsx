@@ -6,11 +6,18 @@ import ProfileSVG from "/public/images/profile.svg";
 import EditLgIcon from "/public/images/Edit_icon_lg.svg";
 import Input from "@/common/Input";
 import { useRef, useState } from "react";
+import DropDownB from "./(ProfileEdit)/DropDownB";
+import { TUser } from "@/app/api/profile/route";
 
-interface TProfileEdit {
+type TProfileEdit = {
   onClose: () => void;
-}
-export default function ProfileEdit({ onClose }: TProfileEdit) {
+  profileData: {
+    profileData: TUser | undefined;
+    setProfileData: React.Dispatch<React.SetStateAction<TUser | undefined>>;
+  };
+};
+
+export default function ProfileEdit({ onClose, profileData }: TProfileEdit) {
   const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState<string>("");
 
@@ -77,9 +84,10 @@ export default function ProfileEdit({ onClose }: TProfileEdit) {
                 <CheckIdInput
                   label="닉네임"
                   checkLabel="중복확인"
-                  placeholder="김스낵"
+                  placeholder={profileData.profileData?.displayName}
                 />
-                <Input label="관심종목" placeholder="#테슬라 #애플 #코카콜라" />
+                {/* <Input label="관심종목" placeholder="#테슬라 #애플 #코카콜라" /> */}
+                <DropDownB profileData={profileData} />
               </div>
             </div>
             <TextButton variant="primary" size="lg">

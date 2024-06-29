@@ -9,24 +9,27 @@ import {
   where,
 } from "firebase/firestore";
 
+// 유저 정보 타입
+export type TUser = {
+  birthdate: string; // 생년월일
+  email: string; // 이메일
+  favorite: { stockId: string }[]; // 관심종목
+  lang: string; //언어 설정
+  profileImage: string; //프로필사진
+  phone: string; //휴대폰
+  userId: string; //아이디
+  username: string; //이름
+  displayName: string; // 닉네임
+  //   createdAt: string;
+};
+
 export async function GET(request: Request) {
-  // 유저 정보 타입
-  type TUser = {
-    birthdate: string; // 생년월일
-    email: string; // 이메일
-    favorite: string; // 관심종목
-    lang: string; //언어 설정
-    profileImage: string; //프로필사진
-    phone: string; //휴대폰
-    userId: string; //아이디
-    username: string; //이름
-    //displayName :string // 닉네임
-    //   createdAt: string;
-  };
   // 유저데이터 firestoreDB 요청
   const fetchUser = async () => {};
   // 임시더미 uid 이용
   const uid = "WJBBuka8oDKBIjASaEd1";
+  // const uid = "f3Gth4ckW6Ivx2EZVR1P";
+
   //users콜렉션에서  uid 일치하는 document찾기
   const userDocRef = doc(firestore, "users", uid);
   //document 가져오기
@@ -46,6 +49,7 @@ export async function GET(request: Request) {
       phone: userData.phone,
       userId: userData.userId,
       username: userData.username,
+      displayName: userData.displayName,
     };
 
     return new Response(JSON.stringify({ res: "응답함", data: fetchedUser }), {
