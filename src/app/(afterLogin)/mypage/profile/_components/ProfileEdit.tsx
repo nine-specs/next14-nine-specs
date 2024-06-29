@@ -19,7 +19,6 @@ type TProfileEdit = {
 
 export default function ProfileEdit({ onClose, profileData }: TProfileEdit) {
   const [file, setFile] = useState<File | null>(null);
-  const [error, setError] = useState<string>("");
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   //프로필 아이콘 클릭시 숨겨진 input이 클릭
@@ -30,19 +29,23 @@ export default function ProfileEdit({ onClose, profileData }: TProfileEdit) {
       fileInputRef.current.click();
     }
   };
-  // 파일 업로드 시 이벤트 실행됨
+  // 이미지파일 업로드 시 실행 이벤트
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // 업로드 된 파일 가져오기
     const { files } = e.target;
     //선택된 하나의 파일이 존재할 때 file 스테이트에 파일을 저장
     if (files && files.length == 1) {
       const selectedFile = files[0];
-      // 이미지 파일 타입 검사
-      if (selectedFile.type.startsWith("image/")) {
-        setFile(selectedFile);
-        setError(""); // 오류 메시지 초기화
+      const validImageTypes = ["image/jpeg", "image/png", "image/gif"];
+      if (validImageTypes.includes(selectedFile.type)) {
+        if (selectedFile.size <= 500000) {
+          // 5MB 이하로 제한
+          setFile(selectedFile);
+        } else {
+          alert("파일 크기는 500KB 이하로 업로드할 수 있습니다.");
+        }
       } else {
-        setError("이미지 파일만 업로드할 수 있습니다.");
+        alert("이미지 파일만 업로드할 수 있습니다.");
       }
     }
   };
