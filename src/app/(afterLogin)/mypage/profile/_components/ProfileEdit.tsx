@@ -9,6 +9,7 @@ import { useRef, useState } from "react";
 import DropDownB from "./(ProfileEdit)/DropDownB";
 import { TUser } from "@/app/api/profile/route";
 import { useUpdateProfile } from "@/hooks/profile/useUpdateProfile";
+import { doc } from "firebase/firestore";
 
 type TProfileEdit = {
   onClose: () => void;
@@ -23,9 +24,8 @@ export default function ProfileEdit({ onClose, profileData }: TProfileEdit) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   //프로필 아이콘 클릭시 숨겨진 input이 클릭
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const 닉네임 = document.getElementsByName("displayname");
-    console.log("닉네임:" + 닉네임[0]);
-
+    const inputBox = document.getElementById("inputBox");
+    console.log(inputBox?.querySelector("input"));
     e.preventDefault();
     // 참조 이상없는지 확인
     if (fileInputRef.current) {
@@ -89,7 +89,10 @@ export default function ProfileEdit({ onClose, profileData }: TProfileEdit) {
                   onChange={onFileChange} // 업로드된 파일 state 보관
                 ></input>
               </div>
-              <div className="w-[384px] h-[184px] flex flex-col gap-[16px] justify-between">
+              <div
+                className="w-[384px] h-[184px] flex flex-col gap-[16px] justify-between"
+                id="inputBox"
+              >
                 <CheckIdInput
                   label="닉네임"
                   checkLabel="중복확인"

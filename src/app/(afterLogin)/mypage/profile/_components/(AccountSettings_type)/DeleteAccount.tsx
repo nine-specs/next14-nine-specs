@@ -8,7 +8,7 @@ interface TDeleteAccount {
   onClose: () => void;
   setModalHandler: Dispatch<SetStateAction<string>>;
 }
-
+// 회원탈퇴 모달창
 export default function DeleteAccount({
   onClose,
   setModalHandler,

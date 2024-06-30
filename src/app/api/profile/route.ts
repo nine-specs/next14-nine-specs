@@ -13,7 +13,8 @@ import {
 export type TUser = {
   birthdate: string; // 생년월일
   email: string; // 이메일
-  favorite: { stockId: string }[]; // 관심종목
+  favorite: { stockId: string }[]; // 임시 주식종목리스트
+  myStock: string[]; // 관심종목
   lang: string; //언어 설정
   profileImage: string; //프로필사진
   phone: string; //휴대폰
@@ -50,6 +51,7 @@ export async function GET(request: Request) {
       userId: userData.userId,
       username: userData.username,
       displayName: userData.displayName,
+      myStock: userData.myStock,
     };
 
     return new Response(JSON.stringify({ res: "응답함", data: fetchedUser }), {
