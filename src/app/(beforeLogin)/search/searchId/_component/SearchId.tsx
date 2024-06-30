@@ -12,7 +12,15 @@ type SearchResultState = {
 };
 
 export default function SearchId() {
-  const { fields, isButtonDisabled, handleFieldChange } = useFormValidation();
+  const {
+    fields,
+    isButtonDisabled,
+    handleFieldChange,
+    styleStatus,
+    descriptionText,
+    updateDescriptionText,
+    updateStyleStatus,
+  } = useFormValidation("");
 
   const [searchResult, setSearchResult] = useState<SearchResultState>({
     success: true,
@@ -50,8 +58,8 @@ export default function SearchId() {
         success: result.success,
         userData: null,
       });
-      const urls = `/search/searchedId`;
-      window.location.href = urls;
+      updateDescriptionText("등록되지 않은 회원이거나 잘못된 회원정보입니다.");
+      updateStyleStatus("warning");
     }
   };
 
@@ -72,6 +80,7 @@ export default function SearchId() {
               name="name"
               value={fields.name || ""}
               onChange={(e) => handleFieldChange("name", e.target.value)}
+              styleStatus={styleStatus}
             />
             <Input
               placeholder="-를 제외한 전화번호를 입력해주세요"
@@ -79,6 +88,8 @@ export default function SearchId() {
               name="phone"
               value={fields.phone || ""}
               onChange={(e) => handleFieldChange("phone", e.target.value)}
+              styleStatus={styleStatus}
+              description={descriptionText}
             />
           </div>
         </div>
