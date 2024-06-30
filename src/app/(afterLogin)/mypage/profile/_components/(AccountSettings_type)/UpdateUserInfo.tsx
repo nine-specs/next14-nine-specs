@@ -62,7 +62,7 @@ export default function UpdateUserInfo({
             수정하기
           </TextButton>
           <button onClick={onClick}>
-            <CaptionFont weight="regular" className="text-warning">
+            <CaptionFont weight="regular" className="text-warning underline">
               회원탈퇴
             </CaptionFont>
           </button>

@@ -1,6 +1,7 @@
 import BodyFont from "@/common/BodyFont";
 import HeadingFont from "@/common/HeadingFont";
 import TextButton from "@/common/TextButton";
+import Link from "next/link";
 import React from "react";
 
 export default function accountDeletionPage() {
@@ -22,9 +23,11 @@ export default function accountDeletionPage() {
               더욱 더 노력하고 발전하는 아잇나우가 되겠습니다.
             </BodyFont>
           </div>
-          <TextButton variant="primary" size="lg">
-            확인
-          </TextButton>
+          <Link href="/" className="w-full h-full">
+            <TextButton variant="primary" size="lg">
+              확인
+            </TextButton>
+          </Link>
         </div>
       </div>
     </div>
