@@ -1,5 +1,5 @@
 "use client";
-import CheckIdInput from "@/common/CheckIdInput";
+import CheckIdEmailInput from "@/common/CheckIdEmailInput";
 import CheckPwInput from "@/common/CheckPwInput";
 import Input from "@/common/Input";
 import TextButton from "@/common/TextButton";
@@ -52,7 +52,7 @@ export default function Sign() {
                 onChange={(e) => setName(e.target.value)}
               />
 
-              <CheckIdInput
+              <CheckIdEmailInput
                 label="이메일"
                 name="email"
                 value={email}
@@ -61,7 +61,7 @@ export default function Sign() {
               />
 
               {/* 아이디 입력 하는곳 시작 */}
-              <CheckIdInput
+              <CheckIdEmailInput
                 label="아이디"
                 name="userId"
                 description="* 6~12자의 영문,숫자,_를 이용한 조합"

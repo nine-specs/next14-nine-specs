@@ -31,7 +31,7 @@ const descriptionVariants = {
   success: "text-green-500",
 };
 
-export default function CheckIdInput({
+export default function CheckIdEmailInput({
   type = "text",
   placeholder,
   value,
