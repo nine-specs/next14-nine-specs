@@ -1,6 +1,6 @@
 "use client";
 
-import { useIdCheck } from "@/hooks/common/useIdCheck";
+import { useInputCheck } from "@/hooks/common/useInputCheck";
 import TextButton from "./TextButton";
 
 interface InputProps {
@@ -32,25 +32,25 @@ const descriptionVariants = {
 };
 
 export default function CheckIdInput({
-  type = "text", // 기본 속성 타입
-  placeholder, // 속성 text
+  type = "text",
+  placeholder,
   value,
-  label, // 위에 경고 관련 (아이디, 비밀번호)
-  description, // 입력값 설명
-  checkLabel, // 중복 확인 버튼으로 생성할 때 필요
-  name, // form data 로 필요함
+  label,
+  description,
+  checkLabel,
+  name,
   children,
-  className, // 스타일 추가 할 때 사용
+  className,
   ...restInputProps
 }: InputProps) {
   const {
     userInput,
-    handleUserIdChange,
+    handleChange,
     inputRef,
     handleButtonClick,
     styleStatus,
     descriptionText,
-  } = useIdCheck(description || "");
+  } = useInputCheck(description || "", name === "email" ? "email" : "id");
 
   const getButtonVariant = () => {
     if (!userInput) return "default";
@@ -73,7 +73,7 @@ export default function CheckIdInput({
           name={name}
           placeholder={placeholder}
           value={userInput}
-          onChange={handleUserIdChange}
+          onChange={handleChange}
           ref={inputRef}
           {...restInputProps}
         />

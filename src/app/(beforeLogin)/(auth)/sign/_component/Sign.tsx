@@ -6,12 +6,13 @@ import TextButton from "@/common/TextButton";
 import { register } from "../../../../../hooks/sign/useSign";
 import HeadingFont from "@/common/HeadingFont";
 import { useFormCheck } from "@/hooks/common/useFormCheck";
-import { useEffect, useState } from "react";
 
 export default function Sign() {
   const {
     name,
     setName,
+    email,
+    setEmail,
     password,
     setPassword,
     confirmPassword,
@@ -25,12 +26,6 @@ export default function Sign() {
     handlePasswordChange,
     handleConfirmPasswordChange,
   } = useFormCheck();
-
-  useEffect(() => {
-    // useFormCheck 훅에서 반환한 객체가 변경될 때마다 호출되는 부분입니다.
-    // 이 예제에서는 마운트 후 처음에 한 번만 실행됩니다.
-    console.log("isFormValid:", isFormValid());
-  }, [name, password, confirmPassword, phone, birthdate]);
 
   return (
     <>
@@ -55,6 +50,14 @@ export default function Sign() {
                 name="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+              />
+
+              <CheckIdInput
+                label="이메일"
+                name="email"
+                value={email}
+                checkLabel="메일 인증"
+                placeholder="이메일을 입력해주세요"
               />
 
               {/* 아이디 입력 하는곳 시작 */}
