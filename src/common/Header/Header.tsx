@@ -16,7 +16,7 @@ export default function Header({
 }: {
   isLoggedIn?: boolean;
 }) {
-  // 게스트 랜딩페이지 경로 진입 조건문
+  // 게스트 랜딩페이지 경로 확인하는 조건문
   const pathname = usePathname();
   const isBeforeLoginMain = pathname === "/";
 
@@ -36,7 +36,7 @@ export default function Header({
                   <Link href={nav.path}>
                     <BodyFont
                       level="3"
-                      weight="medium"
+                      weight={pathname === nav.path ? "bold" : "medium"}
                       className="inline-block text-primary-900"
                     >
                       {nav.name}
