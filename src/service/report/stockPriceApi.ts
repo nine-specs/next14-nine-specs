@@ -32,7 +32,7 @@ export const stockPriceApi = async (
   code: string,
   periodType: string,
   stockExchangeType: string,
-): Promise<StockPrice> => {
+): Promise<StockPrice[]> => {
   const URL = `https://api.stock.naver.com/chart/foreign/item/${code}?periodType=${periodType}&stockExchangeType=${stockExchangeType}`;
   console.log(URL);
   const fetchData = await fetch(URL, {
@@ -42,7 +42,5 @@ export const stockPriceApi = async (
     },
   });
   const data = await fetchData.json();
-  console.log(data);
-
-  return data;
+  return data.priceInfos;
 };
