@@ -7,23 +7,25 @@ import { revalidatePath } from "next/cache";
 
 //프로필 사진 , 닉네임 , 관심 종목 수정하기
 export async function useUpdateProfile(formData: FormData) {
-  const file = formData.get("file") as File;
+  const file = formData.get("file") as File | null;
   const displayName = formData.get("displayName") as string;
-  const myStockStr = formData.get("myStock") as string;
+  const myStockStr = formData.get("myStock") as string | undefined;
 
-  console.log("전달받은 폼데이터:", formData);
-  console.log("파일 이름:", file.name);
+  console.log("파일 이름:", file?.name);
   console.log("닉네임:", displayName);
   console.log("관심종목:", myStockStr);
 
-  const myStock = myStockStr.split("#").join("").split(" ");
+  let myStock: string[] = [];
+  if (myStockStr != undefined) {
+    myStock = myStockStr.split("#").join("").split(" ");
+  }
 
   // 임시 uid 설정
   const uid = "WJBBuka8oDKBIjASaEd1";
   // users 컬렉션에서 uid일치하는 document가져오기
   const userDocRef = doc(firestore, "users", uid);
 
-  if (file) {
+  if (file && file.size > 0) {
     try {
       // <<이미지파일 스토리지 저장>>
       // 파일이 null이 아니면 실행
@@ -49,6 +51,11 @@ export async function useUpdateProfile(formData: FormData) {
     }
   } else {
     console.log("파일이 없습니다.");
+    // file이 없을 때는 닉네임과 관심 종목만 업데이트 진행
+    await updateDoc(userDocRef, {
+      displayName: displayName, // 닉네임 업데이트
+      myStock: myStock,
+    });
   }
 
   revalidatePath("/mypage/profile");

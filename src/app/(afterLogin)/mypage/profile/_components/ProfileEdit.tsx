@@ -4,12 +4,11 @@ import { Modal } from "@/common/Modal";
 import TextButton from "@/common/TextButton";
 import ProfileSVG from "/public/images/profile.svg";
 import EditLgIcon from "/public/images/Edit_icon_lg.svg";
-import Input from "@/common/Input";
 import { useRef, useState } from "react";
 import DropDownB from "./(ProfileEdit)/DropDownB";
 import { TUser } from "@/app/api/profile/route";
 import { useUpdateProfile } from "@/hooks/profile/useUpdateProfile";
-import { doc } from "firebase/firestore";
+import BodyFont from "@/common/BodyFont";
 
 type TProfileEdit = {
   onClose: () => void;
@@ -18,10 +17,11 @@ type TProfileEdit = {
     setProfileData: React.Dispatch<React.SetStateAction<TUser | undefined>>;
   };
 };
-
 export default function ProfileEdit({ onClose, profileData }: TProfileEdit) {
+  const profileImgSrc = profileData.profileData?.profileImage;
   const [file, setFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
   //프로필 아이콘 클릭시 숨겨진 input이 클릭
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const inputBox = document.getElementById("inputBox");
@@ -67,17 +67,22 @@ export default function ProfileEdit({ onClose, profileData }: TProfileEdit) {
             <div className=" w-[386px] h-[328px]  mt-[40px] mb-[56px] flex flex-col justify-center items-center">
               <div className="w-[120px] h-[120px] mb-[24px] relative flex justify-center items-center">
                 <button onClick={handleClick}>
-                  {file ? (
+                  {/* DB에 저장한 이미지파일을 프사로 표시 */}
+                  {file ? ( //업로드한 파일있다면 미리보기 표시
                     <img
                       src={URL.createObjectURL(file)}
                       alt="Profile Preview"
                       className="w-full h-full object-cover"
                     />
+                  ) : profileImgSrc ? (
+                    <img
+                      src={profileImgSrc} //db에 저장된 이미지 표시
+                      alt="Profile Preview"
+                      className="w-full h-full object-cover"
+                    />
                   ) : (
-                    <ProfileSVG />
+                    <ProfileSVG /> // 업로드, 저장된 파일이 없다면 기본프사 표시
                   )}
-
-                  {/* <ProfileSVG /> */}
                   <EditLgIcon className="absolute bottom-0 right-0 " />
                 </button>
                 {/* 숨긴 파일타입 input  */}
@@ -93,14 +98,30 @@ export default function ProfileEdit({ onClose, profileData }: TProfileEdit) {
                 className="w-[384px] h-[184px] flex flex-col gap-[16px] justify-between"
                 id="inputBox"
               >
-                <CheckIdInput
-                  label="닉네임"
-                  checkLabel="중복확인"
-                  name="displayName"
-                  placeholder={profileData.profileData?.displayName}
-                />
-                {/* <Input label="관심종목" placeholder="#테슬라 #애플 #코카콜라" /> */}
+                {/* 닉네임 수정 */}
+                <div>
+                  <BodyFont
+                    level="4"
+                    weight="medium"
+                    className="text-primary-900 mb-1"
+                  >
+                    닉네임
+                  </BodyFont>
+                  <div className="w-auto h-auto relative ">
+                    {/* <Input value={`${reason}`} placeholder="#애플 #테슬라"></Input> */}
+                    <div className="self-stretch rounded-lg bg-grayscale-0 flex flex-row items-center justify-between py-0 px-[15px] h-[56px] gap-[16px] border-[1px] border-solid border-grayscale-300">
+                      <input
+                        name="displayName"
+                        className="w-[314px] [border:none] [outline:none] font-body-5-r text-base bg-[transparent] h-full leading-[24px] text-grayscale-900 text-left flex items-center max-w-[314px] p-0"
+                        defaultValue={profileData.profileData?.displayName}
+                      />
+                    </div>
+                  </div>
+                </div>
+                {/* 닉네임 수정 끝*/}
+                {/* 관심종목 */}
                 <DropDownB profileData={profileData} />
+                {/* 관심종목 끝 */}
               </div>
             </div>
             <TextButton variant="primary" size="lg">

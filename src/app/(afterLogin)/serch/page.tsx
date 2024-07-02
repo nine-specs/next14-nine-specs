@@ -20,6 +20,19 @@ export default function serchPage() {
     { keyword: "삼성", date: "06.11" },
   ];
 
+  const popularSearchList = [
+    { rank: 1, keyword: "테슬라" },
+    { rank: 2, keyword: "애플" },
+    { rank: 3, keyword: "테슬라" },
+    { rank: 4, keyword: "테슬라" },
+    { rank: 5, keyword: "테슬라" },
+    { rank: 6, keyword: "테슬라" },
+    { rank: 7, keyword: "코카콜라" },
+    { rank: 8, keyword: "테슬라" },
+    { rank: 9, keyword: "테슬라" },
+    { rank: 10, keyword: "테슬라" },
+  ];
+
   return (
     <div className=" w-[590px] h-[896px] flex flex-col relative gap-8  mx-auto mt-[56px]">
       <div className=" rounded-lg bg-grayscale-0 flex flex-row items-center  py-0 pl-11 h-[56px] gap-[16px] border-[1px] border-solid border-grayscale-300">
@@ -48,12 +61,12 @@ export default function serchPage() {
           </ButtonFont>
         </div>
         <div className="w-full h-[448px] rounded-lg bg-grayscale-0 p-6">
-          <div className="w-full h-full border">
+          <div className="w-full h-full ">
             {recentKeywordList.map((a, i) => {
               return (
                 <div
                   key={i}
-                  className="border border-green-600 w-[542px] h-[40px] flex justify-between items-center"
+                  className=" w-[542px] h-[40px] flex justify-between items-center"
                 >
                   <div className="w- flex items-center gap-[10px]">
                     <Time_icon2 />
@@ -96,7 +109,66 @@ export default function serchPage() {
           </ButtonFont>
         </div>
         <div className="w-full h-[248px] rounded-lg bg-grayscale-0 p-6">
-          <div className="w-full h-full border"></div>
+          <div className="w-full h-full  flex justify-between gap-4">
+            <div className="w-[263px] h-full">
+              {popularSearchList.map((a, i) => {
+                if (i < 5) {
+                  return (
+                    <div
+                      key={i}
+                      className="w-[263px] h-[40px] py-2 flex justify-start gap-4"
+                    >
+                      <div className="w-[18px]">
+                        <BodyFont
+                          level="4"
+                          weight="regular"
+                          className="text-primary-900"
+                        >
+                          {a.rank}
+                        </BodyFont>
+                      </div>
+                      <BodyFont
+                        level="4"
+                        weight="regular"
+                        className="text-grayscale-600"
+                      >
+                        {a.keyword}
+                      </BodyFont>
+                    </div>
+                  );
+                }
+              })}
+            </div>
+            <div className="w-[263px] h-full ">
+              {popularSearchList.map((a, i) => {
+                if (i >= 5) {
+                  return (
+                    <div
+                      key={i}
+                      className="w-[263px] h-[40px] py-2 flex justify-start gap-4"
+                    >
+                      <div className="w-[18px]">
+                        <BodyFont
+                          level="4"
+                          weight="regular"
+                          className="text-primary-900"
+                        >
+                          {a.rank}
+                        </BodyFont>{" "}
+                      </div>
+                      <BodyFont
+                        level="4"
+                        weight="regular"
+                        className="text-grayscale-600"
+                      >
+                        {a.keyword}
+                      </BodyFont>
+                    </div>
+                  );
+                }
+              })}
+            </div>
+          </div>
         </div>
       </div>
     </div>

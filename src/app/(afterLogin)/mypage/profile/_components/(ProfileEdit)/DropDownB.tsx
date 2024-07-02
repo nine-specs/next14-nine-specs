@@ -90,7 +90,7 @@ export default function DropDownB({ profileData }: TDropDownB) {
           {/* <Input value={`${reason}`} placeholder="#애플 #테슬라"></Input> */}
           <div className="self-stretch rounded-lg bg-grayscale-0 flex flex-row items-center justify-between py-0 px-[15px] h-[56px] gap-[16px] border-[1px] border-solid border-grayscale-300">
             <input
-              className="w-[314px] [border:none] [outline:none] font-body-5-r text-base bg-[transparent] h-full leading-[24px] text-grayscale-900 text-left flex items-center max-w-[314px] p-0"
+              className="w-[314px] [border:none] [outline:none] font-body-5-r text-base bg-[transparent] h-full leading-[24px] text-grayscale-900 text-left flex items-center max-w-[314px] p-0 placeholder-grayscale-900"
               placeholder={myStock}
               onChange={onChange}
               id="stockInput"
@@ -101,7 +101,9 @@ export default function DropDownB({ profileData }: TDropDownB) {
               className="hidden"
               id="hiddenInput"
               name="myStock"
-              value={myStock} // 전송할 데이터
+              value={
+                myStock != "#관심 종목을 추가해주세요" ? myStock : undefined
+              } // 전송할 데이터
             />
           </div>
         </div>
