@@ -14,7 +14,7 @@ export default function StockHeader({ stockInfo }: Props) {
   return (
     <article className="flex justify-between">
       <div className="flex items-center gap-3">
-        <StockLogoImage width={64} height={64} title={code} />
+        <StockLogoImage width={64} height={64} code={code} />
         <div className="flex gap-2 items-center">
           <HeadingFont level="4" weight="bold">
             {name}

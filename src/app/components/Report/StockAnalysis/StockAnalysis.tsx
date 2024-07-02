@@ -30,7 +30,7 @@ export default async function StockAnalysis({ stockInfo }: Props) {
       <div className="space-y-4">
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-2 ">
-            <StockLogoImage width={32} height={32} />
+            <StockLogoImage width={32} height={32} code={code} />
             <div className="flex gap-1">
               <BodyFont level="3" weight="medium">
                 {name}
