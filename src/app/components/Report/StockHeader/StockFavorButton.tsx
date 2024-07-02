@@ -24,25 +24,14 @@ export default function StockFavorButton({ title }: Props) {
   };
   return (
     <div className="w-[180px]">
-      {favor ? (
-        <TextButton
-          onClick={handleFavor}
-          variant="primary"
-          size="lg"
-          disabled={loading}
-        >
-          관심종목 추가
-        </TextButton>
-      ) : (
-        <TextButton
-          onClick={handleFavor}
-          variant="outline"
-          size="lg"
-          disabled={loading}
-        >
-          관심종목 해제
-        </TextButton>
-      )}
+      <TextButton
+        onClick={handleFavor}
+        variant={`${favor ? "outline" : "primary"}`}
+        size="lg"
+        disabled={loading}
+      >
+        {favor ? "관심종목 추가" : "관심종목 해제"}
+      </TextButton>
     </div>
   );
 }
