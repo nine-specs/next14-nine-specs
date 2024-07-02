@@ -16,24 +16,14 @@ interface Props {
   data?: any;
 }
 export default function StockPolarChart({ data }: Props) {
-  const { fullMark } = data[0];
-
-  const width = 175;
-  const height = 175;
+  const fullMark = 100;
   const dataKey = "subject";
-  const valueKey = "A";
+  const valueKey = "score";
   const PorlarAngle = true;
 
   const outerRadius = (fullMark / 2) * 0.8; // 전체 크기의 80%를 사용
   return (
-    <RadarChart
-      width={175}
-      height={175}
-      cx="50%"
-      cy="50%"
-      outerRadius={outerRadius}
-      data={data}
-    >
+    <RadarChart width={175} height={175} cx="50%" cy="50%" data={data}>
       <PolarGrid stroke="#E9E9E9" strokeWidth={1} outerRadius={3} />
       <PolarAngleAxis tickSize={1} tick={PorlarAngle} dataKey={dataKey} />
       <Radar
