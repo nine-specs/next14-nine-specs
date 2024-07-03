@@ -3,12 +3,12 @@
 import BodyFont from "@/common/BodyFont";
 
 interface Props {
-  selectedValue: string;
+  selectedPeriod: string;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function PeriodRadioButton({
-  selectedValue,
+  selectedPeriod,
   handleChange,
 }: Props) {
   const unselectedStyle = "bg-white text-gray-500";
@@ -25,7 +25,7 @@ export default function PeriodRadioButton({
             id={label}
             name="duration"
             value={label}
-            checked={selectedValue === label}
+            checked={selectedPeriod === label}
             onChange={handleChange}
             style={{
               display: "none",
@@ -34,7 +34,7 @@ export default function PeriodRadioButton({
           <label
             htmlFor={label}
             className={` ${buttonClassName} ${
-              selectedValue === label
+              selectedPeriod === label
                 ? `${selectedStyle}`
                 : `${unselectedStyle}`
             }`}
