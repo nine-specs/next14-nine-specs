@@ -1,12 +1,24 @@
 import { useState, useEffect } from "react";
 
-const useFormValidation = (description: string) => {
+type UseFormValidationReturnType = {
+  fields: Record<string, string>;
+  isButtonDisabled: boolean;
+  handleFieldChange: (fieldName: string, value: string) => void;
+  styleStatus: "default" | "warning";
+  descriptionText?: string;
+  updateDescriptionText: (text: string) => void;
+  updateStyleStatus: (status: "default" | "warning") => void;
+};
+
+const useFormValidation = (
+  description?: string,
+): UseFormValidationReturnType => {
   const [fields, setFields] = useState<Record<string, string>>({});
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [styleStatus, setStyleStatus] = useState<"default" | "warning">(
     "default",
   );
-  const [descriptionText, setDescriptionText] = useState(description);
+  const [descriptionText, setDescriptionText] = useState(description || "");
 
   const validateFields = (fields: Record<string, string>) => {
     const nameValid = /^[^\d\s~`!@#$%^&*()\-_=+[\]{}|\\;:'",.<>?/]+$/.test(
@@ -33,7 +45,7 @@ const useFormValidation = (description: string) => {
     }
     setFields((prevFields) => ({ ...prevFields, [fieldName]: value }));
     setStyleStatus("default"); // 필드 변경 시 스타일 초기화
-    setDescriptionText(description); // 설명 텍스트 초기화
+    setDescriptionText(""); // 설명 텍스트 초기화
   };
 
   const updateDescriptionText = (text: string) => {

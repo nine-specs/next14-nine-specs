@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useRouter } from "next/router";
 import { register } from "./useSign";
+import { useRouter } from "next/navigation";
 
 type HandleSubmitType = (e: React.FormEvent<HTMLFormElement>) => void;
 type HandleModalCloseType = () => void;
