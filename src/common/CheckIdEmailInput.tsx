@@ -50,11 +50,16 @@ export default function CheckIdEmailInput({
     handleButtonClick,
     styleStatus,
     descriptionText,
+    isButtonDisabled,
   } = useInputCheck(description || "", name === "email" ? "email" : "id");
 
   const getButtonVariant = () => {
-    if (!userInput) return "default";
-    return styleStatus === "success" ? "primary" : styleStatus;
+    if (!userInput.trim()) return "default"; // 입력 값이 없으면 default
+    return styleStatus === "success"
+      ? "primary"
+      : styleStatus === "warning"
+      ? "warning"
+      : "primary";
   };
 
   return (
@@ -83,6 +88,7 @@ export default function CheckIdEmailInput({
             variant={getButtonVariant()}
             onClick={handleButtonClick}
             size="sm"
+            disabled={isButtonDisabled}
           >
             {checkLabel}
           </TextButton>

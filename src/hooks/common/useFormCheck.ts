@@ -1,44 +1,39 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useInputCheck } from "./useInputCheck";
 
 export function useFormCheck() {
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [birthdate, setBirthdate] = useState("");
-  const [passwordMatch, setPasswordMatch] = useState(true); // 비밀번호 일치 여부 상태
+  const [passwordMatch, setPasswordMatch] = useState(true);
 
   // 비밀번호 입력 핸들러
   const handlePasswordChange = (value: string) => {
     setPassword(value);
-    // 비밀번호 변경 시 일치 여부 다시 확인
     setPasswordMatch(value === confirmPassword);
   };
 
   const handleConfirmPasswordChange = (value: string) => {
     setConfirmPassword(value);
-    // 비밀번호 확인 변경 시 일치 여부 다시 확인
     setPasswordMatch(password === value);
   };
 
   const isFormValid = () => {
     return (
       name.trim() !== "" &&
-      // email.trim() !== "" &&
       password.trim() !== "" &&
       confirmPassword.trim() !== "" &&
       phone.trim() !== "" &&
       birthdate.trim() !== "" &&
-      passwordMatch // 비밀번호 일치 여부도 추가
+      passwordMatch
     );
   };
 
   return {
     name,
     setName,
-    email,
-    setEmail,
     password,
     setPassword,
     confirmPassword,
@@ -48,7 +43,6 @@ export function useFormCheck() {
     birthdate,
     setBirthdate,
     isFormValid,
-    // 비밀번호 관련 핸들러와 상태 추가
     handlePasswordChange,
     handleConfirmPasswordChange,
     passwordMatch,

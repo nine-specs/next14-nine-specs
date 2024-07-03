@@ -1,5 +1,4 @@
-//이메일 인증 과 아이디중복체크 로직을 하나로 만든모습
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { firestore } from "@/firebase/firebaseConfig";
 
@@ -9,14 +8,23 @@ export function useInputCheck(description: string, type: "id" | "email") {
   const [styleStatus, setStyleStatus] = useState<
     "default" | "warning" | "success"
   >("default");
-
+  const [idChecked, setIdChecked] = useState(false); //아이디 중복체크 상태관리
+  const [emailChecked, setEmailChecked] = useState(false); //이메일 인증체크 상태관리
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const inputRef = useRef<HTMLInputElement>(null);
 
   // 유저 입력 값 조회를 위한 로직
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUserInput(event.target.value);
+    const value = event.target.value;
+    setUserInput(value);
     setStyleStatus("default");
     setDescriptionText(description); // 설명 텍스트 초기화
+
+    if (value.trim()) {
+      setIsButtonDisabled(false);
+    } else {
+      setIsButtonDisabled(true);
+    }
   };
 
   // 버튼 클릭 시 실행될 함수
@@ -67,6 +75,8 @@ export function useInputCheck(description: string, type: "id" | "email") {
         console.log("사용할 수 있는 userId입니다.");
         setStyleStatus("success");
         setDescriptionText("* 사용가능한 아이디입니다.");
+        setIdChecked(true);
+        console.log("idChecked:", idChecked);
       }
     } catch (error) {
       console.error(
@@ -111,6 +121,8 @@ export function useInputCheck(description: string, type: "id" | "email") {
         setDescriptionText(
           "인증 이메일이 발송되었습니다. 이메일을 확인해주세요.",
         );
+        setEmailChecked(true);
+        console.log("emailChecked2:", emailChecked);
       } else {
         setStyleStatus("warning");
         setDescriptionText(data.message || "인증 이메일 발송에 실패했습니다.");
@@ -129,5 +141,9 @@ export function useInputCheck(description: string, type: "id" | "email") {
     handleButtonClick,
     styleStatus,
     descriptionText,
+    //버튼 상태 값
+    idChecked,
+    emailChecked,
+    isButtonDisabled,
   };
 }

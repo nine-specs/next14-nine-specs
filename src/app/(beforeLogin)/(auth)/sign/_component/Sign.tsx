@@ -6,17 +6,20 @@ import TextButton from "@/common/TextButton";
 import { register } from "../../../../../hooks/sign/useSign";
 import HeadingFont from "@/common/HeadingFont";
 import { useFormCheck } from "@/hooks/common/useFormCheck";
+import { Modal } from "@/common/Modal";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Sign() {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const router = useRouter();
+
   const {
     name,
     setName,
-    email,
-    setEmail,
     password,
-    setPassword,
     confirmPassword,
-    setConfirmPassword,
     passwordMatch,
     phone,
     setPhone,
@@ -27,6 +30,25 @@ export default function Sign() {
     handleConfirmPasswordChange,
   } = useFormCheck();
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+    const result = await register(formData);
+
+    if (result?.success) {
+      setModalMessage("회원가입이 완료되었습니다!");
+      setIsModalVisible(true);
+    } else {
+      alert(result?.error || "회원가입에 실패했습니다.");
+    }
+  };
+
+  const handleModalClose = () => {
+    setIsModalVisible(false);
+    router.push("/login");
+  };
+
   return (
     <>
       <section
@@ -35,7 +57,8 @@ export default function Sign() {
       >
         <form
           className="flex flex-col items-center justify-start m-0 w-[590px] h-[668px]shadow-[0px_0px_10px_5px_rgba(203,_203,_203,_0.25)] rounded-[32px] bg-grayscale-0  py-20 pr-5 pl-[22px] box-border gap-[16px] max-w-full mq725:pt-[52px] mq725:pb-[52px] mq725:box-border border "
-          action={register}
+          //action={register}
+          onSubmit={handleSubmit}
         >
           <div className="w-[386px] flex flex-col items-center justify-start gap-[40px] max-w-full mq450:gap-[20px]">
             {/* 타이블 영역 시작  */}
@@ -55,7 +78,6 @@ export default function Sign() {
               <CheckIdEmailInput
                 label="이메일"
                 name="email"
-                value={email}
                 checkLabel="메일 인증"
                 placeholder="이메일을 입력해주세요"
               />
@@ -109,6 +131,7 @@ export default function Sign() {
                 name="phone"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
+                maxLength={11}
               />
               {/* 휴대폰번호 입력 하는곳 끝 */}
 
@@ -119,6 +142,7 @@ export default function Sign() {
                 name="birthdate"
                 value={birthdate}
                 onChange={(e) => setBirthdate(e.target.value)}
+                maxLength={6}
               />
               {/* 생년월일 입력 하는곳 끝 */}
             </div>
@@ -135,6 +159,25 @@ export default function Sign() {
           </div>
         </form>
       </section>
+      {/* 모달 표시 */}
+      {isModalVisible && (
+        <Modal onClose={handleModalClose} size="S2">
+          <div className="flex flex-col items-center justify-start gap-4 p-5 max-w-full">
+            <h1 className="text-xl font-bold text-gray-900">
+              가입이 완료되었습니다.
+            </h1>
+            <div className="text-lg text-gray-900 text-center">
+              <p>{modalMessage}</p>
+              <p>로그인 후 이용해주세요!</p>
+            </div>
+            <div className="w-full flex justify-center">
+              <TextButton variant="primary" onClick={handleModalClose}>
+                로그인하기
+              </TextButton>
+            </div>
+          </div>
+        </Modal>
+      )}
     </>
   );
 }
