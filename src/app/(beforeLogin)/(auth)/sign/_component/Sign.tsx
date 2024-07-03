@@ -25,7 +25,7 @@ export default function Sign() {
   } = useFormCheck();
 
   const { handleSubmit, handleModalClose, modalMessage, isModalVisible } =
-  useSinupHandle();
+    useSinupHandle();
 
   return (
     <>
@@ -58,6 +58,7 @@ export default function Sign() {
                 name="email"
                 checkLabel="메일 인증"
                 placeholder="이메일을 입력해주세요"
+                description=" "
               />
 
               {/* 아이디 입력 하는곳 시작 */}

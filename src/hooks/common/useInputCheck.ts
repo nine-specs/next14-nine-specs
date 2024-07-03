@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { firestore } from "@/firebase/firebaseConfig";
 
@@ -47,15 +47,12 @@ export function useInputCheck(description: string, type: "id" | "email") {
     const userIdRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9_]{6,12}$/;
 
     if (!userId) {
-      console.log("아이디를 입력하세요.");
-      alert("아이디를 입력해주세요.");
       setStyleStatus("warning");
       setDescriptionText("아이디를 입력해주세요.");
       return;
     }
 
     if (!userIdRegex.test(userId)) {
-      console.log("아이디 형식이 올바르지 않습니다.");
       setStyleStatus("warning");
       setDescriptionText(
         "아이디는 영문자와 숫자를 포함한 6~12자로 이루어져야 합니다.",
@@ -68,15 +65,12 @@ export function useInputCheck(description: string, type: "id" | "email") {
       const existingUsers = querySnapshot.docs.map((doc) => doc.data().userId);
 
       if (existingUsers.includes(userId)) {
-        console.log("이미 존재하는 userId입니다.");
         setStyleStatus("warning");
         setDescriptionText("중복된 아이디입니다. 다른 아이디를 사용해주세요.");
       } else {
-        console.log("사용할 수 있는 userId입니다.");
         setStyleStatus("success");
         setDescriptionText("* 사용가능한 아이디입니다.");
         setIdChecked(true);
-        console.log("idChecked:", idChecked);
       }
     } catch (error) {
       console.error(
@@ -91,14 +85,11 @@ export function useInputCheck(description: string, type: "id" | "email") {
   // 이메일 인증 로직
   const handleEmailCheck = async (email: string) => {
     if (!email) {
-      console.log("이메일을 입력하세요.");
-      alert("이메일을 입력해주세요.");
       setStyleStatus("warning");
       setDescriptionText("이메일을 입력해주세요.");
       return;
     }
 
-    console.log(email);
     try {
       const res = await fetch("/api/email", {
         method: "POST",
@@ -107,14 +98,12 @@ export function useInputCheck(description: string, type: "id" | "email") {
         },
         body: JSON.stringify({ email }),
       });
-      console.log(res);
 
       if (!res.ok) {
         throw new Error(`HTTP error! Status: ${res.status}`);
       }
 
       const data = await res.json();
-      console.log(data); // 성공적으로 받은 데이터 확인
 
       if (res.ok) {
         setStyleStatus("success");
@@ -122,15 +111,14 @@ export function useInputCheck(description: string, type: "id" | "email") {
           "인증 이메일이 발송되었습니다. 이메일을 확인해주세요.",
         );
         setEmailChecked(true);
-        console.log("emailChecked2:", emailChecked);
       } else {
         setStyleStatus("warning");
         setDescriptionText(data.message || "인증 이메일 발송에 실패했습니다.");
       }
     } catch (error) {
+      console.error("Fetch error:", error);
       setStyleStatus("warning");
       setDescriptionText("인증 이메일 발송에 실패했습니다.");
-      console.error("Fetch error:", error);
     }
   };
 
@@ -141,7 +129,6 @@ export function useInputCheck(description: string, type: "id" | "email") {
     handleButtonClick,
     styleStatus,
     descriptionText,
-    //버튼 상태 값
     idChecked,
     emailChecked,
     isButtonDisabled,
