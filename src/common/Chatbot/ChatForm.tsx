@@ -5,9 +5,21 @@ import CLOSE_ICON from "../../../public/images/Close_icon.svg";
 
 import useChat from "./_hooks/useChat";
 import MessageBox from "./MessageBox";
+import { useEffect, useRef } from "react";
 
 export default function ChatForm({ onClose }: { onClose: () => void }) {
   const { messages, handleSubmit, input, handleInputChange } = useChat();
+  const messagesBoxRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (messagesBoxRef.current) {
+      messagesBoxRef.current.scrollTo({
+        top: messagesBoxRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, [messages]);
+
   return (
     <>
       <div className="fixed right-0 bottom-0 bg-white w-[480px] h-[640px] shadow-[0_0_16px_5px_rgba(123,123,123,0.25)] rounded-t-[40px] overflow-hidden">
@@ -20,7 +32,10 @@ export default function ChatForm({ onClose }: { onClose: () => void }) {
           </button>
         </header>
 
-        <section className="flex flex-col gap-6 py-8 px-4 h-[488px] overflow-scroll no-scrollbar">
+        <section
+          ref={messagesBoxRef}
+          className="flex flex-col gap-6 py-8 px-4 h-[488px] overflow-scroll no-scrollbar"
+        >
           {messages.map((message) => (
             <MessageBox key={message.id} {...message} />
           ))}
