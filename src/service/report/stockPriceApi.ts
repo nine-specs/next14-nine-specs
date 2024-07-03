@@ -1,3 +1,5 @@
+import { StockPrice } from "@/app/components/Report/type/stockType";
+
 // 데이타 예시
 const day = "dayCandle";
 const week = "weekCandle";
@@ -5,14 +7,6 @@ const month = "monthCandle";
 const yearQuery = "year&range=10"; // 10 years
 const monthQuery = "month&range=1"; // 1 month
 
-export interface StockPrice {
-  localDate: string;
-  closePrice: number;
-  openPrice: number;
-  highPrice: number;
-  lowPrice: number;
-  accumulatedTradingVolume: number;
-}
 /**
  * @param {string} code 주식 코드 해외, 국내  TSLA.O or 293490(카카오게임즈)
  * @param {string} periodType 기간 타입 dayCandle ,  weekCandle , monthCandle,  year , month
