@@ -4,11 +4,8 @@ import Input from "@/common/Input";
 import TextButton from "@/common/TextButton";
 import useFormValidation from "@/hooks/search/useFormValidation";
 
-
 export default function SearchPw() {
-  const { fields, isButtonDisabled, handleFieldChange } =
-    useFormValidation();
-
+  const { fields, isButtonDisabled, handleFieldChange } = useFormValidation();
 
   return (
     <>

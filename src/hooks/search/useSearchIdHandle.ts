@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { registeredId } from "../../hooks/search/useSearchId";
+import { registeredId } from "./useSearchId";
 
 interface SearchResult {
   userId: string;
