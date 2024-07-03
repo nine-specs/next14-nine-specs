@@ -3,17 +3,12 @@ import CheckIdEmailInput from "@/common/CheckIdEmailInput";
 import CheckPwInput from "@/common/CheckPwInput";
 import Input from "@/common/Input";
 import TextButton from "@/common/TextButton";
-import { register } from "../../../../../hooks/sign/useSign";
 import HeadingFont from "@/common/HeadingFont";
 import { useFormCheck } from "@/hooks/common/useFormCheck";
 import { Modal } from "@/common/Modal";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useFormHooks } from "@/hooks/sign/useSignUpHandle";
 
 export default function Sign() {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
-  const router = useRouter();
 
   const {
     name,
@@ -30,24 +25,7 @@ export default function Sign() {
     handleConfirmPasswordChange,
   } = useFormCheck();
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const formData = new FormData(e.currentTarget);
-    const result = await register(formData);
-
-    if (result?.success) {
-      setModalMessage("회원가입이 완료되었습니다!");
-      setIsModalVisible(true);
-    } else {
-      alert(result?.error || "회원가입에 실패했습니다.");
-    }
-  };
-
-  const handleModalClose = () => {
-    setIsModalVisible(false);
-    router.push("/login");
-  };
+  const { handleSubmit, handleModalClose ,modalMessage,isModalVisible} = useFormHooks();
 
   return (
     <>
@@ -100,7 +78,6 @@ export default function Sign() {
                 type="password"
                 description="* 8~20자 이내 숫자,특수문자,영문자로 조합해주세요"
                 value={password}
-                //onChange={(e) => setPassword(e.target.value)}
                 onChange={handlePasswordChange}
                 passwordMatch={passwordMatch}
               />
@@ -113,7 +90,6 @@ export default function Sign() {
                 name="confirmPassword"
                 type="password"
                 value={confirmPassword}
-                // onChange={(e) => setConfirmPassword(e.target.value)}
                 onChange={handleConfirmPasswordChange}
                 passwordMatch={passwordMatch}
                 description={
