@@ -1,7 +1,7 @@
 import BodyFont from "@/common/BodyFont";
 import ButtonFont from "@/common/ButtonFont";
 import { useState } from "react";
-import { termsText } from "./termsText";
+import { termsText } from "../termsText";
 
 interface TTermsComponents {
   option: "termsOfService" | "privacyPolicy";

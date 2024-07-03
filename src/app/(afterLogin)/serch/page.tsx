@@ -1,10 +1,8 @@
-import Input from "@/common/Input";
-import React from "react";
-import Search_icon from "/public/images/Search_icon.svg";
 import BodyFont from "@/common/BodyFont";
 import ButtonFont from "@/common/ButtonFont";
 import Time_icon2 from "/public/images/time_icon2.svg";
 import Close_icon2 from "/public/images/close_icon2.svg";
+import SerchInput from "./_components/SearchInput";
 
 export default function serchPage() {
   const recentKeywordList = [
@@ -35,17 +33,8 @@ export default function serchPage() {
 
   return (
     <div className=" w-[590px] h-[896px] flex flex-col relative gap-8  mx-auto mt-[56px]">
-      <div className=" rounded-lg bg-grayscale-0 flex flex-row items-center  py-0 pl-11 h-[56px] gap-[16px] border-[1px] border-solid border-grayscale-300">
-        {/* 검색창 */}
-        <div className="absolute left-4">
-          <Search_icon />
-        </div>
-        <input
-          className="w-[590px] h-[56px] [border:none] [outline:none] font-body-5-r text-base bg-[transparent] leading-[24px] text-primary-900 text-left flex items-center max-w-[314px] p-0  "
-          name="keyword"
-          placeholder="종목을 검색해주세요"
-        />
-      </div>
+      {/* 검색창 */}
+      <SerchInput />
       {/* 검색창 끝*/}
       {/* 최근검색어 */}
       <div className="w-[590px] h-[488px]  flex flex-col ">

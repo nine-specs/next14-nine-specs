@@ -43,7 +43,7 @@ export async function useUpdateProfile(formData: FormData) {
       // <<DB에 프로필 사진의 URL과 닉네임 업데이트>>
       await updateDoc(userDocRef, {
         profileImage: url,
-        displayName: displayName, // 닉네임도 함께 업데이트
+        displayName: displayName,
         myStock: myStock,
       });
     } catch (error) {
@@ -53,7 +53,7 @@ export async function useUpdateProfile(formData: FormData) {
     console.log("파일이 없습니다.");
     // file이 없을 때는 닉네임과 관심 종목만 업데이트 진행
     await updateDoc(userDocRef, {
-      displayName: displayName, // 닉네임 업데이트
+      displayName: displayName,
       myStock: myStock,
     });
   }
