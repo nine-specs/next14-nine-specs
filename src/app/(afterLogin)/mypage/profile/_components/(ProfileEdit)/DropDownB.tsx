@@ -109,7 +109,7 @@ export default function DropDownB({ profileData }: TDropDownB) {
         </div>
         {/* 셀렉트박스 */}
         {showDropDown && (
-          <div className="flex flex-col justify-center items-start gap-0 z-10 absolute border border-grayscale-300 rounded-lg w-[386px] h-[224px] bg-grayscale-0 mt-1">
+          <div className="flex flex-col justify-center items-start gap-0 z-10 absolute border border-grayscale-300 rounded-lg w-[386px] h-auto max-h-[244px] overflow-auto bg-grayscale-0 mt-1">
             {data.map((item, index) => {
               return (
                 <div

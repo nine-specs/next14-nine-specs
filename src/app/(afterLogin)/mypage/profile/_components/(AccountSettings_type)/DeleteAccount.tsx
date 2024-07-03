@@ -6,8 +6,6 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 import DropDownA from "./DropDownA";
 import BodyFont from "@/common/BodyFont";
 import Input from "@/common/Input";
-import { redirect } from "next/dist/server/api-utils";
-import { revalidatePath } from "next/cache";
 import { useRouter } from "next/navigation";
 interface TDeleteAccount {
   onClose: () => void;

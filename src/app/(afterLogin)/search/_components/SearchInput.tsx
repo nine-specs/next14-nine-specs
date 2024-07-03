@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef } from "react";
 import Search_icon from "/public/images/Search_icon.svg";
-import { useSearchAction } from "@/hooks/profile/useSearchAction";
+import { useSearchAction } from "@/hooks/search/useSearchAction";
 
 export default function SearchInput() {
   const inputRef = useRef<HTMLInputElement>(null);

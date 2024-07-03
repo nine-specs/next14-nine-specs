@@ -21,6 +21,8 @@ export type TUser = {
   userId: string; //아이디
   username: string; //이름
   displayName: string; // 닉네임
+  recentSearchWord: { keyword: string; date: string }[];
+
   //   createdAt: string;
 };
 
@@ -52,6 +54,7 @@ export async function GET(request: Request) {
       username: userData.username,
       displayName: userData.displayName,
       myStock: userData.myStock,
+      recentSearchWord: userData.recentSearchWord,
     };
 
     return new Response(JSON.stringify({ res: "응답함", data: fetchedUser }), {
