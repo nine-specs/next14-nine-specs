@@ -8,7 +8,8 @@ import MessageBox from "./MessageBox";
 import { useEffect, useRef } from "react";
 
 export default function ChatForm({ onClose }: { onClose: () => void }) {
-  const { messages, handleSubmit, input, handleInputChange } = useChat();
+  const { messages, handleSubmit, input, handleInputChange, processing } =
+    useChat();
   const messagesBoxRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -55,7 +56,7 @@ export default function ChatForm({ onClose }: { onClose: () => void }) {
               type="submit"
               variant="primary"
               size="md"
-              disabled={!input}
+              disabled={!input || processing}
             >
               전송
             </TextButton>
