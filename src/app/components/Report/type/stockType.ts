@@ -25,3 +25,14 @@ export interface StockInfo {
   name: string;
   code: string;
 }
+export interface StockPrice {
+  localDate?: string;
+  closePrice?: number;
+  openPrice: number;
+  highPrice: number;
+  lowPrice: number;
+  accumulatedTradingVolume: number;
+  currentPrice?: number;
+  localDateTime?: string;
+  date?: string;
+}
