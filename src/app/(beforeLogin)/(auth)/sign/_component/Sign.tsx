@@ -9,7 +9,6 @@ import { Modal } from "@/common/Modal";
 import { useFormHooks } from "@/hooks/sign/useSignUpHandle";
 
 export default function Sign() {
-
   const {
     name,
     setName,
@@ -25,7 +24,8 @@ export default function Sign() {
     handleConfirmPasswordChange,
   } = useFormCheck();
 
-  const { handleSubmit, handleModalClose ,modalMessage,isModalVisible} = useFormHooks();
+  const { handleSubmit, handleModalClose, modalMessage, isModalVisible } =
+    useFormHooks();
 
   return (
     <>

@@ -38,7 +38,6 @@ export default function SearchId() {
       userData?: { userId: string; createdAt: string };
       message?: string;
     };
-    console.log("123", result);
 
     if (
       result.userData &&

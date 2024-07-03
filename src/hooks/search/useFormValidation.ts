@@ -5,7 +5,7 @@ type UseFormValidationReturnType = {
   isButtonDisabled: boolean;
   handleFieldChange: (fieldName: string, value: string) => void;
   styleStatus: "default" | "warning";
-  descriptionText?: string;
+  descriptionText: string;
   updateDescriptionText: (text: string) => void;
   updateStyleStatus: (status: "default" | "warning") => void;
 };
@@ -18,14 +18,17 @@ const useFormValidation = (
   const [styleStatus, setStyleStatus] = useState<"default" | "warning">(
     "default",
   );
-  const [descriptionText, setDescriptionText] = useState(description || "");
+  const [descriptionText, setDescriptionText] = useState<string>("");
 
   const validateFields = (fields: Record<string, string>) => {
+    // 기본적인 필드 유효성 검사 (이름, 아이디, 이메일)
     const nameValid = /^[^\d\s~`!@#$%^&*()\-_=+[\]{}|\\;:'",.<>?/]+$/.test(
       fields.name || "",
-    );
-    const phoneValid = /^\d{1,11}$/.test(fields.phone || "");
-    return nameValid && phoneValid;
+    );//문자만 가능하도록
+    const userIdValid = fields.userId && fields.userId.length >= 4; //최소 4글자 시작
+    const emailValid = /\S+@\S+\.\S+/.test(fields.email || ""); //이메일 형식어야된다
+
+    return nameValid && userIdValid && emailValid;
   };
 
   useEffect(() => {
