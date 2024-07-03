@@ -40,6 +40,17 @@ export default function ChatForm({ onClose }: { onClose: () => void }) {
           {messages.map((message) => (
             <MessageBox key={message.id} {...message} />
           ))}
+          {processing && (
+            <div className="flex gap-2 items-start">
+              <div className="p-2 bg-background rounded-md max-w-80">
+                <div className="flex gap-1">
+                  <div className="h-1 w-1 bg-primary-500 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                  <div className="h-1 w-1 bg-primary-500 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                  <div className="h-1 w-1 bg-primary-500 rounded-full animate-bounce"></div>
+                </div>
+              </div>
+            </div>
+          )}
         </section>
 
         <form
