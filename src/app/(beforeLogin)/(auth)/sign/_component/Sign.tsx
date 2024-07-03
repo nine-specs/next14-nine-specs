@@ -6,7 +6,7 @@ import TextButton from "@/common/TextButton";
 import HeadingFont from "@/common/HeadingFont";
 import { useFormCheck } from "@/hooks/common/useFormCheck";
 import { Modal } from "@/common/Modal";
-import { useFormHooks } from "@/hooks/sign/useSignUpHandle";
+import { useSinupHandle } from "@/hooks/sign/useSignUpHandle";
 
 export default function Sign() {
   const {
@@ -25,7 +25,7 @@ export default function Sign() {
   } = useFormCheck();
 
   const { handleSubmit, handleModalClose, modalMessage, isModalVisible } =
-    useFormHooks();
+  useSinupHandle();
 
   return (
     <>

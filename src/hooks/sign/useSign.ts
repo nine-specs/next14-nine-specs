@@ -5,11 +5,6 @@ import { collection, addDoc, getDocs } from "firebase/firestore";
 import { firestore } from "../../firebase/firebaseConfig";
 import { redirect } from "next/navigation";
 
-type RegisterResult = {
-  success: boolean;
-  error?: string;
-};
-
 export async function register(formData: FormData) {
   const userData = {
     name: formData.get("name") as string,

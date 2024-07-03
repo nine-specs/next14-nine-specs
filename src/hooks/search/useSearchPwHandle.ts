@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { register } from "./useSign";
 import { useRouter } from "next/navigation";
+import { registeredPw } from "./useSearchPw";
 
 type HandleSubmitType = (e: React.FormEvent<HTMLFormElement>) => void;
 type HandleModalCloseType = () => void;
 
-export const useSinupHandle = (): {
+export const useSearchPwHandle = (): {
   handleSubmit: HandleSubmitType;
   handleModalClose: HandleModalCloseType;
   modalMessage: string;
@@ -19,13 +19,11 @@ export const useSinupHandle = (): {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
-    const result = await register(formData);
+    const result = await registeredPw(formData);
 
     if (result?.success) {
-      setModalMessage("회원가입이 완료되었습니다!");
+      setModalMessage("임시 비밀번호가 발급되었습니다.");
       setIsModalVisible(true);
-    } else {
-      alert(result?.error || "회원가입에 실패했습니다.");
     }
   };
 
