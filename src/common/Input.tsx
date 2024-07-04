@@ -1,5 +1,7 @@
 "use client";
 
+import React from "react";
+
 interface InputProps {
   type?: string;
   placeholder?: string;
@@ -10,32 +12,61 @@ interface InputProps {
   className?: string;
   children?: React.ReactNode;
   name?: string;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  styleStatus?: "default" | "warning"; // styleStatus 속성 추가
+  maxLength?: number;
 }
 
+const labelVariants = {
+  default: "text-black",
+  warning: "text-warning",
+};
+const inputVariants = {
+  default: "border-grayscale-300 [&>input]:text-black",
+  warning: "border-warning [&>input]:text-warning",
+};
+const descriptionVariants = {
+  default: "text-grayscale-700",
+  warning: "text-warning",
+};
+
 export default function Input({
-  type = "text", //기본 속성타입
-  placeholder, //속성 text
+  type = "text",
+  placeholder,
   value,
-  label, //위에 경고 관련 (아이디, 비밀번호)
-  description, //입력값 설명
-  name, //form data 로 필요함
+  label,
+  description,
+  name,
+  onChange,
   children,
-  className, //스타일 추가 할때 사용
+  className,
+  styleStatus = "default", // 기본값을 "default"로 설정
+  maxLength,
 }: InputProps) {
   return (
     <div className="self-stretch flex flex-col items-start justify-start gap-[4px]">
-      {label && <label className="block mb-2">{label}</label>}
-      <div className="self-stretch rounded-lg bg-grayscale-0 flex flex-row items-center justify-between py-0 px-[15px] h-[56px] gap-[16px] border-[1px] border-solid border-grayscale-300">
+      {label && (
+        <label className={`block mb-2 ${labelVariants[styleStatus]}`}>
+          {label}
+        </label>
+      )}
+      <div
+        className={`self-stretch rounded-lg bg-grayscale-0 flex flex-row items-center justify-between py-0 px-[15px] h-[56px] gap-[16px] border-[1px] border-solid ${inputVariants[styleStatus]}`}
+      >
         <input
           className="w-[314px] [border:none] [outline:none] font-body-5-r text-base bg-[transparent] h-full leading-[24px] text-grayscale-400 text-left flex items-center max-w-[314px] p-0"
           type={type}
           name={name}
           placeholder={placeholder}
           value={value}
+          onChange={onChange}
+          maxLength={maxLength}
         />
       </div>
       {description && (
-        <label className=" text-sm text-grayscale-700">{description}</label>
+        <label className={`text-sm ${descriptionVariants[styleStatus]}`}>
+          {description}
+        </label>
       )}
     </div>
   );
