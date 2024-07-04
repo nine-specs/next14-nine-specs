@@ -21,6 +21,7 @@ export default function ListWrap({
   height = "240px",
   padding = "lg",
   border = false,
+  className,
   children,
 }: ListWrapProps) {
   return (
@@ -29,6 +30,7 @@ export default function ListWrap({
         className={`rounded-2xl min-w-[320px]
         ${paddingVariants[padding]}
         ${border ? bordered : ""}
+        ${className}
         `}
         style={{
           backgroundColor: bgColor,
