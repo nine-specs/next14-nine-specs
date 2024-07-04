@@ -11,7 +11,7 @@ type ModalProps = {
   S7-8 : 관심주식 
   
   */
-  size: "S1" | "S2" | "S3" | "S4" | "S5" | "S6" | "S7" | "S8";
+  size: "S1" | "S2" | "S3" | "S4" | "S5" | "S6" | "S7" | "S8" |"S9";
   children: React.ReactNode;
   onClose?: () => void;
 };
@@ -27,6 +27,7 @@ export const Modal = ({ size, children, onClose }: ModalProps) => {
     S6: "w-[590px] h-[892px]",
     S7: "w-[794px] h-[571px]",
     S8: "w-[794px] h-[735px]",
+    S9: "w-[590px] h-[400px]",
   };
 
   return (

@@ -5,6 +5,7 @@ import BodyFont from "@/common/BodyFont";
 import HeadingFont from "@/common/HeadingFont";
 import TextButton from "@/common/TextButton";
 import CHECK_ICON from "../../../../../../public/images/Check_icon.svg";
+import Link from "next/link";
 
 export default function Agreement() {
   const [allCheck, setAllCheck] = useState(false);
@@ -141,12 +142,14 @@ export default function Agreement() {
               </label>
             </section>
           </div>
-          <TextButton
-            variant="primary"
-            disabled={!serviceCheck || !privacyCheck}
-          >
-            다음
-          </TextButton>
+          <Link href="/sign">
+            <TextButton
+              variant="primary"
+              disabled={!serviceCheck || !privacyCheck}
+            >
+              다음
+            </TextButton>
+          </Link>
         </form>
       </main>
     </>

@@ -8,15 +8,15 @@ import { redirect } from "next/navigation";
 export async function register(formData: FormData) {
   const userData = {
     name: formData.get("name") as string,
+    email: formData.get("email") as string,
     userId: formData.get("userId") as string,
     password: formData.get("password") as string,
     confirmPassword: formData.get("confirmPassword") as string,
     phone: formData.get("phone") as string,
     birthdate: formData.get("birthdate") as string,
-    // email: formData.get("email") as string,
   };
- 
-  const { name, userId, password, confirmPassword, phone, birthdate } =
+
+  const { name, userId, email, password, confirmPassword, phone, birthdate } =
     userData;
 
   // 입력값 및 유효성 검사
@@ -24,6 +24,12 @@ export async function register(formData: FormData) {
 
   if (!name) {
     missingFields.push("이름을 입력해주세요");
+    console.log(`${missingFields.join("\n")}`);
+    return;
+  }
+
+  if (!email) {
+    missingFields.push("이메일을 입력해주세요");
     console.log(`${missingFields.join("\n")}`);
     return;
   }
@@ -117,13 +123,17 @@ export async function register(formData: FormData) {
       password: hashedPassword,
       phone: phone,
       birthdate: birthdate,
-      //   email: email,
+      email: email,
       createdAt: createdAt,
+      accountType: "A", //일반회원가입
     });
     console.log("회원 가입 성공!");
+    return { success: true };
   } catch (error) {
     console.error("Error adding document: ", error);
-  } finally {
-    redirect("/login");
+    return { success: false, error: "회원가입에 실패했습니다." };
   }
+  // finally {
+  //   redirect("/login");
+  // }
 }
