@@ -15,7 +15,7 @@ const paddingVariants = {
 
 const bordered = "border border-primary-200 box-border";
 
-export default function CardWrap({
+export default function ListWrap({
   bgColor = "white",
   width = "320px",
   height = "240px",
