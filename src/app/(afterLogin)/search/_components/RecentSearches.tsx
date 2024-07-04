@@ -110,7 +110,10 @@ export default function RecentSearches({ recentSearchData }: TSearchData) {
                       >
                         {a.date}
                       </BodyFont>
-                      <div onClick={() => deleteRecentWord(a.keyword)}>
+                      <div
+                        onClick={() => deleteRecentWord(a.keyword)}
+                        className="cursor-pointer"
+                      >
                         <Close_icon2 />
                       </div>
                     </div>

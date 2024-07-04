@@ -1,19 +1,33 @@
 import React from "react";
 import BodyFont from "@/common/BodyFont";
 import ButtonFont from "@/common/ButtonFont";
-export default function PopularSearches() {
-  const popularSearchList = [
-    { rank: 1, keyword: "테슬라" },
-    { rank: 2, keyword: "애플" },
-    { rank: 3, keyword: "테슬라" },
-    { rank: 4, keyword: "테슬라" },
-    { rank: 5, keyword: "테슬라" },
-    { rank: 6, keyword: "테슬라" },
-    { rank: 7, keyword: "코카콜라" },
-    { rank: 8, keyword: "테슬라" },
-    { rank: 9, keyword: "테슬라" },
-    { rank: 10, keyword: "테슬라" },
-  ];
+
+type TPopularSearchesProps = {
+  PopularSearchData: {
+    id: string;
+    stockName: string;
+  }[];
+};
+
+export default function PopularSearches({
+  PopularSearchData,
+}: TPopularSearchesProps) {
+  // 가져온 인기검색어가 빈배열이면 더미데이터 표시.아니라면 데이터를 그대로 표시한다.
+  const popularSearchList =
+    PopularSearchData.length != 0
+      ? PopularSearchData
+      : [
+          { stockName: "테슬라" },
+          { stockName: "애플" },
+          { stockName: "테슬라" },
+          { stockName: "테슬라" },
+          { stockName: "테슬라" },
+          { stockName: "테슬라" },
+          { stockName: "코카콜라" },
+          { stockName: "테슬라" },
+          { stockName: "테슬라" },
+          { stockName: "테슬라" },
+        ];
   return (
     <>
       <div className="w-[590px] h-[288px]   flex flex-col ">
@@ -44,7 +58,7 @@ export default function PopularSearches() {
                           weight="regular"
                           className="text-primary-900"
                         >
-                          {a.rank}
+                          {i + 1}
                         </BodyFont>
                       </div>
                       <BodyFont
@@ -52,7 +66,7 @@ export default function PopularSearches() {
                         weight="regular"
                         className="text-grayscale-600"
                       >
-                        {a.keyword}
+                        {a.stockName}
                       </BodyFont>
                     </div>
                   );
@@ -73,7 +87,7 @@ export default function PopularSearches() {
                           weight="regular"
                           className="text-primary-900"
                         >
-                          {a.rank}
+                          {i + 1}
                         </BodyFont>{" "}
                       </div>
                       <BodyFont
@@ -81,7 +95,7 @@ export default function PopularSearches() {
                         weight="regular"
                         className="text-grayscale-600"
                       >
-                        {a.keyword}
+                        {a.stockName}
                       </BodyFont>
                     </div>
                   );
