@@ -21,17 +21,19 @@ export default function SearchInput() {
     console.log("Pressed key:", pressedKey);
 
     if (pressedKey === "Enter") {
+      console.log("엔터클릭");
       //엔터 누를 시 검색form 제출
       if (formRef.current) {
+        e.preventDefault();
         formRef.current.submit();
       }
     }
   };
 
   useEffect(() => {
-    const seachInput = inputRef.current;
+    const searchInput = inputRef.current;
 
-    if (seachInput) {
+    if (searchInput) {
       const handleFocus = () => {
         window.addEventListener("keydown", handleKeyDown);
       };
@@ -39,9 +41,9 @@ export default function SearchInput() {
         window.removeEventListener("keydown", handleKeyDown);
       };
       // 검색창에 커서 포커스 상태에서 키보드이벤트 리스너에 추가.
-      seachInput.addEventListener("focus", handleFocus);
+      searchInput.addEventListener("focus", handleFocus);
       // 커서 포커스 x -> 키보드이벤트 제거
-      seachInput.addEventListener("blur", handleBlur);
+      searchInput.addEventListener("blur", handleBlur);
     }
   }, []);
 

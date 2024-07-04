@@ -28,7 +28,7 @@ export async function useSearchAction(formData: FormData) {
   try {
     // 주식종목명 = keyword인 주식종목의 searchCount +1
     const stocksRef = collection(firestore, "stocks");
-    const q = query(stocksRef, where("stockname", "==", keyword));
+    const q = query(stocksRef, where("stockName", "==", keyword));
     const querySnapshot = await getDocs(q);
     console.log("querySnapshot:" + querySnapshot.docs[0]);
 
