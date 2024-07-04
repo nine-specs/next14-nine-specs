@@ -28,7 +28,7 @@ export default function CardWrap({
     <>
       {/* 기본 스타일  배경은 흰색, 라운드는 2xl, 패딩은 8*/}
       <article
-        className={`rounded-2xl ${padding && "p-8"}  min-w-[320px]`}
+        className={`rounded-2xl ${padding && "p-8"} `}
         style={{
           backgroundColor: bgColor,
           width,
