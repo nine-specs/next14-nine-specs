@@ -1,5 +1,5 @@
 import CaptionFont from "@/common/CaptionFont";
-import CheckIdInput from "@/common/CheckIdInput";
+import CheckIdEmailInput from "@/common/CheckIdEmailInput";
 import HeadingFont from "@/common/HeadingFont";
 import Input from "@/common/Input";
 import { Modal } from "@/common/Modal";
@@ -33,7 +33,15 @@ export default function UpdateUserInfo({
             정보 수정
           </HeadingFont>
           <div className="flex flex-col  gap-[16px] self-stretch ">
-            <CheckIdInput label="아이디" placeholder="아이디를 입력해주세요" />
+            {/* 아이디 입력 하는곳 시작 */}
+            <CheckIdEmailInput
+              label="아이디"
+              name="userId"
+              description="* 6~12자의 영문,숫자,_를 이용한 조합"
+              checkLabel="중복 확인"
+              placeholder="아이디를 입력해주세요"
+            />
+            {/* 아이디 입력 하는곳 끝 */}
             <div>
               <Input
                 type="password"

@@ -1,4 +1,3 @@
-import CheckIdInput from "@/common/CheckIdInput";
 import HeadingFont from "@/common/HeadingFont";
 import { Modal } from "@/common/Modal";
 import TextButton from "@/common/TextButton";
