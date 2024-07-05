@@ -6,7 +6,7 @@ import MoreButton from "../_ui/MoreButton";
 
 import SAMPLE_03 from "../../../../../public/images/news/NewsSample_03.png";
 
-export default function RelatedNewsItem() {
+export default function FavoriteStockRelatedNewsItem() {
   return (
     <>
       <CardWrap

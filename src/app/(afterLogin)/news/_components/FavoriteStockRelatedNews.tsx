@@ -1,7 +1,7 @@
 import Title from "../_ui/Title";
-import RelatedNewsItem from "./RelatedNewsItem";
+import FavoriteStockRelatedNewsItem from "./FavoriteStockRelatedNewsItem";
 
-export default function RelatedNews() {
+export default function FavoriteStockRelatedNews() {
   return (
     <>
       <section className="w-full mb-12">
@@ -9,7 +9,7 @@ export default function RelatedNews() {
         <ul className="flex gap-5">
           {Array.from({ length: 3 }, (_, index) => (
             <li key={index} className="w-[33%]">
-              <RelatedNewsItem />
+              <FavoriteStockRelatedNewsItem />
             </li>
           ))}
         </ul>
