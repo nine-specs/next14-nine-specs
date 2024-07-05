@@ -12,6 +12,8 @@ const useChat = () => {
   const aiMessageRef = useRef<string>("");
   const [processing, setProcessing] = useState(false);
 
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL as string;
+
   useEffect(() => {
     if (!messages.length) {
       setMessages([
@@ -45,7 +47,7 @@ const useChat = () => {
     setInput("");
 
     try {
-      const chatResponse = await fetch("http://localhost:3000/api/ai/chat", {
+      const chatResponse = await fetch(`${BASE_URL}/api/ai/chat`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

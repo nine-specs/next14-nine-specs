@@ -31,6 +31,7 @@ export async function POST(request: Request) {
   const { userInput } = await request.json();
 
   const LLAMA_REPLY_URL = process.env.LLAMA_REPLY_URL as string;
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL as string;
 
   const system = `You're a professional stock advisor. You provide information and advice to clients about the stock market, individual stocks, and investment strategies. Please follow these guidelines:
   1. always provide objective, factual information.
@@ -49,7 +50,7 @@ export async function POST(request: Request) {
   };
 
   const token = await (
-    await fetch("http://localhost:3000/api/ai/token", { cache: "no-store" })
+    await fetch(`${BASE_URL}/api/ai/token`, { cache: "no-store" })
   ).json();
 
   const response = await fetch(LLAMA_REPLY_URL, {
