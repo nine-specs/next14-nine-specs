@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export type MessagesType = {
   content: string;
@@ -9,6 +9,7 @@ export type MessagesType = {
 const useChat = () => {
   const [messages, setMessages] = useState<MessagesType[]>([]);
   const [input, setInput] = useState("");
+  const aiMessageRef = useRef<string>("");
   const [processing, setProcessing] = useState(false);
 
   useEffect(() => {
@@ -35,25 +36,32 @@ const useChat = () => {
     setProcessing(true);
 
     const userInput = input.trim();
+    if (!userInput) return;
 
-    if (userInput) {
-      setMessages((prev) => [
-        ...prev,
-        { content: input, role: "user", id: Date.now().toString() },
-      ]);
-      setInput("");
-    }
+    setMessages((prev) => [
+      ...prev,
+      { content: input, role: "user", id: Date.now().toString() },
+    ]);
+    setInput("");
 
     try {
-      const response = await fetch("http://localhost:3000/api/ai/stream");
-      if (!response.ok) {
+      const chatResponse = await fetch("http://localhost:3000/api/ai/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userInput }),
+      });
+
+      if (!chatResponse.ok) {
         throw new Error("Network response was not ok.");
       }
 
-      const reader = response.body!.getReader();
-      console.log("🚀 ~ handleSubmit ~ response:", response);
+      if (!chatResponse.body) {
+        return Response.json({ error: "No response body" }, { status: 500 });
+      }
 
-      let totalText = "";
+      const reader = chatResponse.body.getReader();
 
       while (true) {
         const { done, value } = await reader.read();
@@ -62,14 +70,32 @@ const useChat = () => {
           break;
         }
         const text = new TextDecoder().decode(value);
-        console.log("받은 데이터:", text);
-        totalText += text;
+        // console.log("받은 데이터:", text);
+
+        aiMessageRef.current += text;
+
+        setMessages((prev) => {
+          const updatedMessages = [...prev];
+          const lastIndex = updatedMessages.length - 1;
+
+          if (updatedMessages[lastIndex]?.role === "ai") {
+            updatedMessages[lastIndex] = {
+              ...updatedMessages[lastIndex],
+              content: aiMessageRef.current,
+            };
+          } else {
+            updatedMessages.push({
+              content: aiMessageRef.current,
+              role: "ai",
+              id: Date.now().toString(),
+            });
+          }
+
+          return updatedMessages;
+        });
       }
 
-      setMessages((prev) => [
-        ...prev,
-        { content: totalText, role: "ai", id: Date.now().toString() },
-      ]);
+      aiMessageRef.current = "";
     } catch (error) {
       console.error("스트림 처리 중 에러:", error);
     } finally {
