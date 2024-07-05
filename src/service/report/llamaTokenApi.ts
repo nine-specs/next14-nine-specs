@@ -1,13 +1,17 @@
 /**
- * llama3 의 토큰을 받아오는 함수
- * userid ,password ,url env에서 관리 할 것 같아 인자값으로 안 받는게 좋을 듯
+ * llama3 의 인증 토큰을 받아오는 함수
  * @returns {string} - access_token 반환 토큰
  */
-export const gptTokenApi = async (): Promise<string> => {
-  const USER_ID = process.env.NEXT_PUBLIC_USER_ID || ""; // 나중에 env로 빼기
-  const PASSWORD = process.env.NEXT_PUBLIC_USER_PW || ""; // 나중에 env로 빼기
-  const URL = process.env.NEXT_PUBLIC_GPT_TOKEN_URL || ""; // 나중에 env로 빼기
+export const getLlamaToken = async (): Promise<string> => {
+  const USER_ID = process.env.LLAMA_USER_ID; // 나중에 env로 빼기
+  const PASSWORD = process.env.LLAMA_USER_PW; // 나중에 env로 빼기
+  const URL = process.env.LLAMA_TOKEN_URL; // 나중에 env로 빼기
 
+  if (!USER_ID || !PASSWORD || !URL) {
+    throw new Error(
+      "NEXT 환경 변수를 불러오지 못했습니다. 환경 변수를 확인해주세요",
+    );
+  }
   const formData = new FormData();
   formData.append("username", USER_ID);
   formData.append("password", PASSWORD);
@@ -23,7 +27,7 @@ export const gptTokenApi = async (): Promise<string> => {
 
     // no-store 값은 캐시를 절대로 해서는 안 되는 리소스일 때 사용합니다. 캐시를 만들어서 저장조차 하지 말라는 가장 강력한 Cache-Control 값입니다. no-store를 사용하면 브라우저는 어떤 경우에도 캐시 저장소에 해당 리소스를 저장하지 않습니다.
     if (!response.ok) {
-      throw new Error("HTTP Error: " + response.status);
+      throw new Error("토큰 갱신 실패: " + response.status);
     }
 
     const tokenData = await response.json();
