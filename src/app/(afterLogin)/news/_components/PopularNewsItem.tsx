@@ -15,15 +15,15 @@ export default function PopularNewsItem({ index }: { index: number }) {
         padding={false}
         className="overflow-hidden relative before:absolute before:inset-x-0 before:bottom-0 before:h-1/2 before:bg-gradient-to-t before:from-[#3f3f3f]"
       >
-        <div>
-          <Image
-            src={SAMPLE_01}
-            alt=""
-            className="object-cover object-center"
-          />
-        </div>
-        <div className="absolute inset-x-0 bottom-0 text-white p-6 z-20">
-          <Link href="">
+        <Link href="">
+          <div>
+            <Image
+              src={SAMPLE_01}
+              alt=""
+              className="object-cover object-center"
+            />
+          </div>
+          <div className="absolute inset-x-0 bottom-0 text-white p-6 z-20">
             <BodyFont level="1" weight="bold" className="mb-[14px]">
               엔비디아 또 신고가... 시총 2위 애플과 962억달러 차이
             </BodyFont>
@@ -43,16 +43,16 @@ export default function PopularNewsItem({ index }: { index: number }) {
                 차세대 인공지능(AI) GPU 발표했다.
               </BodyFont>
             )}
-          </Link>
-          <aside className="flex gap-2 before:content-['∙'] before:order-2">
-            <BodyFont level="5" weight="medium" className="order-1">
-              2024.06.05
-            </BodyFont>
-            <BodyFont level="5" weight="medium" className="order-3">
-              문화일보
-            </BodyFont>
-          </aside>
-        </div>
+            <aside className="flex gap-2 before:content-['∙'] before:order-2">
+              <BodyFont level="5" weight="medium" className="order-1">
+                2024.06.05
+              </BodyFont>
+              <BodyFont level="5" weight="medium" className="order-3">
+                문화일보
+              </BodyFont>
+            </aside>
+          </div>
+        </Link>
       </CardWrap>
     </>
   );
