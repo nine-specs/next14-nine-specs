@@ -2,14 +2,15 @@ type ListWrapProps = {
   bgColor?: string;
   width?: string;
   height?: string;
-  padding?: "sm" | "lg";
+  padding?: "sm" | "md" | "lg";
   border?: boolean;
   className?: string;
   children?: React.ReactNode;
 };
 
 const paddingVariants = {
-  lg: "p-8",
+  lg: "p-12",
+  md: "p-8",
   sm: "px-4 py-6",
 };
 
