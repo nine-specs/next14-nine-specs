@@ -14,7 +14,7 @@ export default function MessageBox(props: MessagesType) {
           weight="regular"
           className="p-2 bg-grayscale-100 rounded-md max-w-80"
         >
-          User: {content}
+          {content}
         </BodyFont>
       </div>
     );
@@ -30,7 +30,7 @@ export default function MessageBox(props: MessagesType) {
           weight="regular"
           className="p-2 bg-background rounded-md max-w-80"
         >
-          AI: {content}
+          {content}
         </BodyFont>
       </div>
     );
