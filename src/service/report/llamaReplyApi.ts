@@ -1,4 +1,4 @@
-export interface GptReplyApiProps {
+export interface getLlamaReplyParams {
   token: string;
   userMessage: string;
   temperature: number;
@@ -18,15 +18,13 @@ export interface GptReplyApiProps {
  * @param {boolean} stream - 스트림 여부
  * @returns
  */
-export async function gptReplyApi({
+export async function getLlamaReply({
   token,
-  userMessage = `<|begin_of_text|><|start_header_id|>user<|end_header_id|>
-주식 기초에 대해 알려줘<|eot_id|>
-<|start_header_id|>assistant<|end_header_id|>`,
-  temperature = 0.5,
-  topP = 0.5,
-  stream = false,
-}: GptReplyApiProps): Promise<string | null> {
+  userMessage,
+  temperature,
+  topP,
+  stream,
+}: getLlamaReplyParams): Promise<string> {
   // 사용자가 입력한 메세지를 gpt에 요청을 보내기 위해 사전에 준비한 Propmt 형식으로 변환
 
   const generateBody = {
@@ -35,7 +33,7 @@ export async function gptReplyApi({
     top_p: topP,
     stream: stream,
   };
-  const URL = process.env.NEXT_PUBLIC_GPT_REPLY_URL || "";
+  const URL = process.env.LLAMA_REPLY_URL || "";
 
   try {
     // let token = await gptTokenApi(); // 토큰을 인자로 받아 올 것인지 gpt 통신시 받아올 것인지 고민
@@ -58,15 +56,13 @@ export async function gptReplyApi({
         // done 은 스트림이 끝났는지 아닌지를 나타내는 값, value는 스트림의 데이터를 나타냄
         // 해당 작업이 끝나면 done이 true가 됨
         if (done) {
-          console.log("통신 완료");
           return result; // 스트림이 끝나면 result를 반환
         }
         result += new TextDecoder().decode(value); // 스트림 데이터를 누적하여 result에 저장
       }
     }
-    return null; // response.body가 없을 경우 null 반환
+    throw new Error("gptReplyApi 통신 에러");
   } catch (error) {
-    console.error("Fetch error:", error);
-    return null; // 통신 장애 에러 발생 시 null 반환
+    throw new Error("gptReplyApi 통신 실패");
   }
 }
