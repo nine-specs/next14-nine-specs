@@ -8,7 +8,7 @@ import React, { useRef, useState } from "react";
 import {
   DeleteAllSearchData,
   DeleteSearchData,
-} from "@/hooks/search/useDeleteSearchData";
+} from "@/hooks/discovery/useDeleteSearchData";
 type TSearchData = {
   recentSearchData: {
     keyword: string;

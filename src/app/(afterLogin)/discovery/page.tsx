@@ -4,7 +4,7 @@ import PopularSearches from "./_components/PopularSearches";
 import {
   getPopularSearches,
   getRecentSearches,
-} from "@/hooks/search/useGetSearchData";
+} from "@/hooks/discovery/useGetSearchData";
 
 export default async function searchPage() {
   //최근 검색 데이터 가져오기

@@ -11,9 +11,11 @@ export default function favoritePage() {
           <HeadingFont level="4" weight="bold" className="text-primary-900">
             김스팩님의 관심종목
           </HeadingFont>
-          <TextButton variant="primary" size="sm" className="w-[189px]">
-            관심종목 추가
-          </TextButton>
+          <div className="w-[189px]">
+            <TextButton variant="primary" size="sm">
+              관심종목 추가
+            </TextButton>
+          </div>
         </div>
         <div className="flex flex-col justify-between gap-6">
           <div className="w-[1214px] h-[360px]  flex justify-between gap-[19px]">

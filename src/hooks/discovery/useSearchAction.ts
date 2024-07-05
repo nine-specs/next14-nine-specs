@@ -10,6 +10,7 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
+import { revalidatePath } from "next/cache";
 
 export async function useSearchAction(formData: FormData) {
   const keyword = formData.get("keyword") as string;
@@ -64,7 +65,7 @@ export async function useSearchAction(formData: FormData) {
     console.log("에러 발생:", error);
   }
 
+  revalidatePath(`/discovery/${keyword}`);
   // 5. keyword = 연관 종목인 뉴스 도커먼트 가져오기
   // 6. Keyword = 주식종목명인 주식종목 가져오기
-  return;
 }
