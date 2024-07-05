@@ -16,7 +16,7 @@ export default function RecentNews() {
         <Title title="최신 뉴스" />
         <ListWrap width="100%" height="148">
           <ul className="flex flex-col gap-8">
-            {Array.from({ length: 5 }, (_, index) => (
+            {Array.from({ length: 4 }, (_, index) => (
               <li
                 key={index}
                 className="flex gap-5 pb-8 mt-5 border-b border-gray-400 first:mt-0 last:border-none last:pb-0"
