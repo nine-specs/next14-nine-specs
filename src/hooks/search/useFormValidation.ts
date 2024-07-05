@@ -24,11 +24,16 @@ const useFormValidation = (
     // 기본적인 필드 유효성 검사 (이름, 아이디, 이메일)
     const nameValid = /^[^\d\s~`!@#$%^&*()\-_=+[\]{}|\\;:'",.<>?/]+$/.test(
       fields.name || "",
-    );//문자만 가능하도록
-    const userIdValid = fields.userId && fields.userId.length >= 4; //최소 4글자 시작
-    const emailValid = /\S+@\S+\.\S+/.test(fields.email || ""); //이메일 형식어야된다
+    ); // 문자만 가능하도록
+    const userIdValid = fields.userId ? fields.userId.length >= 4 : true; // 최소 4글자 시작, 없으면 true
+    const emailValid = fields.email
+      ? /\S+@\S+\.\S+/.test(fields.email || "")
+      : true; // 이메일 형식어야 된다, 없으면 true
+    const phoneValid = fields.phone
+      ? /^\d{0,11}$/.test(fields.phone || "")
+      : true; // 전화번호는 숫자만 가능
 
-    return nameValid && userIdValid && emailValid;
+    return nameValid && userIdValid && emailValid && phoneValid;
   };
 
   useEffect(() => {

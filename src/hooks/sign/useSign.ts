@@ -9,6 +9,7 @@ export async function register(formData: FormData) {
   const userData = {
     name: formData.get("name") as string,
     email: formData.get("email") as string,
+    nick: formData.get("nick") as string,
     userId: formData.get("userId") as string,
     password: formData.get("password") as string,
     confirmPassword: formData.get("confirmPassword") as string,
@@ -16,8 +17,16 @@ export async function register(formData: FormData) {
     birthdate: formData.get("birthdate") as string,
   };
 
-  const { name, userId, email, password, confirmPassword, phone, birthdate } =
-    userData;
+  const {
+    name,
+    userId,
+    email,
+    nick,
+    password,
+    confirmPassword,
+    phone,
+    birthdate,
+  } = userData;
 
   // 입력값 및 유효성 검사
   const missingFields = [];
@@ -30,6 +39,12 @@ export async function register(formData: FormData) {
 
   if (!email) {
     missingFields.push("이메일을 입력해주세요");
+    console.log(`${missingFields.join("\n")}`);
+    return;
+  }
+
+  if (!nick) {
+    missingFields.push("닉네임을 입력해주세요");
     console.log(`${missingFields.join("\n")}`);
     return;
   }
@@ -119,6 +134,8 @@ export async function register(formData: FormData) {
     const hashedPassword = await hash(String(password), 10);
     await addDoc(collection(firestore, "users"), {
       name: name,
+      nick: nick,
+      image: "",
       userId: userId,
       password: hashedPassword,
       phone: phone,

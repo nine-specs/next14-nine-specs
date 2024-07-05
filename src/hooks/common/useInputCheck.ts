@@ -2,7 +2,10 @@ import { useState, useRef } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { firestore } from "@/firebase/firebaseConfig";
 
-export function useInputCheck(description: string, type: "id" | "email") {
+export function useInputCheck(
+  description: string,
+  type: "userId" | "email" | "nick",
+) {
   const [userInput, setUserInput] = useState(""); // 유저가 입력값 상태
   const [descriptionText, setDescriptionText] = useState(description); // 설명 텍스트 상태
   const [styleStatus, setStyleStatus] = useState<
@@ -10,6 +13,7 @@ export function useInputCheck(description: string, type: "id" | "email") {
   >("default");
   const [idChecked, setIdChecked] = useState(false); //아이디 중복체크 상태관리
   const [emailChecked, setEmailChecked] = useState(false); //이메일 인증체크 상태관리
+  const [nickChecked, setNickChecked] = useState(false); // 닉네임 중복 체크 상태 관리
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -34,10 +38,16 @@ export function useInputCheck(description: string, type: "id" | "email") {
     event.preventDefault(); // 기본 동작 방지
     const input = userInput.trim(); // 입력값에서 공백 제거
 
-    if (type === "id") {
+    console.log(type);
+    if (type === "userId") {
+      console.log(1);
       await handleIdCheck(input);
     } else if (type === "email") {
+      console.log(2);
       await handleEmailCheck(input);
+    } else if (type === "nick") {
+      console.log(3);
+      await handleNickCheck(input);
     }
   };
 
@@ -119,6 +129,36 @@ export function useInputCheck(description: string, type: "id" | "email") {
       console.error("Fetch error:", error);
       setStyleStatus("warning");
       setDescriptionText("인증 이메일 발송에 실패했습니다.");
+    }
+  };
+  const handleNickCheck = async (nickname: string) => {
+    if (!nickname) {
+      setStyleStatus("warning");
+      setDescriptionText("닉네임을 입력해주세요.");
+      return;
+    }
+
+    try {
+      const querySnapshot = await getDocs(collection(firestore, "users"));
+      const existingNicks = querySnapshot.docs.map((doc) => doc.data().nick);
+
+      if (existingNicks.includes(nickname)) {
+        console.log("12", nickname);
+        setStyleStatus("warning");
+        setDescriptionText("중복된 닉네임입니다. 다른 닉네임을 사용해주세요.");
+      } else {
+        console.log("123", nickname);
+        setStyleStatus("success");
+        setDescriptionText("* 사용가능한 닉네임입니다.");
+        setNickChecked(true);
+      }
+    } catch (error) {
+      console.error(
+        "파이어베이스에서 문서를 가져오는 중 오류가 발생했습니다:",
+        error,
+      );
+      setStyleStatus("warning");
+      setDescriptionText("오류가 발생했습니다. 다시 시도해주세요.");
     }
   };
 

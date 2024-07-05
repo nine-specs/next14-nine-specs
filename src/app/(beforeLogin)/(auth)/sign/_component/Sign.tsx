@@ -60,6 +60,13 @@ export default function Sign() {
                 placeholder="이메일을 입력해주세요"
                 description=" "
               />
+              <CheckIdEmailInput
+                label="닉네임"
+                name="nick"
+                checkLabel="중복 확인"
+                placeholder="닉네임을 입력해주세요"
+                description=" "
+              />
 
               {/* 아이디 입력 하는곳 시작 */}
               <CheckIdEmailInput
