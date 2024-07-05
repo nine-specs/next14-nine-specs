@@ -19,7 +19,7 @@ export default function RecentNews() {
             {Array.from({ length: 5 }, (_, index) => (
               <li
                 key={index}
-                className="flex gap-5 pb-8 border-b border-gray-400 last:border-none last:pb-0"
+                className="flex gap-5 pb-8 mt-5 border-b border-gray-400 first:mt-0 last:border-none last:pb-0"
               >
                 <RecentNewsItem />
               </li>
