@@ -4,6 +4,7 @@ interface Props {
   width?: string;
   height?: string;
   padding?: boolean;
+  className?: string;
 }
 /**
  * 기본 배경 색상이 white인 라운드 2xl(16px) 카드 컴포넌트
@@ -22,13 +23,14 @@ export default function CardWrap({
   width = "320px",
   height = "240px",
   padding = false,
+  className,
   children,
 }: Props) {
   return (
     <>
       {/* 기본 스타일  배경은 흰색, 라운드는 2xl, 패딩은 8*/}
       <article
-        className={`rounded-2xl ${padding && "p-8"} `}
+        className={`rounded-2xl ${padding && "p-8"} ${className}`}
         style={{
           backgroundColor: bgColor,
           width,
