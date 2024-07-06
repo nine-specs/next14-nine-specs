@@ -1,5 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  logging: {
+    fetches: {
+      fullUrl: true,
+    },
+  },
   // @svgr/webpack 설정
   reactStrictMode: true,
   webpack: (config) => {
