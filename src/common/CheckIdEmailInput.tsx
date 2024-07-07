@@ -51,8 +51,12 @@ export default function CheckIdEmailInput({
     styleStatus,
     descriptionText,
     isButtonDisabled,
-  } = useInputCheck(description || "", name === "email" ? "email" : "id");
+  } = useInputCheck(
+    description || "",
+    name === "email" ? "email" : name === "userId" ? "userId" : "nick",
+  );
 
+  console.log(name);
   const getButtonVariant = () => {
     if (!userInput.trim()) return "default"; // 입력 값이 없으면 default
     return styleStatus === "success"
@@ -61,6 +65,7 @@ export default function CheckIdEmailInput({
       ? "warning"
       : "primary";
   };
+  console.log(descriptionText);
 
   return (
     <div className="self-stretch flex flex-col items-start justify-start gap-[4px]">
