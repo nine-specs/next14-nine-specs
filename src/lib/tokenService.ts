@@ -4,7 +4,7 @@ const SECRET_KEY = process.env.SECRET_KEY as string;
 
 export const generateToken = (email: string): string => {
   const token = jwt.sign({ email }, SECRET_KEY, { expiresIn: "30m" });
-  console.log("이메일을 보낼 때 토큰:", token);
+  //console.log("이메일을 보낼 때 토큰:", token);
   return token;
 };
 

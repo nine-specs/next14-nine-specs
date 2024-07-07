@@ -5,7 +5,7 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const token = searchParams.get("token");
-    console.log("토큰 가져오기: ", token);
+    //console.log("토큰 가져오기: ", token);
 
     if (!token) {
       return NextResponse.json(

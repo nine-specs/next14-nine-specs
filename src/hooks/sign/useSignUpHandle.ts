@@ -5,7 +5,9 @@ import { useRouter } from "next/navigation";
 type HandleSubmitType = (e: React.FormEvent<HTMLFormElement>) => void;
 type HandleModalCloseType = () => void;
 
-export const useSinupHandle = (): {
+export const useSinupHandle = (
+  userEmail: string,
+): {
   handleSubmit: HandleSubmitType;
   handleModalClose: HandleModalCloseType;
   modalMessage: string;
@@ -19,7 +21,9 @@ export const useSinupHandle = (): {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
-    const result = await register(formData);
+
+    const result = await register(formData, userEmail);
+    console.log("폼값:", result);
 
     if (result?.success) {
       setModalMessage("회원가입이 완료되었습니다!");

@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
-import { useInputCheck } from "./useInputCheck";
+import { useState } from "react";
+
 
 export function useFormCheck() {
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [phone, setPhone] = useState("");
@@ -23,6 +24,7 @@ export function useFormCheck() {
   const isFormValid = () => {
     return (
       name.trim() !== "" &&
+      email.trim() !== "" &&
       password.trim() !== "" &&
       confirmPassword.trim() !== "" &&
       phone.trim() !== "" &&
@@ -34,6 +36,8 @@ export function useFormCheck() {
   return {
     name,
     setName,
+    email,
+    setEmail,
     password,
     setPassword,
     confirmPassword,

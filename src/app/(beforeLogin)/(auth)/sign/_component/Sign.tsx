@@ -15,6 +15,8 @@ export default function Sign() {
   const {
     name,
     setName,
+    email,
+    setEmail,
     password,
     confirmPassword,
     passwordMatch,
@@ -26,14 +28,14 @@ export default function Sign() {
     handlePasswordChange,
     handleConfirmPasswordChange,
   } = useFormCheck();
+  const userEmail = email;
 
   const { handleSubmit, handleModalClose, modalMessage, isModalVisible } =
-    useSinupHandle();
+    useSinupHandle(userEmail);
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
   const [isTokenValid, setIsTokenValid] = useState(false);
-  const [email, setEmail] = useState("");
 
   useEffect(() => {
     if (token) {
@@ -84,14 +86,15 @@ export default function Sign() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
-
-              {/* <CheckIdEmailInput
+              {/* <Input
+                placeholder="이메일을 입력해주세요"
                 label="이메일"
                 name="email"
-                checkLabel="메일 인증"
-                placeholder="이메일을 입력해주세요"
-                description=" "
+                value={email}
+                disabled={true}
+                onChange={(e) => setEmail(e.target.value)}
               /> */}
+
               <CheckIdEmailInput
                 label="닉네임"
                 name="nick"
