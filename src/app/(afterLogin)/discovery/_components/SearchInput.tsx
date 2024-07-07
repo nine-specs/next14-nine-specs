@@ -8,7 +8,7 @@ export default function SearchInput() {
   const formRef = useRef<HTMLFormElement>(null);
 
   const onClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    console.log("검색번튼 클릭!");
+    console.log("검색버튼 클릭");
     //검색 버튼 클릭 시 검색form 제출
     if (formRef.current) {
       formRef.current.submit();
@@ -21,7 +21,6 @@ export default function SearchInput() {
     console.log("Pressed key:", pressedKey);
 
     if (pressedKey === "Enter") {
-      console.log("엔터클릭");
       //엔터 누를 시 검색form 제출
       if (formRef.current) {
         e.preventDefault();

@@ -19,14 +19,14 @@ export default function favoritePage() {
         </div>
         <div className="flex flex-col justify-between gap-6">
           <div className="w-[1214px] h-[360px]  flex justify-between gap-[19px]">
-            <FavoriteStockItem />
-            <FavoriteStockItem />
-            <FavoriteStockItem />
+            <FavoriteStockItem myStock="테슬라" />
+            <FavoriteStockItem myStock="애플" />
+            <FavoriteStockItem myStock="MS" />
           </div>
           <div className="w-[1214px] h-[360px]  flex justify-between gap-[19px]">
-            <FavoriteStockItem />
-            <FavoriteStockItem />
-            <FavoriteStockItem />
+            <FavoriteStockItem myStock="구글" />
+            <FavoriteStockItem myStock="유니티" />
+            <FavoriteStockItem myStock="아마존" />
           </div>
         </div>
       </div>
