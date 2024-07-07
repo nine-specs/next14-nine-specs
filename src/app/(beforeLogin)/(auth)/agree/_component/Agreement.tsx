@@ -142,7 +142,7 @@ export default function Agreement() {
               </label>
             </section>
           </div>
-          <Link href="/sign">
+          <Link href="/signLink">
             <TextButton
               variant="primary"
               disabled={!serviceCheck || !privacyCheck}

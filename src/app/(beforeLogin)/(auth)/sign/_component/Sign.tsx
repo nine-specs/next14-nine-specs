@@ -7,6 +7,9 @@ import HeadingFont from "@/common/HeadingFont";
 import { useFormCheck } from "@/hooks/common/useFormCheck";
 import { Modal } from "@/common/Modal";
 import { useSinupHandle } from "@/hooks/sign/useSignUpHandle";
+import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import LoadingPage from "@/common/LoadingPage";
 
 export default function Sign() {
   const {
@@ -26,7 +29,36 @@ export default function Sign() {
 
   const { handleSubmit, handleModalClose, modalMessage, isModalVisible } =
     useSinupHandle();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token");
+  const [isTokenValid, setIsTokenValid] = useState(false);
+  const [email, setEmail] = useState("");
 
+  useEffect(() => {
+    if (token) {
+      fetch(`/api/verify?token=${token}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.status === 200) {
+            setIsTokenValid(true);
+            setEmail(data.email);
+          } else {
+            router.push("/error");
+          }
+        })
+        .catch((error) => {
+          console.error("토큰 검증 중 오류 발생:", error);
+          router.push("/error");
+        });
+    } else {
+      router.push("/error");
+    }
+  }, [token, router]);
+
+  if (!isTokenValid) {
+    return <LoadingPage />;
+  }
   return (
     <>
       <section
@@ -53,13 +85,13 @@ export default function Sign() {
                 onChange={(e) => setName(e.target.value)}
               />
 
-              <CheckIdEmailInput
+              {/* <CheckIdEmailInput
                 label="이메일"
                 name="email"
                 checkLabel="메일 인증"
                 placeholder="이메일을 입력해주세요"
                 description=" "
-              />
+              /> */}
               <CheckIdEmailInput
                 label="닉네임"
                 name="nick"

@@ -1,5 +1,5 @@
 "use client";
-
+import { useState } from "react";
 import { useInputCheck } from "@/hooks/common/useInputCheck";
 import TextButton from "./TextButton";
 
@@ -53,10 +53,15 @@ export default function CheckIdEmailInput({
     isButtonDisabled,
   } = useInputCheck(
     description || "",
-    name === "email" ? "email" : name === "userId" ? "userId" : "nick",
+    name === "email"
+      ? "email"
+      : name === "userId"
+      ? "userId"
+      : name === "nick"
+      ? "nick"
+      : "code",
   );
 
-  console.log(name);
   const getButtonVariant = () => {
     if (!userInput.trim()) return "default"; // 입력 값이 없으면 default
     return styleStatus === "success"
@@ -65,7 +70,6 @@ export default function CheckIdEmailInput({
       ? "warning"
       : "primary";
   };
-  console.log(descriptionText);
 
   return (
     <div className="self-stretch flex flex-col items-start justify-start gap-[4px]">
