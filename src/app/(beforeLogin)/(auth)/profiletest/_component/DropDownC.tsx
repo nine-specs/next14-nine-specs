@@ -15,7 +15,6 @@ export default function DropDownC() {
   const [showDropDown, setShowDropDown] = useState(false);
   const [myStock, setMyStock] = useState<string>("#관심 종목을 추가해주세요");
   const [stockList, setStockList] = useState<Stock[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
 
   // DB 저장된 내 관심종목 & 주식종목들 불러오기
   useEffect(() => {
@@ -25,15 +24,12 @@ export default function DropDownC() {
         setStockList(stockList);
       } catch (error) {
         console.error("내관심종목&주식종목 가져오는 중 에러발생:", error);
-      } finally {
-        setLoading(false);
       }
     }
 
     fetchData();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
   // '#'입력시 드롭다운 이벤트
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
