@@ -17,7 +17,6 @@ export async function useSearchAction(formData: FormData) {
   const keyword = formData.get("keyword") as string;
   console.log("서버액션실행-전달받은 데이터:" + keyword);
 
-  // 3. 해당 유저 도커먼트의 recentSearchWord에 추가해 수정.
   // 임시 uid 설정
   const uid = "WJBBuka8oDKBIjASaEd1";
 

@@ -4,69 +4,46 @@ import Close_icon2 from "/public/images/close_icon2.svg";
 import Not_found_icon from "/public/images/Not_found_icon.svg";
 import ButtonFont from "@/common/ButtonFont";
 import BodyFont from "@/common/BodyFont";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   DeleteAllSearchData,
   DeleteSearchData,
 } from "@/hooks/discovery/useDeleteSearchData";
-type TSearchData = {
-  recentSearchData: {
-    keyword: string;
-    date: string;
-  }[];
-};
 
-export default function RecentSearches({ recentSearchData }: TSearchData) {
-  const [recentKeywordList, setRecentKeywordList] = useState(recentSearchData);
+type TrecentData = { keyword: string; date: string }[];
+
+export default function RecentSearches() {
+  const [recentKeywordList, setRecentKeywordList] = useState<TrecentData>([]);
+
+  // 로컬스토리지에서 최근 검색어 데이터 가져오기
+  useEffect(() => {
+    const savedRecentData = localStorage.getItem("recentData");
+    if (savedRecentData) {
+      setRecentKeywordList(JSON.parse(savedRecentData));
+    }
+  }, []);
 
   /** 최근 검색어 삭제버튼 클릭이벤트*/
   const deleteRecentWord = async (keyword: string) => {
-    try {
-      console.log("클릭된 키워드:", keyword);
-      // 클릭된 키워드를 삭제하는 서버액션
-      const response = await DeleteSearchData(keyword);
-      const result = response.success;
-      console.log("결과:" + result);
-      if (result) {
-        //키워드 제외한 keywordList를 새로 설정해 재랜더링
-        setRecentKeywordList(
-          recentKeywordList.filter((a) => a.keyword !== keyword),
-        );
-      } else {
-        console.error(response.message);
-      }
-    } catch (error) {
-      console.error("에러 발생:", error);
+    console.log("삭제할 키워드:" + keyword);
+    // 로컬스토리지에서 기존 검색어 가져오기
+    const savedRecentData = localStorage.getItem("recentData");
+    if (savedRecentData) {
+      let recentData: TrecentData = JSON.parse(savedRecentData);
+      // 데이터에서 키워드 삭제
+      recentData = recentData.filter((a) => a.keyword !== keyword);
+      // 로컬스토리지에 업데이트된 데이터 저장
+      localStorage.setItem("recentData", JSON.stringify(recentData));
+      // 스테이트 변경
+      setRecentKeywordList(recentData);
     }
   };
   /**최근 검색어 모두삭제 클릭이벤트 */
   const deleteAllRecentWord = async () => {
-    try {
-      const result = await DeleteAllSearchData();
-      if (result.success) {
-        //모두삭제 성공시 빈배열로 재렌더링
-        setRecentKeywordList([]);
-      }
-    } catch (error) {
-      console.error("에러 발생:", error);
-    }
+    localStorage.setItem("recentData", JSON.stringify([]));
+    // 스테이트 변경
+    setRecentKeywordList([]);
   };
-  // recentSearchData = []; //빈 데이터일때
-  // let recentKeywordList = recentSearchData
-  //   ? recentSearchData
-  //   : [
-  //       // 더미데이터
-  //       { keyword: "테슬라", date: "06.14" },
-  //       { keyword: "애플", date: "06.14" },
-  //       { keyword: "구글", date: "06.14" },
-  //       { keyword: "네이버", date: "06.14" },
-  //       { keyword: "AMD", date: "06.14" },
-  //       { keyword: "코카콜라", date: "06.13" },
-  //       { keyword: "엔비디아", date: "06.13" },
-  //       { keyword: "나이키", date: "06.12" },
-  //       { keyword: "쿠팡", date: "06.12" },
-  //       { keyword: "삼성", date: "06.11" },
-  //     ];
 
   return (
     <>

@@ -1,14 +1,9 @@
 import SearchInput from "./_components/SearchInput";
 import RecentSearches from "./_components/RecentSearches";
 import PopularSearches from "./_components/PopularSearches";
-import {
-  getPopularSearches,
-  getRecentSearches,
-} from "@/hooks/discovery/useGetSearchData";
+import { getPopularSearches } from "@/hooks/discovery/useGetSearchData";
 
 export default async function searchPage() {
-  //최근 검색 데이터 가져오기
-  const recentSearchData = await getRecentSearches();
   //인기 검색어 리스트 가져오기
   const PopularSearchData = await getPopularSearches();
   console.log(PopularSearchData);
@@ -17,7 +12,7 @@ export default async function searchPage() {
       {/* 검색창 */}
       <SearchInput />
       {/* 최근검색어 */}
-      <RecentSearches recentSearchData={recentSearchData} />
+      <RecentSearches />
       {/* 인기검색어 */}
       <PopularSearches PopularSearchData={PopularSearchData} />
     </div>

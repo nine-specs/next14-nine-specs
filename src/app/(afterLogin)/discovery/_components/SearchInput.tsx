@@ -7,15 +7,41 @@ export default function SearchInput() {
   const inputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
-  const saveRecentSearch = () => {
-    localStorage.setItem("recentData", "값");
+  /**검색항목을 최근검색어로 로컬스토리지에 저장 */
+  const saveRecentSearch = (keyword: string) => {
+    //현재날짜 구하기
+    const date = new Date();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+    const today = `${month}.${day}`;
+
+    const newRecentData = { keyword: keyword, date: today };
+    let recentData: { keyword: string; date: string }[] = [];
+    // 기존에 저장된 최근검색어 가져오기
+    const savedRecentData = localStorage.getItem("recentData");
+    if (savedRecentData) {
+      // 저장된게 있다면 파싱
+      recentData = JSON.parse(savedRecentData);
+      // 배열 앞쪽에 새 최근검색어 추가
+      if (recentData.length > 9) {
+        recentData.pop();
+      }
+      recentData.unshift(newRecentData);
+    } else {
+      // 저장된게 없다면 새 최근검색어만 추가
+      recentData = [newRecentData];
+    }
+    localStorage.setItem("recentData", JSON.stringify(recentData));
   };
 
   const onClick = (e: React.MouseEvent<HTMLDivElement>) => {
     console.log("검색버튼 클릭");
-    //검색 버튼 클릭 시 검색form 제출
-    if (formRef.current) {
-      formRef.current.submit();
+    if (inputRef.current) {
+      saveRecentSearch(inputRef.current?.value);
+      //검색 버튼 클릭 시 검색form 제출
+      if (formRef.current) {
+        formRef.current.submit();
+      }
     }
   };
 
@@ -23,8 +49,10 @@ export default function SearchInput() {
   const handleKeyDown = (e: KeyboardEvent) => {
     const pressedKey = e.key;
     console.log("Pressed key:", pressedKey);
-
     if (pressedKey === "Enter") {
+      if (inputRef.current) {
+        saveRecentSearch(inputRef.current?.value);
+      }
       //엔터 누를 시 검색form 제출
       if (formRef.current) {
         e.preventDefault();
