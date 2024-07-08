@@ -11,7 +11,7 @@ type Stock = {
 
 type TMyStocks = string;
 
-export default function DropDownB() {
+export default function DropDownC() {
   const [showDropDown, setShowDropDown] = useState(false);
   const [myStock, setMyStock] = useState<string>("#관심 종목을 추가해주세요");
   const [stockList, setStockList] = useState<Stock[]>([]);
@@ -21,22 +21,8 @@ export default function DropDownB() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const myStocks = await getMyStocks();
-        console.log("내종목:" + myStock);
         const stockList = await getStockList();
-        setStockList(
-          stockList || [
-            { stockId: "애플 ∙ APPL" },
-            { stockId: "아마존 ∙ AMZN" },
-            { stockId: "어도비 ∙ ADBE" },
-            { stockId: "AMD ∙ AMD" },
-          ],
-        );
-
-        if (myStocks.length > 0) {
-          const formattedStock = myStocks.map((a) => "#" + a).join(" ");
-          setMyStock(formattedStock);
-        }
+        setStockList(stockList);
       } catch (error) {
         console.error("내관심종목&주식종목 가져오는 중 에러발생:", error);
       } finally {
@@ -91,7 +77,7 @@ export default function DropDownB() {
         <div className="w-auto h-auto relative">
           <div className="self-stretch rounded-lg bg-grayscale-0 flex flex-row items-center justify-between py-0 px-[15px] h-[56px] gap-[16px] border-[1px] border-solid border-grayscale-300">
             <input
-              className="w-[314px] [border:none] [outline:none] font-body-5-r text-base bg-[transparent] h-full leading-[24px] text-grayscale-900 text-left flex items-center max-w-[314px] p-0 placeholder-grayscale-900"
+              className="w-[314px] [border:none] [outline:none] font-body-5-r text-base bg-[transparent] h-full leading-[24px] text-grayscale-900 text-left flex items-center max-w-[314px] p-0 "
               placeholder={myStock}
               onChange={onChange}
               id="stockInput"

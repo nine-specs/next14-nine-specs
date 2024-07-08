@@ -17,8 +17,10 @@ export async function useSearchAction(formData: FormData) {
   const keyword = formData.get("keyword") as string;
   console.log("서버액션실행-전달받은 데이터:" + keyword);
 
+  // 로그인회원정보 가져오기
+  //
   // 임시 uid 설정
-  const uid = "WJBBuka8oDKBIjASaEd1";
+  const uid = "gU8dSD4pRUHr7xAx9cgL";
 
   // 현재 날짜를 "MM.DD" 형식으로 가져오기
   const today = new Date();
@@ -41,26 +43,6 @@ export async function useSearchAction(formData: FormData) {
         searchCount: newSearchCount,
       });
     });
-
-    //검색어가 주식종목에 포함된다면 최근검색어로 저장
-    if (querySnapshot.docs[0]) {
-      const userDocRef = doc(firestore, "users", uid);
-      const userDocSnap = await getDoc(userDocRef);
-      if (userDocSnap.exists()) {
-        const userData = userDocSnap.data();
-        const recentSearchWords = userData.recentSearchWord || [];
-
-        recentSearchWords.unshift({ keyword: keyword, date: formattedDate });
-
-        await updateDoc(userDocRef, {
-          recentSearchWord: recentSearchWords,
-        });
-      } else {
-        await updateDoc(userDocRef, {
-          recentSearchWord: [{ keyword, date: formattedDate }],
-        });
-      }
-    }
   } catch (error) {
     console.log("에러 발생:", error);
   }
