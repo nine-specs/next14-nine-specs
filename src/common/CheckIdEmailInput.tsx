@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
-import { useInputCheck } from "@/hooks/common/useInputCheck";
 import TextButton from "./TextButton";
+import { useFormCheck } from "@/hooks/common/useFormCheck";
 
 interface InputProps {
   type?: string;
@@ -13,6 +13,7 @@ interface InputProps {
   className?: string;
   children?: React.ReactNode;
   name?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const labelVariants = {
@@ -41,29 +42,21 @@ export default function CheckIdEmailInput({
   name,
   children,
   className,
+  onChange,
   ...restInputProps
 }: InputProps) {
   const {
     userInput,
-    handleChange,
     inputRef,
     handleButtonClick,
     styleStatus,
     descriptionText,
     isButtonDisabled,
-  } = useInputCheck(
-    description || "",
-    name === "email"
-      ? "email"
-      : name === "userId"
-      ? "userId"
-      : name === "nick"
-      ? "nick"
-      : "code",
-  );
+    handleChange,
+  } = useFormCheck(description || "", name === "userId" ? "userId" : "nick");
 
   const getButtonVariant = () => {
-    if (!userInput.trim()) return "default"; // 입력 값이 없으면 default
+    if (!userInput.trim()) return "default";
     return styleStatus === "success"
       ? "primary"
       : styleStatus === "warning"
@@ -86,7 +79,7 @@ export default function CheckIdEmailInput({
           type={type}
           name={name}
           placeholder={placeholder}
-          value={userInput}
+          value={value}
           onChange={handleChange}
           ref={inputRef}
           {...restInputProps}

@@ -12,18 +12,23 @@ import TextButton from "@/common/TextButton";
 import DropDownC from "./DropDownC";
 
 export default function profiletest() {
-  const { name, email, phone, birthdate } = useFormStore();
+  const { name,userId, password,email, phone, birthdate } = useFormStore();
   const [file, setFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   console.log(name);
+  console.log(userId);
   console.log(email);
-  const searchParams = useSearchParams();
-  // const token = searchParams.get("token");
-  // const { isTokenValid } = useVerifyToken(token);
+  console.log(phone);
+  console.log(birthdate);
+  console.log(password);
 
-  // if (!isTokenValid) {
-  //   return <LoadingPage />;
-  // }
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token");
+  const { isTokenValid } = useVerifyToken(token);
+
+  if (!isTokenValid) {
+    return <LoadingPage />;
+  }
 
   //프로필 아이콘 클릭시 숨겨진 input이 클릭
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
