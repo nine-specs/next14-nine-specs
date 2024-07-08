@@ -1,15 +1,7 @@
 "use server";
 
 import { firestore, storage } from "@/firebase/firebaseConfig";
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  getDocs,
-  setDoc,
-  updateDoc,
-} from "firebase/firestore";
+import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 //프로필 사진 , 닉네임 , 관심 종목 수정하기
@@ -41,7 +33,7 @@ export async function useUpdateProfile(formData: FormData) {
       // 파일이 null이 아니면 실행
       console.log("파일 있음");
       // 파일의 경로 및 파일명 설정
-      // userProfile이라는 폴더를 만들고 그 뒤에 uid 경로
+      // userProfile이라는 폴더를 만들고 그 뒤에 파일명 (현재는 uid를 파일명지정)
       const locationRef = ref(storage, `userProfile/${uid}`);
       // *참고* 위의 경로와 파일명과 동일한 파일이 있다면 덮어씀.
       // 스토리지에 파일 업로드. 성공 시 결과 반환
@@ -53,17 +45,12 @@ export async function useUpdateProfile(formData: FormData) {
       // <<DB에 프로필 사진의 URL과 닉네임 업데이트>>
       await updateDoc(userDocRef, {
         image: url,
-        nick: nick,
       });
     } catch (error) {
       console.log("에러 발생:", error);
     }
   } else {
     console.log("파일이 없습니다.");
-    // file이 없을 때는 닉네임 업데이트 진행
-    await updateDoc(userDocRef, {
-      nick: nick,
-    });
   }
 
   // 관심 종목을 서브 콜렉션에 저장
