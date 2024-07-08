@@ -1,12 +1,6 @@
-import Link from "next/link";
-import Image from "next/image";
-
 import ListWrap from "@/common/ListWrap";
 import Title from "../_ui/Title";
-import Heading from "../_ui/Heading";
-import BodyFont from "@/common/BodyFont";
 
-import SAMPLE_04 from "../../../../../public/images/news/NewsSample_04.png";
 import RecentNewsItem from "./RecentNewsItem";
 
 export default function RecentNews() {
