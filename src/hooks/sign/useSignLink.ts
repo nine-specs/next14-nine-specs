@@ -1,13 +1,10 @@
 import { useState } from "react";
-import { register } from "./useSign";
 import { useRouter } from "next/navigation";
 
 type HandleSubmitType = (e: React.FormEvent<HTMLFormElement>) => void;
 type HandleModalCloseType = () => void;
 
-export const useSinupHandle = (
-  userEmail: string,
-): {
+export const useSignLink = (): {
   handleSubmit: HandleSubmitType;
   handleModalClose: HandleModalCloseType;
   modalMessage: string;
@@ -21,21 +18,34 @@ export const useSinupHandle = (
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
+    const name = formData.get("name");
+    const email = formData.get("email");
 
-    const result = await register(formData, userEmail);
-    console.log("폼값:", result);
+    try {
+      const response = await fetch("/api/email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email }),
+      });
 
-    if (result?.success) {
-      setModalMessage("회원가입이 완료되었습니다!");
+      const result = await response.json();
+      if (response.ok) {
+        setModalMessage(result.message || "인증메일이 전송되었습니다.");
+        setIsModalVisible(true);
+      } else {
+        throw new Error(result.message);
+      }
+    } catch (error) {
+      setModalMessage("이메일 발송에 실패했습니다.");
       setIsModalVisible(true);
-    } else {
-      alert(result?.error || "회원가입에 실패했습니다.");
     }
   };
 
   const handleModalClose: HandleModalCloseType = () => {
     setIsModalVisible(false);
-    router.push("/login");
+    // router.push("/login");
   };
 
   return { handleSubmit, handleModalClose, modalMessage, isModalVisible };

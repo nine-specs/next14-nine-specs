@@ -10,7 +10,8 @@ type IconButtonProps = React.ComponentProps<"button"> & {
     | "yellow"
     | "green"
     | "outlineLight";
-  size?: "xl" | "lg" | "md" | "sm";
+  size?: "xl" | "lg" | "md" | "sm" | "xs";
+  round?: "full" | "md";
   className?: string;
   children: React.ReactNode;
 };
@@ -34,6 +35,12 @@ const sizeVariants = {
   lg: "w-12 h-12",
   md: "w-14 h-14",
   sm: "w-9 h-9",
+  xs: "w-6 h-6",
+};
+
+const roundVariants = {
+  full: "rounded-full",
+  md: "rounded-md",
 };
 
 const disabled = "text-grayscale-300 bg-grayscale-200";
@@ -41,6 +48,7 @@ const disabled = "text-grayscale-300 bg-grayscale-200";
 export default function IconButton({
   color = "black",
   size = "lg",
+  round = "full",
   className,
   children,
   ...restButtonProps
@@ -51,7 +59,7 @@ export default function IconButton({
         {...restButtonProps}
         className={`
         flex justify-center items-center
-        rounded-full
+        ${roundVariants[round]}
         ${sizeVariants[size]}
         ${colorVariants[color]}
         ${restButtonProps.disabled ? disabled : ""}

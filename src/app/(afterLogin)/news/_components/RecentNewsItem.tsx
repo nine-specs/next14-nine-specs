@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 
-import ListWrap from "@/common/ListWrap";
 import Heading from "../_ui/Heading";
 import BodyFont from "@/common/BodyFont";
 
