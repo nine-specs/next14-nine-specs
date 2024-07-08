@@ -10,28 +10,23 @@ import EditLgIcon from "/public/images/Edit_icon_lg.svg";
 import CheckIdEmailInput from "@/common/CheckIdEmailInput";
 import TextButton from "@/common/TextButton";
 import DropDownC from "./DropDownC";
-import useSignUp from "@/hooks/sign/useSignUp";
-
+import signUp from "@/hooks/sign/useSignUp";
 export default function profiletest() {
   const { name, userId, password, email, phone, birthdate } = useFormStore();
-  console.log(name)
-  console.log(userId)
-  console.log(password)
-  console.log(email)
-  console.log(phone)
-  console.log(birthdate)
+  console.log(name);
+  console.log(userId);
+  console.log(password);
+  console.log(email);
+  console.log(phone);
+  console.log(birthdate);
   const [file, setFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
   const { isTokenValid } = useVerifyToken(token);
-  const { signUp } = useSignUp();
-
   if (!isTokenValid) {
     return <LoadingPage />;
   }
-
   // 프로필 아이콘 클릭시 숨겨진 input이 클릭
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -39,7 +34,6 @@ export default function profiletest() {
       fileInputRef.current.click();
     }
   };
-
   // 이미지 파일 업로드 시 실행 이벤트
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
@@ -57,26 +51,11 @@ export default function profiletest() {
       }
     }
   };
-
   // 회원 가입 폼 제출 처리
   const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  
     // signUp 함수 호출
-    const result = await signUpUser();
-  
-    if (result.success) {
-      // 회원 가입 성공 시 처리
-      console.log("회원 가입 및 프로필 설정 성공!");
-    } else {
-      // 회원 가입 실패 시 처리
-      console.error("회원 가입 및 프로필 설정 실패:", result.error);
-    }
-  };
-
-  // signUpUser 함수 정의
-  const signUpUser = async () => {
-    return await signUp(
+    const result = await signUp(
       name,
       userId,
       password,
@@ -87,8 +66,18 @@ export default function profiletest() {
       [], // interests: 관심종목
       file,
     );
+    if (result.success) {
+      // 회원 가입 성공 시 처리
+      console.log("회원 가입 및 프로필 설정 성공!");
+    } else {
+      // 회원 가입 실패 시 처리
+      console.error("회원 가입 및 프로필 설정 실패:", result.error);
+    }
   };
-
+  // // signUpUser 함수 정의
+  // const signUpUser = async () => {
+  //   return
+  // };
   return (
     <>
       <div className="flex justify-center items-start flex-grow-0 flex-shrink-0 rounded-[32px] bg-white w-[590px] h-[688px] mx-auto mt-[120px]">
