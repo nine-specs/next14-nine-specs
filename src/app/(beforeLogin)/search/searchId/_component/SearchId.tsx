@@ -50,7 +50,7 @@ export default function SearchId() {
       });
 
       const { userId, createdAt } = result.userData;
-      const url = `/search/name=${userId}created=${createdAt}`;
+      const url = `/search/?name=${userId}&created=${createdAt}`;
       window.location.href = url;
     } else {
       setSearchResult({
