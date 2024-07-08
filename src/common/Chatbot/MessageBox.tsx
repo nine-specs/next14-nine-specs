@@ -23,7 +23,7 @@ export default function MessageBox(props: MessagesType) {
     return (
       <div className="flex gap-2 items-start">
         <div className="w-12 h-12 bg-primary-900 flex items-center justify-center rounded-md">
-          <LOGO />
+          <LOGO width="30" height="26" />
         </div>
         <BodyFont
           level="5"
