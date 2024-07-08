@@ -1,29 +1,26 @@
-"use client";
-import React, { useRef, useState } from "react";
-import { useSearchParams } from "next/navigation";
-import LoadingPage from "@/common/LoadingPage";
-import useVerifyToken from "@/hooks/sign/useVerifyToken";
-import useFormStore from "@/store/useFormStore";
 import HeadingFont from "@/common/HeadingFont";
+import { Modal } from "@/common/Modal";
+import TextButton from "@/common/TextButton";
 import ProfileSVG from "/public/images/profile.svg";
 import EditLgIcon from "/public/images/Edit_icon_lg.svg";
+import { useRef, useState } from "react";
+import DropDownB from "./(ProfileEdit)/DropDownB";
+import { TUser } from "@/app/api/profile/route";
+import { useUpdateProfile } from "@/hooks/profile/useUpdateProfile";
+import BodyFont from "@/common/BodyFont";
 import CheckIdEmailInput from "@/common/CheckIdEmailInput";
-import TextButton from "@/common/TextButton";
-import DropDownC from "./DropDownC";
 
-export default function profiletest() {
-  const { name, email, phone, birthdate } = useFormStore();
+type TProfileEdit = {
+  onClose: () => void;
+  profileData: {
+    profileData: TUser | undefined;
+    setProfileData: React.Dispatch<React.SetStateAction<TUser | undefined>>;
+  };
+};
+export default function ProfileEdit({ onClose, profileData }: TProfileEdit) {
+  const profileImgSrc = profileData.profileData?.image;
   const [file, setFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  console.log(name);
-  console.log(email);
-  const searchParams = useSearchParams();
-  // const token = searchParams.get("token");
-  // const { isTokenValid } = useVerifyToken(token);
-
-  // if (!isTokenValid) {
-  //   return <LoadingPage />;
-  // }
 
   //프로필 아이콘 클릭시 숨겨진 input이 클릭
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -58,23 +55,33 @@ export default function profiletest() {
 
   return (
     <>
-      <div className="flex justify-center items-start flex-grow-0 flex-shrink-0 rounded-[32px] bg-white w-[590px] h-[688px] mx-auto mt-[120px]">
-        <form action="" className="w-full h-full py-[80px] px-[102px] ">
+      <Modal size="S5" onClose={onClose}>
+        <form
+          action={useUpdateProfile}
+          className="w-full h-full py-[80px] px-[102px] "
+        >
           <div className="w-auto h-auto flex flex-col justify-center items-center">
             <HeadingFont level="3" weight="bold" className="text-primary-900">
-              프로필 설정
+              프로필 수정
             </HeadingFont>
             <div className=" w-[386px] h-[328px]  mt-[40px] mb-[56px] flex flex-col justify-center items-center">
               <div className="w-[120px] h-[120px] mb-[24px] relative flex justify-center items-center">
                 <button onClick={handleClick}>
+                  {/* DB에 저장한 이미지파일을 프사로 표시 */}
                   {file ? ( //업로드한 파일있다면 미리보기 표시
                     <img
                       src={URL.createObjectURL(file)}
                       alt="Profile Preview"
                       className="w-full h-full object-cover"
                     />
+                  ) : profileImgSrc ? (
+                    <img
+                      src={profileImgSrc} //db에 저장된 이미지 표시
+                      alt="Profile Preview"
+                      className="w-full h-full object-cover"
+                    />
                   ) : (
-                    <ProfileSVG /> // 업로드파일이 없다면 기본프사
+                    <ProfileSVG /> // 업로드, 저장된 파일이 없다면 기본프사 표시
                   )}
                   <EditLgIcon className="absolute bottom-0 right-0 " />
                 </button>
@@ -96,21 +103,21 @@ export default function profiletest() {
                   label="닉네임"
                   name="nick"
                   checkLabel="중복 확인"
-                  placeholder="닉네임을 입력해주세요"
+                  placeholder={profileData.profileData?.nick}
                   description=" "
                 />
                 {/* 닉네임 수정 끝*/}
                 {/* 관심종목 */}
-                <DropDownC />
+                <DropDownB />
                 {/* 관심종목 끝 */}
               </div>
             </div>
             <TextButton variant="primary" size="lg">
-              가입하기
+              수정하기
             </TextButton>
           </div>
         </form>
-      </div>
+      </Modal>
     </>
   );
 }
