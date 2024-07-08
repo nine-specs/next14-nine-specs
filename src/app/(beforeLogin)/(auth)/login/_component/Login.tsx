@@ -81,7 +81,7 @@ export default function LoginComponent() {
               <BodyFont level="5" weight="regular">
                 아직 회원이 아니신가요?
               </BodyFont>
-              <Link href="/sign">
+              <Link href="/agree">
                 <div className="relative text-sm [text-decoration:underline] leading-[20px] font-medium font-body-5-r text-secondary-600 text-left inline-block min-w-[101px] bg-transparent border-none p-0 cursor-pointer">
                   아잇나우 회원가입
                 </div>

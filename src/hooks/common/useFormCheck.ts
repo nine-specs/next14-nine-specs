@@ -1,12 +1,22 @@
-import { useState, useEffect } from "react";
-import { useInputCheck } from "./useInputCheck";
+import { useState } from "react";
+import useFormStore from "@/store/useFormStore";
 
 export function useFormCheck() {
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [phone, setPhone] = useState("");
-  const [birthdate, setBirthdate] = useState("");
+  const {
+    name,
+    setName,
+    email,
+    setEmail,
+    password,
+    setPassword,
+    confirmPassword,
+    setConfirmPassword,
+    phone,
+    setPhone,
+    birthdate,
+    setBirthdate,
+  } = useFormStore();
+
   const [passwordMatch, setPasswordMatch] = useState(true);
 
   // 비밀번호 입력 핸들러
@@ -23,6 +33,7 @@ export function useFormCheck() {
   const isFormValid = () => {
     return (
       name.trim() !== "" &&
+      email.trim() !== "" &&
       password.trim() !== "" &&
       confirmPassword.trim() !== "" &&
       phone.trim() !== "" &&
@@ -34,6 +45,8 @@ export function useFormCheck() {
   return {
     name,
     setName,
+    email,
+    setEmail,
     password,
     setPassword,
     confirmPassword,

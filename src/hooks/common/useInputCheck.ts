@@ -1,10 +1,10 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { firestore } from "@/firebase/firebaseConfig";
 
 export function useInputCheck(
   description: string,
-  type: "userId" | "email" | "nick",
+  type: "userId" | "email" | "nick" | "code",
 ) {
   const [userInput, setUserInput] = useState(""); // 유저가 입력값 상태
   const [descriptionText, setDescriptionText] = useState(description); // 설명 텍스트 상태
@@ -13,8 +13,10 @@ export function useInputCheck(
   >("default");
   const [idChecked, setIdChecked] = useState(false); //아이디 중복체크 상태관리
   const [emailChecked, setEmailChecked] = useState(false); //이메일 인증체크 상태관리
+  const [isVerificationVisible, setIsVerificationVisible] = useState(false);
   const [nickChecked, setNickChecked] = useState(false); // 닉네임 중복 체크 상태 관리
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
   const inputRef = useRef<HTMLInputElement>(null);
 
   // 유저 입력 값 조회를 위한 로직
@@ -40,13 +42,10 @@ export function useInputCheck(
 
     console.log(type);
     if (type === "userId") {
-      console.log(1);
       await handleIdCheck(input);
     } else if (type === "email") {
-      console.log(2);
       await handleEmailCheck(input);
     } else if (type === "nick") {
-      console.log(3);
       await handleNickCheck(input);
     }
   };
@@ -121,16 +120,18 @@ export function useInputCheck(
           "인증 이메일이 발송되었습니다. 이메일을 확인해주세요.",
         );
         setEmailChecked(true);
+        setIsVerificationVisible(true);
       } else {
         setStyleStatus("warning");
         setDescriptionText(data.message || "인증 이메일 발송에 실패했습니다.");
       }
     } catch (error) {
-      console.error("Fetch error:", error);
       setStyleStatus("warning");
       setDescriptionText("인증 이메일 발송에 실패했습니다.");
     }
   };
+
+  //닉네임 중복 확인
   const handleNickCheck = async (nickname: string) => {
     if (!nickname) {
       setStyleStatus("warning");
@@ -143,11 +144,9 @@ export function useInputCheck(
       const existingNicks = querySnapshot.docs.map((doc) => doc.data().nick);
 
       if (existingNicks.includes(nickname)) {
-        console.log("12", nickname);
         setStyleStatus("warning");
         setDescriptionText("중복된 닉네임입니다. 다른 닉네임을 사용해주세요.");
       } else {
-        console.log("123", nickname);
         setStyleStatus("success");
         setDescriptionText("* 사용가능한 닉네임입니다.");
         setNickChecked(true);
@@ -171,6 +170,7 @@ export function useInputCheck(
     descriptionText,
     idChecked,
     emailChecked,
+    isVerificationVisible,
     isButtonDisabled,
   };
 }

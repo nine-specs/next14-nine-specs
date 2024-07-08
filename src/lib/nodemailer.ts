@@ -4,6 +4,7 @@ export type EmailData = {
   to: string;
   subject: string;
   message: string;
+  link: string;
 };
 
 const transporter = nodemailer.createTransport({
@@ -16,13 +17,14 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-export async function sendEmail({ to, subject, message }: EmailData) {
+export async function sendEmail({ to, subject, message, link }: EmailData) {
   const mailData = {
     to: to,
     subject: `[BLOG] ${subject}`,
     html: `
       <h1>${subject}</h1>
       <div>${message}</div>
+     <div>인증 링크: <a href="${link}">여기를 클릭해주세요</a></div>
       </br>
       <p>보낸사람 : ${process.env.AUTH_USER}</p>
     `,
