@@ -11,6 +11,7 @@ import CheckIdEmailInput from "@/common/CheckIdEmailInput";
 import TextButton from "@/common/TextButton";
 import DropDownC from "./DropDownC";
 import signUp from "@/hooks/sign/useSignUp";
+import signUp2 from "@/hooks/sign/useSignUp2";
 export default function profiletest() {
   const { name, userId, password, email, phone, birthdate } = useFormStore();
   console.log(name);
@@ -21,12 +22,12 @@ export default function profiletest() {
   console.log(birthdate);
   const [file, setFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const searchParams = useSearchParams();
-  const token = searchParams.get("token");
-  const { isTokenValid } = useVerifyToken(token);
-  if (!isTokenValid) {
-    return <LoadingPage />;
-  }
+  // const searchParams = useSearchParams();
+  // const token = searchParams.get("token");
+  // const { isTokenValid } = useVerifyToken(token);
+  // if (!isTokenValid) {
+  //   return <LoadingPage />;
+  // }
   // 프로필 아이콘 클릭시 숨겨진 input이 클릭
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -51,29 +52,29 @@ export default function profiletest() {
       }
     }
   };
-  // 회원 가입 폼 제출 처리
-  const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // signUp 함수 호출
-    const result = await signUp(
-      name,
-      userId,
-      password,
-      email,
-      phone,
-      birthdate,
-      "", // nick: 닉네임
-      [], // interests: 관심종목
-      file,
-    );
-    if (result.success) {
-      // 회원 가입 성공 시 처리
-      console.log("회원 가입 및 프로필 설정 성공!");
-    } else {
-      // 회원 가입 실패 시 처리
-      console.error("회원 가입 및 프로필 설정 실패:", result.error);
-    }
-  };
+  // // 회원 가입 폼 제출 처리
+  // const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   // signUp 함수 호출
+  //   const result = await signUp(
+  //     name,
+  //     userId,
+  //     password,
+  //     email,
+  //     phone,
+  //     birthdate,
+  //     "", // nick: 닉네임
+  //     [], // interests: 관심종목
+  //     file,
+  //   );
+  //   if (result.success) {
+  //     // 회원 가입 성공 시 처리
+  //     console.log("회원 가입 및 프로필 설정 성공!");
+  //   } else {
+  //     // 회원 가입 실패 시 처리
+  //     console.error("회원 가입 및 프로필 설정 실패:", result.error);
+  //   }
+  // };
   // // signUpUser 함수 정의
   // const signUpUser = async () => {
   //   return
@@ -81,10 +82,7 @@ export default function profiletest() {
   return (
     <>
       <div className="flex justify-center items-start flex-grow-0 flex-shrink-0 rounded-[32px] bg-white w-[590px] h-[688px] mx-auto mt-[120px]">
-        <form
-          onSubmit={handleSignUp}
-          className="w-full h-full py-[80px] px-[102px]"
-        >
+        <form action={signUp2} className="w-full h-full py-[80px] px-[102px]">
           <div className="w-auto h-auto flex flex-col justify-center items-center">
             <HeadingFont level="3" weight="bold" className="text-primary-900">
               프로필 설정
@@ -129,6 +127,12 @@ export default function profiletest() {
               가입하기
             </TextButton>
           </div>
+          <input className="hidden" value={name} name="name"></input>
+          <input className="hidden" value={userId} name="userId"></input>
+          <input className="hidden" value={password} name="password"></input>
+          <input className="hidden" value={email} name="email"></input>
+          <input className="hidden" value={phone} name="phone"></input>
+          <input className="hidden" value={birthdate} name="birthdate"></input>
         </form>
       </div>
     </>
