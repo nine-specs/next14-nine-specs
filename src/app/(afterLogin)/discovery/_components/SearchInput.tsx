@@ -7,6 +7,10 @@ export default function SearchInput() {
   const inputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
+  const saveRecentSearch = () => {
+    localStorage.setItem("recentData", "값");
+  };
+
   const onClick = (e: React.MouseEvent<HTMLDivElement>) => {
     console.log("검색버튼 클릭");
     //검색 버튼 클릭 시 검색form 제출
