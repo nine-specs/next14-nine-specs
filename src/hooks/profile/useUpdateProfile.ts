@@ -1,18 +1,26 @@
 "use server";
 
 import { firestore, storage } from "@/firebase/firebaseConfig";
-import { doc, updateDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { revalidatePath } from "next/cache";
 
 //프로필 사진 , 닉네임 , 관심 종목 수정하기
 export async function useUpdateProfile(formData: FormData) {
   const file = formData.get("file") as File | null;
-  const displayName = formData.get("displayName") as string;
+  const nick = formData.get("nick") as string;
   const myStockStr = formData.get("myStock") as string | undefined;
 
   console.log("파일 이름:", file?.name);
-  console.log("닉네임:", displayName);
+  console.log("닉네임:", nick);
   console.log("관심종목:", myStockStr);
 
   let myStock: string[] = [];
@@ -20,8 +28,11 @@ export async function useUpdateProfile(formData: FormData) {
     myStock = myStockStr.split("#").join("").split(" ");
   }
 
+  // 세션 또는 전역에서 회원정보가져오기
+
   // 임시 uid 설정
-  const uid = "WJBBuka8oDKBIjASaEd1";
+  const uid = "gU8dSD4pRUHr7xAx9cgL";
+  // const uid = "WJBBuka8oDKBIjASaEd1";
   // users 컬렉션에서 uid일치하는 document가져오기
   const userDocRef = doc(firestore, "users", uid);
 
@@ -42,9 +53,9 @@ export async function useUpdateProfile(formData: FormData) {
 
       // <<DB에 프로필 사진의 URL과 닉네임 업데이트>>
       await updateDoc(userDocRef, {
-        profileImage: url,
-        displayName: displayName,
-        myStock: myStock,
+        image: url,
+        nick: nick,
+        // myStock: myStock,
       });
     } catch (error) {
       console.log("에러 발생:", error);
@@ -53,9 +64,34 @@ export async function useUpdateProfile(formData: FormData) {
     console.log("파일이 없습니다.");
     // file이 없을 때는 닉네임과 관심 종목만 업데이트 진행
     await updateDoc(userDocRef, {
-      displayName: displayName,
-      myStock: myStock,
+      nick: nick,
+      // myStock: myStock,
     });
+  }
+
+  // 관심 종목을 서브 콜렉션에 저장
+  try {
+    const myStocksCollectionRef = collection(
+      firestore,
+      "users",
+      uid,
+      "myStocks",
+    );
+
+    // 기존 서브 콜렉션의 모든 문서 삭제(수정할 때만 필요)
+    const existingDocs = await getDocs(myStocksCollectionRef);
+    const deletePromises = existingDocs.docs.map((doc) => deleteDoc(doc.ref));
+    await Promise.all(deletePromises);
+
+    // 새로운 관심 종목을 서브 콜렉션에 추가
+    const addStockPromises = myStock.map(
+      (stock) => addDoc(myStocksCollectionRef, { myStock: stock }), // 자동 생성된 UID로 문서 추가
+    );
+    await Promise.all(addStockPromises);
+
+    console.log("관심 종목 수정 완료");
+  } catch (error) {
+    console.log("관심 종목 수정 중 에러 발생:", error);
   }
 
   revalidatePath("/mypage/profile");

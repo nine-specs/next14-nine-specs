@@ -8,6 +8,7 @@ import DropDownB from "./(ProfileEdit)/DropDownB";
 import { TUser } from "@/app/api/profile/route";
 import { useUpdateProfile } from "@/hooks/profile/useUpdateProfile";
 import BodyFont from "@/common/BodyFont";
+import CheckIdEmailInput from "@/common/CheckIdEmailInput";
 
 type TProfileEdit = {
   onClose: () => void;
@@ -17,7 +18,7 @@ type TProfileEdit = {
   };
 };
 export default function ProfileEdit({ onClose, profileData }: TProfileEdit) {
-  const profileImgSrc = profileData.profileData?.profileImage;
+  const profileImgSrc = profileData.profileData?.image;
   const [file, setFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -98,28 +99,16 @@ export default function ProfileEdit({ onClose, profileData }: TProfileEdit) {
                 id="inputBox"
               >
                 {/* 닉네임 수정 */}
-                <div>
-                  <BodyFont
-                    level="4"
-                    weight="medium"
-                    className="text-primary-900 mb-1"
-                  >
-                    닉네임
-                  </BodyFont>
-                  <div className="w-auto h-auto relative ">
-                    {/* <Input value={`${reason}`} placeholder="#애플 #테슬라"></Input> */}
-                    <div className="self-stretch rounded-lg bg-grayscale-0 flex flex-row items-center justify-between py-0 px-[15px] h-[56px] gap-[16px] border-[1px] border-solid border-grayscale-300">
-                      <input
-                        name="displayName"
-                        className="w-[314px] [border:none] [outline:none] font-body-5-r text-base bg-[transparent] h-full leading-[24px] text-grayscale-900 text-left flex items-center max-w-[314px] p-0"
-                        defaultValue={profileData.profileData?.displayName}
-                      />
-                    </div>
-                  </div>
-                </div>
+                <CheckIdEmailInput
+                  label="닉네임"
+                  name="nick"
+                  checkLabel="중복 확인"
+                  placeholder={profileData.profileData?.nick}
+                  description=" "
+                />
                 {/* 닉네임 수정 끝*/}
                 {/* 관심종목 */}
-                <DropDownB profileData={profileData} />
+                <DropDownB />
                 {/* 관심종목 끝 */}
               </div>
             </div>

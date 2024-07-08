@@ -15,9 +15,11 @@ import {
 export async function GetUser() {
   // 유저데이터 firestoreDB 요청
   const fetchUser = async () => {};
-  // 임시더미 uid 이용
-  const uid = "WJBBuka8oDKBIjASaEd1";
-  // const uid = "f3Gth4ckW6Ivx2EZVR1P";
+  // 세션 또는 전역에서 회원정보가져오기
+
+  // 임시 uid 설정
+  const uid = "gU8dSD4pRUHr7xAx9cgL";
+  // const uid = "WJBBuka8oDKBIjASaEd1";
 
   //users콜렉션에서  uid 일치하는 document찾기
   const userDocRef = doc(firestore, "users", uid);
@@ -32,14 +34,13 @@ export async function GetUser() {
     const fetchedUser = {
       birthdate: userData.birthdate,
       email: userData.email,
-      favorite: userData.favorite,
-      lang: userData.lang,
-      profileImage: userData.profileImage,
+      language: userData.language,
+      image: userData.image,
       phone: userData.phone,
       userId: userData.userId,
-      username: userData.username,
-      displayName: userData.displayName,
-      myStock: userData.myStock,
+      name: userData.name,
+      nick: userData.nick,
+      myStock: userData.myStocks,
     };
 
     return new Response(JSON.stringify({ res: "응답함", data: fetchedUser }), {

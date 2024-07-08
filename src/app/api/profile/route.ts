@@ -13,25 +13,22 @@ import {
 export type TUser = {
   birthdate: string; // 생년월일
   email: string; // 이메일
-  favorite: { stockId: string }[]; // 임시 주식종목리스트
-  myStock: string[]; // 관심종목
-  lang: string; //언어 설정
-  profileImage: string; //프로필사진
+  language: string; //언어 설정
+  image: string; //프로필사진
   phone: string; //휴대폰
   userId: string; //아이디
-  username: string; //이름
-  displayName: string; // 닉네임
-  recentSearchWord: { keyword: string; date: string }[];
-
-  //   createdAt: string;
+  name: string; //이름
+  nick: string; // 닉네임
+  createdAt: string;
+  myStocks: { myStock: string };
 };
 
 export async function GET(request: Request) {
   // 유저데이터 firestoreDB 요청
   const fetchUser = async () => {};
   // 임시더미 uid 이용
-  const uid = "WJBBuka8oDKBIjASaEd1";
-  // const uid = "f3Gth4ckW6Ivx2EZVR1P";
+
+  const uid = "gU8dSD4pRUHr7xAx9cgL";
 
   //users콜렉션에서  uid 일치하는 document찾기
   const userDocRef = doc(firestore, "users", uid);
@@ -46,15 +43,13 @@ export async function GET(request: Request) {
     const fetchedUser = {
       birthdate: userData.birthdate,
       email: userData.email,
-      favorite: userData.favorite,
-      lang: userData.lang,
-      profileImage: userData.profileImage,
+      language: userData.language,
+      image: userData.image,
       phone: userData.phone,
       userId: userData.userId,
-      username: userData.username,
-      displayName: userData.displayName,
-      myStock: userData.myStock,
-      recentSearchWord: userData.recentSearchWord,
+      name: userData.name,
+      nick: userData.nick,
+      myStocks: userData.myStocks,
     };
 
     return new Response(JSON.stringify({ res: "응답함", data: fetchedUser }), {

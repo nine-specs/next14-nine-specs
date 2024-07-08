@@ -35,7 +35,7 @@ export default function ProfilePage() {
   // profileData를 가져왔다면 바인딩 재설정
   useEffect(() => {
     if (profileData) {
-      accountInfo.이름 = profileData.username;
+      accountInfo.이름 = profileData.name;
       accountInfo.아이디 = profileData.userId;
       accountInfo.생년월일 = profileData.birthdate;
     }
@@ -78,13 +78,17 @@ export default function ProfilePage() {
               <p className="text-base">프로필</p>
               <div className="w-[590px] h-[56px] flex justify-between gap-4 items-center">
                 {profileData ? (
-                  <img src={profileData.profileImage} width={56} height={56} />
+                  profileData.image != "" ? (
+                    <img src={profileData.image} width={56} height={56} />
+                  ) : (
+                    <ProfileSVG width="56px" height="56px" />
+                  )
                 ) : (
                   <ProfileSVG width="56px" height="56px" />
                 )}
                 <div className="w-[518px]">
                   <BodyFont level="4" weight="medium">
-                    {profileData?.displayName}
+                    {profileData?.nick}
                   </BodyFont>
                 </div>
               </div>
