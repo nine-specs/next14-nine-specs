@@ -1,8 +1,8 @@
 import BodyFont from "@/common/BodyFont";
-import { exchangeApi } from "@/service/report/exchangeApi";
 import StockExchage from "./StockExchage";
-import { summaryApi } from "@/service/report/stockSumaryApi";
-import { stockInfoSummay } from "@/service/report/stockInfo";
+import { getStockDetails } from "@/service/report/stockDetailsApi";
+import { getStockSummary } from "@/service/report/stockSummaryApi";
+import { getExchangeRate } from "@/service/report/exchangeRateApi";
 
 interface Props {
   code: string;
@@ -16,11 +16,11 @@ interface Props {
 export default async function StockSummary({ code, ticker }: Props) {
   if (!code) return null;
 
-  const exchangeRate = await exchangeApi();
-  const stockInfomation = await stockInfoSummay(code);
+  const exchangeRate = await getExchangeRate();
+  const stockInfomation = await getStockDetails(code);
   const { closePrice, fluctuationsRatio, compareToPreviousClosePrice } =
     stockInfomation;
-  const content = await summaryApi(code);
+  const content = await getStockSummary(code);
   const convertContent = content.replace(/<[^>]*>?/gm, "");
   return (
     <div className="flex flex-col justify-between gap-6 ">
