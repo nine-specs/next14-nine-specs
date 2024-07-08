@@ -4,7 +4,8 @@
  */
 export interface INews {
   /**
-   * @property {string} newsId - 뉴스 기사의 고유 식별자 ID
+   * @property {string} newsId - 뉴스 기사의 고유 식별자
+   */
   newsId: string;
 
   /**
