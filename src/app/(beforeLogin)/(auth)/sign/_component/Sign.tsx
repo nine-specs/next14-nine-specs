@@ -15,6 +15,8 @@ export default function Sign() {
   const {
     name,
     setName,
+    userId,
+    setUserId,
     email,
     setEmail,
     password,
@@ -27,7 +29,7 @@ export default function Sign() {
     isFormValid,
     handlePasswordChange,
     handleConfirmPasswordChange,
-  } = useFormCheck();
+  } = useFormCheck("", "userId");
 
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
@@ -78,21 +80,15 @@ export default function Sign() {
                 onChange={(e) => setName(e.target.value)}
               />
 
-              <CheckIdEmailInput
-                label="닉네임"
-                name="nick"
-                checkLabel="중복 확인"
-                placeholder="닉네임을 입력해주세요"
-                description=" "
-              />
-
               {/* 아이디 입력 시작 */}
               <CheckIdEmailInput
                 label="아이디"
                 name="userId"
+                value={userId}
                 description="* 6~12자의 영문,숫자,_를 이용한 조합"
                 checkLabel="중복 확인"
                 placeholder="아이디를 입력해주세요"
+                onChange={(e) => setUserId(e.target.value)}
               />
               {/* 아이디 입력 끝 */}
 
