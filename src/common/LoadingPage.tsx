@@ -13,6 +13,7 @@ export default function LoadingPage() {
           <Image
             src="/images/loading/loadingSpiner.gif"
             alt="loading"
+            unoptimized
             width={96}
             height={96}
           />
