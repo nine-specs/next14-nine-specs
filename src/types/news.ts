@@ -1,8 +1,8 @@
 /**
- * @interface INews
+ * @interface NewsResponse
  * @description 관련 주식 정보가 포함된 뉴스 기사를 나타냅니다.
  */
-export interface INews {
+export interface NewsResponse {
   /**
    * @property {string} newsId - 뉴스 기사의 고유 식별자
    */
