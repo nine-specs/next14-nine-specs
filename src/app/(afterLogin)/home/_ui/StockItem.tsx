@@ -9,7 +9,7 @@ export default function StockItem() {
     <>
       <div className="flex justify-between items-center">
         <div className="flex gap-4 items-center">
-          <IconButton>icon</IconButton>
+          <IconButton size="xl">icon</IconButton>
           <div>
             <BodyFont level="2" weight="bold">
               애플
