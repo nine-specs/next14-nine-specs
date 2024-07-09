@@ -1,6 +1,7 @@
-import { system } from "@/constants/prompt/chat";
-import fetchAIResponse from "@/service/fetchAIResponse";
 import { useEffect, useRef, useState } from "react";
+
+import { system } from "@/constants/prompt/chat";
+import fetchAiReply from "@/service/fetchAiReply";
 
 export type MessagesType = {
   content: string;
@@ -48,7 +49,7 @@ const useChat = () => {
 
     const prompt = `<|begin_of_text|><|start_header_id|>system<|end_header_id|>${system}<|eot_id|><|start_header_id|>user<|end_header_id|>${userInput}<|eot_id|><|start_header_id|>assistant<|end_header_id|>`;
 
-    await fetchAIResponse({
+    await fetchAiReply({
       prompt,
       onAiMessageHandler: (aiMessage) => {
         aiMessageRef.current = aiMessage;

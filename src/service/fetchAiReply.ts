@@ -1,6 +1,6 @@
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL as string;
 
-interface AIResponseParams {
+interface AiReplyParams {
   prompt: string;
   temperature?: number;
   top_p?: number;
@@ -8,13 +8,13 @@ interface AIResponseParams {
   onFinally?: () => void;
 }
 
-async function fetchAIResponse({
+async function fetchAiReply({
   prompt,
   temperature = 0.5,
   top_p = 0.5,
   onAiMessageHandler,
   onFinally,
-}: AIResponseParams) {
+}: AiReplyParams) {
   try {
     const aiResponse = await fetch(`${BASE_URL}/api/ai/reply`, {
       method: "POST",
@@ -55,4 +55,4 @@ async function fetchAIResponse({
   }
 }
 
-export default fetchAIResponse;
+export default fetchAiReply;
