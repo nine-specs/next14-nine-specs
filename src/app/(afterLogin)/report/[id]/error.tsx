@@ -1,21 +1,30 @@
-"use client";
-
-import CardWrap from "@/common/CardWrap";
-
+'use client' // Error components must be Client Components
+ 
+import { useEffect } from 'react'
+ 
 export default function Error({
   error,
   reset,
 }: {
-  error: Error & { digest?: string };
-  reset: () => void;
+  error: Error & { digest?: string }
+  reset: () => void
 }) {
+  useEffect(() => {
+    // Log the error to an error reporting service
+    console.error(error)
+  }, [error])
+ 
   return (
-    <section className="flex items-center w-[100vw] h-[100vh] justify-center">
-      <CardWrap>
-        <h2>리포트 페이지 오류!</h2>
-        <p>{error.message}</p>
-        <button onClick={() => reset()}>Try again</button>
-      </CardWrap>
-    </section>
-  );
+    <div>
+      <h2>Something went wrong!</h2>
+      <button
+        onClick={
+          // Attempt to recover by trying to re-render the segment
+          () => reset()
+        }
+      >
+        Try again
+      </button>
+    </div>
+  )
 }

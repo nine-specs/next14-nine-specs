@@ -1,6 +1,5 @@
-import ReportContainer from "@/app/components/Report/ReportContainer";
-import { StockInfo } from "@/app/components/Report/type/stockType";
-import { gptTokenApi } from "@/service/report/gptTokenApi";
+import ReportContainer from "@/components/Report/ReportContainer";
+import { StockInfo } from "@/components/Report/type/report/stockType";
 
 interface Props {
   params: {
@@ -32,10 +31,9 @@ export default async function page({ params }: Props) {
   const stockInfo: StockInfo | undefined = searchStockList.find(
     (stock) => stock.name === deCodeId,
   );
-  console.log(stockInfo);
   return (
-    <>
+    <div>
       <ReportContainer stockInfo={stockInfo} />
-    </>
+    </div>
   );
 }
