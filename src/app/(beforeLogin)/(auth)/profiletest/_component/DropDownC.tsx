@@ -9,7 +9,6 @@ import React, {
 import BodyFont from "@/common/BodyFont";
 import { getMyStocks, getStockList } from "@/hooks/profile/useStocksHandler";
 import { DropDownCProps } from "./profiletest";
-let addStockArr: string[] = [];
 type Stock = {
   stockId: string;
 };
@@ -25,7 +24,7 @@ export default function DropDownC({
   setStockArr,
 }: DropDownCProps) {
   const [stockList, setStockList] = useState<Stock[]>([]);
-  // DB 저장된 내 관심종목 & 주식종목들 불러오기
+  // DB 저장된 주식종목들 불러오기
   useEffect(() => {
     async function fetchData() {
       try {
