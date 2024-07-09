@@ -2,20 +2,19 @@
 import React, { useEffect, useState, ChangeEvent, MouseEvent } from "react";
 import BodyFont from "@/common/BodyFont";
 import { getMyStocks, getStockList } from "@/hooks/profile/useStocksHandler";
-
 let addStockArr: string[] = [];
-
 type Stock = {
   stockId: string;
 };
-
 type TMyStocks = string;
-
-export default function DropDownC() {
+export default function DropDownC({
+  giveStock,
+}: {
+  giveStock: (value: string) => void;
+}) {
   const [showDropDown, setShowDropDown] = useState(false);
   const [myStock, setMyStock] = useState<string>("#관심 종목을 추가해주세요");
   const [stockList, setStockList] = useState<Stock[]>([]);
-
   // DB 저장된 내 관심종목 & 주식종목들 불러오기
   useEffect(() => {
     async function fetchData() {
@@ -26,10 +25,8 @@ export default function DropDownC() {
         console.error("내관심종목&주식종목 가져오는 중 에러발생:", error);
       }
     }
-
     fetchData();
   }, []);
-
   // '#'입력시 드롭다운 이벤트
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
@@ -48,7 +45,6 @@ export default function DropDownC() {
     const stockNameText = text.split("∙")[0].trim().split("#")[1].trim();
     console.log("addStockArr : " + addStockArr);
     console.log("stockNameText : " + stockNameText);
-
     // 선택된 주식종목은 최대 4개까지만 표시
     if (addStockArr.length < 4) {
       addStockArr.push("#" + stockNameText);
@@ -56,14 +52,12 @@ export default function DropDownC() {
     // input value에 선택된 주식종목 설정
     const addStocksStr = addStockArr.join(" ");
     setMyStock(addStocksStr);
-
+    giveStock(myStock);
     // '#' 비우기
     const input = document.getElementById("stockInput") as HTMLInputElement;
     input.value = "";
-
     setShowDropDown(false);
   };
-
   return (
     <>
       <div className=" w-[386px] h-[184px] mb-[56px]">
