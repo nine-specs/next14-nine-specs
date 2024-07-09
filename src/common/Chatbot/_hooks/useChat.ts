@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 
+import { system } from "@/constants/prompt/chat";
+import fetchAiReply from "@/service/fetchAiReply";
+
 export type MessagesType = {
   content: string;
   role: "user" | "ai";
@@ -11,8 +14,6 @@ const useChat = () => {
   const [input, setInput] = useState("");
   const aiMessageRef = useRef<string>("");
   const [processing, setProcessing] = useState(false);
-
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL as string;
 
   useEffect(() => {
     if (!messages.length) {
@@ -46,35 +47,12 @@ const useChat = () => {
     ]);
     setInput("");
 
-    try {
-      const chatResponse = await fetch(`${BASE_URL}/api/ai/chat`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ userInput }),
-      });
+    const prompt = `<|begin_of_text|><|start_header_id|>system<|end_header_id|>${system}<|eot_id|><|start_header_id|>user<|end_header_id|>${userInput}<|eot_id|><|start_header_id|>assistant<|end_header_id|>`;
 
-      if (!chatResponse.ok) {
-        throw new Error("Network response was not ok.");
-      }
-
-      if (!chatResponse.body) {
-        return Response.json({ error: "No response body" }, { status: 500 });
-      }
-
-      const reader = chatResponse.body.getReader();
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) {
-          console.log("모든 데이터를 성공적으로 읽었습니다.");
-          break;
-        }
-        const text = new TextDecoder().decode(value);
-        // console.log("받은 데이터:", text);
-
-        aiMessageRef.current += text;
+    await fetchAiReply({
+      prompt,
+      onAiMessageHandler: (aiMessage) => {
+        aiMessageRef.current = aiMessage;
 
         setMessages((prev) => {
           const updatedMessages = [...prev];
@@ -95,14 +73,12 @@ const useChat = () => {
 
           return updatedMessages;
         });
-      }
-
-      aiMessageRef.current = "";
-    } catch (error) {
-      console.error("스트림 처리 중 에러:", error);
-    } finally {
-      setProcessing(false);
-    }
+      },
+      onFinally: () => {
+        aiMessageRef.current = "";
+        setProcessing(false);
+      },
+    });
   };
 
   return { messages, handleSubmit, input, handleInputChange, processing };

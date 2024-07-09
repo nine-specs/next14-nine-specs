@@ -11,9 +11,9 @@ export default function FavoriteStocks() {
       <div className="flex-1">
         <Title title="관심 종목" />
 
-        <div className="h-[374px]">
+        <div className="h-[384px]">
           <CardWrap width="100%" height="100%">
-            <div className="py-9 px-12">
+            <div className="py-8 px-12">
               <StockList />
             </div>
           </CardWrap>
