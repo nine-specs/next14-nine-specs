@@ -4,8 +4,8 @@ interface AiReplyParams {
   prompt: string;
   temperature?: number;
   top_p?: number;
-  onAiMessageHandler: (value: string) => void;
-  onFinally?: () => void;
+  onAiMessageHandler?: (value: string) => void;
+  onFinally?: (value: string) => void;
 }
 
 async function fetchAiReply({
@@ -15,6 +15,8 @@ async function fetchAiReply({
   onAiMessageHandler,
   onFinally,
 }: AiReplyParams) {
+  let aiMessage = "";
+
   try {
     const aiResponse = await fetch(`${BASE_URL}/api/ai/reply`, {
       method: "POST",
@@ -34,8 +36,6 @@ async function fetchAiReply({
 
     const reader = aiResponse.body.getReader();
 
-    let aiMessage = "";
-
     while (true) {
       const { done, value } = await reader.read();
       if (done) {
@@ -46,12 +46,12 @@ async function fetchAiReply({
       const text = new TextDecoder().decode(value);
       aiMessage += text;
 
-      onAiMessageHandler(aiMessage);
+      if (onAiMessageHandler) onAiMessageHandler(aiMessage);
     }
   } catch (error) {
     console.error("스트림 처리 중 에러:", error);
   } finally {
-    if (onFinally) onFinally();
+    if (onFinally) onFinally(aiMessage);
   }
 }
 
