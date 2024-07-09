@@ -27,10 +27,13 @@ export default function DropDownB() {
         const myStocks = await getMyStocks();
         console.log("내종목:" + myStock);
         const stockList = await getStockList();
+
         setStockList(stockList);
 
         if (myStocks.length > 0) {
-          const formattedStock = myStocks.map((a) => "#" + a).join(" ");
+          const formattedStockArr = myStocks.map((a) => "#" + a);
+          setStockArr(formattedStockArr);
+          const formattedStock = formattedStockArr.join(" ");
           setMyStock(formattedStock);
         }
       } catch (error) {

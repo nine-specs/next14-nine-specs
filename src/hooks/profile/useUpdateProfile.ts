@@ -16,8 +16,13 @@ import { revalidatePath } from "next/cache";
 //프로필 사진 , 닉네임 , 관심 종목 수정하기
 export async function useUpdateProfile(formData: FormData) {
   const file = formData.get("file") as File | null;
-  const nick = formData.get("nick") as string;
+  let nick = formData.get("nick") as string;
+  const previousNick = formData.get("previousNick") as string;
   const myStockStr = formData.get("myStock") as string | undefined;
+
+  if (!nick) {
+    nick = previousNick;
+  }
 
   console.log("파일 이름:", file?.name);
   console.log("닉네임:", nick);
@@ -55,7 +60,6 @@ export async function useUpdateProfile(formData: FormData) {
       await updateDoc(userDocRef, {
         image: url,
         nick: nick,
-        // myStock: myStock,
       });
     } catch (error) {
       console.log("에러 발생:", error);
@@ -65,7 +69,6 @@ export async function useUpdateProfile(formData: FormData) {
     // file이 없을 때는 닉네임과 관심 종목만 업데이트 진행
     await updateDoc(userDocRef, {
       nick: nick,
-      // myStock: myStock,
     });
   }
 

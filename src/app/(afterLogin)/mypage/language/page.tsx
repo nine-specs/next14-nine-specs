@@ -1,4 +1,3 @@
-"use client";
 import BodyFont from "@/common/BodyFont";
 import { LanguageButton } from "@/common/LanguageButton";
 import SideBar from "../_components/SideBar";

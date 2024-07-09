@@ -104,8 +104,12 @@ export default function ProfileEdit({ onClose, profileData }: TProfileEdit) {
                   name="nick"
                   checkLabel="중복 확인"
                   placeholder={profileData.profileData?.nick}
-                  value={profileData.profileData?.nick}
                   description=" "
+                />
+                <input
+                  className="hidden"
+                  name="previousNick"
+                  value={profileData.profileData?.nick}
                 />
                 {/* 닉네임 수정 끝*/}
                 {/* 관심종목 */}
