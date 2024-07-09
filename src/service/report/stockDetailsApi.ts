@@ -1,9 +1,16 @@
+interface StockDetails {
+  closePrice: string;
+  fluctuationsRatio: string;
+  compareToPreviousClosePrice: string;
+}
 /**
  * 주식 시세 변동 정보를 가져오는 API
  * @param {string} ticker 주식 코드 TSLA.O
  * @returns {object} 주식 시세 변동 정보 배열 { closePrice: 15.9373, fluctuationsRatio: 0.041, compareToPreviousClosePrice: 0.625 }
  */
-export const getStockDetails = async (ticker: string) => {
+export const getStockDetails = async (
+  ticker: string,
+): Promise<StockDetails> => {
   const response = await fetch(
     `https://polling.finance.naver.com/api/realtime/worldstock/stock/${ticker}`,
     {
