@@ -25,13 +25,13 @@ export default function MessageBox(props: MessagesType) {
         <div className="w-12 h-12 bg-primary-900 flex items-center justify-center rounded-md">
           <LOGO_ICON width="30" height="26" />
         </div>
-        <BodyFont
-          level="5"
-          weight="regular"
-          className="p-2 bg-background rounded-md max-w-80"
-        >
-          {content}
-        </BodyFont>
+        <div className="p-2 bg-background rounded-md max-w-80">
+          {content.split("\n").map((line, index) => (
+            <BodyFont key={index} level="5" weight="regular">
+              {line}
+            </BodyFont>
+          ))}
+        </div>
       </div>
     );
 }
