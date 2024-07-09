@@ -12,9 +12,22 @@ import TextButton from "@/common/TextButton";
 import DropDownC from "./DropDownC";
 // import signUp2 from "@/hooks/sign/useSignUp2";
 import signUp from "@/hooks/sign/useSignUp";
+export interface DropDownCProps {
+  myStock: string;
+  setMyStock: React.Dispatch<React.SetStateAction<string>>;
+  showDropDown: boolean;
+  setShowDropDown: React.Dispatch<React.SetStateAction<boolean>>;
+  selectOption: (e: React.MouseEvent<HTMLSpanElement>) => void;
+  // giveStock: (value: string) => void;
+  myStockArr: string[];
+  setStockArr: React.Dispatch<React.SetStateAction<string[]>>;
+}
+
 export default function ProfileTest() {
   const { name, userId, password, email, phone, birthdate } = useFormStore();
-  const [myStockStr, setStock] = useState("");
+  const [myStockArr, setStockArr] = useState<string[]>([]);
+  const [myStock, setMyStock] = useState<string>(""); //
+  const [showDropDown, setShowDropDown] = useState(false); //
   const [file, setFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const searchParams = useSearchParams();
@@ -53,6 +66,8 @@ export default function ProfileTest() {
       formData.append("file", file);
     }
     formData.append("nick", nick);
+    formData.append("myStock", myStock);
+
     const data = {
       name,
       userId,
@@ -61,7 +76,7 @@ export default function ProfileTest() {
       phone,
       birthdate,
       nick,
-      myStockStr,
+      // myStock,
     };
     const response = await signUp(data, formData);
     if (response.success) {
@@ -70,6 +85,50 @@ export default function ProfileTest() {
       alert(response.error);
     }
   };
+  //드롭다운 종목선택 이벤트
+  const selectOption = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+    setMyStock(" ");
+    const target = e.target as HTMLSpanElement;
+    const text = target.innerText;
+    const stockNameText = text.split("∙")[0].trim().split("#")[1].trim();
+    console.log("addStockArr : " + myStockArr);
+    console.log("stockNameText : " + stockNameText);
+    // 선택된 주식종목은 최대 4개까지만 표시
+    let copyArr: string[] = [];
+    if (myStockArr.length < 4) {
+      //기존 관심종목배열 복사
+      copyArr = [...myStockArr];
+      copyArr.push("#" + stockNameText);
+      // 중복이 있다면 제거
+      copyArr = removeDuplicates(copyArr);
+      setStockArr(copyArr);
+    }
+
+    // input value에 선택된 주식종목 설정
+    const addStocksStr = copyArr.join(" ");
+    setMyStock(addStocksStr);
+    console.log("선택된종목배열:" + myStockArr);
+    // giveStock(myStock);
+    // '#' 비우기
+    const input = document.getElementById("stockInput") as HTMLInputElement;
+    input.value = "";
+    setShowDropDown(false);
+  };
+  //배열 중복제거
+  const removeDuplicates = (arr: string[]): string[] => {
+    return arr.filter((item, index) => arr.indexOf(item) === index);
+  };
+
+  const dropDownProps: DropDownCProps = {
+    myStock,
+    setMyStock,
+    showDropDown,
+    setShowDropDown,
+    selectOption,
+    myStockArr,
+    setStockArr,
+  };
+
   return (
     <div className="flex justify-center items-start flex-grow-0 flex-shrink-0 rounded-[32px] bg-white w-[590px] h-[688px] mx-auto mt-[120px]">
       <form
@@ -113,7 +172,7 @@ export default function ProfileTest() {
                 placeholder="닉네임을 입력해주세요"
                 description=" "
               />
-              <DropDownC giveStock={(value) => setStock(value)} />
+              <DropDownC {...dropDownProps} />
             </div>
           </div>
           <TextButton variant="primary" size="lg" type="submit">
