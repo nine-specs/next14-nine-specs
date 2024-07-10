@@ -99,3 +99,17 @@ export async function useUpdateProfile(formData: FormData) {
 
   revalidatePath("/mypage/profile");
 }
+
+export async function updateLang(lang: string) {
+  // 임시 uid 설정
+  const uid = "gU8dSD4pRUHr7xAx9cgL";
+  try {
+    const userDocRef = doc(firestore, "users", uid);
+    await updateDoc(userDocRef, {
+      language: lang,
+    });
+  } catch (error) {
+    console.log("언어설정 변경 중 에러 발생:", error);
+  }
+  console.log("언어변경완료");
+}

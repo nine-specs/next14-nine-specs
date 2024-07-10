@@ -1,8 +1,25 @@
+"use client";
 import BodyFont from "@/common/BodyFont";
 import { LanguageButton } from "@/common/LanguageButton";
 import SideBar from "../_components/SideBar";
+import { useEffect, useState } from "react";
+import { TUser } from "@/app/api/profile/route";
 
 export default function language() {
+  const [lang, setLang] = useState("");
+  const [profileData, setProfileData] = useState<TUser>();
+  // 유저 기본 정보 가져오기
+  useEffect(() => {
+    fetch("/api/profile")
+      .then((r) => r.json())
+      .then((result) => {
+        setLang(result.data.language);
+      })
+      .catch((error) => {
+        console.error("에러발생:", error);
+      });
+  }, []);
+
   return (
     <div className=" w-[1200px] min-h-[720px] flex gap-[27px] mt-[20px] mb-[112px]">
       {/* 사이드바 */}
@@ -20,10 +37,10 @@ export default function language() {
             </BodyFont>
           </div>
           <div className="flex justify-between">
-            <LanguageButton country="USA" />
-            <LanguageButton country="CH" />
-            <LanguageButton country="JP" />
-            <LanguageButton country="FR" />
+            <LanguageButton country="USA" lang={lang} setLang={setLang} />
+            <LanguageButton country="CH" lang={lang} setLang={setLang} />
+            <LanguageButton country="JP" lang={lang} setLang={setLang} />
+            <LanguageButton country="FR" lang={lang} setLang={setLang} />
           </div>
         </div>
       </div>
