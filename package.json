@@ -10,9 +10,9 @@
   },
   "dependencies": {
     "@date-io/dayjs": "^3.0.0",
-    "dayjs": "^1.11.11",
     "@types/bcrypt": "^5.0.2",
     "bcrypt": "^5.1.1",
+    "dayjs": "^1.11.11",
     "firebase": "^10.12.2",
     "next": "14.2.4",
     "next-auth": "^5.0.0-beta.19",
@@ -22,6 +22,7 @@
     "recharts": "^2.12.7",
     "timezone": "^1.0.23",
     "utc": "^0.1.0",
+    "uuidv4": "^6.2.13",
     "zustand": "^4.5.2"
   },
   "devDependencies": {
