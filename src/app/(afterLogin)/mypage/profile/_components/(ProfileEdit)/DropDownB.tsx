@@ -1,9 +1,13 @@
 "use client";
-import React, { useEffect, useState, ChangeEvent, MouseEvent } from "react";
+import React, {
+  useEffect,
+  useState,
+  ChangeEvent,
+  MouseEvent,
+  KeyboardEvent,
+} from "react";
 import BodyFont from "@/common/BodyFont";
 import { getMyStocks, getStockList } from "@/hooks/profile/useStocksHandler";
-
-let addStockArr: string[] = [];
 
 type Stock = {
   stockId: string;
@@ -15,7 +19,7 @@ export default function DropDownB() {
   const [showDropDown, setShowDropDown] = useState(false);
   const [myStock, setMyStock] = useState<string>("#관심 종목을 추가해주세요");
   const [stockList, setStockList] = useState<Stock[]>([]);
-
+  const [myStockArr, setStockArr] = useState<string[]>([]);
   // DB 저장된 내 관심종목 & 주식종목들 불러오기
   useEffect(() => {
     async function fetchData() {
@@ -23,14 +27,7 @@ export default function DropDownB() {
         const myStocks = await getMyStocks();
         console.log("내종목:" + myStock);
         const stockList = await getStockList();
-        setStockList(
-          stockList || [
-            { stockId: "애플 ∙ APPL" },
-            { stockId: "아마존 ∙ AMZN" },
-            { stockId: "어도비 ∙ ADBE" },
-            { stockId: "AMD ∙ AMD" },
-          ],
-        );
+        setStockList(stockList);
 
         if (myStocks.length > 0) {
           const formattedStock = myStocks.map((a) => "#" + a).join(" ");
@@ -46,36 +43,75 @@ export default function DropDownB() {
 
   // '#'입력시 드롭다운 이벤트
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    // 사용자 입력한 값 가져오기
     const inputValue = e.target.value;
+    // value의 마지막 문자열 가져오기(사용자가 방금 입력한 값)
+    let lastValueStr = inputValue[inputValue.length - 1];
+    //input에 입력된값을 myStock에 저장
+    setMyStock(inputValue);
     console.log(inputValue);
-    if (inputValue === "#") {
+    console.log(lastValueStr);
+    if (lastValueStr === "#") {
       setShowDropDown(true);
     } else if (!inputValue) {
       setShowDropDown(false);
     }
   };
-  // 종목선택 이벤트
+  //드롭다운 종목선택 이벤트
   const selectOption = (e: MouseEvent<HTMLSpanElement>) => {
     setMyStock(" ");
     const target = e.target as HTMLSpanElement;
     const text = target.innerText;
     const stockNameText = text.split("∙")[0].trim().split("#")[1].trim();
-    console.log("addStockArr : " + addStockArr);
+    console.log("addStockArr : " + myStockArr);
     console.log("stockNameText : " + stockNameText);
 
     // 선택된 주식종목은 최대 4개까지만 표시
-    if (addStockArr.length < 4) {
-      addStockArr.push("#" + stockNameText);
+    let copyArr: string[] = [];
+    if (myStockArr.length < 4) {
+      //기존 관심종목배열 복사
+      copyArr = [...myStockArr];
+      copyArr.push("#" + stockNameText);
+      // 중복이 있다면 제거
+      copyArr = removeDuplicates(copyArr);
+      setStockArr(copyArr);
     }
     // input value에 선택된 주식종목 설정
-    const addStocksStr = addStockArr.join(" ");
+    const addStocksStr = copyArr.join(" ");
     setMyStock(addStocksStr);
-
+    console.log("선택된종목배열:" + myStockArr);
     // '#' 비우기
     const input = document.getElementById("stockInput") as HTMLInputElement;
     input.value = "";
 
     setShowDropDown(false);
+  };
+
+  //배열 중복제거
+  const removeDuplicates = (arr: string[]): string[] => {
+    return arr.filter((item, index) => arr.indexOf(item) === index);
+  };
+
+  // 선택된 관심종목 제거
+  const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Backspace") {
+      // 관심종목 배열에 값이 있다면 이벤트실행
+      if (myStockArr.length > 0) {
+        e.preventDefault();
+        console.log("백스페이스 키 입력됨");
+        // 원하는 로직 추가
+        // 관심종목 배열 마지막 요소 제거
+        let copyArr = [...myStockArr];
+        copyArr.pop();
+        //  set관심종목 배열로 저장
+        setStockArr(copyArr);
+        // 이놈을 str로 바꾼뒤
+        const addStocksStr = copyArr.join(" ");
+        // setmyStock 에 넣는다.
+        setMyStock(addStocksStr);
+        setShowDropDown(false);
+      }
+    }
   };
 
   return (
@@ -87,19 +123,15 @@ export default function DropDownB() {
         <div className="w-auto h-auto relative">
           <div className="self-stretch rounded-lg bg-grayscale-0 flex flex-row items-center justify-between py-0 px-[15px] h-[56px] gap-[16px] border-[1px] border-solid border-grayscale-300">
             <input
-              className="w-[314px] [border:none] [outline:none] font-body-5-r text-base bg-[transparent] h-full leading-[24px] text-grayscale-900 text-left flex items-center max-w-[314px] p-0 placeholder-grayscale-900"
-              placeholder={myStock}
-              onChange={onChange}
-              id="stockInput"
-            />
-            <input
-              className="hidden"
-              id="hiddenInput"
               name="myStock"
+              className="w-[314px] [border:none] [outline:none] font-body-5-r text-base bg-[transparent] h-full leading-[24px] text-grayscale-900 text-left flex items-center max-w-[314px] p-0 "
+              placeholder="#관심 종목을 추가해주세요"
+              onChange={onChange}
+              onKeyDown={onKeyDown}
+              id="stockInput"
               value={
                 myStock !== "#관심 종목을 추가해주세요" ? myStock : undefined
               }
-              readOnly
             />
           </div>
         </div>
