@@ -19,7 +19,6 @@ export async function GetUser() {
 
   // 임시 uid 설정
   const uid = "gU8dSD4pRUHr7xAx9cgL";
-  // const uid = "WJBBuka8oDKBIjASaEd1";
 
   //users콜렉션에서  uid 일치하는 document찾기
   const userDocRef = doc(firestore, "users", uid);
@@ -40,7 +39,7 @@ export async function GetUser() {
       userId: userData.userId,
       name: userData.name,
       nick: userData.nick,
-      myStock: userData.myStocks,
+      myStocks: userData.myStocks,
     };
 
     return new Response(JSON.stringify({ res: "응답함", data: fetchedUser }), {

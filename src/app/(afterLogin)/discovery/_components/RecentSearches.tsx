@@ -5,10 +5,6 @@ import Not_found_icon from "/public/images/Not_found_icon.svg";
 import ButtonFont from "@/common/ButtonFont";
 import BodyFont from "@/common/BodyFont";
 import React, { useEffect, useRef, useState } from "react";
-import {
-  DeleteAllSearchData,
-  DeleteSearchData,
-} from "@/hooks/discovery/useDeleteSearchData";
 
 type TrecentData = { keyword: string; date: string }[];
 

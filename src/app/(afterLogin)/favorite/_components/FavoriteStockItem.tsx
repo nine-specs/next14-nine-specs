@@ -11,7 +11,6 @@ export default function FavoriteStockItem({
   myStock,
 }: TFavoriteStockItemProps) {
   const encodedMyStock = encodeURIComponent(myStock);
-
   return (
     <>
       <div className="w-[392px] h-[360px] bg-grayscale-0 rounded-2xl px-8 pt-8">
@@ -23,7 +22,7 @@ export default function FavoriteStockItem({
           <TextButton size="md" variant="default" className="w-[160px]">
             삭제하기
           </TextButton>
-          <Link href={`/report?id=${encodedMyStock}`} className="w-full">
+          <Link href={`/report/${encodedMyStock}`} className="w-full">
             <TextButton size="md" variant="primary" className="w-[160px]">
               자세히보기
             </TextButton>
