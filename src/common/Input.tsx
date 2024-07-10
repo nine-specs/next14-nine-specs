@@ -15,6 +15,7 @@ interface InputProps {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   styleStatus?: "default" | "warning"; // styleStatus 속성 추가
   maxLength?: number;
+  disabled?: boolean;
 }
 
 const labelVariants = {
@@ -42,6 +43,7 @@ export default function Input({
   className,
   styleStatus = "default", // 기본값을 "default"로 설정
   maxLength,
+  disabled = false, // disabled의 기본값을 false로 설정
 }: InputProps) {
   return (
     <div className="self-stretch flex flex-col items-start justify-start gap-[4px]">
@@ -61,6 +63,7 @@ export default function Input({
           value={value}
           onChange={onChange}
           maxLength={maxLength}
+          disabled={disabled}
         />
       </div>
       {description && (

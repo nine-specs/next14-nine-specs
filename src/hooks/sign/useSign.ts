@@ -3,18 +3,17 @@
 import { hash } from "bcrypt";
 import { collection, addDoc, getDocs } from "firebase/firestore";
 import { firestore } from "../../firebase/firebaseConfig";
-import { redirect } from "next/navigation";
 
-export async function register(formData: FormData) {
+export async function register(formData: FormData, userEmail: string) {
   const userData = {
     name: formData.get("name") as string,
-    email: formData.get("email") as string,
     nick: formData.get("nick") as string,
     userId: formData.get("userId") as string,
     password: formData.get("password") as string,
     confirmPassword: formData.get("confirmPassword") as string,
     phone: formData.get("phone") as string,
     birthdate: formData.get("birthdate") as string,
+    email: userEmail,
   };
 
   const {
@@ -31,17 +30,21 @@ export async function register(formData: FormData) {
   // 입력값 및 유효성 검사
   const missingFields = [];
 
+  console.log(name);
+  console.log(userId);
+  console.log(email);
+
   if (!name) {
     missingFields.push("이름을 입력해주세요");
     console.log(`${missingFields.join("\n")}`);
     return;
   }
 
-  if (!email) {
-    missingFields.push("이메일을 입력해주세요");
-    console.log(`${missingFields.join("\n")}`);
-    return;
-  }
+  // if (!email) {
+  //   missingFields.push("이메일을 입력해주세요");
+  //   console.log(`${missingFields.join("\n")}`);
+  //   return;
+  // }
 
   if (!nick) {
     missingFields.push("닉네임을 입력해주세요");
@@ -140,7 +143,7 @@ export async function register(formData: FormData) {
       password: hashedPassword,
       phone: phone,
       birthdate: birthdate,
-      email: email,
+      email: userEmail,
       createdAt: createdAt,
       accountType: "A", //일반회원가입
     });

@@ -6,9 +6,9 @@ import StockItem from "./StockItem";
 export default function StockList() {
   return (
     <>
-      <ul className="flex flex-col gap-4">
+      <ul className="flex flex-col">
         {Array.from({ length: 4 }, (_, index) => (
-          <li key={index}>
+          <li key={index} className="py-2">
             <StockItem />
           </li>
         ))}
