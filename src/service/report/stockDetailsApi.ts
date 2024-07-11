@@ -1,8 +1,5 @@
-interface StockDetails {
-  closePrice: string;
-  fluctuationsRatio: string;
-  compareToPreviousClosePrice: string;
-}
+import { StockDetails } from "@/components/Report/type/report/stockType";
+
 /**
  * 주식 시세 변동 정보를 가져오는 API
  * @param {string} ticker 주식 코드 TSLA.O
@@ -18,6 +15,7 @@ export const getStockDetails = async (
       headers: {
         "Content-Type": "application/json",
       },
+      cache: "no-store",
     },
   );
 

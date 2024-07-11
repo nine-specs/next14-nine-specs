@@ -20,3 +20,10 @@ export interface StockPrice {
   localDateTime?: string;
   date?: string;
 }
+
+
+export interface StockDetails {
+  closePrice: string;
+  fluctuationsRatio: string;
+  compareToPreviousClosePrice: string;
+}
