@@ -11,7 +11,7 @@ const topGainers = [
   { ticker: "AVGO", name: "브로드컴", code: "AVGO.O" },
   { ticker: "TSLA", name: "테슬라", code: "TSLA.O" },
   { ticker: "NVDA", name: "엔비디아", code: "NVDA.O" },
-  { ticker: "META", name: "메타 플랫폼스", code: "META.O" },
+  { ticker: "META", name: "메타플랫폼스", code: "META.O" },
   { ticker: "MSFT", name: "마이크로소프트", code: "MSFT.O" },
 ];
 
@@ -29,7 +29,7 @@ export default async function page({ params }: Props) {
   const { id } = params;
   const deCodeId = await decodeURIComponent(id);
   const stockInfo: StockInfo | undefined = searchStockList.find(
-    (stock) => stock.name === deCodeId,
+    (stock) => stock.name === deCodeId.replace(/\s+/g, ""),
   );
   return (
     <div>
