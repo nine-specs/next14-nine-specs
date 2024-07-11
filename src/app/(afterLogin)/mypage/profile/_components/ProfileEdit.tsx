@@ -3,12 +3,14 @@ import { Modal } from "@/common/Modal";
 import TextButton from "@/common/TextButton";
 import ProfileSVG from "/public/images/profile.svg";
 import EditLgIcon from "/public/images/Edit_icon_lg.svg";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import DropDownB from "./(ProfileEdit)/DropDownB";
 import { TUser } from "@/app/api/profile/route";
 import { useUpdateProfile } from "@/hooks/profile/useUpdateProfile";
 import BodyFont from "@/common/BodyFont";
 import CheckIdEmailInput from "@/common/CheckIdEmailInput";
+import { getStockByKeyword } from "@/hooks/profile/useStocksHandler";
+import { useRouter } from "next/navigation";
 
 type TProfileEdit = {
   onClose: () => void;
@@ -21,9 +23,11 @@ export default function ProfileEdit({ onClose, profileData }: TProfileEdit) {
   const profileImgSrc = profileData.profileData?.image;
   const [file, setFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
 
   //프로필 아이콘 클릭시 숨겨진 input이 클릭
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    console.log(nickInputTag);
     const inputBox = document.getElementById("inputBox");
     console.log(inputBox?.querySelector("input"));
     e.preventDefault();
@@ -51,6 +55,17 @@ export default function ProfileEdit({ onClose, profileData }: TProfileEdit) {
         alert("이미지 파일만 업로드할 수 있습니다.");
       }
     }
+  };
+
+  const nickInputTag = document.getElementsByName("nick");
+
+  // 수정하기 입력시 모달 안닫아지는 현상 방지
+  const onUpdateClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    setTimeout(() => {
+      onClose();
+    }, 1000);
+
+    // router.push("/mypage/profile");
   };
 
   return (
@@ -117,9 +132,11 @@ export default function ProfileEdit({ onClose, profileData }: TProfileEdit) {
                 {/* 관심종목 끝 */}
               </div>
             </div>
-            <TextButton variant="primary" size="lg">
-              수정하기
-            </TextButton>
+            <div onClick={onUpdateClick} className="w-full">
+              <TextButton variant="primary" size="lg">
+                수정하기
+              </TextButton>
+            </div>
           </div>
         </form>
       </Modal>

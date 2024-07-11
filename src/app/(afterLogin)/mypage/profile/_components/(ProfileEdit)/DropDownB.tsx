@@ -7,7 +7,11 @@ import React, {
   KeyboardEvent,
 } from "react";
 import BodyFont from "@/common/BodyFont";
-import { getMyStocks, getStockList } from "@/hooks/profile/useStocksHandler";
+import {
+  getMyStocks,
+  getStockByKeyword,
+  getStockList,
+} from "@/hooks/profile/useStocksHandler";
 
 type Stock = {
   stockId: string;
@@ -20,13 +24,14 @@ export default function DropDownB() {
   const [myStock, setMyStock] = useState<string>("#관심 종목을 추가해주세요");
   const [stockList, setStockList] = useState<Stock[]>([]);
   const [myStockArr, setStockArr] = useState<string[]>([]);
+  const [searchKeyword, setSearchKeyword] = useState<string>("");
   // DB 저장된 내 관심종목 & 주식종목들 불러오기
   useEffect(() => {
     async function fetchData() {
       try {
-        const myStocks = await getMyStocks();
+        const myStocks = await getMyStocks(); // 내 관심종목 가져오기
         console.log("내종목:" + myStock);
-        const stockList = await getStockList();
+        const stockList = await getStockList(); // 주식종목리스트 가져오기
 
         setStockList(stockList);
 
@@ -40,16 +45,33 @@ export default function DropDownB() {
         console.error("내관심종목&주식종목 가져오는 중 에러발생:", error);
       }
     }
-
     fetchData();
   }, []);
+
+  // // 사용자가 입력한 값에 따라 주식 종목 가져오기
+  // useEffect(() => {
+  //   if (searchKeyword.length > 0) {
+  //     const fetchStocks = async () => {
+  //       const DataBykeyword = await getStockByKeyword(searchKeyword);
+  //       if (DataBykeyword) {
+  //         setStockList(DataBykeyword);
+  //       }
+  //       setShowDropDown(true);
+  //     };
+  //     fetchStocks();
+  //   } else {
+  //     setShowDropDown(false);
+  //   }
+  // }, [searchKeyword]);
 
   // '#'입력시 드롭다운 이벤트
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     // 사용자 입력한 값 가져오기
     const inputValue = e.target.value;
+    setSearchKeyword(inputValue);
     // value의 마지막 문자열 가져오기(사용자가 방금 입력한 값)
     let lastValueStr = inputValue[inputValue.length - 1];
+
     //input에 입력된값을 myStock에 저장
     setMyStock(inputValue);
     console.log(inputValue);

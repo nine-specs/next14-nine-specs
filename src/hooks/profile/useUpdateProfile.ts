@@ -12,6 +12,7 @@ import {
 } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 //프로필 사진 , 닉네임 , 관심 종목 수정하기
 export async function useUpdateProfile(formData: FormData) {
@@ -35,6 +36,7 @@ export async function useUpdateProfile(formData: FormData) {
 
   // 세션 또는 전역에서 회원정보가져오기
 
+  const userId = "user1";
   // 임시 uid 설정
   const uid = "gU8dSD4pRUHr7xAx9cgL";
   // const uid = "WJBBuka8oDKBIjASaEd1";
@@ -48,7 +50,7 @@ export async function useUpdateProfile(formData: FormData) {
       console.log("파일 있음");
       // 파일의 경로 및 파일명 설정
       // userProfile이라는 폴더를 만들고 그 뒤에 uid 경로
-      const locationRef = ref(storage, `userProfile/${uid}`);
+      const locationRef = ref(storage, `userProfile/${userId}`);
       // *참고* 위의 경로와 파일명과 동일한 파일이 있다면 덮어씀.
       // 스토리지에 파일 업로드. 성공 시 결과 반환
       const result = await uploadBytes(locationRef, file);
@@ -98,6 +100,7 @@ export async function useUpdateProfile(formData: FormData) {
   }
 
   revalidatePath("/mypage/profile");
+  redirect("/mypage/profile");
 }
 
 export async function updateLang(lang: string) {

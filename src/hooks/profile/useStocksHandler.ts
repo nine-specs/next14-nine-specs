@@ -1,7 +1,7 @@
 "use server";
 import { TUser } from "@/app/api/profile/route";
 import { firestore } from "@/firebase/firebaseConfig";
-import { collection, getDocs, query } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 type TStocks = {
   stockId: string;
@@ -48,4 +48,26 @@ export async function getMyStocks() {
     console.log("에러발생:" + error);
   }
   return myStocks;
+}
+
+/**입력된 키워드를 통해 주식종목가져오기 */
+export async function getStockByKeyword(keyword: string) {
+  const stockList: TStocks[] = [];
+  try {
+    const stocksRef = collection(firestore, "stocks");
+    const q = query(
+      stocksRef,
+      where("stockName", ">=", keyword),
+      where("stockName", "<", keyword + "\uf8ff"),
+    );
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((doc) => {
+      stockList.push(doc.data() as TStocks);
+    });
+
+    return stockList;
+  } catch (error) {
+    console.log("키워드조회 에러발생:" + error);
+  }
 }
