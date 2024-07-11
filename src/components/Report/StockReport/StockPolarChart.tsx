@@ -10,28 +10,35 @@ import {
 } from "recharts";
 
 interface Props {
-
   PorlarAngle?: boolean;
-  data?: any;
+  data: any;
   viewAxis?: boolean;
+  dataKey?: string;
+  valueKey?: string;
+  cx?: string;
+  cy?: string;
 }
 export default function StockPolarChart({
- 
+  dataKey = "subject",
+  valueKey = "score",
+  PorlarAngle = true,
   data,
+  cx = "50%",
+  cy = "50%",
   viewAxis,
 }: Props) {
-  const fullMark = 100;
-  const dataKey = "subject";
-  const valueKey = "score";
-  const PorlarAngle = true;
-
-  const outerRadius = (fullMark / 2) * 0.8; // 전체 크기의 80%를 사용
+  const outerRadius = PorlarAngle ? "80%" : "100%";
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <RadarChart  cx="50%" cy="50%" data={data}>
+      <RadarChart cx={cx} cy={cy} data={data} outerRadius={outerRadius}>
         <PolarGrid stroke="#E9E9E9" strokeWidth={1} />
         {viewAxis && (
-          <PolarAngleAxis tickSize={1} tick={PorlarAngle} dataKey={dataKey} />
+          <PolarAngleAxis
+            tickSize={2}
+            style={{ fontSize: "12px" }}
+            tick={PorlarAngle}
+            dataKey={dataKey}
+          />
         )}
         <Radar
           name="AiReport"

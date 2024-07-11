@@ -23,9 +23,9 @@ export default async function StockReport({ code }: Props) {
     topP: 0.5,
     stream: false,
   });
-  const parsedRes = JSON.parse(res as string);
-  const overallScore = parsedRes?.overallScore;
-  const chartData = parsedRes.scores;
+  const { overallScore, scores } = JSON.parse(res);
+  console.log(JSON.parse(res));
+
   return (
     <section className="space-y-6">
       <div className="flex justify-between ">
@@ -37,12 +37,13 @@ export default async function StockReport({ code }: Props) {
         </HeadingFont>
       </div>
 
-      <div className="flex justify-between ">
-        <div className="w-[175px] h-[175px] overflow-visible">
-          <StockPolarChart data={chartData} viewAxis={true} />
+      <div className="relative ">
+        <div className="absolute left-0 w-[210px] h-[175px] z-10">
+          <StockPolarChart data={scores} cx="45%" viewAxis={true} />
         </div>
-
-        <StockReportList data={chartData} />
+        <div className="absolute right-0">
+          <StockReportList data={scores} />
+        </div>
       </div>
     </section>
   );
