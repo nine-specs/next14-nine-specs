@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import StockSummary from "./StockSummary";
-import StockSubRate from "../ReportCommon/StockSubRate";
+import StockSuspenseLoading from "../ReportCommon/SuspenseLoading";
 
 interface Props {
   code: string;
@@ -9,10 +9,8 @@ interface Props {
 
 export default function StockSumaryContainer({ code, ticker }: Props) {
   return (
-    <>
-      <Suspense fallback={<div>주식 가격 , 요약 로딩중...</div>}>
-        <StockSummary code={code} ticker={ticker} />
-      </Suspense>
-    </>
+    <Suspense fallback={<StockSuspenseLoading />}>
+      <StockSummary code={code} ticker={ticker} />
+    </Suspense>
   );
 }

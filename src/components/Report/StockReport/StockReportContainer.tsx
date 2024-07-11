@@ -50,7 +50,7 @@ export default function StockReportContainer({ code }: Props) {
       <Suspense
         fallback={
           <>
-            <section className="space-y-6">
+            <section className="space-y-6 ">
               <div className="flex justify-end items-center gap-1">
                 <StockSuspenseLoading />
                 <HeadingFont
@@ -62,7 +62,7 @@ export default function StockReportContainer({ code }: Props) {
                 </HeadingFont>
               </div>
 
-              <div className="relative ">
+              <div className="relative animate-pulse ">
                 <div className="absolute left-0 w-[210px] h-[175px] z-10">
                   <StockPolarChart data={scores} cx="45%" viewAxis={true} />
                 </div>
