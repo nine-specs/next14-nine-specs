@@ -1,6 +1,8 @@
 "use client";
 
 import CardWrap from "@/common/CardWrap";
+import HeadingFont from "@/common/HeadingFont";
+import { useEffect } from "react";
 
 export default function Error({
   error,
@@ -9,13 +11,26 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  useEffect(() => {
+    // Log the error to an error reporting service
+    console.error(error);
+  }, [error]);
+
   return (
-    <section className="flex items-center w-[100vw] h-[100vh] justify-center">
+    <div className="flex flex-col gap-3 w-full justify-center items-center">
       <CardWrap>
-        <h2>리포트 페이지 오류!</h2>
-        <p>{error.message}</p>
-        <button onClick={() => reset()}>Try again</button>
+        <HeadingFont level="1" weight="bold">
+          리포트 에러 페이지
+        </HeadingFont>
+        <button
+          onClick={
+            // Attempt to recover by trying to re-render the segment
+            () => reset()
+          }
+        >
+          새로고침
+        </button>
       </CardWrap>
-    </section>
+    </div>
   );
 }
