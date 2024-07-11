@@ -5,7 +5,7 @@ import CardWrap from "@/common/CardWrap";
 import { StockInfo } from "../type/report/stockType";
 import { uuid } from "uuidv4";
 interface Props {
-  stockInfo: StockInfo[] | undefined;
+  stockInfo: StockInfo;
 }
 
 /**
@@ -15,7 +15,8 @@ interface Props {
  */
 export default async function FavorStockList({ stockInfo }: Props) {
   if (!stockInfo) return null;
-  stockInfo = [
+  const stockInfo2 = [
+    stockInfo,
     {
       ticker: "AAPL",
       name: "애플",
@@ -31,7 +32,7 @@ export default async function FavorStockList({ stockInfo }: Props) {
   return (
     <>
       {stockInfo &&
-        stockInfo.map((stockInfo) => (
+        stockInfo2.map((stockInfo) => (
           <div className="w-[387px] mb-3" key={uuid()}>
             <CardWrap width="387px" height="304px" padding>
               <Suspense fallback={<div>관심목록 로딩중...</div>}>
