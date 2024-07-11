@@ -1,3 +1,4 @@
+"use client";
 import BodyFont from "@/common/BodyFont";
 import Image from "next/image";
 import Input from "@/common/Input";
@@ -5,42 +6,41 @@ import Checkbox from "@/common/Checkbox";
 import Link from "next/link";
 import TextButton from "@/common/TextButton";
 import CheckPwInput from "@/common/CheckPwInput";
-
-const logoImg = [
-  { name: "Kakao", src: "/images/logo/kakao.svg" },
-  { name: "Naver", src: "/images/logo/Naver.svg" },
-  { name: "Google", src: "/images/logo/Google.svg" },
-];
+import { useState } from "react";
+import { signIn } from "next-auth/react";
 
 export default function LoginComponent() {
+  const [userId, setUserId] = useState("");
+  const [password, setPassword] = useState("");
+
+  const socialProviders = [
+    { name: "kakao", imageSrc: "/images/logo/kakao.svg" },
+    { name: "naver", imageSrc: "/images/logo/Naver.svg" },
+    { name: "google", imageSrc: "/images/logo/Google.svg" },
+  ];
+
   return (
     <>
-      <section
-        className=" flex flex-row items-center justify-center py-0 px-5 box-border my-14
-      "
-      >
-        <form className="flex flex-col items-center justify-start m-0 w-[590px] h-[668px]shadow-[0px_0px_10px_5px_rgba(203,_203,_203,_0.25)] rounded-[32px] bg-grayscale-0  py-20 pr-5 pl-[22px] box-border gap-[16px] max-w-full mq725:pt-[52px] mq725:pb-[52px] mq725:box-border ">
+      <section className="flex flex-col items-center justify-center py-0 px-5 box-border my-14">
+        <form className="flex flex-col items-center justify-start w-[590px] h-[530px] shadow-[0px 0px 10px 5px rgba(203, 203, 203, 0.25)] rounded-tl-[32px] rounded-tr-[32px] bg-grayscale-0 py-20 pr-5 pl-[22px] gap-[16px] max-w-full mq725:pt-[52px] mq725:pb-[52px] mq725:box-border">
           <div className="w-[386px] flex flex-col items-center justify-start gap-[40px] max-w-full mq450:gap-[20px]">
-            {/* 타이블 영역 시작  */}
             <BodyFont level="1" weight="bold" className="text-primary-900">
               로그인
             </BodyFont>
-            {/* 타이블 영역 끝 */}
             <div className="self-stretch flex flex-col items-start justify-start gap-[16px]">
-              {/* 아이디 입력 하는곳 시작 */}
-              <Input placeholder="아이디를 입력해주세요" />
-              {/* 아이디 입력 하는곳 끝 */}
-              {/* 비밀번호 입력 하는곳 시작 */}
+              <Input
+                placeholder="아이디를 입력해주세요"
+                value={userId}
+                onChange={(e) => setUserId(e.target.value)}
+              />
               <CheckPwInput
                 type="password"
                 placeholder="비밀번호를 입력해주세요"
-                // showImage={showImage}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
-              {/* 비밀번호 입력 하는곳 끝 */}
             </div>
           </div>
-
-          {/*자동로그인 아이디 찾기 비밀번호 찾기 시작  */}
           <div className="w-[387.7px] flex flex-row items-start justify-between max-w-full gap-[20px] mq450:flex-wrap">
             <div className="flex flex-row items-start justify-start gap-[4px]">
               <Checkbox>
@@ -51,7 +51,6 @@ export default function LoginComponent() {
                 </div>
               </Checkbox>
             </div>
-
             <div className="flex flex-row items-start justify-start gap-[8px]">
               <Link href="/search/searchId">
                 <BodyFont level="5" weight="regular">
@@ -61,7 +60,6 @@ export default function LoginComponent() {
               <div className="relative text-sm leading-[20px] font-body-5-r text-grayscale-400 text-left inline-block min-w-[5px]">
                 |
               </div>
-
               <Link href="/search/searchPw">
                 <BodyFont level="5" weight="regular">
                   비밀번호 찾기
@@ -69,44 +67,45 @@ export default function LoginComponent() {
               </Link>
             </div>
           </div>
-          {/*자동로그인 아이디 찾기 비밀번호 찾기 끝  */}
-
-          {/* 로그인 버튼이랑 회원가입 버튼 시작 */}
           <div className="w-[386px] flex flex-col items-start justify-start max-w-full">
-            <TextButton disabled type="submit">
-              로그인
-            </TextButton>
-
+            <TextButton type="submit">로그인</TextButton>
             <div className="self-stretch flex flex-row items-start justify-between py-4 px-0 gap-[20px] mq450:flex-wrap">
               <BodyFont level="5" weight="regular">
                 아직 회원이 아니신가요?
               </BodyFont>
               <Link href="/agree">
-                <div className="relative text-sm [text-decoration:underline] leading-[20px] font-medium font-body-5-r text-secondary-600 text-left inline-block min-w-[101px] bg-transparent border-none p-0 cursor-pointer">
+                <div className="relative text-sm text-decoration:underline leading-[20px] font-medium font-body-5-r text-secondary-600 text-left inline-block min-w-[101px] bg-transparent border-none p-0 cursor-pointer">
                   아잇나우 회원가입
                 </div>
               </Link>
             </div>
           </div>
-          {/* 로그인 버튼이랑 회원가입 버튼 끝 */}
-          <div className="flex justify-center">
+          <div className="flex justify-center ">
             <div className="border-t border-grayscale-400 w-[164px] my-2.5" />
             <BodyFont level="5" weight="regular" className="mx-4">
               또는
             </BodyFont>
             <div className="border-t border-grayscale-400 w-[164px] my-2.5" />
           </div>
-
-          {/* 소셜 로그인 버튼 시작 */}
-          <div className="flex flex-row items-start justify-start gap-[16px]">
-            {logoImg.map((key, index) => (
-              <button key={index}>
-                <Image alt={key.name} src={key.src} width={72} height={72} />
+        </form>
+        <div className="flex flex-col items-center justify-start w-[590px] h-[118px] shadow-[0px 0px 10px 5px rgba(203, 203, 203, 0.25)] rounded-bl-[32px] rounded-br-[32px] bg-grayscale-0 ">
+          <div className="flex flex-row items-center justify-center gap-[16px]">
+            {socialProviders.map((provider) => (
+              <button
+                key={provider.name}
+                onClick={() => signIn(provider.name)}
+                className="social-login-button"
+              >
+                <Image
+                  alt={provider.name}
+                  src={provider.imageSrc}
+                  width={72}
+                  height={72}
+                />
               </button>
             ))}
           </div>
-          {/* 소셜 로그인 버튼 끝 */}
-        </form>
+        </div>
       </section>
     </>
   );
