@@ -6,6 +6,8 @@ import BodyFont from "@/common/BodyFont";
 import { getStockDetails } from "@/service/report/stockDetailsApi";
 import { StockInfo } from "../type/report/stockType";
 import FavorStockReport from "./FavorStockReport";
+import StockPolarChart from "../StockReport/StockPolarChart";
+import StockReportList from "../StockReport/StockReportList";
 
 interface Props {
   stockInfo: StockInfo | undefined;
@@ -16,9 +18,37 @@ export default async function FavorStockItem({ stockInfo }: Props) {
   const stockInfomation = await getStockDetails(code);
   const { closePrice, fluctuationsRatio, compareToPreviousClosePrice } =
     stockInfomation;
-
+  const { scores } = {
+    scores: [
+      {
+        subject: "주가",
+        score: 0,
+        fullMark: 100,
+      },
+      {
+        subject: "투자지수",
+        score: 0,
+        fullMark: 100,
+      },
+      {
+        subject: "수익성",
+        score: 0,
+        fullMark: 100,
+      },
+      {
+        subject: "성장성",
+        score: 0,
+        fullMark: 100,
+      },
+      {
+        subject: "관심도",
+        score: 0,
+        fullMark: 100,
+      },
+    ],
+  };
   return (
-    <article className="flex flex-col  w-full h-full ">
+    <article className="flex flex-col justify-between w-full h-full ">
       <div>
         {/* 종목 정보 */}
         <div className="flex items-center gap-2 ">
@@ -49,7 +79,18 @@ export default async function FavorStockItem({ stockInfo }: Props) {
         </div>
       </div>
       {/* 차트와 리포트 */}
-      <Suspense fallback={<div>리포트 로딩중...</div>}>
+      <Suspense
+        fallback={
+          <div className="flex justify-between items-center animate-pulse ">
+            <div className=" w-[155px] h-[155px] ">
+              <StockPolarChart data={scores} />
+            </div>
+            <div className="flex-1">
+              <StockReportList data={scores} />
+            </div>
+          </div>
+        }
+      >
         <FavorStockReport code={code} />
       </Suspense>
     </article>

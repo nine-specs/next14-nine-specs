@@ -24,7 +24,7 @@ export default async function FavorStockReport({ code }: Props) {
       <div className=" w-[155px] h-[155px] ">
         <StockPolarChart data={scores} />
       </div>
-      <div className="flex-1">
+      <div className="flex-1"> 
         <StockReportList data={scores} />
       </div>
     </div>
