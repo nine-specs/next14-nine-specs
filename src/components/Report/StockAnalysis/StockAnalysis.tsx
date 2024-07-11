@@ -64,7 +64,7 @@ export default async function StockAnalysis({ stockInfo }: Props) {
             </BodyFont>
           }
         >
-          <StockGptAnalysisReply ticker={ticker} />
+          <StockGptAnalysisReply stockInfo={stockInfo} />
         </Suspense>
       </div>
     </section>

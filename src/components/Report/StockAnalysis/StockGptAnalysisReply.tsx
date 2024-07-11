@@ -2,16 +2,19 @@ import BodyFont from "@/common/BodyFont";
 import { userMessageForPrompt } from "@/constants/Analysis/StockAnalysis";
 import { getLlamaReply } from "@/service/report/llamaReplyApi";
 import { getLlamaToken } from "@/service/report/llamaTokenApi";
+import { StockInfo } from "../type/report/stockType";
 
 interface Props {
-  ticker: string;
+  stockInfo: StockInfo | undefined;
 }
 
-export default async function StockGptAnalysisReply({ ticker }: Props) {
+export default async function StockGptAnalysisReply({ stockInfo }: Props) {
+  if (!stockInfo) return null;
   const token = await getLlamaToken();
+  const message = await userMessageForPrompt(stockInfo);
   const res = await getLlamaReply({
     token: token,
-    userMessage: userMessageForPrompt(ticker),
+    userMessage: message,
     temperature: 0.5,
     topP: 0.5,
     stream: false,
