@@ -1,78 +1,90 @@
-const dataCollection = `사용자가 입력한 주식 정보를 기반으로 종목을 분석하고 종합 리포트를 작성해 주세요.
-### 판단 기준:
-1. 주가: 거래량을 동반한 주가의 상승 여부를 평가하세요.
-2. 투자지수: 기업의 실적을 고려하여 평가하세요.
-3. 수익성: 현재 종목의 가격 대비 동종 산업군 평균 데이터를 비교하여 평가하세요.
-4. 성장성: 매출 이익이 증가하고 있거나 시장 점유율이 확대되는 추세인지 평가하세요.
-5. 관심도: 종목에 대한 기사, 검색 빈도 등의 데이터를 사용하여 평가하세요.
+import { getStockPrice } from "@/service/report/stockPriceApi";
+import dayjs from "dayjs";
 
-### 요구 사항:
-- 종목의 주가, 투자지수, 수익성, 성장성, 관심도를 각각 0%에서 100% 사이의 퍼센트로 나타내세요.
-- 위 항목들을 기반으로 종합 점수를 계산하여 0에서 100 사이의 점수로 표현하세요.
-- 각 항목에 대한 세부 평가와 종합 점수에 대한 설명을 작성하세요.
+const dataCollection = `
+당신은 주식 분석 알고리즘을 개발하고 있습니다. 사용자가 입력한 주식 정보와 최근 6개월의 주식 데이터를 제공합니다. 주식의 투자 가치를 평가하는 프로그램을 작성해야 합니다. 주식의 투자 가치는 주가, 투자지수, 수익성, 성장성, 관심도 등 다양한 요소를 고려하여 평가합니다. 각 요소에 대한 점수는 0에서 100까지 부여되며, 해당 종합 점수의 평균을 계산하여 적용합니다. 
+아래는 해당 요소에 대한 설명입니다.
 `;
-// 전체 점수와 각 카테고리에 대한 상세 점수, 애널리스트 의견을 포함한 JSON 객체로 모든 결과를 포맷합니다.
 
-const returnResults =
-  "Return the formatted JSON object as the response to the user, exactly matching the example format. You are a code generator. Always output your answer in JSON. Provide the response in JSON only, with no preamble.";
-// "사용자에게 예시 응답과 정확히 동일한 형식으로 JSON 객체를 반환하십시오. 당신은 코드 생성기입니다. 항상 응답을 JSON 형식으로 출력하십시오. 서론 없이 바로 JSON으로만 응답하십시오."
+const Price = `
+주가의 거래량과 주가 상승 여부에 따라 0에서 100까지의 점수를 매기세요.
+`;
+const Investment = `
+회사의 성과와 시장 조건을 고려하여 투자지수에 따라 0에서 100까지의 점수를 매기세요.
+`;
+const Profitability = `
+현재 주식 가격을 동일 산업군의 평균 데이터와 비교하여 수익성에 따라 0에서 100까지의 점수를 매기세요.
+`;
+const Growth = `
+매출 이익의 증가와 시장 점유율의 확대 같은 성장 지표를 바탕으로 0에서 100까지의 점수를 매기세요.
+`;
+const Interest = `
+주식에 대한 관심도를 기사 발행 빈도와 검색 빈도 등의 데이터를 사용하여 0에서 100까지의 점수를 매기세요.
+`;
+
+const justification = `
+각 요소에 대한 점수를 매길 때, 해당 요소에 대한 설명을 제공하세요.`;
+
+const Result = `
+해당 종합 점수의 평균을 계산하여 적용하세요
+`;
 
 const exampleResponse = `
 {
-"overallScore": 79.6,
-"scores": [
-{
-  "subject": "주가",
-  "score": 85,
-  "justification": "주가는 지난 1년 동안 15% 상승하여 안정적이고 긍정적인 신호를 보여줍니다."
-  "fullMark": 100
-},
-{
-  "subject": "투자지수",
-  "score": 76,
-  "justification": "투자지수는 시장 평균보다 20% 높아 투자 매력이 매우 큽니다."
-  "fullMark": 100
-
-},
-{
-  "subject": "수익성",
-  "score": 92,
-  "justification": "수익성 지표는 업계 평균을 훨씬 웃돌아 강력한 재무 건전성을 나타냅니다."
-  "fullMark": 100
-
-},
-{
-  "subject": "성장성",
-  "score": 70,
-  "justification": "지난 해 매출이 18% 증가하여 견고한 성장세를 입증했습니다."
-  "fullMark": 100
-
-  },
-{
-  "subject": "관심도",
-  "score": 72,
-  "justification": "미디어 언급이 지난 6개월 동안 15% 증가하여 지속적인 관심을 받고 있습니다."
-  "fullMark": 100
-}
-],
-"analystOpinion": {
-"rating": "매수",
-"justification": "테슬라는 강력한 성장과 수익성을 보이며, 안정적인 미디어 관심과 매우 긍정적인 투자 지수를 가지고 있습니다. 성장과 안정성을 추구하는 투자자에게 강력히 추천합니다."
-}
+  "scores": [
+    {
+      "subject": "주가",
+      "score": ${Price},
+      "justification": ${justification},
+      "fullMark": 100
+    },
+    {
+      "subject": "투자지수",
+      "score": ${Investment},
+      "justification": ${justification},
+      "fullMark": 100
+    },
+    {
+      "subject": "수익성",
+      "score": ${Profitability},
+      "justification": ${justification},
+      "fullMark": 100
+    },
+    {
+      "subject": "성장성",
+      "score": ${Growth},
+      "justification": ${justification},
+      "fullMark": 100
+    },
+    {
+      "subject": "관심도",
+      "score": ${Interest},
+      "justification": ${justification},
+      "fullMark": 100
+    }
+  ],
+  "overallScore": ${Result}
 }
 `;
 
-const finalPrompt =
-  dataCollection +
-  " " +
-  returnResults +
-  " " +
-  "Example response: " +
-  exampleResponse;
+const returnResults =
+  "Return the formatted JSON object as the response to the user, exactly matching the example format. You are a code generator. Always output your answer in JSON. Provide the response in JSON only, with no preamble.";
 
-export const reportPrompt = (code: string) => `<|begin_of_text|>
+const finalPrompt = dataCollection + exampleResponse + returnResults;
+
+export const reportPrompt = (code: string) => {
+  const today = dayjs().format("YYYY-MM-DD");
+  const sixMonthsPrice = getStockPrice(code, "month", "NASDAQ");
+  const fewTestCases = `
+  주식 정보: ${code}
+  오늘 날짜: ${today}
+  최근 6개월의 주식 데이터 : ${sixMonthsPrice}
+  
+  `;
+  return `<|begin_of_text|>
 <|begin_of_text|><|start_header_id|>system<|end_header_id|>
 ${finalPrompt}<|eot_id|>
 <|start_header_id|>user<|end_header_id|>
 ${code}<|eot_id|>
 <|start_header_id|>assistant<|end_header_id|>`;
+};
