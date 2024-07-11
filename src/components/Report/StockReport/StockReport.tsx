@@ -28,10 +28,7 @@ export default async function StockReport({ code }: Props) {
 
   return (
     <section className="space-y-6">
-      <div className="flex justify-between ">
-        <BodyFont level="1" weight="bold">
-          종목 AI 리포트
-        </BodyFont>
+      <div className="flex justify-end ">
         <HeadingFont level="3" weight="medium" className="text-grayscale-700">
           {overallScore}점
         </HeadingFont>
