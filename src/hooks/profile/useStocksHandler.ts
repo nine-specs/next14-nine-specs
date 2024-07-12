@@ -15,6 +15,7 @@ type TStocks = {
   stockId: string;
   stockName: string;
   searchCount: number;
+  stockCode: string;
 };
 
 type TMyStocks = {
