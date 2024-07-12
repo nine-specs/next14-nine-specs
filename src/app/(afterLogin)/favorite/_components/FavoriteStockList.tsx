@@ -34,7 +34,7 @@ export default function FavoriteStockList({ data }: TFavoriteStockList) {
         </div>
         <div className="flex flex-col justify-between gap-6">
           {/* 관심종목 리스트 */}
-          <div className="w-[1214px] min-h-[360px]  flex justify-between gap-[19px] flex-wrap">
+          <div className="w-[1214px] min-h-[360px]  flex  gap-[19px] flex-wrap justify-start">
             {data.map((item, index) => (
               <FavoriteStockItem myStock={item} key={index} />
             ))}

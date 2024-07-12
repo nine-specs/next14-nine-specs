@@ -43,6 +43,7 @@ export default function FavoriteStockItem({
       </div>
       {isShowDeleteModal && (
         <DeleteFavoriteModal
+          stock={myStock}
           onClose={() => {
             setShowDeleteModal(false);
           }}
