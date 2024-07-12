@@ -28,11 +28,11 @@ export const LanguageButton = ({
   const language = countryObj[country];
 
   // 기본컬러
-  let borderColor = `border-grayscale-300`;
+  let borderColor = `border border-grayscale-300`;
   let textColor = `text-grayscale-300`;
   // db의 설정언어와 현재 컴포넌트 언어가 동일할 시 색상변경
   if (country == lang) {
-    borderColor = `border-secondary-600`;
+    borderColor = `border-2 border-secondary-600`;
     textColor = `text-secondary-600`;
   }
 
@@ -44,9 +44,8 @@ export const LanguageButton = ({
 
   return (
     <div
-      className={`flex flex-col cursor-pointer justify-center items-center flex-grow-0 flex-shrink-0 h-[160px] w-[198px] rounded-2xl border ${borderColor}`}
+      className={`flex flex-col cursor-pointer justify-center items-center flex-grow-0 flex-shrink-0 h-[160px] w-[198px] rounded-2xl  ${borderColor}`}
       onClick={onClick}
-      style={{ boxShadow: "0px 4px 4px 0 rgba(0,0,0,0.25)" }}
     >
       <div className="flex-grow-0 flex-shrink-0 w-[72px] h-[72.32px] relative">
         {language.langImg}

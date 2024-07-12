@@ -26,7 +26,7 @@ export default function DeleteFavoriteModal({
       <Modal size="S1" onClose={onClose} modalClassName="!rounded-3xl">
         <div className="w-full h-full px-8 pt-6 pb-4 flex flex-col items-center gap-8">
           <BodyFont level="2" weight="bold" className="text-primary-900">
-            관심 종목을 삭제하겠습니까?
+            관심 종목을 삭제하시겠습니까?
           </BodyFont>
           <div className="flex justify-between gap-2">
             <div className="w-[157px]" onClick={onDeleteClick}>
