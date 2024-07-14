@@ -1,14 +1,26 @@
 import BodyFont from "@/common/BodyFont";
 import ButtonFont from "@/common/ButtonFont";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+
+type TrecentData = { keyword: string; date: string }[];
 
 export default function SlideRecentStocks() {
   const [startX, setStartX] = useState(0);
   const [currentMovedX, setCurrentMovedX] = useState(0);
   const [totalMovedX, setTotalMovedX] = useState(0);
   const [isMouseClick, setMouseClick] = useState(false);
-  const slideRef = useRef<HTMLDivElement>(null); //
+  const slideRef = useRef<HTMLDivElement>(null);
+  const [recentKeywordList, setRecentKeywordList] = useState<TrecentData>([]);
 
+  // 로컬스토리지에서 최근 검색어 데이터 가져오기
+  useEffect(() => {
+    const savedRecentData = localStorage.getItem("recentData");
+    if (savedRecentData) {
+      setRecentKeywordList(JSON.parse(savedRecentData));
+    }
+  }, []);
+
+  // 슬라이드 클릭 다운이벤트
   const onDownEvent = (e: React.MouseEvent<HTMLDivElement>) => {
     if (slideRef.current) {
       const childCount = slideRef.current.childElementCount;
@@ -60,57 +72,49 @@ export default function SlideRecentStocks() {
       }
     }
   };
+
   return (
     <>
-      <div className="h-[140px] w-auto flex flex-col gap-4 ">
-        <div className=" w-auto h-6 flex justify-between">
-          <BodyFont level="3" weight="medium" className="text-primary-900">
-            최근 검색한 종목
-          </BodyFont>
-          <ButtonFont
-            weight="medium"
-            className="border-none text-[#575757] underline !text-[14px] !leading-[20px] "
-          >
-            전체삭제
-          </ButtonFont>
-        </div>
-        {/* 뷰포트영역 */}
-        <div className="h-[96px] w-auto flex gap-5 overflow-hidden">
-          {/* 슬라이드영역 */}
-          <div
-            className="h-[96px] border border-red-400 w-auto flex gap-5 duration-100 transition-transform "
-            onMouseDown={onDownEvent}
-            onMouseMove={onMoveEvent}
-            onMouseUp={onUpEvent}
-            ref={slideRef}
-            style={{
-              transform: `translateX(${totalMovedX + currentMovedX}px)`,
-            }}
-          >
-            <div className="border border-primary-100  rounded-2xl w-[255px] h-[96px] flex-shrink-0 py-6 px-4">
-              1번
-            </div>
-            <div className="border border-primary-100  rounded-2xl w-[255px] h-[96px] flex-shrink-0 py-6 px-4">
-              2번
-            </div>
-            <div className="border border-primary-100  rounded-2xl w-[255px] h-[96px] flex-shrink-0 py-6 px-4">
-              2번
-            </div>
-            <div className="border border-primary-100  rounded-2xl w-[255px] h-[96px] flex-shrink-0 py-6 px-4">
-              2번
-            </div>
-            <div className="border border-primary-100  rounded-2xl w-[255px] h-[96px] flex-shrink-0 py-6 px-4">
-              2번
-            </div>
-            <div className="border border-primary-100  rounded-2xl w-[255px] h-[96px] flex-shrink-0 py-6 px-4">
-              2번
-            </div>
-            <div className="border border-primary-100  rounded-2xl w-[255px] h-[96px] flex-shrink-0 py-6 px-4">
-              2번
+      {recentKeywordList.length >= 1 && (
+        <div className="h-[140px] w-auto flex flex-col gap-4 ">
+          <div className=" w-auto h-6 flex justify-between">
+            <BodyFont level="3" weight="medium" className="text-primary-900">
+              최근 검색한 종목
+            </BodyFont>
+            <ButtonFont
+              weight="medium"
+              className="border-none text-[#575757] underline !text-[14px] !leading-[20px] "
+            >
+              전체삭제
+            </ButtonFont>
+          </div>
+          {/* 뷰포트영역 */}
+          <div className="h-[96px] w-auto flex gap-5 overflow-hidden">
+            {/* 슬라이드영역 */}
+            <div
+              className="h-[96px]  w-auto flex gap-5 duration-100 transition-transform "
+              onMouseDown={onDownEvent}
+              onMouseMove={onMoveEvent}
+              onMouseUp={onUpEvent}
+              ref={slideRef}
+              style={{
+                transform: `translateX(${totalMovedX + currentMovedX}px)`,
+              }}
+            >
+              {recentKeywordList.map((a, i) => {
+                return (
+                  <div
+                    key={i}
+                    className="border border-primary-100  rounded-2xl w-[255px] h-[96px] flex-shrink-0 py-6 px-4"
+                  >
+                    {a.keyword}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
-      </div>
+      )}
     </>
   );
 }
