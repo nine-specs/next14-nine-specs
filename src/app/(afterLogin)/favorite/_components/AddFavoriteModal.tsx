@@ -1,10 +1,11 @@
 import BodyFont from "@/common/BodyFont";
 import { Modal } from "@/common/Modal";
 import CloseIcon from "/public/images/Close_icon.svg";
-import React from "react";
+import React, { useRef, useState } from "react";
 import SearchInput from "../../discovery/_components/SearchInput";
 import Search_icon from "/public/images/Search_icon.svg";
 import ButtonFont from "@/common/ButtonFont";
+import SlideRecentStocks from "./_components/SlideRecentStocks";
 
 type TAddFavoriteModal = {
   onClose: () => void;
@@ -47,10 +48,6 @@ export default function AddFavoriteModal({ onClose }: TAddFavoriteModal) {
     { stockName: "테슬라" },
   ];
 
-  const onClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    console.log(e.currentTarget);
-  };
-
   return (
     <>
       <Modal size="S7" onClose={onClose}>
@@ -83,38 +80,7 @@ export default function AddFavoriteModal({ onClose }: TAddFavoriteModal) {
               </div>
             </form>
             {/* 최근검색항목 */}
-            <div className="h-[140px] w-auto flex flex-col gap-4 ">
-              <div className=" w-auto h-6 flex justify-between">
-                <BodyFont
-                  level="3"
-                  weight="medium"
-                  className="text-primary-900"
-                >
-                  최근 검색한 종목
-                </BodyFont>
-                <ButtonFont
-                  weight="medium"
-                  className="border-none text-[#575757] underline !text-[14px] !leading-[20px] "
-                >
-                  전체삭제
-                </ButtonFont>
-              </div>
-              {/* 뷰포트영역 */}
-              <div className="h-[96px] w-auto flex gap-5 overflow-hidden">
-                {/* 슬라이드영역 */}
-                <div
-                  className="h-[96px] border border-red-400 w-auto flex gap-5"
-                  onClick={onClick}
-                >
-                  <div className="border border-primary-100  rounded-2xl w-[255px] h-[96px] flex-shrink-0 py-6 px-4"></div>
-                  <div className="border border-primary-100  rounded-2xl w-[255px] h-[96px] flex-shrink-0 py-6 px-4"></div>
-                  <div className="border border-primary-100  rounded-2xl w-[255px] h-[96px] flex-shrink-0 py-6 px-4"></div>
-                  <div className="border border-primary-100  rounded-2xl w-[255px] h-[96px] flex-shrink-0 py-6 px-4"></div>
-                  <div className="border border-primary-100  rounded-2xl w-[255px] h-[96px] flex-shrink-0 py-6 px-4"></div>
-                  <div className="border border-primary-100  rounded-2xl w-[255px] h-[96px] flex-shrink-0 py-6 px-4"></div>
-                </div>
-              </div>
-            </div>
+            <SlideRecentStocks />
             {/* 인기검색어*/}
             <div className="w-[714px] h-[332px]  flex flex-col gap-4">
               <div>
