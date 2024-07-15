@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 
-const secret = process.env.JWT_SECRET as string;
+const secret = process.env.SECRET_KEY as string;
 
 export async function GET(request: NextRequest) {
   try {
@@ -15,12 +15,12 @@ export async function GET(request: NextRequest) {
     const decodedToken = jwt.verify(token, secret);
 
     const response = NextResponse.redirect(
-      new URL("/signup?social=true&token=" + token, request.nextUrl.origin),
+      new URL("/sign?social=true&token=" + token, request.nextUrl.origin),
     );
     response.cookies.set("auth-token", token, {
       secure: process.env.NODE_ENV === "production",
       maxAge: 60 * 30, // 30분
-      path: "/signup",
+      path: "/sign",
     });
     return response;
   } catch (error) {
