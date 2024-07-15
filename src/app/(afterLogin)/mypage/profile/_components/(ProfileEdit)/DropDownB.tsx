@@ -153,6 +153,7 @@ export default function DropDownB() {
               placeholder="#관심 종목을 추가해주세요"
               onChange={onChange}
               onKeyDown={onKeyDown}
+              autoComplete="off"
               id="stockInput"
               value={
                 myStock !== "#관심 종목을 추가해주세요" ? myStock : undefined

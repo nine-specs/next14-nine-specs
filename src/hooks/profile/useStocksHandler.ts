@@ -11,11 +11,12 @@ import {
 } from "firebase/firestore";
 import { revalidatePath } from "next/cache";
 
-type TStocks = {
+export type TStocks = {
   stockId: string;
   stockName: string;
   searchCount: number;
   stockCode: string;
+  logoUrl: string;
 };
 
 type TMyStocks = {
@@ -74,7 +75,6 @@ export async function getStockByKeyword(keyword: string) {
     querySnapshot.forEach((doc) => {
       stockList.push(doc.data() as TStocks);
     });
-
     return stockList;
   } catch (error) {
     console.log("키워드조회 에러발생:" + error);

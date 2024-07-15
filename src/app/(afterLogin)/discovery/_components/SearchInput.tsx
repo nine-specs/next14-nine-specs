@@ -96,6 +96,7 @@ export default function SearchInput() {
             className="w-[590px] h-[56px] [border:none] [outline:none] font-body-5-r text-base bg-[transparent] leading-[24px] text-primary-900 text-left flex items-center max-w-[314px] p-0"
             name="keyword"
             placeholder="종목을 검색해주세요"
+            autoComplete="off"
           />
         </form>
       </div>
