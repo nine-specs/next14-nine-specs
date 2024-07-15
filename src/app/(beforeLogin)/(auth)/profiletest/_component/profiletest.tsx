@@ -7,11 +7,12 @@ import useFormStore from "@/store/useFormStore";
 import HeadingFont from "@/common/HeadingFont";
 import ProfileSVG from "/public/images/profile.svg";
 import EditLgIcon from "/public/images/Edit_icon_lg.svg";
-import CheckIdEmailInput from "@/common/CheckIdEmailInput";
+
 import TextButton from "@/common/TextButton";
 import DropDownC from "./DropDownC";
 // import signUp2 from "@/hooks/sign/useSignUp2";
 import signUp from "@/hooks/sign/useSignUp";
+import CheckIdNickInput from "@/common/CheckIdNickInput";
 export interface DropDownCProps {
   myStock: string;
   setMyStock: React.Dispatch<React.SetStateAction<string>>;
@@ -165,7 +166,7 @@ export default function ProfileTest() {
               className="w-[384px] h-[184px] flex flex-col gap-[16px] justify-between"
               id="inputBox"
             >
-              <CheckIdEmailInput
+              <CheckIdNickInput
                 label="닉네임"
                 name="nick"
                 checkLabel="중복 확인"

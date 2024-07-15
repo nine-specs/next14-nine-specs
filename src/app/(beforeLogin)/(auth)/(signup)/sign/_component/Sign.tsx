@@ -1,5 +1,5 @@
 "use client";
-import CheckIdEmailInput from "@/common/CheckIdEmailInput";
+
 import CheckPwInput from "@/common/CheckPwInput";
 import Input from "@/common/Input";
 import TextButton from "@/common/TextButton";
@@ -10,6 +10,8 @@ import LoadingPage from "@/common/LoadingPage";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import router from "next/router";
+import { useIdCheck } from "@/hooks/common/useIdCheck";
+import CheckIdNickInput from "@/common/CheckIdNickInput";
 
 export default function Sign() {
   const {
@@ -20,16 +22,23 @@ export default function Sign() {
     email,
     setEmail,
     password,
+    handlePasswordChange,
     confirmPassword,
+    handleConfirmPasswordChange,
     passwordMatch,
     phone,
     setPhone,
     birthdate,
     setBirthdate,
     isFormValid,
-    handlePasswordChange,
-    handleConfirmPasswordChange,
-  } = useFormCheck("", "userId");
+  } = useFormCheck("");
+
+  const {
+    handleUserIdChange,
+    handleButtonClick,
+    styleStatus,
+    descriptionText,
+  } = useIdCheck("* 6~12자의 영문,숫자,_를 이용한 조합", userId, setUserId);
 
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
@@ -81,14 +90,17 @@ export default function Sign() {
               />
 
               {/* 아이디 입력 시작 */}
-              <CheckIdEmailInput
+              <CheckIdNickInput
                 label="아이디"
                 name="userId"
                 value={userId}
                 description="* 6~12자의 영문,숫자,_를 이용한 조합"
                 checkLabel="중복 확인"
                 placeholder="아이디를 입력해주세요"
-                onChange={(e) => setUserId(e.target.value)}
+                onChange={handleUserIdChange}
+                onCheckId={handleButtonClick}
+                styleStatus={styleStatus}
+                descriptionText={descriptionText}
               />
               {/* 아이디 입력 끝 */}
 
@@ -100,7 +112,7 @@ export default function Sign() {
                 type="password"
                 description="* 8~20자 이내 숫자,특수문자,영문자로 조합해주세요"
                 value={password}
-                onChange={handlePasswordChange}
+                onChange={(e) => handlePasswordChange(e.target.value)}
                 passwordMatch={passwordMatch}
               />
               {/* 비밀번호 입력 끝 */}
@@ -112,7 +124,7 @@ export default function Sign() {
                 name="confirmPassword"
                 type="password"
                 value={confirmPassword}
-                onChange={handleConfirmPasswordChange}
+                onChange={(e) => handleConfirmPasswordChange(e.target.value)}
                 passwordMatch={passwordMatch}
                 description={
                   passwordMatch

@@ -11,7 +11,7 @@ interface InputProps {
   className?: string;
   children?: React.ReactNode;
   name?: string;
-  onChange?: (value: string) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   passwordMatch?: boolean;
 }
 
@@ -31,16 +31,9 @@ export default function CheckPwInput({
   const [showDescription, setShowDescription] = useState(false);
   const inputType = type === "password" && isPasswordShow ? "text" : type;
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (onChange) {
-      onChange(e.target.value); // 입력값을 부모 컴포넌트로 전달
-    }
-  };
   const handleFocus = () => {
     setShowDescription(true); // 입력 필드에 포커스 시 description 보이기
   };
-
-  // name 이 confirmPassword  이면 C 그게아니면 I
 
   return (
     <div className="self-stretch flex flex-col items-start justify-start gap-[4px]">
@@ -72,7 +65,7 @@ export default function CheckPwInput({
           name={name}
           placeholder={placeholder}
           value={value}
-          onChange={handleChange}
+          onChange={onChange}
           onFocus={handleFocus}
         />
         <button
