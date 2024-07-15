@@ -1,6 +1,11 @@
 import BodyFont from "@/common/BodyFont";
 import TextButton from "@/common/TextButton";
-import { getMyStocks, TStocks } from "@/hooks/profile/useStocksHandler";
+import {
+  addMyStocks,
+  deleteMyStocks,
+  getMyStocks,
+  TStocks,
+} from "@/hooks/profile/useStocksHandler";
 import React, { useEffect, useState } from "react";
 import loadingSpinner from "/public/images/loading/loadingSpiner.gif";
 import Image from "next/image";
@@ -36,6 +41,24 @@ export default function SearchResultStock({ searchData }: TSearchResultStock) {
     fetchMyStocks();
   }, [searchData]);
 
+  const handleAddStock = async () => {
+    setIsLoading(true);
+    let result = await addMyStocks(searchData.stockName);
+    if (result == "success") {
+      setIsMyStock(true);
+      setIsLoading(false);
+    }
+  };
+
+  const handleDeleteStock = async () => {
+    setIsLoading(true);
+    let result = await deleteMyStocks(searchData.stockName);
+    if (result == "success") {
+      setIsMyStock(false);
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="h-[496px] w-auto flex flex-col gap-4 ">
       <div className=" w-auto h-6 flex justify-between">
@@ -55,13 +78,21 @@ export default function SearchResultStock({ searchData }: TSearchResultStock) {
             </div>
             {isMyStock ? (
               <div className="w-[120px]">
-                <TextButton variant="default" size="sm">
+                <TextButton
+                  variant="default"
+                  size="sm"
+                  onClick={handleDeleteStock}
+                >
                   삭제
                 </TextButton>
               </div>
             ) : (
               <div className="w-[120px]">
-                <TextButton variant="primary" size="sm">
+                <TextButton
+                  variant="primary"
+                  size="sm"
+                  onClick={handleAddStock}
+                >
                   추가
                 </TextButton>
               </div>

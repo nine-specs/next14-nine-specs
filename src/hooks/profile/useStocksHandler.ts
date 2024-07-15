@@ -2,6 +2,7 @@
 import { TUser } from "@/app/api/profile/route";
 import { firestore } from "@/firebase/firebaseConfig";
 import {
+  addDoc,
   collection,
   deleteDoc,
   doc,
@@ -62,6 +63,7 @@ export async function getMyStocks() {
 
 /**내 관심종목의 주식 데이터가져오기 */
 export async function getMyStocksData(myStocks: string[]): Promise<TStocks[]> {
+  console.log("받아온 내관심종목라스트:" + myStocks);
   try {
     const stocksRef = collection(firestore, "stocks");
     const q = query(stocksRef, where("stockName", "in", myStocks));
@@ -102,7 +104,7 @@ export async function getStockByKeyword(keyword: string) {
 }
 
 /**나의 관심종목 삭제하기 */
-export async function deleteMyStocks(stockName: string) {
+export async function deleteMyStocks(stockName: string, StockId?: string) {
   //임시 유저 uid
   const uid = "gU8dSD4pRUHr7xAx9cgL";
   try {
@@ -129,6 +131,33 @@ export async function deleteMyStocks(stockName: string) {
   } catch (error) {
     console.log("관심종목 삭제중 에러발생:" + error);
   }
-  // 페이지 재검증, 재생성
-  revalidatePath("/favorite");
+  if (StockId) {
+    // 페이지 재검증, 재생성
+    revalidatePath("/favorite");
+  } else {
+    return "success";
+  }
+}
+
+/**내 관심종목 추가하기 */
+export async function addMyStocks(stockName: string) {
+  //임시 유저 uid
+  const uid = "gU8dSD4pRUHr7xAx9cgL";
+
+  try {
+    //  유저의 myStocks 서브콜렉션 참조
+    const userStocksCollectionRef = collection(
+      firestore,
+      `users/${uid}/myStocks`,
+    );
+
+    // 관심종목 데이터 추가
+    await addDoc(userStocksCollectionRef, {
+      myStock: stockName,
+    });
+    console.log("내관심종목 추가완료");
+    return "success";
+  } catch (error) {
+    console.error("주식 데이터를 추가하는 중 에러 발생:", error);
+  }
 }
