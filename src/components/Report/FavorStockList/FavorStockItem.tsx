@@ -5,10 +5,16 @@ import StockLogoImage from "../ReportCommon/StockLogoImage";
 import BodyFont from "@/common/BodyFont";
 import { getStockDetails } from "@/service/report/stockDetailsApi";
 import { StockInfo } from "../type/report/stockType";
-import FavorStockReport from "./FavorStockReport";
-import StockPolarChart from "../StockReport/StockPolarChart";
-import StockReportList from "../StockReport/StockReportList";
-
+import dynamic from "next/dynamic";
+import { StockReport } from "./FavorStockReport";
+const FavorStockReport = dynamic(() => import("./FavorStockReport"), {
+  ssr: false,
+  loading: () => (
+    <div className="animate-pulse h-full ">
+      <StockReport />
+    </div>
+  ),
+});
 interface Props {
   stockInfo: StockInfo | undefined;
 }
@@ -18,35 +24,7 @@ export default async function FavorStockItem({ stockInfo }: Props) {
   const stockInfomation = await getStockDetails(code);
   const { closePrice, fluctuationsRatio, compareToPreviousClosePrice } =
     stockInfomation;
-  const { scores } = {
-    scores: [
-      {
-        subject: "주가",
-        score: 0,
-        fullMark: 100,
-      },
-      {
-        subject: "투자지수",
-        score: 0,
-        fullMark: 100,
-      },
-      {
-        subject: "수익성",
-        score: 0,
-        fullMark: 100,
-      },
-      {
-        subject: "성장성",
-        score: 0,
-        fullMark: 100,
-      },
-      {
-        subject: "관심도",
-        score: 0,
-        fullMark: 100,
-      },
-    ],
-  };
+
   return (
     <article className="flex flex-col justify-between w-full h-full ">
       <div>
@@ -79,20 +57,8 @@ export default async function FavorStockItem({ stockInfo }: Props) {
         </div>
       </div>
       {/* 차트와 리포트 */}
-      <Suspense
-        fallback={
-          <div className="flex justify-between items-center animate-pulse ">
-            <div className=" w-[155px] h-[155px] ">
-              <StockPolarChart data={scores} />
-            </div>
-            <div className="flex-1">
-              <StockReportList data={scores} />
-            </div>
-          </div>
-        }
-      >
-        <FavorStockReport code={code} />
-      </Suspense>
+
+      <FavorStockReport code={code} />
     </article>
   );
 }
