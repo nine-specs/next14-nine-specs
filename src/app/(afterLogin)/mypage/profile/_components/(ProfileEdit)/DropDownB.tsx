@@ -15,6 +15,7 @@ import {
 
 type Stock = {
   stockId: string;
+  stockName: string;
 };
 
 type TMyStocks = string;
@@ -177,7 +178,7 @@ export default function DropDownB() {
                     weight="regular"
                     className="text-gray-900"
                   >
-                    <span className="m-0 w-0">{`# ${item.stockId}`}</span>
+                    <span className="m-0 w-0">{`# ${item.stockName} ∙ ${item.stockId}`}</span>
                   </BodyFont>
                 </div>
               </div>

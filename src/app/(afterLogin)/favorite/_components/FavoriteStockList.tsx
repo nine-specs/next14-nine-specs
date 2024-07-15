@@ -4,10 +4,11 @@ import TextButton from "@/common/TextButton";
 import FavoriteStockItem from "./FavoriteStockItem";
 import { useState } from "react";
 import AddFavoriteModal from "./AddFavoriteModal";
+import { TStocks } from "@/hooks/profile/useStocksHandler";
 
 type TFavoriteStockList = {
   // 내관심종목 데이터 타입
-  data: string[];
+  data: TStocks[];
   popularSearchData: {
     id: string;
     stockName: string;
@@ -43,7 +44,7 @@ export default function FavoriteStockList({
           {/* 관심종목 리스트 */}
           <div className="w-[1214px] min-h-[360px]  flex  gap-[19px] flex-wrap justify-start">
             {data.map((item, index) => (
-              <FavoriteStockItem myStock={item} key={index} />
+              <FavoriteStockItem myStock={item.stockName} key={index} />
             ))}
           </div>
         </div>

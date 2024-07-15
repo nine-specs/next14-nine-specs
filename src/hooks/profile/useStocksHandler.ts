@@ -57,7 +57,27 @@ export async function getMyStocks() {
   } catch (error) {
     console.log("에러발생:" + error);
   }
-  return myStocks;
+  return myStocks ?? [];
+}
+
+/**내 관심종목의 주식 데이터가져오기 */
+export async function getMyStocksData(myStocks: string[]): Promise<TStocks[]> {
+  try {
+    const stocksRef = collection(firestore, "stocks");
+    const q = query(stocksRef, where("stockName", "in", myStocks));
+
+    const querySnapshot = await getDocs(q);
+    const stockList: TStocks[] = [];
+
+    querySnapshot.forEach((doc) => {
+      stockList.push(doc.data() as TStocks);
+    });
+
+    return stockList;
+  } catch (error) {
+    console.error("내관심종목 주식데이터 가져오는 중 에러발생", error);
+    return [];
+  }
 }
 
 /**입력된 키워드를 통해 주식종목가져오기 */

@@ -12,6 +12,7 @@ import {
   TStocks,
 } from "@/hooks/profile/useStocksHandler";
 import TextButton from "@/common/TextButton";
+import SearchResultStock from "./SearchResultStock";
 
 type TAddFavoriteModal = {
   onClose: () => void;
@@ -29,6 +30,7 @@ export default function AddFavoriteModal({
   const formRef = useRef<HTMLFormElement>(null);
   const [loading, setLoading] = useState(false);
   const [searchData, setSearchData] = useState<TStocks | null>(null);
+  const [isMyStock, setIsMyStock] = useState<boolean>(false);
 
   const popularSearchList =
     popularSearchData.length != 0
@@ -65,12 +67,9 @@ export default function AddFavoriteModal({
       if (flag) {
         setLoading(true);
         try {
-          // const response = await fetch("/api/data");
-          // const result = await response.json();
           const result: TStocks[] | undefined = await getStockByKeyword(
             keyword,
           );
-          // const Data : = JSON.stringify(result, null, 2);
           if (result) {
             console.log("가져온 데이터임: " + result[0].stockName);
             setSearchData(result[0]);
@@ -118,6 +117,7 @@ export default function AddFavoriteModal({
                   name="keyword"
                   placeholder="검색어를 입력해주세요"
                   ref={inputRef}
+                  autoComplete="off"
                 />
                 <div
                   className="cursor-pointer w-12 h-12 flex justify-center items-center"
@@ -131,27 +131,7 @@ export default function AddFavoriteModal({
               <>
                 {" "}
                 {/* 서치데이터 O 검색결과 표시 */}
-                <div className="h-[496px] w-auto flex flex-col gap-4 ">
-                  <div className=" w-auto h-6 flex justify-between">
-                    <BodyFont
-                      level="3"
-                      weight="medium"
-                      className="text-primary-900"
-                    >
-                      검색결과
-                    </BodyFont>
-                  </div>
-                  <div className="border w-full h-full flex justify-between">
-                    <div className="w-[573px] h-[48px] border">
-                      {searchData?.stockName}
-                    </div>
-                    <div className="w-[120px]">
-                      <TextButton variant="primary" size="sm">
-                        추가
-                      </TextButton>
-                    </div>
-                  </div>
-                </div>
+                <SearchResultStock searchData={searchData} />
               </>
             ) : (
               <>

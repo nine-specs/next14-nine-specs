@@ -8,7 +8,7 @@ import DropDownB from "./(ProfileEdit)/DropDownB";
 import { TUser } from "@/app/api/profile/route";
 import { useUpdateProfile } from "@/hooks/profile/useUpdateProfile";
 import BodyFont from "@/common/BodyFont";
-import CheckIdEmailInput from "@/common/CheckIdEmailInput";
+import CheckIdNickInput from "@/common/CheckIdNickInput";
 import { getStockByKeyword } from "@/hooks/profile/useStocksHandler";
 import { useRouter } from "next/navigation";
 
@@ -68,6 +68,10 @@ export default function ProfileEdit({ onClose, profileData }: TProfileEdit) {
     // router.push("/mypage/profile");
   };
 
+  const onTest = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation;
+  };
+
   return (
     <>
       <Modal size="S5" onClose={onClose}>
@@ -112,9 +116,10 @@ export default function ProfileEdit({ onClose, profileData }: TProfileEdit) {
               <div
                 className="w-[384px] h-[184px] flex flex-col gap-[16px] justify-between"
                 id="inputBox"
+                onClick={(e) => e.stopPropagation()} // 버블링 막기
               >
                 {/* 닉네임 수정 */}
-                <CheckIdEmailInput
+                <CheckIdNickInput
                   label="닉네임"
                   name="nick"
                   checkLabel="중복 확인"
