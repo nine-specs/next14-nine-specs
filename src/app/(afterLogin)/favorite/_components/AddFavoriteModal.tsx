@@ -9,44 +9,31 @@ import SlideRecentStocks from "./_components/SlideRecentStocks";
 
 type TAddFavoriteModal = {
   onClose: () => void;
+  popularSearchData: {
+    id: string;
+    stockName: string;
+  }[];
 };
 
-// type TPopularSearchesProps = {
-//   PopularSearchData: {
-//     id: string;
-//     stockName: string;
-//   }[];
-// };
-
-export default function AddFavoriteModal({ onClose }: TAddFavoriteModal) {
-  //   const popularSearchList =
-  //     PopularSearchData.length != 0
-  //       ? PopularSearchData
-  //       : [
-  //           { stockName: "테슬라" },
-  //           { stockName: "애플" },
-  //           { stockName: "테슬라" },
-  //           { stockName: "테슬라" },
-  //           { stockName: "테슬라" },
-  //           { stockName: "테슬라" },
-  //           { stockName: "코카콜라" },
-  //           { stockName: "테슬라" },
-  //           { stockName: "테슬라" },
-  //           { stockName: "테슬라" },
-  //         ];
-
-  const popularSearchList = [
-    { stockName: "테슬라" },
-    { stockName: "애플" },
-    { stockName: "테슬라" },
-    { stockName: "테슬라" },
-    { stockName: "테슬라" },
-    { stockName: "테슬라" },
-    { stockName: "코카콜라" },
-    { stockName: "테슬라" },
-    { stockName: "테슬라" },
-    { stockName: "테슬라" },
-  ];
+export default function AddFavoriteModal({
+  onClose,
+  popularSearchData,
+}: TAddFavoriteModal) {
+  const popularSearchList =
+    popularSearchData.length != 0
+      ? popularSearchData
+      : [
+          { stockName: "테슬라" },
+          { stockName: "애플" },
+          { stockName: "테슬라" },
+          { stockName: "테슬라" },
+          { stockName: "테슬라" },
+          { stockName: "테슬라" },
+          { stockName: "코카콜라" },
+          { stockName: "테슬라" },
+          { stockName: "테슬라" },
+          { stockName: "테슬라" },
+        ];
 
   return (
     <>

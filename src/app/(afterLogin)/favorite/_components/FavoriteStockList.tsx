@@ -8,9 +8,16 @@ import AddFavoriteModal from "./AddFavoriteModal";
 type TFavoriteStockList = {
   // 내관심종목 데이터 타입
   data: string[];
+  popularSearchData: {
+    id: string;
+    stockName: string;
+  }[];
 };
 
-export default function FavoriteStockList({ data }: TFavoriteStockList) {
+export default function FavoriteStockList({
+  data,
+  popularSearchData,
+}: TFavoriteStockList) {
   const [isAddFavoriteModalOpened, setAddFavoriteModalOpened] = useState(false); // 모달 열고닫기
   return (
     <>
@@ -41,7 +48,10 @@ export default function FavoriteStockList({ data }: TFavoriteStockList) {
           </div>
         </div>
         {isAddFavoriteModalOpened && (
-          <AddFavoriteModal onClose={() => setAddFavoriteModalOpened(false)} />
+          <AddFavoriteModal
+            onClose={() => setAddFavoriteModalOpened(false)}
+            popularSearchData={popularSearchData}
+          />
         )}
       </div>
     </>

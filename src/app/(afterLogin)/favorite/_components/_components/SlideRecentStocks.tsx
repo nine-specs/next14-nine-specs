@@ -20,6 +20,13 @@ export default function SlideRecentStocks() {
     }
   }, []);
 
+  /**최근 검색어 모두삭제 클릭이벤트 */
+  const deleteAllRecentWord = async () => {
+    localStorage.setItem("recentData", JSON.stringify([]));
+    // 스테이트 변경
+    setRecentKeywordList([]);
+  };
+
   // 슬라이드 클릭 다운이벤트
   const onDownEvent = (e: React.MouseEvent<HTMLDivElement>) => {
     if (slideRef.current) {
@@ -84,6 +91,7 @@ export default function SlideRecentStocks() {
             <ButtonFont
               weight="medium"
               className="border-none text-[#575757] underline !text-[14px] !leading-[20px] "
+              onClick={deleteAllRecentWord}
             >
               전체삭제
             </ButtonFont>

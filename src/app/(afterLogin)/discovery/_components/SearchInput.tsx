@@ -59,9 +59,9 @@ export default function SearchInput() {
     if (keyword) {
       const stockList = await getStockList(); // 주식종목리스트 가져오기
       let flag = false;
-      // 주식종목 리스트 중 키워드에 일치하는 종목명과 종목코드가 있다면 flag를 true변경.
+      // 주식종목 리스트 중 키워드에 일치하는 종목명이 있다면 flag를 true변경.
       stockList.map((item, index) => {
-        if (item.stockName == keyword || item.stockCode == keyword) {
+        if (item.stockName == keyword) {
           flag = true;
         }
         console.log(item.stockName + flag);
