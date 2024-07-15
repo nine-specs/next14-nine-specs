@@ -52,6 +52,7 @@ async function fetchAiReply({
     console.error("스트림 처리 중 에러:", error);
   } finally {
     if (onFinally) onFinally(aiMessage);
+    return aiMessage;
   }
 }
 
