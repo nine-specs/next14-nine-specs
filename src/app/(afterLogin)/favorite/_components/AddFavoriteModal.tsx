@@ -48,7 +48,7 @@ export default function AddFavoriteModal({
           { stockName: "테슬라" },
         ];
 
-  // submit 핸들러
+  // 검색창 submit 핸들러
   const handleSubmit = async (e?: React.FormEvent<HTMLFormElement>) => {
     console.log("handleSubmit 작동");
     if (e) e.preventDefault();
@@ -79,9 +79,11 @@ export default function AddFavoriteModal({
         } finally {
           setLoading(false);
         }
+      } else {
+        alert("주식종목 검색만 가능합니다.");
       }
     } else {
-      alert("주식종목 검색만 가능합니다.");
+      alert("검색종목을 입력해주세요.");
     }
   };
   // 검색 아이콘 클릭시 handleSubmit 실행

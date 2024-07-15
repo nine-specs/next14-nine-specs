@@ -14,32 +14,42 @@ const accountInfo = {
   생년월일: "991231",
 };
 
-export default function ProfilePage() {
+type TProfilePage = {
+  userData: TUser | undefined;
+};
+
+export default function ProfilePage({ userData }: TProfilePage) {
   const [isProfileModalOpened, setProfileModalOpened] = useState(false);
   const [isAccountModalOpened, setAccountModalOpened] = useState(false);
-  const [profileData, setProfileData] = useState<TUser>();
+  const [profileData, setProfileData] = useState<TUser | undefined>(userData);
 
-  // 유저 기본 정보 가져오기
-  useEffect(() => {
-    fetch("/api/profile")
-      .then((r) => r.json())
-      .then((result) => {
-        console.log(result);
-        setProfileData(result.data);
-      })
-      .catch((error) => {
-        console.error("에러발생:", error);
-      });
-  }, []);
+  // // 유저 기본 정보 가져오기
+  // useEffect(() => {
+  //   fetch("/api/profile")
+  //     .then((r) => r.json())
+  //     .then((result) => {
+  //       console.log(result);
+  //       setProfileData(result.data);
+  //     })
+  //     .catch((error) => {
+  //       console.error("에러발생:", error);
+  //     });
+  // }, []);
 
-  // profileData를 가져왔다면 바인딩 재설정
-  useEffect(() => {
-    if (profileData) {
-      accountInfo.이름 = profileData.name;
-      accountInfo.아이디 = profileData.userId;
-      accountInfo.생년월일 = profileData.birthdate;
-    }
-  }, [profileData]);
+  if (userData) {
+    accountInfo.이름 = userData.name;
+    accountInfo.아이디 = userData.userId;
+    accountInfo.생년월일 = userData.birthdate;
+  }
+
+  // // profileData를 가져왔다면 바인딩 재설정
+  // useEffect(() => {
+  //   if (profileData) {
+  //     accountInfo.이름 = profileData.name;
+  //     accountInfo.아이디 = profileData.userId;
+  //     accountInfo.생년월일 = profileData.birthdate;
+  //   }
+  // }, [profileData]);
 
   return (
     <div className=" w-[1200px] min-h-[720px] flex gap-[27px] mt-[20px] mb-[112px]">

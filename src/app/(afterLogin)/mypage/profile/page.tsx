@@ -1,9 +1,11 @@
+import { GetUser } from "@/hooks/profile/useGetUser";
 import ProfilePage from "./ProfilePage";
 
-export default function page() {
+export default async function page() {
+  const userData = await GetUser();
   return (
     <>
-      <ProfilePage />
+      <ProfilePage userData={userData} />
     </>
   );
 }

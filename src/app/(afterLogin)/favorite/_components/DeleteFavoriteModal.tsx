@@ -19,7 +19,7 @@ export default function DeleteFavoriteModal({
 
   // 클릭시 삭제이벤트 진행
   const onDeleteClick = () => {
-    deleteMyStocks(stock);
+    deleteMyStocks(stock, "option");
   };
   return (
     <>

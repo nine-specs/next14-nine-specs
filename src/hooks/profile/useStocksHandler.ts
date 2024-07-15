@@ -104,7 +104,7 @@ export async function getStockByKeyword(keyword: string) {
 }
 
 /**나의 관심종목 삭제하기 */
-export async function deleteMyStocks(stockName: string, StockId?: string) {
+export async function deleteMyStocks(stockName: string, option?: string) {
   //임시 유저 uid
   const uid = "gU8dSD4pRUHr7xAx9cgL";
   try {
@@ -131,7 +131,9 @@ export async function deleteMyStocks(stockName: string, StockId?: string) {
   } catch (error) {
     console.log("관심종목 삭제중 에러발생:" + error);
   }
-  if (StockId) {
+
+  //"관심종목을 삭제하시겠습니까?" 해당 모달창 option 부여
+  if (option) {
     // 페이지 재검증, 재생성
     revalidatePath("/favorite");
   } else {

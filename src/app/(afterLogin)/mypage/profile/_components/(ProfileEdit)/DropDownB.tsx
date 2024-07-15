@@ -156,9 +156,7 @@ export default function DropDownB() {
               onKeyDown={onKeyDown}
               autoComplete="off"
               id="stockInput"
-              value={
-                myStock !== "#관심 종목을 추가해주세요" ? myStock : undefined
-              }
+              value={myStock !== "#관심 종목을 추가해주세요" ? myStock : ""}
             />
           </div>
         </div>
