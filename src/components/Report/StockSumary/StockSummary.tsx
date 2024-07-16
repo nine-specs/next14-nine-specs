@@ -10,12 +10,26 @@ interface Props {
 }
 
 export default async function StockSummary({ code, ticker }: Props) {
-  const exchangeRate = await getExchangeRate(); // 원달러 환율
-  const stockInfomation = await getStockDetails(code); // 주식 가격  정보
-  const { closePrice, fluctuationsRatio, compareToPreviousClosePrice } =
-    stockInfomation; // 주식 정보
-  const content = await getStockSummary(code);
-  const convertContent = content.replace(/<[^>]*>?/gm, "");
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/report/summary`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ code }),
+      cache: "no-store",
+    },
+  );
+
+  const {
+    exchangeRate,
+    closePrice,
+    fluctuationsRatio,
+    compareToPreviousClosePrice,
+    convertContent,
+  } = await res.json();
+
   return (
     <div className="flex flex-col justify-between gap-6 ">
       {/* 원달라 환율  */}

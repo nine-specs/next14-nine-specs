@@ -54,8 +54,8 @@ export default async function StockAnalysis({ stockInfo }: Props) {
             fluctuation={fluctuationsRatio}
             changeRate={compareToPreviousClosePrice}
             weight="regular"
-            level="4"
-            className="gap-2"
+            level="5"
+            className="gap-1"
           />
         </div>
         <Suspense fallback={<StockAnalysisSkeleton />}>
