@@ -21,9 +21,18 @@ export interface StockPrice {
   date?: string;
 }
 
-
 export interface StockDetails {
   closePrice: string;
   fluctuationsRatio: string;
   compareToPreviousClosePrice: string;
+}
+
+export interface StockReportScore {
+  subject: string;
+  score: number;
+  fullMark: number;
+}
+export interface StockReport {
+  overallScore?: number | string;
+  scores?: StockReportScore[];
 }

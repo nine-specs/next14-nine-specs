@@ -20,7 +20,7 @@ export default async function StockGptAnalysisReply({ stockInfo }: Props) {
     stream: false,
   });
   return (
-    <div className="overflow-hidden hover:overflow-y-scroll h-[96px]">
+    <div className="overflow-hidden hover:overflow-y-scroll h-[96px] ">
       <div className="w-[670px] h-full">
         <BodyFont level="4" weight="medium">
           {res}

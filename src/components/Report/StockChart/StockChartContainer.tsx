@@ -1,7 +1,7 @@
 import BodyFont from "@/common/BodyFont";
 import { Suspense } from "react";
 import StockChartLoader from "./StockChartLoader";
-
+import StockSuspenseLoading from "../ReportCommon/SuspenseLoading";
 interface Props {
   code: string | undefined;
 }
@@ -15,12 +15,11 @@ export default function StockChartContainer({ code }: Props) {
         </BodyFont>
       </div>
       {/* 차트 */}
+
       <Suspense
         fallback={
-          <div className="flex flex-col  justify-center h-full items-center">
-            <BodyFont level="5" weight="medium">
-              차트 데이터 통신중...
-            </BodyFont>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <StockSuspenseLoading />
           </div>
         }
       >

@@ -10,12 +10,35 @@ interface Props {
 }
 
 export default async function StockSummary({ code, ticker }: Props) {
-  const exchangeRate = await getExchangeRate(); // 원달러 환율
-  const stockInfomation = await getStockDetails(code); // 주식 가격  정보
-  const { closePrice, fluctuationsRatio, compareToPreviousClosePrice } =
-    stockInfomation; // 주식 정보
-  const content = await getStockSummary(code);
-  const convertContent = content.replace(/<[^>]*>?/gm, "");
+  const priceFetch = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/report/price`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ code }),
+      cache: "no-store",
+    },
+  ); // 주식 가격의 정보 주식의 가격은 항시 변동되기 때문에 캐싱 없이 실시간으로 가져와야함
+  const {
+    exchangeRate,
+    closePrice,
+    fluctuationsRatio,
+    compareToPreviousClosePrice,
+  } = await priceFetch.json();
+
+  const summaryFetch = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/report/summary`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ code }),
+    },
+  );
+  const summary = await summaryFetch.json();
   return (
     <div className="flex flex-col justify-between gap-6 ">
       {/* 원달라 환율  */}
@@ -30,7 +53,7 @@ export default async function StockSummary({ code, ticker }: Props) {
       <div className="  h-[100px] overflow-hidden hover:overflow-y-scroll ">
         <div className="w-[400px]">
           <BodyFont level="4" weight="regular">
-            {convertContent}
+            {summary}
           </BodyFont>
         </div>
       </div>
