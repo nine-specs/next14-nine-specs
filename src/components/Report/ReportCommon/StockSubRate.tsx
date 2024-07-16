@@ -20,19 +20,21 @@ export default function StockSubRate({
   fluctuation = Number(fluctuation);
   changeRate = Number(changeRate);
 
-  const fluctuationStyle =
-    fluctuation > 0 ? " text-warning" : "text-secondary-600";
-  const changeRateStyle =
-    changeRate > 0 ? " text-warning" : "text-secondary-600";
+  const colorStyle =
+    fluctuation === 0
+      ? ""
+      : fluctuation > 0
+      ? " text-warning"
+      : "text-secondary-600";
 
   return (
     <div className={`flex ${className}`}>
-      <BodyFont level={level} weight={weight} className={fluctuationStyle}>
-        {fluctuation > 0 ? "▲" : "▼"}
+      <BodyFont level={level} weight={weight} className={colorStyle}>
+        {fluctuation === 0 ? "" : fluctuation > 0 ? "▲" : "▼"}
         {Math.abs(fluctuation).toFixed(2)}%
       </BodyFont>
-      <BodyFont level={level} weight={weight} className={changeRateStyle}>
-        {changeRate > 0 ? "+" + changeRate : changeRate}
+      <BodyFont level={level} weight={weight} className={colorStyle}>
+        {changeRate >= 0 ? "+" + changeRate : changeRate}
       </BodyFont>
     </div>
   );
