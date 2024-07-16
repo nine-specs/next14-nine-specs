@@ -21,6 +21,7 @@ export default function PopularNewsItem({ index }: { index: number }) {
               src={SAMPLE_01}
               alt=""
               className="object-cover object-center"
+              priority
             />
           </div>
           <div className="absolute inset-x-0 bottom-0 text-white p-6 z-20">

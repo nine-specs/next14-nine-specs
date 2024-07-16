@@ -14,8 +14,7 @@ export default function RecentNewsItem() {
           src={SAMPLE_04}
           alt=""
           width={252}
-          height={148}
-          className="object-cover object-center"
+          className="object-cover object-center h-auto"
         />
       </div>
       <div className="flex-1">
