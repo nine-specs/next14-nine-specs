@@ -11,8 +11,6 @@ export async function POST(request: Request) {
     const userDoc = await getDoc(userDocRef);
 
     if (userDoc.exists()) {
-      console.log("Cached document data:", userDoc.data());
-
       // 하위 컬렉션 접근
       const userStocks = collection(userDocRef, "myStocks");
       const subCollectionSnapshot = await getDocs(userStocks);
