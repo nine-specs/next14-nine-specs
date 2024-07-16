@@ -1,17 +1,11 @@
 import { Suspense } from "react";
 import BodyFont from "@/common/BodyFont";
-import { getStockDetails } from "@/service/report/stockDetailsApi";
 
 import Image from "next/image";
 import StockUpDown from "./StockUpDown";
 import StockChartReport from "./StockChartReport";
 import { BASE_URL } from "@/constants";
-
-export type StockType = {
-  stockId: string;
-  stockName: string;
-  stockCode: string;
-};
+import { StockType } from "../../page";
 
 export default async function AiStockItem(props: StockType) {
   const { stockId: id, stockCode: code, stockName: name } = props;
