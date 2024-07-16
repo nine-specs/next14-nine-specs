@@ -7,12 +7,16 @@ import {
   deleteDoc,
   doc,
   getDocs,
+  limit,
+  query,
   setDoc,
   updateDoc,
+  where,
 } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { TStocks } from "./useStocksHandler";
 
 //프로필 사진 , 닉네임 , 관심 종목 수정하기
 export async function useUpdateProfile(formData: FormData) {
@@ -76,6 +80,15 @@ export async function useUpdateProfile(formData: FormData) {
 
   // 관심 종목을 서브 콜렉션에 저장
   try {
+    //주식데이터 가져오기
+    const stocksRef = collection(firestore, "stocks");
+    const q = query(stocksRef, where("stockName", "in", myStock));
+    const querySnapshot = await getDocs(q);
+    const stockList: TStocks[] = [];
+    querySnapshot.forEach((doc) => {
+      stockList.push(doc.data() as TStocks);
+    });
+    //서브콜렉션 참조
     const myStocksCollectionRef = collection(
       firestore,
       "users",
@@ -89,8 +102,14 @@ export async function useUpdateProfile(formData: FormData) {
     await Promise.all(deletePromises);
 
     // 새로운 관심 종목을 서브 콜렉션에 추가
-    const addStockPromises = myStock.map(
-      (stock) => addDoc(myStocksCollectionRef, { myStock: stock }), // 자동 생성된 UID로 문서 추가
+    const addStockPromises = stockList.map(
+      (stock) =>
+        addDoc(myStocksCollectionRef, {
+          stockName: stock.stockName,
+          stockId: stock.stockId,
+          // logoUrl: stockData.logoUrl, // 필요시 추가
+          stockCode: stock.stockCode,
+        }), // 자동 생성된 UID로 문서 추가
     );
     await Promise.all(addStockPromises);
 

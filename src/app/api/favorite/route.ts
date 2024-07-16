@@ -1,4 +1,5 @@
 import { firestore } from "@/firebase/firebaseConfig";
+import { TStocks } from "@/hooks/profile/useStocksHandler";
 import {
   addDoc,
   collection,
@@ -6,35 +7,39 @@ import {
   doc,
   getDoc,
   getDocs,
+  limit,
   orderBy,
   query,
   where,
 } from "firebase/firestore";
-import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
-// 유저 정보 타입
-export type TUser = {
-  birthdate: string; // 생년월일
-  email: string; // 이메일
-  language: string; //언어 설정
-  image: string; //프로필사진
-  phone: string; //휴대폰
-  userId: string; //아이디
-  name: string; //이름
-  nick: string; // 닉네임
-  createdAt: string;
-  myStocks: { myStock: string };
-};
-
-//내 관심종목 추가
+// 내 관심종목 추가
 export async function POST(request: NextRequest) {
-  //임시 유저 uid
+  // 임시 유저 uid
   const uid = "gU8dSD4pRUHr7xAx9cgL";
 
   const { stockName } = await request.json();
   try {
-    //  유저의 myStocks 서브콜렉션 참조
+    // stocks 콜렉션 참조
+    const stocksRef = collection(firestore, "stocks");
+
+    // stockName이 일치하는 도큐먼트를 찾는 하나만 쿼리.
+    const q = query(stocksRef, where("stockName", "==", stockName), limit(1));
+
+    // 쿼리 실행
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      return NextResponse.json(
+        { message: "해당 주식 데이터를 찾을 수 없습니다." },
+        { status: 404 },
+      );
+    }
+
+    const stockData = querySnapshot.docs[0].data();
+
+    // 유저의 myStocks 서브콜렉션 참조
     const userStocksCollectionRef = collection(
       firestore,
       `users/${uid}/myStocks`,
@@ -42,7 +47,10 @@ export async function POST(request: NextRequest) {
 
     // 관심종목 데이터 추가
     await addDoc(userStocksCollectionRef, {
-      myStock: stockName,
+      stockName: stockName,
+      stockId: stockData.stockId,
+      // logoUrl: stockData.logoUrl, // 필요시 추가
+      stockCode: stockData.stockCode,
     });
 
     console.log("내관심종목 추가완료");
@@ -55,7 +63,7 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-// 내 관심종목 삭제
+/**  내 관심종목 삭제 */
 export async function DELETE(request: NextRequest) {
   // 임시 유저 uid
   const uid = "gU8dSD4pRUHr7xAx9cgL";
@@ -69,7 +77,7 @@ export async function DELETE(request: NextRequest) {
     const myStocksRef = collection(userRef, "myStocks");
 
     // 'myStock' 필드가 stockName과 일치하는 문서를 찾기 위한 쿼리
-    const q = query(myStocksRef, where("myStock", "==", stockName));
+    const q = query(myStocksRef, where("stockName", "==", stockName));
 
     // 쿼리 실행
     const querySnapshot = await getDocs(q);

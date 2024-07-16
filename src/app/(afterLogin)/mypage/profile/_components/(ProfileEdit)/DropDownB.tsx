@@ -37,7 +37,7 @@ export default function DropDownB() {
         setStockList(stockList);
 
         if (myStocks.length > 0) {
-          const formattedStockArr = myStocks.map((a) => "#" + a);
+          const formattedStockArr = myStocks.map((a) => "#" + a.stockName);
           setStockArr(formattedStockArr);
           const formattedStock = formattedStockArr.join(" ");
           setMyStock(formattedStock);

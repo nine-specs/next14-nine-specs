@@ -20,8 +20,11 @@ export type TStocks = {
   logoUrl: string;
 };
 
-type TMyStocks = {
-  myStock: string;
+export type TMyStocks = {
+  stockName: string;
+  stockId: string;
+  stockCode: string;
+  // logoUrl:string
 };
 /**주식 목록 가져오기 */
 export async function getStockList() {
@@ -46,14 +49,18 @@ export async function getMyStocks() {
   const uid = "gU8dSD4pRUHr7xAx9cgL";
   const userId = uid;
 
-  const myStocks: string[] = [];
+  const myStocks: TMyStocks[] = [];
   try {
     //users콜렉션에서  myStocks 서브콜렉션가져오기
     const myStocksRef = collection(firestore, "users", userId, "myStocks");
     const myStocksSnapshot = await getDocs(query(myStocksRef));
     myStocksSnapshot.forEach((stockDoc) => {
       const data = stockDoc.data() as TMyStocks;
-      myStocks.push(data.myStock);
+      myStocks.push({
+        stockName: data.stockName,
+        stockId: data.stockId,
+        stockCode: data.stockCode,
+      });
     });
   } catch (error) {
     console.log("에러발생:" + error);

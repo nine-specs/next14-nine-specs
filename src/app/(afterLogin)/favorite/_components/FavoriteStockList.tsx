@@ -4,11 +4,11 @@ import TextButton from "@/common/TextButton";
 import FavoriteStockItem from "./FavoriteStockItem";
 import { useState } from "react";
 import AddFavoriteModal from "./AddFavoriteModal";
-import { TStocks } from "@/hooks/profile/useStocksHandler";
+import { TMyStocks, TStocks } from "@/hooks/profile/useStocksHandler";
 
 type TFavoriteStockList = {
   // 내관심종목 데이터 타입
-  data: TStocks[];
+  data: TMyStocks[];
   popularSearchData: {
     id: string;
     stockName: string;
