@@ -12,11 +12,12 @@ const signUp = async (
     email: string;
     phone: string;
     birthdate: string;
-    nick: string;
+    //nick: string;
   },
   formData: FormData,
 ) => {
-  const { name, userId, password, email, phone, birthdate, nick } = data;
+  const { name, userId, password, email, phone, birthdate } = data;
+  const nick = formData.get("nick");
   const file = formData.get("file") as File | null;
   const myStockStr = formData.get("myStock") as string | undefined;
 
