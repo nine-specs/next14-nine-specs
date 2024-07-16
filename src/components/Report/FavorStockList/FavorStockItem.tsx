@@ -19,7 +19,6 @@ const FavorStockReport = dynamic(() => import("./FavorStockReport"), {
 interface Props {
   stockInfo: StockInfo | undefined;
   children?: React.ReactNode;
-  
 }
 export default async function FavorStockItem({ stockInfo, children }: Props) {
   if (!stockInfo) return null;
@@ -29,7 +28,7 @@ export default async function FavorStockItem({ stockInfo, children }: Props) {
     stockInfomation;
 
   return (
-    <div  className="flex flex-col" >
+    <div className="flex flex-col">
       <article className="flex flex-col justify-between w-full h-full gap-4 ">
         <div>
           {/* 종목 정보 */}
@@ -51,13 +50,12 @@ export default async function FavorStockItem({ stockInfo, children }: Props) {
                 {`$${closePrice}`}
               </BodyFont>
             </div>
-            <div className="flex gap-2">
-              <StockSubRate
-                changeRate={compareToPreviousClosePrice}
-                fluctuation={fluctuationsRatio}
-                level="4"
-              />
-            </div>
+            <StockSubRate
+              className="gap-2"
+              changeRate={compareToPreviousClosePrice}
+              fluctuation={fluctuationsRatio}
+              level="4"
+            />
           </div>
         </div>
         {/* 차트와 리포트 */}

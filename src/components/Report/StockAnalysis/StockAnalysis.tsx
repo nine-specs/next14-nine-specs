@@ -50,14 +50,13 @@ export default async function StockAnalysis({ stockInfo }: Props) {
               {`$${closePrice}`}
             </BodyFont>
           </div>
-          <div className="flex gap-2">
-            <StockSubRate
-              fluctuation={fluctuationsRatio}
-              changeRate={compareToPreviousClosePrice}
-              weight="regular"
-              level="4"
-            />
-          </div>
+          <StockSubRate
+            fluctuation={fluctuationsRatio}
+            changeRate={compareToPreviousClosePrice}
+            weight="regular"
+            level="4"
+            className="gap-2"
+          />
         </div>
         <Suspense fallback={<StockAnalysisSkeleton />}>
           <StockGptAnalysisReply stockInfo={stockInfo} />
