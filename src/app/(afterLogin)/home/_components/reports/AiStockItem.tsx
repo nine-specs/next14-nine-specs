@@ -8,13 +8,13 @@ import StockChartReport from "./StockChartReport";
 import { BASE_URL } from "@/constants";
 
 export type StockType = {
-  id: string;
-  name: string;
-  code: string;
+  stockId: string;
+  stockName: string;
+  stockCode: string;
 };
 
 export default async function AiStockItem(props: StockType) {
-  const { id, code, name } = props;
+  const { stockId: id, stockCode: code, stockName: name } = props;
 
   const { closePrice, fluctuationsRatio, compareToPreviousClosePrice } = await (
     await fetch(`${BASE_URL}/api/stock?code=${code}`)

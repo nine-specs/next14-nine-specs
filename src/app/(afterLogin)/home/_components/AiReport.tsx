@@ -3,24 +3,19 @@ import CardWrap from "@/common/CardWrap";
 import Badge from "@/common/Badge";
 
 import Title from "../_ui/Title";
-import AiStockItem from "./reports/AiStockItem";
+import AiStockItem, { StockType } from "./reports/AiStockItem";
+import { BASE_URL } from "@/constants";
 
 /**
  * 유저의 AI 리포트
  */
-export default function AiReport() {
-  const aiStockList = [
-    {
-      id: "AAPL",
-      name: "애플",
-      code: "AAPL.O",
-    },
-    {
-      id: "U",
-      name: "유니티",
-      code: "U",
-    },
-  ];
+export default async function AiReport() {
+  const userStocks = await (
+    await fetch(`${BASE_URL}/api/user/stock`, {
+      method: "POST",
+      body: JSON.stringify({ userId: "yLGm8xFA6JKiRip7p0hn" }),
+    })
+  ).json();
 
   return (
     <>
@@ -33,8 +28,8 @@ export default function AiReport() {
         </div>
 
         <ul className="flex gap-5">
-          {aiStockList.map((stock: any) => (
-            <li key={stock.id} className="w-2/6 h-[304px]">
+          {userStocks.map((stock: StockType) => (
+            <li key={stock.stockId} className="w-2/6 h-[304px]">
               <CardWrap width="100%" height="100%">
                 <AiStockItem {...stock} />
               </CardWrap>
