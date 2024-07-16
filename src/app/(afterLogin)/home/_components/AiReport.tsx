@@ -1,12 +1,27 @@
-import CardWrap from "@/common/CardWrap";
-import Title from "../_ui/Title";
 import AI_ICON from "../../../../../public/images/AI_icon.svg";
+import CardWrap from "@/common/CardWrap";
 import Badge from "@/common/Badge";
+
+import Title from "../_ui/Title";
+import AiStockItem from "./reports/AiStockItem";
 
 /**
  * 유저의 AI 리포트
  */
 export default function AiReport() {
+  const aiStockList = [
+    {
+      id: "AAPL",
+      name: "애플",
+      code: "AAPL.O",
+    },
+    {
+      id: "U",
+      name: "유니티",
+      code: "U",
+    },
+  ];
+
   return (
     <>
       <div>
@@ -18,9 +33,11 @@ export default function AiReport() {
         </div>
 
         <ul className="flex gap-5">
-          {Array.from({ length: 3 }, (_, index) => (
-            <li key={index} className="w-2/6 h-[304px]">
-              <CardWrap width="100%" height="100%"></CardWrap>
+          {aiStockList.map((stock: any) => (
+            <li key={stock.id} className="w-2/6 h-[304px]">
+              <CardWrap width="100%" height="100%">
+                <AiStockItem {...stock} />
+              </CardWrap>
             </li>
           ))}
         </ul>
