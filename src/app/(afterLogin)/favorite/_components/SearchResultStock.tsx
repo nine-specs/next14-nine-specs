@@ -41,20 +41,53 @@ export default function SearchResultStock({ searchData }: TSearchResultStock) {
     fetchMyStocks();
   }, [searchData]);
 
+  /**관심종목 추가 */
   const handleAddStock = async () => {
     setIsLoading(true);
-    let result = await addMyStocks(searchData.stockName);
-    if (result == "success") {
-      setIsMyStock(true);
+    try {
+      const response = await fetch("/api/favorite", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ stockName: searchData.stockName }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setIsMyStock(true);
+      } else {
+        console.error("추가실패:", result.message);
+      }
+    } catch (error) {
+      console.error("추가 과정 중 에러발생:", error);
+    } finally {
       setIsLoading(false);
     }
   };
-
+  /**관심종목 삭제 */
   const handleDeleteStock = async () => {
     setIsLoading(true);
-    let result = await deleteMyStocks(searchData.stockName);
-    if (result == "success") {
-      setIsMyStock(false);
+    try {
+      const response = await fetch("/api/favorite", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ stockName: searchData.stockName }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setIsMyStock(false);
+      } else {
+        console.error("삭제실패:", result.message);
+      }
+    } catch (error) {
+      console.error("삭제 중 에러발생:", error);
+    } finally {
       setIsLoading(false);
     }
   };

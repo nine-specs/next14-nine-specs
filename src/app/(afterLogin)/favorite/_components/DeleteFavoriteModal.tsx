@@ -3,6 +3,7 @@ import { Modal } from "@/common/Modal";
 import React from "react";
 import TextButton from "@/common/TextButton";
 import { deleteMyStocks } from "@/hooks/profile/useStocksHandler";
+import { useRouter } from "next/navigation";
 
 type TAddFavoriteModal = {
   onClose: () => void;
@@ -13,13 +14,27 @@ export default function DeleteFavoriteModal({
   onClose,
   stock,
 }: TAddFavoriteModal) {
-  const onClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    console.log(e.currentTarget);
-  };
+  const router = useRouter();
 
   // 클릭시 삭제이벤트 진행
-  const onDeleteClick = () => {
-    deleteMyStocks(stock, "option");
+  const onDeleteClick = async () => {
+    try {
+      const response = await fetch("/api/favorite", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ stockName: stock, option: "option" }),
+      });
+      const result = await response.json();
+      if (response.ok) {
+        router.refresh();
+      } else {
+        console.error("삭제실패:", result.message);
+      }
+    } catch (error) {
+      console.error("삭제 중 에러발생:", error);
+    }
   };
   return (
     <>
