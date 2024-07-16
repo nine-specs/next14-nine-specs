@@ -1,3 +1,4 @@
+"use client";
 import HeadingFont from "@/common/HeadingFont";
 import TextButton from "@/common/TextButton";
 import React, { useState } from "react";
