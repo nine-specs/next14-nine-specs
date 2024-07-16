@@ -31,7 +31,7 @@ async function fetchAiReply({
     }
 
     if (!aiResponse.body) {
-      return Response.json({ error: "No response body" }, { status: 500 });
+      throw new Error("No response body.");
     }
 
     const reader = aiResponse.body.getReader();
