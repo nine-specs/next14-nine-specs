@@ -6,7 +6,6 @@ import StockSumaryContainer from "./StockSumary/StockSummaryContainer";
 import FavorStockList from "./FavorStockList/FavorStockList";
 import StockReportContainer from "./StockReport/StockReportContainer";
 import StockAnalysis from "./StockAnalysis/StockAnalysis";
-import { Suspense } from "react";
 import { StockInfo } from "./type/report/stockType";
 
 interface Props {

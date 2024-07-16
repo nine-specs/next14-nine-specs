@@ -4,6 +4,8 @@ import StockSubRate from "../ReportCommon/StockSubRate";
 import StockGptAnalysisReply from "./StockGptAnalysisReply";
 import { Suspense } from "react";
 import { getStockDetails } from "@/service/report/stockDetailsApi";
+import StockSuspenseLoading from "../ReportCommon/SuspenseLoading";
+import StockAnalysisSkeleton from "./StockAnalysisSkeleton";
 interface StockInfo {
   ticker: string;
   name: string;
@@ -48,22 +50,15 @@ export default async function StockAnalysis({ stockInfo }: Props) {
               {`$${closePrice}`}
             </BodyFont>
           </div>
-          <div className="flex gap-2">
-            <StockSubRate
-              fluctuation={fluctuationsRatio}
-              changeRate={compareToPreviousClosePrice}
-              weight="regular"
-              level="4"
-            />
-          </div>
+          <StockSubRate
+            fluctuation={fluctuationsRatio}
+            changeRate={compareToPreviousClosePrice}
+            weight="regular"
+            level="5"
+            className="gap-1"
+          />
         </div>
-        <Suspense
-          fallback={
-            <BodyFont level="5" weight="bold">
-              애널리스트 의견 불러오는 중...
-            </BodyFont>
-          }
-        >
+        <Suspense fallback={<StockAnalysisSkeleton />}>
           <StockGptAnalysisReply stockInfo={stockInfo} />
         </Suspense>
       </div>

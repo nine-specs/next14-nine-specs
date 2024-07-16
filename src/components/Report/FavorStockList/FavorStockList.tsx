@@ -1,5 +1,3 @@
-import React, { Suspense } from "react";
-
 import FavorStockItem from "./FavorStockItem";
 import CardWrap from "@/common/CardWrap";
 import { StockInfo } from "../type/report/stockType";
@@ -31,16 +29,22 @@ export default async function FavorStockList({ stockInfo }: Props) {
 
   return (
     <>
-      {stockInfo &&
+      <CardWrap width="387px" height="334px" padding>
+        <FavorStockItem stockInfo={stockInfo}>
+          <div className="flex gap-3 justify-between m-4">
+            <button className="px-7  border boder-black p-2">삭제</button>
+            <button className="px-7 border boder-black p-2">삭제</button>
+          </div>
+        </FavorStockItem>
+      </CardWrap>
+      {/* {stockInfo &&
         stockInfo2.map((stockInfo) => (
-          <div className="w-[387px] mb-3" key={uuid()}>
+          <div className="w-[387px] mb-3 " key={uuid()}>
             <CardWrap width="387px" height="304px" padding>
-              <Suspense fallback={<div>관심목록 로딩중...</div>}>
-                <FavorStockItem stockInfo={stockInfo} />
-              </Suspense>
+              <FavorStockItem stockInfo={stockInfo} />
             </CardWrap>
           </div>
-        ))}
+        ))} */}
     </>
   );
 }
