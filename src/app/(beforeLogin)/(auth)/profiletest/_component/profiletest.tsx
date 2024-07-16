@@ -13,6 +13,9 @@ import DropDownC from "./DropDownC";
 // import signUp2 from "@/hooks/sign/useSignUp2";
 import signUp from "@/hooks/sign/useSignUp";
 import CheckIdNickInput from "@/common/CheckIdNickInput";
+import router from "next/router";
+import { useNickCheck } from "@/hooks/common/useNickCheck";
+
 export interface DropDownCProps {
   myStock: string;
   setMyStock: React.Dispatch<React.SetStateAction<string>>;
@@ -82,6 +85,7 @@ export default function ProfileTest() {
     const response = await signUp(data, formData);
     if (response.success) {
       alert("회원 가입 및 프로필 설정 성공!");
+      router.push("/login");
     } else {
       alert(response.error);
     }
@@ -130,8 +134,11 @@ export default function ProfileTest() {
     setStockArr,
   };
 
+  const { nick, setNick, styleStatus, descriptionText, handleNickCheck } =
+    useNickCheck();
+
   return (
-    <div className="flex justify-center items-start flex-grow-0 flex-shrink-0 rounded-[32px] bg-white w-[590px] h-[688px] mx-auto mt-[120px]">
+    <div className="flex justify-center items-start flex-grow-0 flex-shrink-0 rounded-[32px] bg-white w-[590px] h-[688px] mx-auto ">
       <form
         onSubmit={handleSubmit}
         className="w-full h-full py-[80px] px-[102px]"
@@ -171,7 +178,12 @@ export default function ProfileTest() {
                 name="nick"
                 checkLabel="중복 확인"
                 placeholder="닉네임을 입력해주세요"
-                description=" "
+                description=""
+                value={nick}
+                onChange={(e) => setNick(e.target.value)}
+                onCheckId={handleNickCheck}
+                styleStatus={styleStatus}
+                descriptionText={descriptionText}
               />
               <DropDownC {...dropDownProps} />
             </div>

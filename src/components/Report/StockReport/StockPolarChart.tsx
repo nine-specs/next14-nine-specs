@@ -8,16 +8,17 @@ import {
   RadarChart,
   ResponsiveContainer,
 } from "recharts";
-
+import { StockReportScore } from "../type/report/stockType";
 interface Props {
   PorlarAngle?: boolean;
-  data: any;
+  data: StockReportScore[];
   viewAxis?: boolean;
   dataKey?: string;
   valueKey?: string;
   cx?: string;
   cy?: string;
 }
+
 export default function StockPolarChart({
   dataKey = "subject",
   valueKey = "score",

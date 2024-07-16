@@ -9,22 +9,33 @@ interface Props {
 }
 
 export default function StockReportList({ data }: Props) {
+  const colorText = (score: number) =>
+    score === 50 || score === 0
+      ? "text-gray-500"
+      : score > 50
+      ? "text-red-600"
+      : "text-sky-600";
+
+  const iconText = (score: number) =>
+    score === 50 || score === 0 ? "" : score > 50 ? "▲" : "▼";
+
+  const formatNumber = (num: number) => {
+    return num % 1 === 0 ? num : num.toFixed(1);
+  };
   return (
     <div className="flex flex-col w-[168px] h-[168px] justify-center rounded-2xl bg-[#F9F9F9] py-3 px-4">
       {data &&
-        data.map((score) => (
+        data.map((item) => (
           <div className="flex gap-3 justify-between m-1" key={uuid()}>
             <BodyFont level="4" weight="medium" className="overflow-hidden">
-              {score.subject}
+              {item.subject}
             </BodyFont>
             <div
-              className={`${
-                score.score > 0 ? "text-red-600" : "text-sky-600"
-              } w-[54px]`}
+              className={`${colorText(item.score)} w-[54px] flex justify-end`}
             >
               <BodyFont level="5" weight="medium" className="overflow-hidden">
-                {score.score > 0 ? "▲" : "▼"}
-                {Math.abs(score.score).toFixed(1)}%
+                {iconText(item.score)}
+                {formatNumber(item.score)}%
               </BodyFont>
             </div>
           </div>

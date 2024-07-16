@@ -74,9 +74,11 @@ export default function StockExchage({
         </div>
       </div>
       {/* 등락 */}
-      <div className="flex gap-2">
-        <StockSubRate fluctuation={fluctuation} changeRate={changeRate} />
-      </div>
+      <StockSubRate
+        className="gap-2"
+        fluctuation={fluctuation}
+        changeRate={changeRate}
+      />
     </article>
   );
 }

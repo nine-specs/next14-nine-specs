@@ -11,10 +11,13 @@ import {
   setDoc,
   where,
 } from "firebase/firestore";
+import jwt from "jsonwebtoken";
+
+const secret = process.env.SECRET_KEY as string;
 
 export const authConfig = {
   pages: {
-    signIn: "/logintest",
+    signIn: "/login",
   },
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
@@ -41,7 +44,7 @@ export const authConfig = {
         account?.provider === "google" ||
         account?.provider === "naver"
       ) {
-        const { name, email, birthdate, image } = user;
+        const { id, name, email, birthdate, image } = user;
         console.log(
           `[signIn callback] ${account.provider.toUpperCase()} 사용자 정보:`,
           user,
@@ -57,7 +60,27 @@ export const authConfig = {
           console.log(
             "[signIn callback] 새로운 사용자를 /socialSign으로 리디렉션합니다",
           );
-          return "/socialSign"; // 문자열 경로 반환
+          // JWT 토큰 생성
+          const token = jwt.sign(
+            { id, name, email, birthdate, image },
+            secret,
+            { expiresIn: "30m" },
+          );
+
+          // 리디렉션 경로에 JWT 토큰 추가
+          return `/api/cookie?token=${token}`;
+
+          // // Encoding user details into the URL
+          // const params = new URLSearchParams({
+          //   name,
+          //   email,
+          //   birthdate,
+          //   image,
+          // }).toString();
+
+          // //return "/socialSign"; // 문자열 경로 반환
+
+          // return `/socialSign?${params}`;
         }
 
         const userDoc = querySnapshot.docs[0];
