@@ -4,6 +4,7 @@ import {
   addMyStocks,
   deleteMyStocks,
   getMyStocks,
+  TMyStocks,
   TStocks,
 } from "@/hooks/profile/useStocksHandler";
 import React, { useEffect, useState } from "react";
@@ -27,7 +28,7 @@ export default function SearchResultStock({ searchData }: TSearchResultStock) {
         const stockExists = myStocks.some((stock) => {
           console.log(stock);
           console.log(searchData.stockName);
-          return stock == searchData.stockName;
+          return stock.stockName == searchData.stockName;
         });
         // 내 관심종목 yes? no?
         setIsMyStock(stockExists);
