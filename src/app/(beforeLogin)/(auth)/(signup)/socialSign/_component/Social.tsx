@@ -4,15 +4,16 @@ import Input from "@/common/Input";
 import TextButton from "@/common/TextButton";
 import ProfileSVG from "/public/images/profile.svg";
 import EditLgIcon from "/public/images/Edit_icon_lg.svg";
-
 import { useEffect, useRef, useState } from "react";
 
-import { parseCookies } from "nookies";
 import jwt from "jsonwebtoken";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import CheckIdNickInput from "@/common/CheckIdNickInput";
 import { useNickCheck } from "@/hooks/common/useNickCheck";
 import DropDownC from "../../../profiletest/_component/DropDownC";
+import { Modal } from "@/common/Modal";
+import { SocialSignUp } from "@/hooks/sign/useSocialSign";
+import { useSocialSignHandle } from "@/hooks/sign/useSocialSignHandle";
 
 export interface DropDownCProps {
   myStock: string;
@@ -28,14 +29,13 @@ export interface DropDownCProps {
 export default function Social() {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
-  console.log(token);
-  const cookies = parseCookies();
-  console.log(cookies);
+
   const [userInfo, setUserInfo] = useState<{
     id: string;
     name: string;
     email: string;
     image: string;
+    provider: string;
   } | null>(null);
 
   useEffect(() => {
@@ -47,6 +47,7 @@ export default function Social() {
           name: string;
           email: string;
           image: string;
+          provider: string;
         };
 
         setUserInfo({
@@ -54,6 +55,7 @@ export default function Social() {
           name: decodedToken.name,
           email: decodedToken.email,
           image: decodedToken.image,
+          provider: decodedToken.provider,
         });
 
         console.log("Decoded Token: ", decodedToken);
@@ -139,10 +141,20 @@ export default function Social() {
     setStockArr,
   };
 
+  const { showModal, handleModalClose, handleSubmit } = useSocialSignHandle({
+    userInfo,
+    nick,
+    myStockArr,
+    file,
+  });
+
   return (
     <>
       <section className=" flex flex-row items-center justify-center py-0 px-5 box-border  my-12">
-        <form className="flex flex-col items-center justify-start m-0 w-[590px] h-[668px]shadow-[0px_0px_10px_5px_rgba(203,_203,_203,_0.25)] rounded-[32px] bg-grayscale-0  py-20 pr-5 pl-[22px] box-border gap-[16px] max-w-full mq725:pt-[52px] mq725:pb-[52px] mq725:box-border border ">
+        <form
+          className="flex flex-col items-center justify-start m-0 w-[590px] h-[668px]shadow-[0px_0px_10px_5px_rgba(203,_203,_203,_0.25)] rounded-[32px] bg-grayscale-0  py-20 pr-5 pl-[22px] box-border gap-[16px] max-w-full mq725:pt-[52px] mq725:pb-[52px] mq725:box-border border "
+          onSubmit={handleSubmit}
+        >
           <div className="w-[386px] flex flex-col items-center justify-start gap-[40px] max-w-full mq450:gap-[20px]">
             {/* 타이틀 영역 시작  */}
             <HeadingFont level="3" weight="bold" className="text-primary-900">
@@ -154,6 +166,12 @@ export default function Social() {
                   <img
                     src={URL.createObjectURL(file)}
                     alt="Profile Preview"
+                    className="w-full h-full object-cover"
+                  />
+                ) : userInfo?.image ? (
+                  <img
+                    src={userInfo.image}
+                    alt="Profile"
                     className="w-full h-full object-cover"
                   />
                 ) : (
@@ -206,9 +224,29 @@ export default function Social() {
             <DropDownC {...dropDownProps} />
           </div>
           <div className="w-[386px] flex flex-col items-start justify-start max-w-full">
-            <TextButton disabled>가입</TextButton>
+            <TextButton>가입</TextButton>
           </div>
         </form>
+
+        {showModal && (
+          <Modal size="S2" onClose={handleModalClose}>
+            <div className="flex flex-col justify-center items-center p-4">
+              <HeadingFont level="4" weight="bold" className="mb-2">
+                회원가입 성공
+              </HeadingFont>
+              <p className="mb-4">
+                회원 가입 및 프로필 설정이 성공적으로 완료되었습니다!
+              </p>
+              <TextButton
+                variant="primary"
+                size="lg"
+                onClick={handleModalClose}
+              >
+                확인
+              </TextButton>
+            </div>
+          </Modal>
+        )}
       </section>
     </>
   );

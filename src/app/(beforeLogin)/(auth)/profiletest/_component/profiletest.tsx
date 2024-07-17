@@ -1,6 +1,6 @@
 "use client";
 import React, { useRef, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import LoadingPage from "@/common/LoadingPage";
 import useVerifyToken from "@/hooks/sign/useVerifyToken";
 import useFormStore from "@/store/useFormStore";
@@ -13,8 +13,9 @@ import DropDownC from "./DropDownC";
 // import signUp2 from "@/hooks/sign/useSignUp2";
 import signUp from "@/hooks/sign/useSignUp";
 import CheckIdNickInput from "@/common/CheckIdNickInput";
-import router from "next/router";
+
 import { useNickCheck } from "@/hooks/common/useNickCheck";
+import { Modal } from "@/common/Modal";
 
 export interface DropDownCProps {
   myStock: string;
@@ -33,7 +34,12 @@ export default function ProfileTest() {
   const [myStock, setMyStock] = useState<string>(""); //
   const [showDropDown, setShowDropDown] = useState(false); //
   const [file, setFile] = useState<File | null>(null);
+  const { nick, setNick, styleStatus, descriptionText, handleNickCheck } =
+    useNickCheck();
+  const [showModal, setShowModal] = useState(false);
+
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter(); // 라우터 인스턴스 가져오기
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
   const { isTokenValid } = useVerifyToken(token);
@@ -79,17 +85,22 @@ export default function ProfileTest() {
       email,
       phone,
       birthdate,
-      nick,
+      //nick,
       // myStock,
     };
     const response = await signUp(data, formData);
     if (response.success) {
-      alert("회원 가입 및 프로필 설정 성공!");
-      router.push("/login");
+      setShowModal(true);
     } else {
       alert(response.error);
     }
   };
+
+  const handleModalClose = () => {
+    setShowModal(false);
+    router.push("/login");
+  };
+
   //드롭다운 종목선택 이벤트
   const selectOption = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     setMyStock(" ");
@@ -133,9 +144,6 @@ export default function ProfileTest() {
     myStockArr,
     setStockArr,
   };
-
-  const { nick, setNick, styleStatus, descriptionText, handleNickCheck } =
-    useNickCheck();
 
   return (
     <div className="flex justify-center items-start flex-grow-0 flex-shrink-0 rounded-[32px] bg-white w-[590px] h-[688px] mx-auto ">
@@ -193,6 +201,21 @@ export default function ProfileTest() {
           </TextButton>
         </div>
       </form>
+      {showModal && (
+        <Modal size="S2" onClose={handleModalClose}>
+          <div className="flex flex-col justify-center items-center p-4">
+            <HeadingFont level="4" weight="bold" className="mb-2">
+              회원가입 성공
+            </HeadingFont>
+            <p className="mb-4">
+              회원 가입 및 프로필 설정이 성공적으로 완료되었습니다!
+            </p>
+            <TextButton variant="primary" size="lg" onClick={handleModalClose}>
+              확인
+            </TextButton>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 }

@@ -19,6 +19,16 @@ export default function LoginComponent() {
     { name: "google", imageSrc: "/images/logo/Google.svg" },
   ];
 
+  const handleSocialLogin = async (provider: any) => {
+    try {
+      await signIn(provider, { callbackUrl: "/home" });
+      // signIn 함수는 인증이 성공하면 callbackUrl로 이동하므로, 홈 페이지로 리디렉션됨
+    } catch (error) {
+      console.error("소셜 로그인 에러:", error);
+      // 필요에 따라 에러 처리를 추가할 수 있음
+    }
+  };
+
   return (
     <>
       <section className="flex flex-col items-center justify-center py-0 px-5 box-border my-14">
@@ -93,7 +103,7 @@ export default function LoginComponent() {
             {socialProviders.map((provider) => (
               <button
                 key={provider.name}
-                onClick={() => signIn(provider.name)}
+                onClick={() => handleSocialLogin(provider.name)}
                 className="social-login-button"
               >
                 <Image
