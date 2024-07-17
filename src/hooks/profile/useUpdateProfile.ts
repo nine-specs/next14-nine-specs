@@ -18,6 +18,8 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { TStocks } from "./useStocksHandler";
 
+const uid = "tvJNWYbo9hcAI2Sn0QtC";
+
 //프로필 사진 , 닉네임 , 관심 종목 수정하기
 export async function useUpdateProfile(formData: FormData) {
   const file = formData.get("file") as File | null;
@@ -42,7 +44,7 @@ export async function useUpdateProfile(formData: FormData) {
 
   const userId = "user1";
   // 임시 uid 설정
-  const uid = "gU8dSD4pRUHr7xAx9cgL";
+
   // const uid = "WJBBuka8oDKBIjASaEd1";
   // users 컬렉션에서 uid일치하는 document가져오기
   const userDocRef = doc(firestore, "users", uid);
@@ -124,7 +126,6 @@ export async function useUpdateProfile(formData: FormData) {
 
 export async function updateLang(lang: string) {
   // 임시 uid 설정
-  const uid = "gU8dSD4pRUHr7xAx9cgL";
   try {
     const userDocRef = doc(firestore, "users", uid);
     await updateDoc(userDocRef, {

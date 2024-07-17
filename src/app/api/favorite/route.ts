@@ -13,11 +13,10 @@ import {
   where,
 } from "firebase/firestore";
 import { NextRequest, NextResponse } from "next/server";
-
+const uid = "tvJNWYbo9hcAI2Sn0QtC";
 // 내 관심종목 추가
 export async function POST(request: NextRequest) {
   // 임시 유저 uid
-  const uid = "gU8dSD4pRUHr7xAx9cgL";
 
   const { stockName } = await request.json();
   try {
@@ -66,7 +65,6 @@ export async function POST(request: NextRequest) {
 /**  내 관심종목 삭제 */
 export async function DELETE(request: NextRequest) {
   // 임시 유저 uid
-  const uid = "gU8dSD4pRUHr7xAx9cgL";
   try {
     const { stockName } = await request.json();
 

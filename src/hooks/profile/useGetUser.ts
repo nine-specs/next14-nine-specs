@@ -9,6 +9,7 @@ import {
   getDocs,
   orderBy,
   query,
+  Timestamp,
   where,
 } from "firebase/firestore";
 
@@ -18,7 +19,7 @@ export async function GetUser() {
   // 세션 또는 전역에서 회원정보가져오기
   try {
     // 임시 uid 설정
-    const uid = "gU8dSD4pRUHr7xAx9cgL";
+    const uid = "tvJNWYbo9hcAI2Sn0QtC";
 
     //users콜렉션에서  uid 일치하는 document찾기
     const userDocRef = doc(firestore, "users", uid);
@@ -26,9 +27,12 @@ export async function GetUser() {
     const userDocSnap = await getDoc(userDocRef);
 
     if (userDocSnap.exists()) {
-      console.log("Document data:", userDocSnap.data());
-
       const userData = userDocSnap.data() as TUser;
+
+      // Timestamp 변환
+      if (userData.createdAt instanceof Timestamp) {
+        userData.createdAt = userData.createdAt.toDate().toISOString();
+      }
 
       // const fetchedUser = {
       //   birthdate: userData.birthdate,
@@ -45,7 +49,7 @@ export async function GetUser() {
       return userData;
     }
   } catch (error) {
-    console.error("Error getting user:", error);
+    console.error("유저정보 가져오는 중 에러발생:", error);
     throw error;
   }
 }

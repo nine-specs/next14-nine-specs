@@ -46,7 +46,7 @@ export async function getMyStocks() {
   // //session에서 로그인회원정보 가져오기
 
   // //테스트용 uid
-  const uid = "gU8dSD4pRUHr7xAx9cgL";
+  const uid = "tvJNWYbo9hcAI2Sn0QtC";
   const userId = uid;
 
   const myStocks: TMyStocks[] = [];
@@ -113,7 +113,7 @@ export async function getStockByKeyword(keyword: string) {
 /**나의 관심종목 삭제하기 */
 export async function deleteMyStocks(stockName: string, option?: string) {
   //임시 유저 uid
-  const uid = "gU8dSD4pRUHr7xAx9cgL";
+  const uid = "tvJNWYbo9hcAI2Sn0QtC";
   try {
     // 'users' 콜렉션에서 특정 유저의 문서 참조
     const userRef = doc(firestore, "users", uid);
@@ -151,7 +151,7 @@ export async function deleteMyStocks(stockName: string, option?: string) {
 /**내 관심종목 추가하기 */
 export async function addMyStocks(stockName: string) {
   //임시 유저 uid
-  const uid = "gU8dSD4pRUHr7xAx9cgL";
+  const uid = "tvJNWYbo9hcAI2Sn0QtC";
 
   try {
     //  유저의 myStocks 서브콜렉션 참조
