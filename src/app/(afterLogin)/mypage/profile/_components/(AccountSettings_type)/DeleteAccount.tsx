@@ -25,18 +25,39 @@ export default function DeleteAccount({
     setPassword(e.target.value);
     password.length >= 7 ? setActiveBtn(true) : setActiveBtn(false);
   };
-  const checkPwd = (e: React.MouseEvent<HTMLButtonElement>) => {
-    //임시 비밀번호 설정
-    const loginPassword = "11111111";
-    if (password == loginPassword) {
-      //임시 비밀번호와 일치시 db에서 삭제.
-      //회원탈퇴 페이지이동하기
-      //나중에 서버액션으로 보내고 거기서 페이지이동으로 변경
-      router.push("/accountDeletion");
-    } else {
-      // 비밀번호 틀릴 시 경고창 -> 추후 변경예정
-      alert("GET OUT!!");
+  const checkPwd = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    try {
+      const response = await fetch("/api/profile/checkpwd", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ password: password }),
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        //임시 비밀번호와 일치시 정보 수정 모달창으로 이동.
+        setModalHandler("UpdateUserInfo");
+      } else {
+        // 비밀번호 틀릴 시 경고창 -> 추후 변경예정
+        alert("GET OUT!!");
+      }
+    } catch (error) {
+      console.error("비밀번호 확인 중 에러발생:", error);
     }
+
+    // //임시 비밀번호 설정
+    // const loginPassword = "11111111";
+    // if (password == loginPassword) {
+    //   //임시 비밀번호와 일치시 db에서 삭제.
+    //   //회원탈퇴 페이지이동하기
+    //   //나중에 서버액션으로 보내고 거기서 페이지이동으로 변경
+    //   router.push("/accountDeletion");
+    // } else {
+    //   // 비밀번호 틀릴 시 경고창 -> 추후 변경예정
+    //   alert("GET OUT!!");
+    // }
   };
 
   return (
