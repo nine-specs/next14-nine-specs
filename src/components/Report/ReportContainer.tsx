@@ -3,10 +3,10 @@ import CardWrap from "@/common/CardWrap";
 import StockHeader from "./StockHeader/StockHeader";
 import StockChartContainer from "./StockChart/StockChartContainer";
 import StockSumaryContainer from "./StockSumary/StockSummaryContainer";
-import FavorStockList from "./FavorStockList/FavorStockList";
 import StockReportContainer from "./StockReport/StockReportContainer";
 import StockAnalysis from "./StockAnalysis/StockAnalysis";
 import { StockInfo } from "./type/report/stockType";
+import FavorStockList from "./FavorStockList/FavorStockList";
 
 interface Props {
   stockInfo: StockInfo | undefined;
@@ -43,10 +43,8 @@ export default async function ReportContainer({ stockInfo }: Props) {
             <StockAnalysis stockInfo={stockInfo} />
           </CardWrap>
         </article>
-        <div className="w-[1200px]">
-          <div className="flex gap-4 overflow-x-scroll">
-            <FavorStockList stockInfo={stockInfo} />
-          </div>
+        <div>
+          <FavorStockList />
         </div>
       </div>
     </div>
