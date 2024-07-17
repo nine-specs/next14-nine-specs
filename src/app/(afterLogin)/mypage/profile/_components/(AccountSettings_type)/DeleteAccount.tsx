@@ -37,11 +37,25 @@ export default function DeleteAccount({
 
       const result = await response.json();
       if (response.ok) {
-        //임시 비밀번호와 일치시 정보 수정 모달창으로 이동.
-        setModalHandler("UpdateUserInfo");
+        // 비밀번호 일치 시 삭제요청
+        try {
+          const response = await fetch("/api/profile/edit", {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            // body: JSON.stringify({ uid: uid }),
+          });
+          const result = await response.json();
+          if (response.ok) {
+            console.log(result.message);
+            router.push("/accountDeletion");
+          }
+        } catch (error) {
+          console.log("회원탈퇴 요청 중 에러발생:" + error);
+        }
       } else {
-        // 비밀번호 틀릴 시 경고창 -> 추후 변경예정
-        alert("GET OUT!!");
+        alert("비밀번호가 일치하지 않습니다.");
       }
     } catch (error) {
       console.error("비밀번호 확인 중 에러발생:", error);

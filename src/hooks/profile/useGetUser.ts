@@ -12,14 +12,15 @@ import {
   Timestamp,
   where,
 } from "firebase/firestore";
-
+import { revalidatePath } from "next/cache";
+import { NextRequest } from "next/server";
+const uid = "tvJNWYbo9hcAI2Sn0QtC";
 export async function GetUser() {
   // 유저데이터 firestoreDB 요청
   // const fetchUser = async () => {};
   // 세션 또는 전역에서 회원정보가져오기
   try {
     // 임시 uid 설정
-    const uid = "tvJNWYbo9hcAI2Sn0QtC";
 
     //users콜렉션에서  uid 일치하는 document찾기
     const userDocRef = doc(firestore, "users", uid);
@@ -52,4 +53,13 @@ export async function GetUser() {
     console.error("유저정보 가져오는 중 에러발생:", error);
     throw error;
   }
+}
+
+export async function DeleteUser() {}
+
+/**유저 비밀번호,폰,생년월일 변경 */
+export async function UpdateUser(formData: FormData) {
+  let password = formData.get("password") as string;
+  let phone = formData.get("phone") as string;
+  let birthdate = formData.get("birthdate") as string;
 }

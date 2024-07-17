@@ -70,10 +70,6 @@ export default function ProfileEdit({ onClose, profileData }: TProfileEdit) {
     // router.push("/mypage/profile");
   };
 
-  const onTest = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation;
-  };
-
   return (
     <>
       <Modal size="S5" onClose={onClose}>

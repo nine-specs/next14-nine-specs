@@ -2,7 +2,6 @@ import BodyFont from "@/common/BodyFont";
 import { Modal } from "@/common/Modal";
 import React from "react";
 import TextButton from "@/common/TextButton";
-import { deleteMyStocks } from "@/hooks/profile/useStocksHandler";
 import { useRouter } from "next/navigation";
 
 type TAddFavoriteModal = {
@@ -24,11 +23,11 @@ export default function DeleteFavoriteModal({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ stockName: stock, option: "option" }),
+        body: JSON.stringify({ stockName: stock }),
       });
       const result = await response.json();
       if (response.ok) {
-        router.refresh();
+        router.refresh(); // 변경된 데이터 가져오기
       } else {
         console.error("삭제실패:", result.message);
       }

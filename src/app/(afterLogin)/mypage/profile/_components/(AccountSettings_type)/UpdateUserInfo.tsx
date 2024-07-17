@@ -1,3 +1,4 @@
+import { TUser } from "@/app/api/profile/route";
 import CaptionFont from "@/common/CaptionFont";
 import CheckIdNickInput from "@/common/CheckIdNickInput";
 import HeadingFont from "@/common/HeadingFont";
@@ -9,11 +10,16 @@ import React, { Dispatch, SetStateAction } from "react";
 interface TUpdateUserInfo {
   onClose: () => void;
   setModalHandler: Dispatch<SetStateAction<string>>;
+  profileData: {
+    profileData: TUser | undefined;
+    setProfileData: React.Dispatch<React.SetStateAction<TUser | undefined>>;
+  };
 }
 
 export default function UpdateUserInfo({
   onClose,
   setModalHandler,
+  profileData,
 }: TUpdateUserInfo) {
   // 회원탈퇴 이동 클릭이벤트
   const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -33,19 +39,18 @@ export default function UpdateUserInfo({
             정보 수정
           </HeadingFont>
           <div className="flex flex-col  gap-[16px] self-stretch ">
-            {/* 아이디 입력 하는곳 시작 */}
-            <CheckIdNickInput
-              label="아이디"
-              name="userId"
-              description="* 6~12자의 영문,숫자,_를 이용한 조합"
-              checkLabel="중복 확인"
-              placeholder="아이디를 입력해주세요"
-            />
             {/* 아이디 입력 하는곳 끝 */}
             <div>
               <Input
+                label="아이디"
+                type="text"
+                disabled={true}
+                placeholder={profileData.profileData?.userId}
+              />
+              <Input
+                label="비밀번호"
                 type="password"
-                label="새 비밀번호 입력"
+                name="password"
                 placeholder="비밀번호를 입력해주세요"
               />
               <CaptionFont weight="medium" className="text-grayscale-700 mt-0">
@@ -61,8 +66,14 @@ export default function UpdateUserInfo({
               type="tel"
               label="휴대폰번호"
               placeholder="휴대폰번호를 입력해주세요"
+              value={profileData.profileData?.phone}
             />
-            <Input placeholder="생년월일 6자를 입력해주세요" label="생년월일" />
+            <Input
+              placeholder="생년월일 6자를 입력해주세요"
+              label="생년월일"
+              type="text"
+              value={profileData.profileData?.birthdate}
+            />
           </div>
         </div>
         <div className="w-[386px] flex flex-col items-center gap-2">

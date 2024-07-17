@@ -144,7 +144,10 @@ export default function ProfilePage() {
         />
       )}
       {isAccountModalOpened && (
-        <AccountSetting onClose={() => setAccountModalOpened(false)} />
+        <AccountSetting
+          onClose={() => setAccountModalOpened(false)}
+          profileData={{ profileData, setProfileData }}
+        />
       )}
     </div>
   );

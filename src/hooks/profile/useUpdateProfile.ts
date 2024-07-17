@@ -121,7 +121,7 @@ export async function useUpdateProfile(formData: FormData) {
   }
 
   revalidatePath("/mypage/profile");
-  redirect("/mypage/profile");
+  // redirect("/mypage/profile");
 }
 
 export async function updateLang(lang: string) {
