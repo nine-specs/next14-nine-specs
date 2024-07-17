@@ -35,7 +35,7 @@ export default function DropDownB() {
         const stockList = await getStockList(); // 주식종목리스트 가져오기
 
         setStockList(stockList);
-
+        console.log("가져온주식종목리스트:" + stockList);
         if (myStocks.length > 0) {
           const formattedStockArr = myStocks.map((a) => "#" + a.stockName);
           setStockArr(formattedStockArr);

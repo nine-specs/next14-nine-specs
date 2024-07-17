@@ -17,11 +17,6 @@ export async function useSearchAction(formData: FormData) {
   const keyword = formData.get("keyword") as string;
   console.log("서버액션실행-전달받은 데이터:" + keyword);
 
-  // 로그인회원정보 가져오기
-  //
-  // 임시 uid 설정
-  const uid = "gU8dSD4pRUHr7xAx9cgL";
-
   // 현재 날짜를 "MM.DD" 형식으로 가져오기
   const today = new Date();
   const formattedDate = `${("0" + (today.getMonth() + 1)).slice(-2)}.${(

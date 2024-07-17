@@ -4,36 +4,36 @@ import Search_icon from "/public/images/Search_icon.svg";
 import { useSearchAction } from "@/hooks/discovery/useSearchAction";
 import { getStockList } from "@/hooks/profile/useStocksHandler";
 
+/**검색항목을 최근검색어로 로컬스토리지에 저장 */
+export const saveRecentSearch = (keyword: string) => {
+  //현재날짜 구하기
+  const date = new Date();
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const day = date.getDate().toString().padStart(2, "0");
+  const today = `${month}.${day}`;
+  const newRecentData = { keyword: keyword, date: today };
+  let recentData: { keyword: string; date: string }[] = [];
+  // 기존에 저장된 최근검색어 가져오기
+  const savedRecentData = localStorage.getItem("recentData");
+  if (savedRecentData) {
+    // 저장된게 있다면 파싱
+    recentData = JSON.parse(savedRecentData);
+    //10개 이상이라면 마지막 요소를 제거하기
+    if (recentData.length > 9) {
+      recentData.pop();
+    }
+    // 배열 앞쪽에 새 최근검색어 추가
+    recentData.unshift(newRecentData);
+  } else {
+    // 저장된게 없다면 새 최근검색어만 추가
+    recentData = [newRecentData];
+  }
+  localStorage.setItem("recentData", JSON.stringify(recentData));
+};
+
 export default function SearchInput() {
   const inputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
-
-  /**검색항목을 최근검색어로 로컬스토리지에 저장 */
-  const saveRecentSearch = (keyword: string) => {
-    //현재날짜 구하기
-    const date = new Date();
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    const day = date.getDate().toString().padStart(2, "0");
-    const today = `${month}.${day}`;
-    const newRecentData = { keyword: keyword, date: today };
-    let recentData: { keyword: string; date: string }[] = [];
-    // 기존에 저장된 최근검색어 가져오기
-    const savedRecentData = localStorage.getItem("recentData");
-    if (savedRecentData) {
-      // 저장된게 있다면 파싱
-      recentData = JSON.parse(savedRecentData);
-      //10개 이상이라면 마지막 요소를 제거하기
-      if (recentData.length > 9) {
-        recentData.pop();
-      }
-      // 배열 앞쪽에 새 최근검색어 추가
-      recentData.unshift(newRecentData);
-    } else {
-      // 저장된게 없다면 새 최근검색어만 추가
-      recentData = [newRecentData];
-    }
-    localStorage.setItem("recentData", JSON.stringify(recentData));
-  };
 
   // 검색 아이콘 클릭시 post요청
   const onClick = (e: React.MouseEvent<HTMLDivElement>) => {

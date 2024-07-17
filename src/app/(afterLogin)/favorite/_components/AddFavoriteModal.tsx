@@ -2,7 +2,9 @@ import BodyFont from "@/common/BodyFont";
 import { Modal } from "@/common/Modal";
 import CloseIcon from "/public/images/Close_icon.svg";
 import React, { useRef, useState } from "react";
-import SearchInput from "../../discovery/_components/SearchInput";
+import SearchInput, {
+  saveRecentSearch,
+} from "../../discovery/_components/SearchInput";
 import Search_icon from "/public/images/Search_icon.svg";
 import ButtonFont from "@/common/ButtonFont";
 import SlideRecentStocks from "./_components/SlideRecentStocks";
@@ -71,7 +73,8 @@ export default function AddFavoriteModal({
             keyword,
           );
           if (result) {
-            console.log("가져온 데이터임: " + result[0].stockName);
+            console.log("가져온 데이터: " + result[0].stockName);
+            saveRecentSearch(keyword); // 최근검색어에 추가
             setSearchData(result[0]);
           }
         } catch (error) {
