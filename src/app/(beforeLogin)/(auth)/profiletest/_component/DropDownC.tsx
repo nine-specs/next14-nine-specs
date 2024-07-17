@@ -77,7 +77,7 @@ export default function DropDownC({
 
   return (
     <>
-      <div className=" w-[386px] h-[184px] mb-[56px]">
+      <div className=" w-[386px] mb-[56px]">
         <BodyFont level="4" weight="medium" className="text-primary-900 mb-1">
           관심종목
         </BodyFont>

@@ -1,5 +1,4 @@
 "use client";
-import { useIdCheck } from "@/hooks/common/useIdCheck";
 import TextButton from "./TextButton";
 
 interface CheckIdNickInputProps {
@@ -65,7 +64,14 @@ export default function CheckIdNickInput({
         />
 
         {checkLabel && (
-          <TextButton variant="primary" onClick={onCheckId} size="sm">
+          <TextButton
+            variant={styleStatus}
+            onClick={(event) => {
+              event.preventDefault();
+              if (onCheckId) onCheckId(event);
+            }}
+            size="sm"
+          >
             {checkLabel}
           </TextButton>
         )}
