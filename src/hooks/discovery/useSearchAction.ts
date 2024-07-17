@@ -23,8 +23,19 @@ export async function useSearchAction(formData: FormData) {
     "0" + today.getDate()
   ).slice(-2)}`;
 
+  AddSearchCount(keyword); // 검색카운트 +1
+
+  //주식종목의 uid를 넘길 예정
+  redirect(`/discovery/${encodeURIComponent(keyword)}`);
+  // revalidatePath(`/discovery/${keyword}`);
+  // revalidatePath("/");
+  // 5. keyword = 연관 종목인 뉴스 도커먼트 가져오기
+  // 6. Keyword = 주식종목명인 주식종목 가져오기
+}
+
+/**    // 주식종목명 = keyword인 주식종목의 searchCount +1 */
+export async function AddSearchCount(keyword: string) {
   try {
-    // 주식종목명 = keyword인 주식종목의 searchCount +1
     const stocksRef = collection(firestore, "stocks");
     const q = query(stocksRef, where("stockName", "==", keyword));
     const querySnapshot = await getDocs(q);
@@ -41,11 +52,4 @@ export async function useSearchAction(formData: FormData) {
   } catch (error) {
     console.log("에러 발생:", error);
   }
-
-  //주식종목의 uid를 넘길 예정
-  redirect(`/discovery/${encodeURIComponent(keyword)}`);
-  // revalidatePath(`/discovery/${keyword}`);
-  // revalidatePath("/");
-  // 5. keyword = 연관 종목인 뉴스 도커먼트 가져오기
-  // 6. Keyword = 주식종목명인 주식종목 가져오기
 }

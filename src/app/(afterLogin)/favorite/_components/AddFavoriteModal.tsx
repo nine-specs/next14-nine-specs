@@ -15,6 +15,7 @@ import {
 } from "@/hooks/profile/useStocksHandler";
 import TextButton from "@/common/TextButton";
 import SearchResultStock from "./SearchResultStock";
+import { AddSearchCount } from "@/hooks/discovery/useSearchAction";
 
 type TAddFavoriteModal = {
   onClose: () => void;
@@ -75,6 +76,7 @@ export default function AddFavoriteModal({
           if (result) {
             console.log("가져온 데이터: " + result[0].stockName);
             saveRecentSearch(keyword); // 최근검색어에 추가
+            AddSearchCount(keyword); // 검색 카운트 +1
             setSearchData(result[0]);
           }
         } catch (error) {
