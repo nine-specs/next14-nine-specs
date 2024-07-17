@@ -9,7 +9,7 @@ import { StockInfo } from "@/components/Report/type/report/stockType";
  */
 export default async function Home() {
   const userStocks: StockInfo[] = await (
-    await fetch(`${BASE_URL}/api/user/stock`, {
+    await fetch(`${BASE_URL}/api/my-stocks`, {
       method: "POST",
       body: JSON.stringify({ userId: "tvJNWYbo9hcAI2Sn0QtC" }),
     })
