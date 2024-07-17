@@ -23,19 +23,21 @@ export const authConfig = {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
       const isOnUsers = nextUrl.pathname.startsWith("/");
+
       if (isOnUsers) {
         if (isLoggedIn) return true;
         console.log(
           "[authorized callback] 인증되지 않은 사용자를 로그인 페이지로 리디렉션합니다",
         );
-        return false;
+        return "/login"; // 인증되지 않은 사용자는 로그인 페이지로 리디렉션
       } else if (isLoggedIn) {
         console.log(
           "[authorized callback] 인증된 사용자를 리디렉션합니다",
           new URL("/", nextUrl),
         );
-        return "/home"; // 문자열 경로 반환
+        return "/home"; // 인증된 사용자는 홈 페이지로 리디렉션
       }
+
       return true;
     },
     async signIn({ user, account }: { user: any; account: any }) {
@@ -66,21 +68,10 @@ export const authConfig = {
             secret,
             { expiresIn: "30m" },
           );
+          console.log("=================", token);
 
           // 리디렉션 경로에 JWT 토큰 추가
           return `/api/cookie?token=${token}`;
-
-          // // Encoding user details into the URL
-          // const params = new URLSearchParams({
-          //   name,
-          //   email,
-          //   birthdate,
-          //   image,
-          // }).toString();
-
-          // //return "/socialSign"; // 문자열 경로 반환
-
-          // return `/socialSign?${params}`;
         }
 
         const userDoc = querySnapshot.docs[0];
@@ -114,6 +105,7 @@ export const authConfig = {
       }
 
       console.log("[signIn callback] JWT 토큰 생성 후 사용자 정보:", user);
+
       return true;
     },
 
@@ -141,11 +133,11 @@ export const authConfig = {
       console.log("[session callback] 생성된 세션:", session);
       return session;
     },
-
-    // redirect: async ({}) => {
-    //   console.log("[redirect callback] /home으로 리디렉션합니다");
-    //   return "/home"; // 문자열 경로 반환
-    // },
   },
+  // redirect: async ({}) => {
+  //   console.log("[redirect callback] /home으로 리디렉션합니다");
+  //   return "/home"; // 문자열 경로 반환
+  // },  },
+
   providers: [],
 } as NextAuthConfig;
