@@ -15,9 +15,9 @@ export function AiCarousel({ stocks }: { stocks: StockInfo[] }) {
       }}
       className="w-full"
     >
-      <CarouselContent>
+      <CarouselContent className="-ml-5">
         {stocks.map((stock) => (
-          <CarouselItem key={stock.code} className="basis-1/3">
+          <CarouselItem key={stock.code} className="basis-1/3 pl-5">
             <CardWrap width="100%" height="100%" className="p-8">
               <FavorStockItem stockInfo={stock} />
             </CardWrap>
