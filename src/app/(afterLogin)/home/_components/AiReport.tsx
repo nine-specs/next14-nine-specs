@@ -3,7 +3,7 @@ import Badge from "@/common/Badge";
 
 import Title from "../_ui/Title";
 import { StockInfo } from "@/components/Report/type/report/stockType";
-import { AiCarousel } from "./reports/AiCarousel";
+import { AiCarousel } from "../_ui/AiCarousel";
 
 /**
  * 유저의 AI 리포트
