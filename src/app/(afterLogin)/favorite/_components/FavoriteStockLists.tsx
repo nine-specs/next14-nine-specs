@@ -28,7 +28,7 @@ type TstockInfoList = {
   code: string;
 }[];
 
-export default function FavoriteStockList({
+export default function FavoriteStockLists({
   data,
   popularSearchData,
 }: TFavoriteStockList) {
@@ -50,11 +50,11 @@ export default function FavoriteStockList({
           {/* 관심종목 리스트 */}
           <div className="w-[1214px] min-h-[360px]  flex  gap-[19px] flex-wrap justify-start">
             {/* <FavoriteStockItem myStock={item.stockName} key={index} /> */}
-            {data.map((item, index) => (
+            {stockInfoList.map((item, index) => (
               <CardWrap width="392px" height="360px" padding key={index}>
-                <FavorStockItem stockInfo={stockInfo}>
+                <FavorStockItem stockInfo={item}>
                   <div className="flex gap-3 justify-between w-auto">
-                    <FavoriteStockButtons myStock={item.stockName} />
+                    <FavoriteStockButtons myStock={item.name} />
                   </div>
                 </FavorStockItem>
               </CardWrap>

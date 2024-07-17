@@ -11,6 +11,7 @@ import BodyFont from "@/common/BodyFont";
 import CheckIdNickInput from "@/common/CheckIdNickInput";
 import { getStockByKeyword } from "@/hooks/profile/useStocksHandler";
 import { useRouter } from "next/navigation";
+import { useNickCheck } from "@/hooks/common/useNickCheck";
 
 type TProfileEdit = {
   onClose: () => void;
@@ -24,7 +25,8 @@ export default function ProfileEdit({ onClose, profileData }: TProfileEdit) {
   const [file, setFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
-
+  const { nick, setNick, styleStatus, descriptionText, handleNickCheck } =
+    useNickCheck();
   //프로필 아이콘 클릭시 숨겨진 input이 클릭
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     console.log(nickInputTag);
@@ -124,7 +126,12 @@ export default function ProfileEdit({ onClose, profileData }: TProfileEdit) {
                   name="nick"
                   checkLabel="중복 확인"
                   placeholder={profileData.profileData?.nick}
-                  description=" "
+                  description=""
+                  value={nick}
+                  onChange={(e) => setNick(e.target.value)}
+                  onCheckId={handleNickCheck}
+                  styleStatus={styleStatus}
+                  descriptionText={descriptionText}
                 />
                 <input
                   className="hidden"

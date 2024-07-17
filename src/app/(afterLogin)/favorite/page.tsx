@@ -1,5 +1,5 @@
 import React from "react";
-import FavoriteStockList from "./_components/FavoriteStockList";
+import FavoriteStockLists from "./_components/FavoriteStockLists";
 import { getMyStocks, getMyStocksData } from "@/hooks/profile/useStocksHandler";
 import { getPopularSearches } from "@/hooks/discovery/useGetSearchData";
 import { create } from "zustand";
@@ -10,7 +10,7 @@ export default async function page() {
 
   return (
     <>
-      <FavoriteStockList
+      <FavoriteStockLists
         data={myStocks}
         popularSearchData={popularSearchData}
       />
