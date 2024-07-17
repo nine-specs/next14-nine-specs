@@ -1,11 +1,9 @@
 import AI_ICON from "../../../../../public/images/AI_icon.svg";
-import CardWrap from "@/common/CardWrap";
 import Badge from "@/common/Badge";
 
 import Title from "../_ui/Title";
-import AiStockItem from "./reports/AiStockItem";
-import FavorStockItem from "@/components/Report/FavorStockList/FavorStockItem";
 import { StockInfo } from "@/components/Report/type/report/stockType";
+import { AiCarousel } from "./reports/AiCarousel";
 
 /**
  * 유저의 AI 리포트
@@ -21,16 +19,7 @@ export default function AiReport({ stocks }: { stocks: StockInfo[] }) {
           </Badge>
         </div>
 
-        <ul className="flex gap-5">
-          {stocks.map((stock) => (
-            <li key={stock.code} className="w-2/6 h-[304px]">
-              <CardWrap width="100%" height="100%" className="p-8">
-                {/* <AiStockItem {...stock} /> */}
-                <FavorStockItem stockInfo={stock} />
-              </CardWrap>
-            </li>
-          ))}
-        </ul>
+        <AiCarousel stocks={stocks} />
       </div>
     </>
   );
