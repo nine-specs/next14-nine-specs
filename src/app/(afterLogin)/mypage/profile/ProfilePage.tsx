@@ -9,21 +9,12 @@ import SideBar from "../_components/SideBar";
 import { TUser } from "@/app/api/profile/route";
 import loadingSpinner from "/public/images/loading/loadingSpiner.gif";
 import Image from "next/image";
+import AccountInfoBox from "./_components/AccountInfoBox";
 
-const accountInfo = {
-  아이디: "sfacspaceid",
-  이름: "김스팩",
-  생년월일: "991231",
-};
-
-type TProfilePage = {
-  userData: TUser | undefined;
-};
-
-export default function ProfilePage({ userData }: TProfilePage) {
+export default function ProfilePage() {
   const [isProfileModalOpened, setProfileModalOpened] = useState(false);
   const [isAccountModalOpened, setAccountModalOpened] = useState(false);
-  const [profileData, setProfileData] = useState<TUser | undefined>(userData);
+  const [profileData, setProfileData] = useState<TUser | undefined>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   // 유저 기본 정보 가져오기
   useEffect(() => {
@@ -39,21 +30,6 @@ export default function ProfilePage({ userData }: TProfilePage) {
         setIsLoading(false);
       });
   }, []);
-
-  // if (userData) {
-  //   accountInfo.이름 = userData.name;
-  //   accountInfo.아이디 = userData.userId;
-  //   accountInfo.생년월일 = userData.birthdate;
-  // }
-
-  // profileData를 가져왔다면 바인딩 재설정
-  useEffect(() => {
-    if (profileData) {
-      accountInfo.이름 = profileData.name;
-      accountInfo.아이디 = profileData.userId;
-      accountInfo.생년월일 = profileData.birthdate;
-    }
-  }, [profileData]);
 
   return (
     <div className=" w-[1200px] min-h-[720px] flex gap-[27px] mt-[20px] mb-[112px]">
@@ -149,24 +125,12 @@ export default function ProfilePage({ userData }: TProfilePage) {
                   </TextButton>
                 </div>
                 <div className="pt-6">
-                  {Object.entries(accountInfo).map(([key, value]) => (
-                    <div key={key} className="flex items-center mb-6">
-                      <BodyFont
-                        level="3"
-                        weight="medium"
-                        className="w-24 text-grayscale-900"
-                      >
-                        {key}
-                      </BodyFont>
-                      <BodyFont
-                        level="4"
-                        weight="medium"
-                        className="flex-grow text-grayscale-600"
-                      >
-                        {value}
-                      </BodyFont>
-                    </div>
-                  ))}
+                  <AccountInfoBox title={"이름"} info={profileData?.name} />
+                  <AccountInfoBox title={"아이디"} info={profileData?.userId} />
+                  <AccountInfoBox
+                    title={"생년월일"}
+                    info={profileData?.birthdate}
+                  />
                 </div>
               </div>
             </div>
