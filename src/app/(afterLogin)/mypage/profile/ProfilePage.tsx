@@ -7,6 +7,8 @@ import ProfileEdit from "./_components/ProfileEdit";
 import AccountSetting from "./_components/AccountSettings";
 import SideBar from "../_components/SideBar";
 import { TUser } from "@/app/api/profile/route";
+import loadingSpinner from "/public/images/loading/loadingSpiner.gif";
+import Image from "next/image";
 
 const accountInfo = {
   아이디: "sfacspaceid",
@@ -22,34 +24,36 @@ export default function ProfilePage({ userData }: TProfilePage) {
   const [isProfileModalOpened, setProfileModalOpened] = useState(false);
   const [isAccountModalOpened, setAccountModalOpened] = useState(false);
   const [profileData, setProfileData] = useState<TUser | undefined>(userData);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  // 유저 기본 정보 가져오기
+  useEffect(() => {
+    fetch("/api/profile")
+      .then((r) => r.json())
+      .then((result) => {
+        console.log(result);
+        setProfileData(result.data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error("에러발생:", error);
+        setIsLoading(false);
+      });
+  }, []);
 
-  // // 유저 기본 정보 가져오기
-  // useEffect(() => {
-  //   fetch("/api/profile")
-  //     .then((r) => r.json())
-  //     .then((result) => {
-  //       console.log(result);
-  //       setProfileData(result.data);
-  //     })
-  //     .catch((error) => {
-  //       console.error("에러발생:", error);
-  //     });
-  // }, []);
+  // if (userData) {
+  //   accountInfo.이름 = userData.name;
+  //   accountInfo.아이디 = userData.userId;
+  //   accountInfo.생년월일 = userData.birthdate;
+  // }
 
-  if (userData) {
-    accountInfo.이름 = userData.name;
-    accountInfo.아이디 = userData.userId;
-    accountInfo.생년월일 = userData.birthdate;
-  }
-
-  // // profileData를 가져왔다면 바인딩 재설정
-  // useEffect(() => {
-  //   if (profileData) {
-  //     accountInfo.이름 = profileData.name;
-  //     accountInfo.아이디 = profileData.userId;
-  //     accountInfo.생년월일 = profileData.birthdate;
-  //   }
-  // }, [profileData]);
+  // profileData를 가져왔다면 바인딩 재설정
+  useEffect(() => {
+    if (profileData) {
+      accountInfo.이름 = profileData.name;
+      accountInfo.아이디 = profileData.userId;
+      accountInfo.생년월일 = profileData.birthdate;
+    }
+  }, [profileData]);
 
   return (
     <div className=" w-[1200px] min-h-[720px] flex gap-[27px] mt-[20px] mb-[112px]">
@@ -57,101 +61,117 @@ export default function ProfilePage({ userData }: TProfilePage) {
       <SideBar menu="profile" />
       {/* 우측 영역 */}
       <div className="w-[888px] h-[720px] bg-grayscale-0 rounded-[16px] p-[32px]">
-        <div className="w-full h-[388px] ">
-          <div className="w-full h-[140px]  ">
-            <div className="w-full h-[60px]  flex justify-between items-center">
-              <div className="h-full w-[483px] ">
-                <BodyFont level="2" weight="bold" className="text-primary-900">
-                  프로필 설정
-                </BodyFont>
-                <BodyFont
-                  level="4"
-                  weight="regular"
-                  className="text-grayscale-900 mt-2"
-                >
-                  서비스 사용시 보여지는 프로필을 생성 및 변경합니다. 프로필을
-                  설정해보세요.
-                </BodyFont>
+        {isLoading ? (
+          <div className="w-full items-center h-full flex justify-center">
+            <Image src={loadingSpinner} alt="Loading" width={85} height={85} />
+          </div>
+        ) : (
+          <>
+            <div className="w-full h-[388px] ">
+              <div className="w-full h-[140px]  ">
+                <div className="w-full h-[60px]  flex justify-between items-center">
+                  <div className="h-full w-[483px] ">
+                    <BodyFont
+                      level="2"
+                      weight="bold"
+                      className="text-primary-900"
+                    >
+                      프로필 설정
+                    </BodyFont>
+                    <BodyFont
+                      level="4"
+                      weight="regular"
+                      className="text-grayscale-900 mt-2"
+                    >
+                      서비스 사용시 보여지는 프로필을 생성 및 변경합니다.
+                      프로필을 설정해보세요.
+                    </BodyFont>
+                  </div>
+                  <TextButton
+                    variant="primary"
+                    size="sm"
+                    className="!w-[160px]"
+                    onClick={(e) => {
+                      setProfileModalOpened(!isProfileModalOpened);
+                    }}
+                  >
+                    프로필 수정
+                  </TextButton>
+                </div>
+                <div className=" w-[754px] h-[56px]  mt-6 flex justify-between gap-[122px]">
+                  <p className="text-base">프로필</p>
+                  <div className="w-[590px] h-[56px] flex justify-between gap-4 items-center">
+                    {profileData ? (
+                      profileData.image != "" ? (
+                        <img src={profileData.image} width={56} height={56} />
+                      ) : (
+                        <ProfileSVG width="56px" height="56px" />
+                      )
+                    ) : (
+                      <ProfileSVG width="56px" height="56px" />
+                    )}
+                    <div className="w-[518px]">
+                      <BodyFont level="4" weight="medium">
+                        {profileData?.nick}
+                      </BodyFont>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <TextButton
-                variant="primary"
-                size="sm"
-                className="!w-[160px]"
-                onClick={(e) => {
-                  setProfileModalOpened(!isProfileModalOpened);
-                }}
-              >
-                프로필 수정
-              </TextButton>
-            </div>
-            <div className=" w-[754px] h-[56px]  mt-6 flex justify-between gap-[122px]">
-              <p className="text-base">프로필</p>
-              <div className="w-[590px] h-[56px] flex justify-between gap-4 items-center">
-                {profileData ? (
-                  profileData.image != "" ? (
-                    <img src={profileData.image} width={56} height={56} />
-                  ) : (
-                    <ProfileSVG width="56px" height="56px" />
-                  )
-                ) : (
-                  <ProfileSVG width="56px" height="56px" />
-                )}
-                <div className="w-[518px]">
-                  <BodyFont level="4" weight="medium">
-                    {profileData?.nick}
-                  </BodyFont>
+              <div className="w-full h-[140px]   mt-8">
+                <div className="w-full h-[60px]  flex justify-between items-center">
+                  <div className="h-full w-auto ">
+                    <BodyFont
+                      level="2"
+                      weight="bold"
+                      className="text-primary-900"
+                    >
+                      계정 설정
+                    </BodyFont>
+                    <BodyFont
+                      level="4"
+                      weight="regular"
+                      className="text-grayscale-900 mt-2"
+                    >
+                      서비스 이용시 사용되는 계정을 생성 및 변경합니다. 계정을
+                      연동하여 다양한 서비스를 이용해보세요.
+                    </BodyFont>
+                  </div>
+                  <TextButton
+                    variant="primary"
+                    size="sm"
+                    className="!w-[160px]"
+                    onClick={() => {
+                      setAccountModalOpened(!isAccountModalOpened);
+                    }}
+                  >
+                    계정정보 수정
+                  </TextButton>
+                </div>
+                <div className="pt-6">
+                  {Object.entries(accountInfo).map(([key, value]) => (
+                    <div key={key} className="flex items-center mb-6">
+                      <BodyFont
+                        level="3"
+                        weight="medium"
+                        className="w-24 text-grayscale-900"
+                      >
+                        {key}
+                      </BodyFont>
+                      <BodyFont
+                        level="4"
+                        weight="medium"
+                        className="flex-grow text-grayscale-600"
+                      >
+                        {value}
+                      </BodyFont>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
-          </div>
-          <div className="w-full h-[140px]   mt-8">
-            <div className="w-full h-[60px]  flex justify-between items-center">
-              <div className="h-full w-auto ">
-                <BodyFont level="2" weight="bold" className="text-primary-900">
-                  계정 설정
-                </BodyFont>
-                <BodyFont
-                  level="4"
-                  weight="regular"
-                  className="text-grayscale-900 mt-2"
-                >
-                  서비스 이용시 사용되는 계정을 생성 및 변경합니다. 계정을
-                  연동하여 다양한 서비스를 이용해보세요.
-                </BodyFont>
-              </div>
-              <TextButton
-                variant="primary"
-                size="sm"
-                className="!w-[160px]"
-                onClick={() => {
-                  setAccountModalOpened(!isAccountModalOpened);
-                }}
-              >
-                계정정보 수정
-              </TextButton>
-            </div>
-            <div className="pt-6">
-              {Object.entries(accountInfo).map(([key, value]) => (
-                <div key={key} className="flex items-center mb-6">
-                  <BodyFont
-                    level="3"
-                    weight="medium"
-                    className="w-24 text-grayscale-900"
-                  >
-                    {key}
-                  </BodyFont>
-                  <BodyFont
-                    level="4"
-                    weight="medium"
-                    className="flex-grow text-grayscale-600"
-                  >
-                    {value}
-                  </BodyFont>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+          </>
+        )}
       </div>
       {isProfileModalOpened && (
         <ProfileEdit

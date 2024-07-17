@@ -9,7 +9,6 @@ import Image from "next/image";
 
 export default function language() {
   const [lang, setLang] = useState("");
-  const [profileData, setProfileData] = useState<TUser>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   // 유저 기본 정보 가져오기
   useEffect(() => {
