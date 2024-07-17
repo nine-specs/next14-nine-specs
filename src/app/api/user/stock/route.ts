@@ -15,7 +15,17 @@ export async function POST(request: Request) {
       const userStocks = collection(userDocRef, "myStocks");
       const subCollectionSnapshot = await getDocs(userStocks);
 
-      const stocks = subCollectionSnapshot.docs.map((doc) => doc.data());
+      const stocks = subCollectionSnapshot.docs.map((doc) => {
+        const firestoreData = doc.data();
+
+        const transformedData = {
+          ticker: firestoreData.stockId,
+          code: firestoreData.stockCode,
+          name: firestoreData.stockName,
+        };
+
+        return transformedData;
+      });
 
       return Response.json(stocks);
     } else {
