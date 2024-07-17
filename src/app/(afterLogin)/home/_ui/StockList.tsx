@@ -5,6 +5,7 @@ import NOTFOUND_ICON from "../../../../../public/images/Not_found_icon.svg";
 import BodyFont from "@/common/BodyFont";
 import StockItem from "./StockItem";
 import { StockInfo } from "@/components/Report/type/report/stockType";
+import { StockCarousel } from "./StockCarousel";
 
 export default async function StockList({
   stocks,
@@ -41,13 +42,7 @@ export default async function StockList({
               </div>
             ) : (
               <div className="py-8 px-12">
-                <ul className="flex flex-col">
-                  {stocks?.slice(0, 4).map((stock, index) => (
-                    <li key={index} className="py-2">
-                      <StockItem {...stock} />
-                    </li>
-                  ))}
-                </ul>
+                <StockCarousel stocks={stocks} />
               </div>
             )}
           </CardWrap>
