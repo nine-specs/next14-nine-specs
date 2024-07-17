@@ -1,5 +1,4 @@
 import BodyFont from "@/common/BodyFont";
-import IconButton from "@/common/IconButton";
 import { BASE_URL } from "@/constants";
 import StockUpDown from "../_components/reports/StockUpDown";
 import Image from "next/image";
@@ -8,11 +7,21 @@ import Image from "next/image";
  * 주식 종목 아이템
  */
 export default async function StockItem(props: any) {
-  const { stockId: id, stockCode: code, stockName: name } = props;
+  const { ticker, code, name } = props;
 
   const { closePrice, fluctuationsRatio, compareToPreviousClosePrice } = await (
     await fetch(`${BASE_URL}/api/stock?code=${code}`)
   ).json();
+
+  // const { closePrice, fluctuationsRatio, compareToPreviousClosePrice } = await (
+  //   await fetch(`${BASE_URL}/api/report/price`, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({ code }),
+  //   })
+  // ).json();
 
   return (
     <>
@@ -30,7 +39,7 @@ export default async function StockItem(props: any) {
               {name}
             </BodyFont>
             <BodyFont level="5" weight="regular">
-              {id}
+              {ticker}
             </BodyFont>
           </div>
         </div>

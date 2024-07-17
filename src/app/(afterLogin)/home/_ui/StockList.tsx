@@ -2,15 +2,15 @@ import CardWrap from "@/common/CardWrap";
 import Title from "./Title";
 import NOTFOUND_ICON from "../../../../../public/images/Not_found_icon.svg";
 
-import { StockType } from "../page";
 import BodyFont from "@/common/BodyFont";
 import StockItem from "./StockItem";
+import { StockInfo } from "@/components/Report/type/report/stockType";
 
 export default async function StockList({
   stocks,
   title,
 }: {
-  stocks: StockType[];
+  stocks: StockInfo[];
   title: string;
 }) {
   const emptyStocks = !stocks.length;

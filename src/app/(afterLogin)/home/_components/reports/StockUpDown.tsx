@@ -7,17 +7,20 @@ export default function StockUpDown({
   fluctuation: string;
   changeRate: string;
 }) {
-  const isUp = Number(fluctuation) > 0 && Number(changeRate) > 0;
+  const isUp = Number(fluctuation) > 0 && Number(changeRate) >= 0;
+  const noChange = Number(fluctuation) === 0;
 
   return (
     <>
       <BodyFont
         level="4"
         weight="regular"
-        className={`flex gap-2 ${isUp ? "text-warning" : "text-secondary-600"}`}
+        className={`flex gap-2 ${
+          noChange ? "" : isUp ? "text-warning" : "text-secondary-600"
+        }`}
       >
         <span>
-          {isUp ? "▲" : "▼"}
+          {noChange ? "" : isUp ? "▲" : "▼"}
           {Math.abs(Number(fluctuation)).toFixed(2)}%
         </span>
         <span>

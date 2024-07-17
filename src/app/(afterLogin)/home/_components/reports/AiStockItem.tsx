@@ -5,14 +5,24 @@ import Image from "next/image";
 import StockUpDown from "./StockUpDown";
 import StockChartReport from "./StockChartReport";
 import { BASE_URL } from "@/constants";
-import { StockType } from "../../page";
+import { StockInfo } from "@/components/Report/type/report/stockType";
 
-export default async function AiStockItem(props: StockType) {
-  const { stockId: id, stockCode: code, stockName: name } = props;
+export default async function AiStockItem(props: StockInfo) {
+  const { ticker, code, name } = props;
 
   const { closePrice, fluctuationsRatio, compareToPreviousClosePrice } = await (
     await fetch(`${BASE_URL}/api/stock?code=${code}`)
   ).json();
+
+  // const { closePrice, fluctuationsRatio, compareToPreviousClosePrice } = await (
+  //   await fetch(`${BASE_URL}/api/report/price`, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({ code }),
+  //   })
+  // ).json();
 
   return (
     <div className="p-8 flex flex-col justify-between h-full">
@@ -30,7 +40,7 @@ export default async function AiStockItem(props: StockType) {
             {name}
           </BodyFont>
           <BodyFont level="3" weight="regular" className="text-grayscale-600">
-            {id}
+            {ticker}
           </BodyFont>
         </div>
         {/* 가격 등락 */}
