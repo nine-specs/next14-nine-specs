@@ -42,7 +42,7 @@ export default async function StockList({
             ) : (
               <div className="py-8 px-12">
                 <ul className="flex flex-col">
-                  {stocks?.map((stock, index) => (
+                  {stocks?.slice(0, 4).map((stock, index) => (
                     <li key={index} className="py-2">
                       <StockItem {...stock} />
                     </li>
