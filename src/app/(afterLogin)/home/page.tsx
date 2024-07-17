@@ -15,11 +15,6 @@ export default async function Home() {
     })
   ).json();
 
-  // const news = await (
-  //   await fetch(`${BASE_URL}/api/news?category=mainNews&limit=1`)
-  // ).json();
-
-  // console.log("🚀 ~ Home ~ news:", news[0].creationTime, news[0].headLine);
   return (
     <main className="w-[1200px] mx-auto my-[56px] flex flex-col gap-12">
       <AiReport stocks={userStocks} />
