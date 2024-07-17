@@ -34,11 +34,11 @@ export async function DELETE(request: NextRequest) {
 
     // 'users' 컬렉션에서 사용자 문서 참조
     const userDocRef = doc(firestore, "users", uid);
-
-    // 사용자 문서 삭제
+    // DB에서 유저 삭제
     // await deleteDoc(userDocRef);
-    // return await DeleteUser(); //
-    //세션 무효화 로직 추가하기
+    // 세션 삭제
+    //const session = await getSession();
+    //await session.destroy();
 
     console.log(`사용자 ${uid} 계정 삭제 완료`);
 

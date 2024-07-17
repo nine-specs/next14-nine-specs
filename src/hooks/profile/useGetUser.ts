@@ -2,6 +2,7 @@
 
 import { TUser } from "@/app/api/profile/route";
 import { firestore } from "@/firebase/firebaseConfig";
+import { compare, hash } from "bcrypt";
 import {
   collection,
   doc,
@@ -10,9 +11,11 @@ import {
   orderBy,
   query,
   Timestamp,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { NextRequest } from "next/server";
 const uid = "tvJNWYbo9hcAI2Sn0QtC";
 export async function GetUser() {
@@ -59,7 +62,26 @@ export async function DeleteUser() {}
 
 /**유저 비밀번호,폰,생년월일 변경 */
 export async function UpdateUser(formData: FormData) {
-  let password = formData.get("password") as string;
-  let phone = formData.get("phone") as string;
-  let birthdate = formData.get("birthdate") as string;
+  const newData: any = {};
+
+  if (formData.get("password")) {
+    const newPassword = formData.get("password") as string;
+    const hashedPassword = await hash(String(newPassword), 10);
+    newData.password = hashedPassword;
+  }
+  newData.phone = formData.get("phone") as string;
+  newData.birthdate = formData.get("birthdate") as string;
+
+  try {
+    // 로그인 유저 문서 참조
+    const userDocRef = doc(firestore, "users", uid);
+
+    // 문서 업데이트
+    await updateDoc(userDocRef, newData);
+    console.log("회원정보 수정 완료");
+
+    revalidatePath("/mypage/profile");
+  } catch (error) {
+    console.log("회원정보 수정 중 에러발생: " + error);
+  }
 }

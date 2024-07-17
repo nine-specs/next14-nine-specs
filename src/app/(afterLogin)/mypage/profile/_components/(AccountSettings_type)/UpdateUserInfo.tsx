@@ -5,7 +5,8 @@ import HeadingFont from "@/common/HeadingFont";
 import Input from "@/common/Input";
 import { Modal } from "@/common/Modal";
 import TextButton from "@/common/TextButton";
-import React, { Dispatch, SetStateAction } from "react";
+import { UpdateUser } from "@/hooks/profile/useGetUser";
+import React, { Dispatch, SetStateAction, useState } from "react";
 
 interface TUpdateUserInfo {
   onClose: () => void;
@@ -21,6 +22,11 @@ export default function UpdateUserInfo({
   setModalHandler,
   profileData,
 }: TUpdateUserInfo) {
+  const [phone, setPhone] = useState(profileData.profileData?.phone);
+  const [birthdate, setBirthdate] = useState(
+    profileData.profileData?.birthdate,
+  );
+
   // 회원탈퇴 이동 클릭이벤트
   const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setModalHandler("DeleteAccount");
@@ -33,7 +39,7 @@ export default function UpdateUserInfo({
       bgClassName="!absolute !min-h-[1028px] "
       modalClassName="relative  my-[66px] "
     >
-      <form className="w-full h-full py-[80px] px-[102px] ">
+      <form action={UpdateUser} className="w-full h-full py-[80px] px-[102px] ">
         <div className="w-[386px] h-[584]px flex flex-col items-center gap-[40px] mb-8">
           <HeadingFont level="3" weight="bold" className="text-primary-900 ">
             정보 수정
@@ -65,21 +71,27 @@ export default function UpdateUserInfo({
             <Input
               type="tel"
               label="휴대폰번호"
+              name="phone"
               placeholder="휴대폰번호를 입력해주세요"
-              value={profileData.profileData?.phone}
+              value={phone}
+              onChange={(e) => {
+                setPhone(e.target.value);
+              }}
             />
             <Input
               placeholder="생년월일 6자를 입력해주세요"
+              name="birthdate"
               label="생년월일"
               type="text"
-              value={profileData.profileData?.birthdate}
+              value={birthdate}
+              onChange={(e) => {
+                setBirthdate(e.target.value);
+              }}
             />
           </div>
         </div>
         <div className="w-[386px] flex flex-col items-center gap-2">
-          <TextButton disabled type="submit">
-            수정하기
-          </TextButton>
+          <TextButton type="submit">수정하기</TextButton>
           <button onClick={onClick}>
             <CaptionFont weight="regular" className="text-warning underline">
               회원탈퇴
