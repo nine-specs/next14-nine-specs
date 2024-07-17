@@ -16,7 +16,7 @@ export async function middleware(request: NextRequest) {
   const session = await getSession();
 
   // 로그인 상태가 아니면 인증이 필요한 페이지로 이동 시 /login 페이지로 리다이렉트
-  if (!session && protectedPaths.includes(pathname)) {
+  if (!session && protectedPaths.some((path) => pathname.startsWith(path))) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
