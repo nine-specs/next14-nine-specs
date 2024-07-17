@@ -57,7 +57,7 @@ const signUp = async (
       birthdate,
       email,
       createdAt: new Date(),
-      accountType: "A", // 일반 회원 가입
+      accountType: "A", // 
     });
 
     let interests: string[] = [];

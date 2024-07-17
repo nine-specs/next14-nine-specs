@@ -62,7 +62,7 @@ export const authConfig = {
           );
           // JWT 토큰 생성
           const token = jwt.sign(
-            { id, name, email, birthdate, image },
+            { id, name, email, birthdate, image, provider: account.provider },
             secret,
             { expiresIn: "30m" },
           );
