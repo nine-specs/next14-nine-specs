@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSession } from "./lib/getSeesion";
+import { getSession } from "./lib/getSession";
 
-// 인증이 필요한 페이지 목록
+// 인증이 필요한 경로
 const protectedPaths = [
   "/discovery",
   "/favorite",
@@ -9,6 +9,17 @@ const protectedPaths = [
   "/mypage",
   "/news",
   "/report",
+];
+
+// 로그인 유저가 접근할 수 없는 경로
+const restrictedPaths = [
+  "/accountDeletion",
+  "/login",
+  "/signLink",
+  "/profiletest",
+  "/agree",
+  "/sign",
+  "/socialSign",
 ];
 
 export async function middleware(request: NextRequest) {
@@ -21,7 +32,11 @@ export async function middleware(request: NextRequest) {
   }
 
   // 로그인 상태이면 루트 경로로 이동 시 /home 페이지로 리다이렉트
-  if (session && pathname === "/") {
+  // 또는 로그인 유저가 접근할 수 없는 페이지로 이동 시 /home 페이지로 리다이렉트
+  if (
+    (session && pathname === "/") ||
+    (session && restrictedPaths.some((path) => pathname.startsWith(path)))
+  ) {
     return NextResponse.redirect(new URL("/home", request.url));
   }
 

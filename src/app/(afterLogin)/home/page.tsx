@@ -9,12 +9,12 @@ import { getSession } from "@/lib/getSession";
  * 유저의 메인 페이지
  */
 export default async function Home() {
-  const user = await getSession();
+  const session = await getSession();
 
   const userStocks: StockInfo[] = await (
     await fetch(`${BASE_URL}/api/my/stocks`, {
       method: "POST",
-      body: JSON.stringify({ userId: user?.id }),
+      body: JSON.stringify({ userId: session?.user?.id }),
     })
   ).json();
 
