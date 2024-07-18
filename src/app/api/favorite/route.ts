@@ -68,14 +68,17 @@ export async function DELETE(request: NextRequest) {
   try {
     const { stockName } = await request.json();
 
-    // 'users' 콜렉션에서 특정 유저의 문서 참조
-    const userRef = doc(firestore, "users", uid);
-
-    // 유저 문서의 서브콜렉션 'myStocks' 참조
-    const myStocksRef = collection(userRef, "myStocks");
+    // 유저의 myStocks 서브콜렉션 참조
+    const userStocksCollectionRef = collection(
+      firestore,
+      `users/${uid}/myStocks`,
+    );
 
     // 'myStock' 필드가 stockName과 일치하는 문서를 찾기 위한 쿼리
-    const q = query(myStocksRef, where("stockName", "==", stockName));
+    const q = query(
+      userStocksCollectionRef,
+      where("stockName", "==", stockName),
+    );
 
     // 쿼리 실행
     const querySnapshot = await getDocs(q);

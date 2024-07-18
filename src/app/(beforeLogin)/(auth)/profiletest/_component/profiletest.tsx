@@ -109,9 +109,9 @@ export default function ProfileTest() {
     const stockNameText = text.split("∙")[0].trim().split("#")[1].trim();
     console.log("addStockArr : " + myStockArr);
     console.log("stockNameText : " + stockNameText);
-    // 선택된 주식종목은 최대 4개까지만 표시
+    // 선택된 주식종목은 최대 6개까지만 표시
     let copyArr: string[] = [];
-    if (myStockArr.length < 4) {
+    if (myStockArr.length < 6) {
       //기존 관심종목배열 복사
       copyArr = [...myStockArr];
       copyArr.push("#" + stockNameText);

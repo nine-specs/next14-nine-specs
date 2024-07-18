@@ -11,6 +11,7 @@ import { getMyStocks, getStockList } from "@/hooks/profile/useStocksHandler";
 import { DropDownCProps } from "./profiletest";
 type Stock = {
   stockId: string;
+  stockName: string;
 };
 type TMyStocks = string;
 
@@ -89,6 +90,7 @@ export default function DropDownC({
               placeholder="#관심 종목을 추가해주세요"
               onChange={onChange}
               onKeyDown={onKeyDown}
+              autoComplete="off"
               id="stockInput"
               value={
                 myStock !== "#관심 종목을 추가해주세요" ? myStock : undefined
@@ -112,7 +114,7 @@ export default function DropDownC({
                     weight="regular"
                     className="text-gray-900"
                   >
-                    <span className="m-0 w-0">{`# ${item.stockId}`}</span>
+                    <span className="m-0 w-0">{`# ${item.stockName} ∙ ${item.stockId}`}</span>
                   </BodyFont>
                 </div>
               </div>

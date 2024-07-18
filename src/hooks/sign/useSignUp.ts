@@ -1,8 +1,9 @@
 "use server";
 import { firestore, storage } from "@/firebase/firebaseConfig";
 import { hash } from "bcrypt";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { TStocks } from "../profile/useStocksHandler";
 
 const signUp = async (
   data: {
@@ -57,7 +58,7 @@ const signUp = async (
       birthdate,
       email,
       createdAt: new Date(),
-      accountType: "A", // 
+      accountType: "A", //
     });
 
     let interests: string[] = [];
@@ -65,16 +66,28 @@ const signUp = async (
       interests = myStockStr.split("#").join("").split(" ");
     }
 
+    //주식데이터 가져오기
+    const stocksRef = collection(firestore, "stocks");
+    const q = query(stocksRef, where("stockName", "in", interests));
+    const querySnapshot = await getDocs(q);
+    const stockList: TStocks[] = [];
+    querySnapshot.forEach((doc) => {
+      stockList.push(doc.data() as TStocks);
+    });
+    // 서브콜렉션 참조
     const myStocksCollectionRef = collection(
       firestore,
       "users",
       userDocRef.id,
       "myStocks",
     );
-
-    const addStockPromises = interests.map(async (stock) => {
+    // 새로운 관심 종목을 서브 콜렉션에 추가
+    const addStockPromises = stockList.map(async (stock) => {
       await addDoc(myStocksCollectionRef, {
-        myStock: stock,
+        stockName: stock.stockName,
+        stockId: stock.stockId,
+        // logoUrl: stockData.logoUrl, // 필요시 추가
+        stockCode: stock.stockCode,
       });
     });
 
