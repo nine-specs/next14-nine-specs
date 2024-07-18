@@ -36,7 +36,7 @@ export interface NewsResponse {
   /**
    * @property {string} creationTime - 뉴스 기사의 게재 시각
    */
-  creationTime: string;
+  creationTime: number;
 
   /**
    * @property {string} media - 뉴스 기사의 미디어 출처 (언론사)
