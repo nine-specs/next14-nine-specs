@@ -12,11 +12,12 @@ const signUp = async (
     email: string;
     phone: string;
     birthdate: string;
-    nick: string;
+    //nick: string;
   },
   formData: FormData,
 ) => {
-  const { name, userId, password, email, phone, birthdate, nick } = data;
+  const { name, userId, password, email, phone, birthdate } = data;
+  const nick = formData.get("nick");
   const file = formData.get("file") as File | null;
   const myStockStr = formData.get("myStock") as string | undefined;
 
@@ -56,7 +57,7 @@ const signUp = async (
       birthdate,
       email,
       createdAt: new Date(),
-      accountType: "A", // 일반 회원 가입
+      accountType: "A", // 
     });
 
     let interests: string[] = [];

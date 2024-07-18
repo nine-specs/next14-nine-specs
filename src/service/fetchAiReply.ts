@@ -1,4 +1,4 @@
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL as string;
+import { BASE_URL } from "@/constants";
 
 interface AiReplyParams {
   prompt: string;
@@ -31,7 +31,7 @@ async function fetchAiReply({
     }
 
     if (!aiResponse.body) {
-      return Response.json({ error: "No response body" }, { status: 500 });
+      throw new Error("No response body.");
     }
 
     const reader = aiResponse.body.getReader();
@@ -52,6 +52,7 @@ async function fetchAiReply({
     console.error("스트림 처리 중 에러:", error);
   } finally {
     if (onFinally) onFinally(aiMessage);
+    return aiMessage;
   }
 }
 
