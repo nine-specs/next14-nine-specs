@@ -1,7 +1,9 @@
 "use client";
 
+import BodyFont from "@/common/BodyFont";
 import CardWrap from "@/common/CardWrap";
 import HeadingFont from "@/common/HeadingFont";
+import TextButton from "@/common/TextButton";
 import { useEffect } from "react";
 
 export default function Error({
@@ -12,24 +14,38 @@ export default function Error({
   reset: () => void;
 }) {
   useEffect(() => {
-    // Log the error to an error reporting service
     console.error(error);
   }, [error]);
 
   return (
-    <div className="flex flex-col gap-3 w-full justify-center items-center">
-      <CardWrap>
-        <HeadingFont level="1" weight="bold">
+    <div className=" flex w-full h-[100vh] justify-center items-center">
+      <CardWrap
+        width="500px"
+        className="flex flex-col gap-3 items-center p-8 "
+      >
+        <HeadingFont level="3" weight="bold" className="my-7">
           리포트 에러 페이지
         </HeadingFont>
-        <button
-          onClick={
-            // Attempt to recover by trying to re-render the segment
-            () => reset()
-          }
-        >
-          새로고침
-        </button>
+        <div className="verflow-auto w-full my-6">
+          <p>에러내용 : </p>
+          <BodyFont
+            level="4"
+            weight="regular"
+            className="text-red-600 text-wrap break-words"
+          >
+            {error.message}
+          </BodyFont>
+        </div>
+        <div className="w-44 ">
+          <TextButton
+            variant={"primary"}
+            size="sm"
+            className="p-2"
+            onClick={() => reset()}
+          >
+            새로고침
+          </TextButton>
+        </div>
       </CardWrap>
     </div>
   );
