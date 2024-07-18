@@ -4,8 +4,9 @@ import * as cheerio from "cheerio";
 import { firestore } from "@/firebase/firebaseConfig";
 import { addDoc, collection, getDocs } from "firebase/firestore";
 import { NewsResponse } from "@/types/news";
-import { v4 as uuidv4 } from "uuid";
+import { uuid } from "uuidv4";
 import { setImprovedCrawlerPerformance } from "./setImprovedCrawlerPerformance";
+import parseToTimestamp from "./parseToTimestmp";
 
 export const getMainNews = async () => {
   const browser = await puppeteer.launch(); // 브라우저 실행
@@ -27,9 +28,7 @@ export const getMainNews = async () => {
 
     let urls = [];
     for (let link of links) {
-      const url = await link.$eval("a", (element: any) =>
-        element.getAttribute("href"),
-      );
+      const url = await link.$eval("a", (element: any) => element.getAttribute("href"));
       urls.push(url);
     }
 
@@ -41,25 +40,19 @@ export const getMainNews = async () => {
         const $ = cheerio.load(html);
 
         const newsData: NewsResponse = {
-          newsId: uuidv4(),
+          newsId: uuid(),
           relatedStocks: "",
           headLine: $("h2#title_area span").text(),
-          description: $("meta[property='og:description']").attr(
-            "content",
-          ) as string,
+          description: $("meta[property='og:description']").attr("content") as string,
           contents: $("._article_content").text(),
           image: $("meta[property='og:image']").attr("content") as string,
-          creationTime: $("._ARTICLE_DATE_TIME").text(),
+          creationTime: parseToTimestamp($("._ARTICLE_DATE_TIME").text()),
           media: $(".media_end_head_top_logo img").attr("title") as string,
           category: $(".media_end_categorize_item").text(),
         };
 
-        const querySnapshot = await getDocs(
-          collection(firestore, "news", "mainNews", "articles"),
-        );
-        const existingNews = querySnapshot.docs.map(
-          (doc) => doc.data().headLine,
-        );
+        const querySnapshot = await getDocs(collection(firestore, "news", "mainNews", "articles"));
+        const existingNews = querySnapshot.docs.map((doc) => doc.data().headLine);
 
         if (!existingNews.includes(newsData.headLine)) {
           const mainRef = collection(firestore, "news", "mainNews", "articles");
