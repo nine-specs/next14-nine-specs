@@ -13,9 +13,6 @@ interface StockInfo {
 interface Props {
   stockInfo: StockInfo | undefined;
 }
-/**
- *
- */
 export default async function StockAnalysis({ stockInfo }: Props) {
   if (!stockInfo) return null;
   const { ticker, name, code } = stockInfo;
