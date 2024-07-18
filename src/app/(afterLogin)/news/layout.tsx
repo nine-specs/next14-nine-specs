@@ -5,5 +5,5 @@ export const metadata: Metadata = {
   description: "주식 뉴스를 볼 수 있는 페이지입니다.",
 };
 export default function layout({ children }: { children: React.ReactNode }) {
-  return <div>{children}</div>;
+  return <div className="flex justify-center px-10">{children}</div>;
 }
