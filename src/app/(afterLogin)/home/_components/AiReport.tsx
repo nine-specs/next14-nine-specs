@@ -1,12 +1,14 @@
-import CardWrap from "@/common/CardWrap";
-import Title from "../_ui/Title";
 import AI_ICON from "../../../../../public/images/AI_icon.svg";
 import Badge from "@/common/Badge";
+
+import Title from "../_ui/Title";
+import { StockInfo } from "@/components/Report/type/report/stockType";
+import { AiCarousel } from "../_ui/AiCarousel";
 
 /**
  * 유저의 AI 리포트
  */
-export default function AiReport() {
+export default function AiReport({ stocks }: { stocks: StockInfo[] }) {
   return (
     <>
       <div>
@@ -17,13 +19,7 @@ export default function AiReport() {
           </Badge>
         </div>
 
-        <ul className="flex gap-5">
-          {Array.from({ length: 3 }, (_, index) => (
-            <li key={index} className="w-2/6 h-[304px]">
-              <CardWrap width="100%" height="100%"></CardWrap>
-            </li>
-          ))}
-        </ul>
+        <AiCarousel stocks={stocks} />
       </div>
     </>
   );
