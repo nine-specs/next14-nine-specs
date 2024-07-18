@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { doc, getDoc } from "firebase/firestore";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { firestore } from "@/firebase/firebaseConfig"; // Firebase 설정 가져오기
+import { auth } from "@/auth";
 
 // POST 요청 처리 - 로그인
 export async function POST(request: NextRequest) {

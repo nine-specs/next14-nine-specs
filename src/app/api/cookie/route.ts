@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 
 export async function GET(request: NextRequest) {
   try {
+    console.log("==========================================================")
     const searchParams = request.nextUrl.searchParams;
     const token = searchParams.get("token");
 
