@@ -3,15 +3,18 @@ import StockNews from "./_components/StockNews";
 import { BASE_URL } from "@/constants";
 import StockList from "./_ui/StockList";
 import { StockInfo } from "@/components/Report/type/report/stockType";
+import { getSession } from "@/lib/getSession";
 
 /**
  * 유저의 메인 페이지
  */
 export default async function Home() {
+  const user = await getSession();
+
   const userStocks: StockInfo[] = await (
     await fetch(`${BASE_URL}/api/my/stocks`, {
       method: "POST",
-      body: JSON.stringify({ userId: "tvJNWYbo9hcAI2Sn0QtC" }),
+      body: JSON.stringify({ userId: user?.id }),
     })
   ).json();
 
