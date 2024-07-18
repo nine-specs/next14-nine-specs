@@ -1,8 +1,7 @@
 import BodyFont from "@/common/BodyFont";
-import React, { Suspense } from "react";
+import React from "react";
 import dynamic from "next/dynamic";
 import { RenderStockReport } from "./StockReport";
-import StockPolarChart from "./StockPolarChart";
 
 const StockReport = dynamic(() => import("./StockReport"), {
   ssr: false,
