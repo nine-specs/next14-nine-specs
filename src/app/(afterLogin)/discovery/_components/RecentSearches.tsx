@@ -5,10 +5,6 @@ import Not_found_icon from "/public/images/Not_found_icon.svg";
 import ButtonFont from "@/common/ButtonFont";
 import BodyFont from "@/common/BodyFont";
 import React, { useEffect, useRef, useState } from "react";
-import {
-  DeleteAllSearchData,
-  DeleteSearchData,
-} from "@/hooks/discovery/useDeleteSearchData";
 
 type TrecentData = { keyword: string; date: string }[];
 
@@ -24,14 +20,14 @@ export default function RecentSearches() {
   }, []);
 
   /** 최근 검색어 삭제버튼 클릭이벤트*/
-  const deleteRecentWord = async (keyword: string) => {
-    console.log("삭제할 키워드:" + keyword);
+  const deleteRecentWord = async (index: number) => {
+    console.log("삭제할 인덱스:" + index);
     // 로컬스토리지에서 기존 검색어 가져오기
     const savedRecentData = localStorage.getItem("recentData");
     if (savedRecentData) {
       let recentData: TrecentData = JSON.parse(savedRecentData);
-      // 데이터에서 키워드 삭제
-      recentData = recentData.filter((a) => a.keyword !== keyword);
+      //배열의 해당 인덱스 요소 제거
+      recentData.splice(index, 1);
       // 로컬스토리지에 업데이트된 데이터 저장
       localStorage.setItem("recentData", JSON.stringify(recentData));
       // 스테이트 변경
@@ -88,7 +84,7 @@ export default function RecentSearches() {
                         {a.date}
                       </BodyFont>
                       <div
-                        onClick={() => deleteRecentWord(a.keyword)}
+                        onClick={() => deleteRecentWord(i)}
                         className="cursor-pointer"
                       >
                         <Close_icon2 />

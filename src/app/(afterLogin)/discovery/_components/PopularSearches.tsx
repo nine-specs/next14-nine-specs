@@ -7,10 +7,12 @@ type TPopularSearchesProps = {
     id: string;
     stockName: string;
   }[];
+  currentTime: string;
 };
 
 export default function PopularSearches({
   PopularSearchData,
+  currentTime,
 }: TPopularSearchesProps) {
   // 가져온 인기검색어가 빈배열이면 더미데이터 표시.아니라면 데이터를 그대로 표시한다.
   const popularSearchList =
@@ -39,7 +41,7 @@ export default function PopularSearches({
             weight="medium"
             className="border-none text-[#575757] underline !text-[14px] !leading-[20px] "
           >
-            00:00 기준
+            {currentTime} 기준
           </ButtonFont>
         </div>
         <div className="w-full h-[248px] rounded-lg bg-grayscale-0 p-6">

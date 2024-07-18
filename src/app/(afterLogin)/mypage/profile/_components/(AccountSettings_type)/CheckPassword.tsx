@@ -2,7 +2,7 @@ import HeadingFont from "@/common/HeadingFont";
 import Input from "@/common/Input";
 import { Modal } from "@/common/Modal";
 import TextButton from "@/common/TextButton";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 interface TCheckPassword {
   onClose: () => void;
@@ -23,16 +23,38 @@ export default function CheckPassword({
     password.length >= 7 ? setActiveBtn(true) : setActiveBtn(false);
   };
 
-  const checkPwd = (e: React.MouseEvent<HTMLButtonElement>) => {
-    //임시 비밀번호 설정
-    const loginPassword = "11111111";
-    if (password == loginPassword) {
-      //임시 비밀번호와 일치시 정보 수정 모달창으로 이동.
-      setModalHandler("UpdateUserInfo");
-    } else {
-      // 비밀번호 틀릴 시 경고창 -> 추후 변경예정
-      alert("GET OUT!!");
+  // 비밀번호 검증
+  const checkPwd = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    try {
+      const response = await fetch("/api/profile/checkpwd", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ password: password }),
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        //임시 비밀번호와 일치시 정보 수정 모달창으로 이동.
+        setModalHandler("UpdateUserInfo");
+        console.log(result.message);
+      } else {
+        // 비밀번호 틀릴 시 경고창 -> 추후 변경예정
+        alert("GET OUT!!");
+      }
+    } catch (error) {
+      console.error("비밀번호 확인 중 에러발생:", error);
     }
+
+    // const loginPassword = "11111111";
+    // if (password == loginPassword) {
+    //   //임시 비밀번호와 일치시 정보 수정 모달창으로 이동.
+    //   setModalHandler("UpdateUserInfo");
+    // } else {
+    //   // 비밀번호 틀릴 시 경고창 -> 추후 변경예정
+    //   alert("GET OUT!!");
+    // }
   };
   return (
     <>
@@ -57,7 +79,6 @@ export default function CheckPassword({
                 </div>
               </div>
             </div>
-            {/* <Input type="password" label="현재 비밀번호 입력"></Input> */}
 
             {/* 비밀번호 8자리 이상입력시 활성화된 버튼을 표시 */}
             {activeBtn ? (

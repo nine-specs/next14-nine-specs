@@ -19,8 +19,9 @@ export type TUser = {
   userId: string; //아이디
   name: string; //이름
   nick: string; // 닉네임
-  createdAt: string;
+  createdAt: any; // 이후 변환작업
   myStocks: { myStock: string };
+  password: string;
 };
 
 export async function GET(request: Request) {
@@ -28,7 +29,7 @@ export async function GET(request: Request) {
   const fetchUser = async () => {};
   // 임시더미 uid 이용
 
-  const uid = "gU8dSD4pRUHr7xAx9cgL";
+  const uid = "tvJNWYbo9hcAI2Sn0QtC";
 
   //users콜렉션에서  uid 일치하는 document찾기
   const userDocRef = doc(firestore, "users", uid);

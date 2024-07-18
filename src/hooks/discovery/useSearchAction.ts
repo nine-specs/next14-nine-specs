@@ -17,19 +17,25 @@ export async function useSearchAction(formData: FormData) {
   const keyword = formData.get("keyword") as string;
   console.log("서버액션실행-전달받은 데이터:" + keyword);
 
-  // 로그인회원정보 가져오기
-  //
-  // 임시 uid 설정
-  const uid = "gU8dSD4pRUHr7xAx9cgL";
-
   // 현재 날짜를 "MM.DD" 형식으로 가져오기
   const today = new Date();
   const formattedDate = `${("0" + (today.getMonth() + 1)).slice(-2)}.${(
     "0" + today.getDate()
   ).slice(-2)}`;
 
+  AddSearchCount(keyword); // 검색카운트 +1
+
+  //주식종목의 uid를 넘길 예정
+  redirect(`/discovery/${encodeURIComponent(keyword)}`);
+  // revalidatePath(`/discovery/${keyword}`);
+  // revalidatePath("/");
+  // 5. keyword = 연관 종목인 뉴스 도커먼트 가져오기
+  // 6. Keyword = 주식종목명인 주식종목 가져오기
+}
+
+/**    // 주식종목명 = keyword인 주식종목의 searchCount +1 */
+export async function AddSearchCount(keyword: string) {
   try {
-    // 주식종목명 = keyword인 주식종목의 searchCount +1
     const stocksRef = collection(firestore, "stocks");
     const q = query(stocksRef, where("stockName", "==", keyword));
     const querySnapshot = await getDocs(q);
@@ -46,11 +52,4 @@ export async function useSearchAction(formData: FormData) {
   } catch (error) {
     console.log("에러 발생:", error);
   }
-
-  //주식종목의 uid를 넘길 예정
-  redirect(`/discovery/${encodeURIComponent(keyword)}`);
-  // revalidatePath(`/discovery/${keyword}`);
-  // revalidatePath("/");
-  // 5. keyword = 연관 종목인 뉴스 도커먼트 가져오기
-  // 6. Keyword = 주식종목명인 주식종목 가져오기
 }
