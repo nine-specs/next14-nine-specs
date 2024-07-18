@@ -1,3 +1,5 @@
+import { BASE_URL } from "@/constants";
+
 function iteratorToStream(iterator: any) {
   return new ReadableStream({
     async pull(controller) {
@@ -31,7 +33,6 @@ export async function POST(request: Request) {
   const { prompt, temperature, top_p } = await request.json();
 
   const LLAMA_REPLY_URL = process.env.LLAMA_REPLY_URL as string;
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL as string;
 
   const generateBody = {
     user_message: prompt,
