@@ -33,7 +33,7 @@ export const Modal = ({
     S4: "w-[590px] h-[544px]",
     S5: "w-[590px] h-[688px]",
     S6: "w-[590px] h-[892px]",
-    S7: "w-[794px] h-[571px]",
+    S7: "w-[794px] min-h-[571px]",
     S8: "w-[794px] h-[735px]",
     S9: "w-[590px] h-[400px]",
   };
