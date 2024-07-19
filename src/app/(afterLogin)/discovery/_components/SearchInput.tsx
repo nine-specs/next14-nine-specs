@@ -1,7 +1,7 @@
 "use client";
 import { useCallback, useEffect, useRef } from "react";
 import Search_icon from "/public/images/Search_icon.svg";
-import { useSearchAction } from "@/hooks/discovery/useSearchAction";
+import { searchAction } from "@/hooks/discovery/useSearchAction";
 import { getStockList } from "@/hooks/profile/useStocksHandler";
 
 /**검색항목을 최근검색어로 로컬스토리지에 저장 */
@@ -42,9 +42,7 @@ export default function SearchInput() {
     if (inputRef.current) {
       //검색 버튼 클릭 시 검색form onSubmit 실행
       if (formRef.current) {
-        formRef.current.dispatchEvent(
-          new Event("submit", { cancelable: true, bubbles: true }),
-        );
+        formRef.current.dispatchEvent(new Event("submit", { cancelable: true, bubbles: true }));
       }
     }
   };
@@ -73,7 +71,7 @@ export default function SearchInput() {
         saveRecentSearch(keyword);
         const formData = new FormData();
         formData.append("keyword", keyword);
-        useSearchAction(formData);
+        searchAction(formData);
       } else {
         alert("주식종목 검색만 가능합니다.");
       }
@@ -85,10 +83,7 @@ export default function SearchInput() {
       <div className="rounded-lg bg-grayscale-0 flex flex-row items-center box- py-4 pl-11 h-[56px] gap-[16px] border-[1px] border-solid border-grayscale-300">
         <form ref={formRef} onSubmit={handleSubmit}>
           {/* 검색창 */}
-          <div
-            className="absolute top-4 left-4 cursor-pointer"
-            onClick={onClick}
-          >
+          <div className="absolute top-4 left-4 cursor-pointer" onClick={onClick}>
             <Search_icon />
           </div>
           <input

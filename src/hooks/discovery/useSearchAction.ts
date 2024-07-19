@@ -1,27 +1,16 @@
 "use server";
 import { firestore } from "@/firebase/firebaseConfig";
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  setDoc,
-  updateDoc,
-  where,
-} from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-export async function useSearchAction(formData: FormData) {
+export async function searchAction(formData: FormData) {
   const keyword = formData.get("keyword") as string;
   console.log("서버액션실행-전달받은 데이터:" + keyword);
 
   // 현재 날짜를 "MM.DD" 형식으로 가져오기
   const today = new Date();
-  const formattedDate = `${("0" + (today.getMonth() + 1)).slice(-2)}.${(
-    "0" + today.getDate()
-  ).slice(-2)}`;
+  const formattedDate = `${("0" + (today.getMonth() + 1)).slice(-2)}.${("0" + today.getDate()).slice(-2)}`;
 
   AddSearchCount(keyword); // 검색카운트 +1
 

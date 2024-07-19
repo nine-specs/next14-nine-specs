@@ -3,6 +3,7 @@
 import { hash } from "bcrypt";
 import { collection, addDoc, getDocs } from "firebase/firestore";
 import { firestore } from "../../firebase/firebaseConfig";
+import language from "@/app/(afterLogin)/mypage/language/page";
 
 export async function register(formData: FormData, userEmail: string) {
   const userData = {
@@ -146,6 +147,7 @@ export async function register(formData: FormData, userEmail: string) {
       email: userEmail,
       createdAt: createdAt,
       accountType: "A", //일반회원가입
+      language: "USA",
     });
     console.log("회원 가입 성공!");
     return { success: true };

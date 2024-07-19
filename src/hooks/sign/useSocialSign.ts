@@ -1,7 +1,8 @@
 "use server";
 import { firestore, storage } from "@/firebase/firebaseConfig";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { TStocks } from "../profile/useStocksHandler";
 
 export async function SocialSignUp(
   userInfo: {
@@ -77,6 +78,23 @@ export async function SocialSignUp(
       email,
       createdAt: new Date(),
       accountType,
+      language: "USA",
+    });
+
+    //  << 관심종목>>
+    const myStockStr = stocks.join(" ");
+    let myStock: string[] = [];
+    if (myStockStr != undefined) {
+      myStock = myStockStr.split("#").join("").split(" ");
+    }
+
+    //주식데이터 가져오기
+    const stocksRef = collection(firestore, "stocks");
+    const q = query(stocksRef, where("stockName", "in", myStock));
+    const querySnapshot = await getDocs(q);
+    const stockList: TStocks[] = [];
+    querySnapshot.forEach((doc) => {
+      stockList.push(doc.data() as TStocks);
     });
 
     const myStocksCollectionRef = collection(
@@ -86,9 +104,12 @@ export async function SocialSignUp(
       "myStocks",
     );
 
-    const addStockPromises = stocks.map(async (stock) => {
+    const addStockPromises = stockList.map(async (stock) => {
       await addDoc(myStocksCollectionRef, {
-        myStock: stock,
+        stockName: stock.stockName,
+        stockId: stock.stockId,
+        // logoUrl: stockData.logoUrl, // 필요시 추가
+        stockCode: stock.stockCode,
       });
     });
 

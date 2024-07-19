@@ -15,6 +15,7 @@ type TFavoriteStockList = {
     id: string;
     stockName: string;
   }[];
+  userId: string;
 };
 const stockInfo = {
   ticker: "AAPL",
@@ -28,10 +29,7 @@ type TstockInfoList = {
   code: string;
 }[];
 
-export default function FavoriteStockLists({
-  data,
-  popularSearchData,
-}: TFavoriteStockList) {
+export default function FavoriteStockLists({ data, popularSearchData, userId }: TFavoriteStockList) {
   let stockInfoList: TstockInfoList = [];
 
   data.forEach((a, i) => {
