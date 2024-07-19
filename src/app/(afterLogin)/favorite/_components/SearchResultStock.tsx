@@ -1,12 +1,6 @@
 import BodyFont from "@/common/BodyFont";
 import TextButton from "@/common/TextButton";
-import {
-  addMyStocks,
-  deleteMyStocks,
-  getMyStocks,
-  TMyStocks,
-  TStocks,
-} from "@/hooks/profile/useStocksHandler";
+import { addMyStocks, deleteMyStocks, getMyStocks, TMyStocks, TStocks } from "@/hooks/profile/useStocksHandler";
 import React, { useEffect, useState } from "react";
 import loadingSpinner from "/public/images/loading/loadingSpiner.gif";
 import Image from "next/image";
@@ -107,26 +101,16 @@ export default function SearchResultStock({ searchData }: TSearchResultStock) {
           </div>
         ) : (
           <>
-            <div className="w-[573px] h-[48px] border">
-              {searchData?.stockName}
-            </div>
+            <div className="w-[573px] h-[48px] border">{searchData?.stockName}</div>
             {isMyStock ? (
               <div className="w-[120px]">
-                <TextButton
-                  variant="default"
-                  size="sm"
-                  onClick={handleDeleteStock}
-                >
+                <TextButton variant="default" size="sm" onClick={handleDeleteStock}>
                   삭제
                 </TextButton>
               </div>
             ) : (
               <div className="w-[120px]">
-                <TextButton
-                  variant="primary"
-                  size="sm"
-                  onClick={handleAddStock}
-                >
+                <TextButton variant="primary" size="sm" onClick={handleAddStock}>
                   추가
                 </TextButton>
               </div>
