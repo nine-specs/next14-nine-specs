@@ -84,12 +84,16 @@ export default function ProfileEdit({ onClose, profileData }: TProfileEdit) {
                   {/* DB에 저장한 이미지파일을 프사로 표시 */}
                   {file ? ( //업로드한 파일있다면 미리보기 표시
                     <Image
+                      width="640"
+                      height="640"
                       src={URL.createObjectURL(file)}
                       alt="Profile Preview"
                       className="w-full h-full object-cover"
                     />
                   ) : profileImgSrc ? (
                     <Image
+                      width="640"
+                      height="640"
                       src={profileImgSrc} //db에 저장된 이미지 표시
                       alt="Profile Preview"
                       className="w-full h-full object-cover"

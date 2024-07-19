@@ -27,6 +27,12 @@ const nextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "http",
+        hostname: "t1.kakaocdn.net",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
   // @svgr/webpack 설정
