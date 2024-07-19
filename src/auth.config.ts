@@ -106,10 +106,5 @@ export const authConfig = {
       return session;
     },
   },
-  // redirect: async ({}) => {
-  //   console.log("[redirect callback] /home으로 리디렉션합니다");
-  //   return "/home"; // 문자열 경로 반환
-  // },  },
-
   providers: [],
 } as NextAuthConfig;

@@ -17,9 +17,6 @@ export async function POST(request: NextRequest) {
     }
   } catch (error) {
     console.error("주식 데이터를 추가하는 중 에러 발생:", error);
-    return NextResponse.json(
-      { message: "관심종목 추가에 실패했습니다." },
-      { status: 500 },
-    );
+    return NextResponse.json({ message: "관심종목 추가에 실패했습니다." }, { status: 500 });
   }
 }
