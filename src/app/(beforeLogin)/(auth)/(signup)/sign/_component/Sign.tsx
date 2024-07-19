@@ -33,12 +33,11 @@ export default function Sign() {
     isFormValid,
   } = useFormCheck("");
 
-  const {
-    handleUserIdChange,
-    handleButtonClick,
-    styleStatus,
-    descriptionText,
-  } = useIdCheck("* 6~12자의 영문,숫자,_를 이용한 조합", userId, setUserId);
+  const { handleUserIdChange, handleButtonClick, styleStatus, descriptionText } = useIdCheck(
+    "* 6~12자의 영문,숫자,_를 이용한 조합",
+    userId,
+    setUserId,
+  );
 
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
@@ -64,7 +63,7 @@ export default function Sign() {
     } else {
       router.push("/error");
     }
-  }, [token, router]);
+  }, [token, setEmail]);
 
   if (!isTokenValid) {
     return <LoadingPage />;
@@ -126,11 +125,7 @@ export default function Sign() {
                 value={confirmPassword}
                 onChange={(e) => handleConfirmPasswordChange(e.target.value)}
                 passwordMatch={passwordMatch}
-                description={
-                  passwordMatch
-                    ? "비밀번호가 일치합니다."
-                    : "비밀번호가 일치하지 않습니다."
-                }
+                description={passwordMatch ? "비밀번호가 일치합니다." : "비밀번호가 일치하지 않습니다."}
               />
               {/* 비밀번호 확인 입력 끝 */}
 
@@ -161,10 +156,7 @@ export default function Sign() {
           {/* 다음 버튼 시작 */}
           <Link href={`/profiletest?token=${token}`}>
             <div className="w-[386px] flex flex-col items-start justify-start max-w-full">
-              <TextButton
-                variant={isFormValid() ? "primary" : "default"}
-                disabled={!isFormValid()}
-              >
+              <TextButton variant={isFormValid() ? "primary" : "default"} disabled={!isFormValid()}>
                 다음
               </TextButton>
             </div>

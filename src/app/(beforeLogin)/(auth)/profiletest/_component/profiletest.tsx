@@ -16,6 +16,7 @@ import CheckIdNickInput from "@/common/CheckIdNickInput";
 
 import { useNickCheck } from "@/hooks/common/useNickCheck";
 import { Modal } from "@/common/Modal";
+import Image from "next/image";
 
 export interface DropDownCProps {
   myStock: string;
@@ -34,8 +35,7 @@ export default function ProfileTest() {
   const [myStock, setMyStock] = useState<string>(""); //
   const [showDropDown, setShowDropDown] = useState(false); //
   const [file, setFile] = useState<File | null>(null);
-  const { nick, setNick, styleStatus, descriptionText, handleNickCheck } =
-    useNickCheck();
+  const { nick, setNick, styleStatus, descriptionText, handleNickCheck } = useNickCheck();
   const [showModal, setShowModal] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -147,10 +147,7 @@ export default function ProfileTest() {
 
   return (
     <div className="flex justify-center items-start flex-grow-0 flex-shrink-0 rounded-[32px] bg-white w-[590px] h-[688px] mx-auto ">
-      <form
-        onSubmit={handleSubmit}
-        className="w-full h-full py-[80px] px-[102px]"
-      >
+      <form onSubmit={handleSubmit} className="w-full h-full py-[80px] px-[102px]">
         <div className="w-auto h-auto flex flex-col justify-center items-center">
           <HeadingFont level="3" weight="bold" className="text-primary-900">
             프로필 설정
@@ -159,28 +156,15 @@ export default function ProfileTest() {
             <div className="w-[120px] h-[120px] mb-[24px] relative flex justify-center items-center">
               <button onClick={handleClick}>
                 {file ? (
-                  <img
-                    src={URL.createObjectURL(file)}
-                    alt="Profile Preview"
-                    className="w-full h-full object-cover"
-                  />
+                  <Image src={URL.createObjectURL(file)} alt="Profile Preview" className="w-full h-full object-cover" />
                 ) : (
                   <ProfileSVG />
                 )}
                 <EditLgIcon className="absolute bottom-0 right-0 " />
               </button>
-              <input
-                type="file"
-                className="hidden"
-                name="file"
-                ref={fileInputRef}
-                onChange={onFileChange}
-              />
+              <input type="file" className="hidden" name="file" ref={fileInputRef} onChange={onFileChange} />
             </div>
-            <div
-              className="w-[384px] h-[184px] flex flex-col gap-[16px] justify-between"
-              id="inputBox"
-            >
+            <div className="w-[384px] h-[184px] flex flex-col gap-[16px] justify-between" id="inputBox">
               <CheckIdNickInput
                 label="닉네임"
                 name="nick"
@@ -207,9 +191,7 @@ export default function ProfileTest() {
             <HeadingFont level="4" weight="bold" className="mb-2">
               회원가입 성공
             </HeadingFont>
-            <p className="mb-4">
-              회원 가입 및 프로필 설정이 성공적으로 완료되었습니다!
-            </p>
+            <p className="mb-4">회원 가입 및 프로필 설정이 성공적으로 완료되었습니다!</p>
             <TextButton variant="primary" size="lg" onClick={handleModalClose}>
               확인
             </TextButton>

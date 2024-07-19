@@ -14,6 +14,7 @@ import DropDownC from "../../../profiletest/_component/DropDownC";
 import { Modal } from "@/common/Modal";
 import { SocialSignUp } from "@/hooks/sign/useSocialSign";
 import { useSocialSignHandle } from "@/hooks/sign/useSocialSignHandle";
+import Image from "next/image";
 
 export interface DropDownCProps {
   myStock: string;
@@ -90,8 +91,7 @@ export default function Social() {
       }
     }
   };
-  const { nick, setNick, styleStatus, descriptionText, handleNickCheck } =
-    useNickCheck();
+  const { nick, setNick, styleStatus, descriptionText, handleNickCheck } = useNickCheck();
 
   const [myStockArr, setStockArr] = useState<string[]>([]);
   const [myStock, setMyStock] = useState<string>(""); //
@@ -163,29 +163,15 @@ export default function Social() {
             <div className="w-[120px] h-[120px] mb-[24px] relative flex justify-center items-center">
               <button onClick={handleClick}>
                 {file ? (
-                  <img
-                    src={URL.createObjectURL(file)}
-                    alt="Profile Preview"
-                    className="w-full h-full object-cover"
-                  />
+                  <Image src={URL.createObjectURL(file)} alt="Profile Preview" className="w-full h-full object-cover" />
                 ) : userInfo?.image ? (
-                  <img
-                    src={userInfo.image}
-                    alt="Profile"
-                    className="w-full h-full object-cover"
-                  />
+                  <Image src={userInfo.image} alt="Profile" className="w-full h-full object-cover" />
                 ) : (
                   <ProfileSVG />
                 )}
                 <EditLgIcon className="absolute bottom-0 right-0 " />
               </button>
-              <input
-                type="file"
-                className="hidden"
-                name="file"
-                ref={fileInputRef}
-                onChange={onFileChange}
-              />
+              <input type="file" className="hidden" name="file" ref={fileInputRef} onChange={onFileChange} />
             </div>
 
             <CheckIdNickInput
@@ -234,14 +220,8 @@ export default function Social() {
               <HeadingFont level="4" weight="bold" className="mb-2">
                 회원가입 성공
               </HeadingFont>
-              <p className="mb-4">
-                회원 가입 및 프로필 설정이 성공적으로 완료되었습니다!
-              </p>
-              <TextButton
-                variant="primary"
-                size="lg"
-                onClick={handleModalClose}
-              >
+              <p className="mb-4">회원 가입 및 프로필 설정이 성공적으로 완료되었습니다!</p>
+              <TextButton variant="primary" size="lg" onClick={handleModalClose}>
                 확인
               </TextButton>
             </div>
