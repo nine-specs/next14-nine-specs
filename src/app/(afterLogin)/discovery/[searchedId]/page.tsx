@@ -83,6 +83,8 @@ export default function Page({ params }: TProps) {
                 {/* 더미데이터 */}
                 <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-4">
                   <Image
+                    width="640"
+                    height="640"
                     alt="이미지"
                     src="rectangle-511385.jpeg"
                     className="flex-grow-0 flex-shrink-0 w-[120px] h-16 rounded-lg object-cover"
