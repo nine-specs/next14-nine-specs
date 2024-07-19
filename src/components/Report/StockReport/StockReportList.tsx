@@ -3,6 +3,7 @@ import { uuid } from "uuidv4";
 interface StockReportScores {
   subject: string;
   score: number;
+  justification?: string;
 }
 interface Props {
   data?: StockReportScores[];
@@ -26,7 +27,11 @@ export default function StockReportList({ data }: Props) {
     <div className="flex flex-col w-[168px] h-[168px] justify-center rounded-2xl bg-[#F9F9F9] py-3 px-4">
       {data &&
         data.map((item) => (
-          <div className="flex gap-3 justify-between m-1" key={uuid()}>
+          <div
+            className="flex gap-3 justify-between m-1"
+            key={uuid()}
+            title={item.justification}
+          >
             <BodyFont level="4" weight="medium" className="overflow-hidden">
               {item.subject}
             </BodyFont>

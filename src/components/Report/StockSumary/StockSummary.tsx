@@ -1,15 +1,13 @@
 import BodyFont from "@/common/BodyFont";
 import StockExchage from "./StockExchage";
-import { getStockDetails } from "@/service/report/stockDetailsApi";
-import { getStockSummary } from "@/service/report/stockSummaryApi";
-import { getExchangeRate } from "@/service/report/exchangeRateApi";
+import { StockInfo } from "../type/report/stockType";
 
 interface Props {
-  code: string;
-  ticker: string;
+  stockInfo: StockInfo | undefined;
 }
 
-export default async function StockSummary({ code, ticker }: Props) {
+export default async function StockSummary({ stockInfo }: Props) {
+  const { code, ticker } = stockInfo!;
   const priceFetch = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/report/price`,
     {

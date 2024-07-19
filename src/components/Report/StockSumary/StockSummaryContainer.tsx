@@ -1,16 +1,16 @@
 import { Suspense } from "react";
 import StockSummary from "./StockSummary";
 import StockSuspenseLoading from "../ReportCommon/SuspenseLoading";
+import { StockInfo } from "../type/report/stockType";
 
 interface Props {
-  code: string;
-  ticker: string;
+  stockInfo: StockInfo | undefined;
 }
 
-export default function StockSumaryContainer({ code, ticker }: Props) {
+export default function StockSumaryContainer({ stockInfo }: Props) {
   return (
     <Suspense fallback={<StockSuspenseLoading />}>
-      <StockSummary code={code} ticker={ticker} />
+      <StockSummary stockInfo={stockInfo} />
     </Suspense>
   );
 }

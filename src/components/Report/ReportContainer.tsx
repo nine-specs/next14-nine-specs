@@ -3,7 +3,6 @@ import CardWrap from "@/common/CardWrap";
 import StockHeader from "./StockHeader/StockHeader";
 import StockChartContainer from "./StockChart/StockChartContainer";
 import StockSumaryContainer from "./StockSumary/StockSummaryContainer";
-import FavorStockList from "./FavorStockList/FavorStockList";
 import StockReportContainer from "./StockReport/StockReportContainer";
 import StockAnalysis from "./StockAnalysis/StockAnalysis";
 import { StockInfo } from "./type/report/stockType";
@@ -18,7 +17,7 @@ interface Props {
  */
 export default async function ReportContainer({ stockInfo }: Props) {
   if (!stockInfo) return null;
-  const { ticker, name, code } = stockInfo;
+  const { code } = stockInfo;
   return (
     <div className=" w-[1200px] mx-auto py-12  ">
       <div className="flex flex-col flex-wrap gap-6">
@@ -27,7 +26,7 @@ export default async function ReportContainer({ stockInfo }: Props) {
         {/* 첫번째 줄 */}
         <article className="flex justify-between flex-wrap ">
           <CardWrap width="488px" height="256px" padding>
-            <StockSumaryContainer code={code} ticker={ticker} />
+            <StockSumaryContainer stockInfo={stockInfo} />
           </CardWrap>
           <CardWrap width="690px" height="256px" padding>
             <StockChartContainer code={code} />
@@ -43,11 +42,6 @@ export default async function ReportContainer({ stockInfo }: Props) {
             <StockAnalysis stockInfo={stockInfo} />
           </CardWrap>
         </article>
-        <div className="w-[1200px]">
-          <div className="flex gap-4 overflow-x-scroll">
-            <FavorStockList stockInfo={stockInfo} />
-          </div>
-        </div>
       </div>
     </div>
   );

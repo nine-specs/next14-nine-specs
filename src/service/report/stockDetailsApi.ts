@@ -8,16 +8,14 @@ import { StockDetails } from "@/components/Report/type/report/stockType";
 export const getStockDetails = async (
   ticker: string,
 ): Promise<StockDetails> => {
-  const response = await fetch(
-    `https://polling.finance.naver.com/api/realtime/worldstock/stock/${ticker}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      cache: "no-store",
+  const url = `https://polling.finance.naver.com/api/realtime/worldstock/stock/${ticker}`;
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
     },
-  );
+    cache: "no-store",
+  });
 
   const data = await response.json();
   const { closePrice, fluctuationsRatio, compareToPreviousClosePrice } =

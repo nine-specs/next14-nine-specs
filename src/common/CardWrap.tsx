@@ -20,8 +20,8 @@ interface Props {
  */
 export default function CardWrap({
   bgColor = "white",
-  width = "320px",
-  height = "240px",
+  width,
+  height,
   padding = false,
   className,
   children,

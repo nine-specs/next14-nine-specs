@@ -1,5 +1,6 @@
 import ReportContainer from "@/components/Report/ReportContainer";
 import { StockInfo } from "@/components/Report/type/report/stockType";
+import { mockStockDataList } from "@/constants/stockSearchMockData/mockStockDataList";
 
 interface Props {
   params: {
@@ -7,33 +8,41 @@ interface Props {
   };
 }
 
-const topGainers = [
-  { ticker: "AVGO", name: "브로드컴", code: "AVGO.O" },
-  { ticker: "TSLA", name: "테슬라", code: "TSLA.O" },
-  { ticker: "NVDA", name: "엔비디아", code: "NVDA.O" },
-  { ticker: "META", name: "메타플랫폼스", code: "META.O" },
-  { ticker: "MSFT", name: "마이크로소프트", code: "MSFT.O" },
-];
-
-const bottomDecliners = [
-  { ticker: "NFLX", name: "넷플릭스", code: "NFLX.O" },
-  { ticker: "AAPL", name: "애플", code: "AAPL.O" },
-  { ticker: "GOOGL", name: "알파벳", code: "GOOGL.O" },
-  { ticker: "AMZN", name: "아마존닷컴", code: "AMZN.O" },
-  { ticker: "AMD", name: "AMD", code: "AMD.O" },
-];
-
-const searchStockList: StockInfo[] = [...topGainers, ...bottomDecliners];
-
 export default async function page({ params }: Props) {
   const { id } = params;
   const deCodeId = await decodeURIComponent(id);
-  const stockInfo: StockInfo | undefined = searchStockList.find(
-    (stock) => stock.name === deCodeId.replace(/\s+/g, ""),
+
+  const addStockList = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/report/stockList`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(mockStockDataList),
+    },
+  ); // 주식 리스트 추가
+
+  const fetchStockList = await fetch(
+    `${
+      process.env.NEXT_PUBLIC_BASE_URL
+    }/api/report/stockList?stockName=${deCodeId.replace(/\s+/g, "")}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
   );
-  return (
-    <div>
-      <ReportContainer stockInfo={stockInfo} />
-    </div>
-  );
+  const stockInfo = await fetchStockList.json();
+  
+  if (!stockInfo) {
+    return (
+      <div>
+        <h1>Not Found</h1>
+        <p>The stock information you are looking for does not exist.</p>
+      </div>
+    );
+  }
+  return <ReportContainer stockInfo={stockInfo} />;
 }

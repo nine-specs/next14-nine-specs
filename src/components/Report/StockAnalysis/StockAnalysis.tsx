@@ -4,7 +4,6 @@ import StockSubRate from "../ReportCommon/StockSubRate";
 import StockGptAnalysisReply from "./StockGptAnalysisReply";
 import { Suspense } from "react";
 import { getStockDetails } from "@/service/report/stockDetailsApi";
-import StockSuspenseLoading from "../ReportCommon/SuspenseLoading";
 import StockAnalysisSkeleton from "./StockAnalysisSkeleton";
 interface StockInfo {
   ticker: string;
@@ -14,9 +13,6 @@ interface StockInfo {
 interface Props {
   stockInfo: StockInfo | undefined;
 }
-/**
- *
- */
 export default async function StockAnalysis({ stockInfo }: Props) {
   if (!stockInfo) return null;
   const { ticker, name, code } = stockInfo;

@@ -27,7 +27,7 @@ export default function StockHeader({ stockInfo }: Props) {
           </BodyFont>
         </div>
       </div>
-      <StockFavorButton />
+      <StockFavorButton stockInfo={stockInfo} />
     </article>
   );
 }

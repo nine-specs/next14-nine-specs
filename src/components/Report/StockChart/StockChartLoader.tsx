@@ -18,7 +18,7 @@ interface Props {
 export default async function StockChartLoader({ code }: Props) {
   if (!code) return null;
   const fetchData = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/report/price`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/report/chart`,
     {
       method: "POST",
       headers: {
@@ -30,9 +30,5 @@ export default async function StockChartLoader({ code }: Props) {
   );
   const allData = await fetchData.json();
 
-  return (
-    <>
-      <StockAreaChart allData={allData} />
-    </>
-  );
+  return <StockAreaChart allData={allData} />;
 }

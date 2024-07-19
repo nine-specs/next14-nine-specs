@@ -1,4 +1,6 @@
+"use client";
 import Image from "next/image";
+import { useState } from "react";
 
 interface Props {
   width: number;
@@ -17,12 +19,18 @@ export default function StockLogoImage({
   width = 32,
   height = 32,
 }: Props) {
+  const [error, setError] = useState(true);
   return (
     <Image
-      src={`https://ssl.pstatic.net/imgstock/fn/real/logo/stock/Stock${code}.svg`}
+      src={
+        error
+          ? `https://ssl.pstatic.net/imgstock/fn/real/logo/stock/Stock${code}.svg`
+          : `/images/Not_found_icon.svg`
+      }
       alt="stock"
       width={width}
       height={height}
+      onError={() => setError(false)}
     />
   );
 }
