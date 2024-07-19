@@ -3,10 +3,10 @@ import { getSession } from "./lib/getSession";
 
 // 인증이 필요한 경로
 const protectedPaths = [
-  // "/discovery",
-  // "/favorite",
-  // "/home",
-  // "/mypage",
+  "/discovery",
+  "/favorite",
+  "/home",
+  "/mypage",
   "/news",
   "/report",
 ];
@@ -14,12 +14,12 @@ const protectedPaths = [
 // 로그인 유저가 접근할 수 없는 경로
 const restrictedPaths = [
   "/accountDeletion",
-  // "/login",
-  // "/signLink",
-  // "/profiletest",
-  // "/agree",
-  // "/sign",
-  // "/socialSign",
+  "/login",
+  "/signLink",
+  "/profiletest",
+  "/agree",
+  "/sign",
+  "/socialSign",
 ];
 
 export async function middleware(request: NextRequest) {

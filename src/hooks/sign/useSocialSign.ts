@@ -78,6 +78,7 @@ export async function SocialSignUp(
       email,
       createdAt: new Date(),
       accountType,
+      language: "USA",
     });
 
     //  << 관심종목>>

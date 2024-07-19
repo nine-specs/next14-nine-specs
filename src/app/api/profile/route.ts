@@ -8,6 +8,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
+import { NextRequest } from "next/server";
 
 // 유저 정보 타입
 export type TUser = {
@@ -22,14 +23,16 @@ export type TUser = {
   createdAt: any; // 이후 변환작업
   myStocks: { myStock: string };
   password: string;
+  accountType: string;
 };
 
-export async function GET(request: Request) {
+export async function POST(request: NextRequest) {
+  const { uid } = await request.json();
+  console.log("uid:" + uid);
+  // console.log("userId:" + userId);
   // 유저데이터 firestoreDB 요청
-  const fetchUser = async () => {};
   // 임시더미 uid 이용
-
-  const uid = "tvJNWYbo9hcAI2Sn0QtC";
+  // const uid = "tvJNWYbo9hcAI2Sn0QtC";
 
   //users콜렉션에서  uid 일치하는 document찾기
   const userDocRef = doc(firestore, "users", uid);
@@ -51,6 +54,7 @@ export async function GET(request: Request) {
       name: userData.name,
       nick: userData.nick,
       myStocks: userData.myStocks,
+      accountType: userData.accountType,
     };
 
     return new Response(JSON.stringify({ res: "응답함", data: fetchedUser }), {

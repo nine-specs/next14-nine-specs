@@ -11,14 +11,22 @@ import loadingSpinner from "/public/images/loading/loadingSpiner.gif";
 import Image from "next/image";
 import AccountInfoBox from "./_components/AccountInfoBox";
 
-export default function ProfilePage() {
+type TprofilePage = {
+  userId: string;
+};
+
+export default function ProfilePage({ userId }: TprofilePage) {
   const [isProfileModalOpened, setProfileModalOpened] = useState(false);
   const [isAccountModalOpened, setAccountModalOpened] = useState(false);
   const [profileData, setProfileData] = useState<TUser | undefined>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
   // 유저 기본 정보 가져오기
   useEffect(() => {
-    fetch("/api/profile")
+    fetch("/api/profile", {
+      method: "POST",
+      body: JSON.stringify({ uid: userId }),
+    })
       .then((r) => r.json())
       .then((result) => {
         console.log(result);
@@ -126,7 +134,12 @@ export default function ProfilePage() {
                 </div>
                 <div className="pt-6">
                   <AccountInfoBox title={"이름"} info={profileData?.name} />
-                  <AccountInfoBox title={"아이디"} info={profileData?.userId} />
+                  {profileData?.accountType != "K" && (
+                    <AccountInfoBox
+                      title={"아이디"}
+                      info={profileData?.userId}
+                    />
+                  )}
                   <AccountInfoBox
                     title={"생년월일"}
                     info={profileData?.birthdate}

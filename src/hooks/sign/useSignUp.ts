@@ -4,6 +4,7 @@ import { hash } from "bcrypt";
 import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { TStocks } from "../profile/useStocksHandler";
+import language from "@/app/(afterLogin)/mypage/language/page";
 
 const signUp = async (
   data: {
@@ -59,6 +60,7 @@ const signUp = async (
       email,
       createdAt: new Date(),
       accountType: "A", //
+      language: "USA",
     });
 
     let interests: string[] = [];

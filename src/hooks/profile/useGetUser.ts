@@ -2,6 +2,7 @@
 
 import { TUser } from "@/app/api/profile/route";
 import { firestore } from "@/firebase/firebaseConfig";
+import { getSession } from "@/lib/getSession";
 import { compare, hash } from "bcrypt";
 import {
   collection,
@@ -14,21 +15,21 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
+import { GetServerSideProps } from "next";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { NextRequest } from "next/server";
+
+// 임시 uid 설정
 const uid = "tvJNWYbo9hcAI2Sn0QtC";
 export async function GetUser() {
   // 유저데이터 firestoreDB 요청
   // const fetchUser = async () => {};
   // 세션 또는 전역에서 회원정보가져오기
-  try {
-    // 임시 uid 설정
 
+  try {
     //users콜렉션에서  uid 일치하는 document찾기
-    const userDocRef = doc(firestore, "users", uid);
-    //document 가져오기
-    const userDocSnap = await getDoc(userDocRef);
+    const userDocSnap = await getDoc(doc(firestore, "users", uid));
 
     if (userDocSnap.exists()) {
       const userData = userDocSnap.data() as TUser;
@@ -37,18 +38,6 @@ export async function GetUser() {
       if (userData.createdAt instanceof Timestamp) {
         userData.createdAt = userData.createdAt.toDate().toISOString();
       }
-
-      // const fetchedUser = {
-      //   birthdate: userData.birthdate,
-      //   email: userData.email,
-      //   language: userData.language,
-      //   image: userData.image,
-      //   phone: userData.phone,
-      //   userId: userData.userId,
-      //   name: userData.name,
-      //   nick: userData.nick,
-      //   myStocks: userData.myStocks,
-      // };
 
       return userData;
     }
@@ -73,11 +62,8 @@ export async function UpdateUser(formData: FormData) {
   newData.birthdate = formData.get("birthdate") as string;
 
   try {
-    // 로그인 유저 문서 참조
-    const userDocRef = doc(firestore, "users", uid);
-
     // 문서 업데이트
-    await updateDoc(userDocRef, newData);
+    await updateDoc(doc(firestore, "users", uid), newData);
     console.log("회원정보 수정 완료");
 
     revalidatePath("/mypage/profile");
