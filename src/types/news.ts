@@ -11,7 +11,7 @@ export interface NewsResponse {
   /**
    * @property {string} relatedStocks - 뉴스 기사와 관련된 주식 심볼 문자열
    */
-  relatedStocks: string;
+  relatedStocks?: string;
 
   /**
    * @property {string} headLine - 뉴스 기사의 제목
@@ -24,17 +24,27 @@ export interface NewsResponse {
   contents: string;
 
   /**
+   * @property {string} description - 뉴스 기사의 주요 내용 요약
+   */
+  description: string;
+
+  /**
    * @property {string} image - 뉴스 기사와 관련된 이미지의 URL
    */
-  image: string;
+  image?: string;
 
   /**
    * @property {string} creationTime - 뉴스 기사의 게재 시각
    */
-  creationTime: string;
+  creationTime: number;
 
   /**
    * @property {string} media - 뉴스 기사의 미디어 출처 (언론사)
    */
   media: string;
+
+  /**
+   * @property {string} category - 뉴스 기사의 분류명
+   */
+  category?: string;
 }

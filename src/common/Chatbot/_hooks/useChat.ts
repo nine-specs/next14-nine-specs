@@ -19,14 +19,13 @@ const useChat = () => {
     if (!messages.length) {
       setMessages([
         {
-          content:
-            "안녕하세요 아잇나우 챗봇입니다. 해외주식 관련해서 궁금하신 점이 있으면 저에게 물어보세요!",
+          content: "안녕하세요 아잇나우 챗봇입니다. 해외주식 관련해서 궁금하신 점이 있으면 저에게 물어보세요!",
           role: "ai",
           id: Date.now().toString(),
         },
       ]);
     }
-  }, []);
+  }, [messages]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
@@ -41,10 +40,7 @@ const useChat = () => {
     const userInput = input.trim();
     if (!userInput) return;
 
-    setMessages((prev) => [
-      ...prev,
-      { content: input, role: "user", id: Date.now().toString() },
-    ]);
+    setMessages((prev) => [...prev, { content: input, role: "user", id: Date.now().toString() }]);
     setInput("");
 
     const prompt = `<|begin_of_text|><|start_header_id|>system<|end_header_id|>${system}<|eot_id|><|start_header_id|>user<|end_header_id|>${userInput}<|eot_id|><|start_header_id|>assistant<|end_header_id|>`;

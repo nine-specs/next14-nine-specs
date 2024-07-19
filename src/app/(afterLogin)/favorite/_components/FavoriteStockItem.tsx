@@ -1,7 +1,9 @@
 "use client";
 import TextButton from "@/common/TextButton";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import DeleteFavoriteModal from "./DeleteFavoriteModal";
+import FavoriteStockButtons from "./FavoriteStockButtons";
 
 type TFavoriteStockItemProps = {
   myStock: string;
@@ -10,7 +12,7 @@ type TFavoriteStockItemProps = {
 export default function FavoriteStockItem({
   myStock,
 }: TFavoriteStockItemProps) {
-  const encodedMyStock = encodeURIComponent(myStock);
+  // 전달할 파라미터 인코딩
 
   return (
     <>
@@ -19,16 +21,7 @@ export default function FavoriteStockItem({
           <div className="w-full h-[56px] bg-slate-100">{myStock}</div>
           <div className="w-full h-[168px] bg-slate-100"></div>
         </div>
-        <div className="py-4 flex justify-between gap-2">
-          <TextButton size="md" variant="default" className="w-[160px]">
-            삭제하기
-          </TextButton>
-          <Link href={`/report?id=${encodedMyStock}`} className="w-full">
-            <TextButton size="md" variant="primary" className="w-[160px]">
-              자세히보기
-            </TextButton>
-          </Link>
-        </div>
+        <FavoriteStockButtons myStock={myStock} />
       </div>
     </>
   );

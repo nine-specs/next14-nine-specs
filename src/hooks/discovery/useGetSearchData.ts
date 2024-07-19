@@ -35,3 +35,19 @@ export async function getPopularSearches() {
     return [];
   }
 }
+
+export async function getCurrentTime() {
+  // 현재 시간 가져오기
+  const now = new Date();
+
+  // 시간과 분을 가져오기
+  let hours = now.getHours();
+  let minutes = now.getMinutes();
+
+  // 시간과 분이 한 자리 수일 경우 앞에 0을 추가
+  let hour = hours < 10 ? "0" + hours : hours;
+  let minute = minutes < 10 ? "0" + minutes : minutes;
+
+  // "HH:MM" 형식으로 반환
+  return `${hour}:${minute}`;
+}

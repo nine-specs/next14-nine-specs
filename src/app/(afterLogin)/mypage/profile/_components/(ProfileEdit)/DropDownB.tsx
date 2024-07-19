@@ -7,10 +7,15 @@ import React, {
   KeyboardEvent,
 } from "react";
 import BodyFont from "@/common/BodyFont";
-import { getMyStocks, getStockList } from "@/hooks/profile/useStocksHandler";
+import {
+  getMyStocks,
+  getStockByKeyword,
+  getStockList,
+} from "@/hooks/profile/useStocksHandler";
 
 type Stock = {
   stockId: string;
+  stockName: string;
 };
 
 type TMyStocks = string;
@@ -20,33 +25,54 @@ export default function DropDownB() {
   const [myStock, setMyStock] = useState<string>("#관심 종목을 추가해주세요");
   const [stockList, setStockList] = useState<Stock[]>([]);
   const [myStockArr, setStockArr] = useState<string[]>([]);
+  const [searchKeyword, setSearchKeyword] = useState<string>("");
   // DB 저장된 내 관심종목 & 주식종목들 불러오기
   useEffect(() => {
     async function fetchData() {
       try {
-        const myStocks = await getMyStocks();
+        const myStocks = await getMyStocks(); // 내 관심종목 가져오기
         console.log("내종목:" + myStock);
-        const stockList = await getStockList();
-        setStockList(stockList);
+        const stockList = await getStockList(); // 주식종목리스트 가져오기
 
+        setStockList(stockList);
+        console.log("가져온주식종목리스트:" + stockList);
         if (myStocks.length > 0) {
-          const formattedStock = myStocks.map((a) => "#" + a).join(" ");
+          const formattedStockArr = myStocks.map((a) => "#" + a.stockName);
+          setStockArr(formattedStockArr);
+          const formattedStock = formattedStockArr.join(" ");
           setMyStock(formattedStock);
         }
       } catch (error) {
         console.error("내관심종목&주식종목 가져오는 중 에러발생:", error);
       }
     }
-
     fetchData();
   }, []);
+
+  // // 사용자가 입력한 값에 따라 주식 종목 가져오기
+  // useEffect(() => {
+  //   if (searchKeyword.length > 0) {
+  //     const fetchStocks = async () => {
+  //       const DataBykeyword = await getStockByKeyword(searchKeyword);
+  //       if (DataBykeyword) {
+  //         setStockList(DataBykeyword);
+  //       }
+  //       setShowDropDown(true);
+  //     };
+  //     fetchStocks();
+  //   } else {
+  //     setShowDropDown(false);
+  //   }
+  // }, [searchKeyword]);
 
   // '#'입력시 드롭다운 이벤트
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     // 사용자 입력한 값 가져오기
     const inputValue = e.target.value;
+    setSearchKeyword(inputValue);
     // value의 마지막 문자열 가져오기(사용자가 방금 입력한 값)
     let lastValueStr = inputValue[inputValue.length - 1];
+
     //input에 입력된값을 myStock에 저장
     setMyStock(inputValue);
     console.log(inputValue);
@@ -66,9 +92,9 @@ export default function DropDownB() {
     console.log("addStockArr : " + myStockArr);
     console.log("stockNameText : " + stockNameText);
 
-    // 선택된 주식종목은 최대 4개까지만 표시
+    // 선택된 주식종목은 최대 6개까지만 표시
     let copyArr: string[] = [];
-    if (myStockArr.length < 4) {
+    if (myStockArr.length < 6) {
       //기존 관심종목배열 복사
       copyArr = [...myStockArr];
       copyArr.push("#" + stockNameText);
@@ -128,10 +154,9 @@ export default function DropDownB() {
               placeholder="#관심 종목을 추가해주세요"
               onChange={onChange}
               onKeyDown={onKeyDown}
+              autoComplete="off"
               id="stockInput"
-              value={
-                myStock !== "#관심 종목을 추가해주세요" ? myStock : undefined
-              }
+              value={myStock !== "#관심 종목을 추가해주세요" ? myStock : ""}
             />
           </div>
         </div>
@@ -151,7 +176,7 @@ export default function DropDownB() {
                     weight="regular"
                     className="text-gray-900"
                   >
-                    <span className="m-0 w-0">{`# ${item.stockId}`}</span>
+                    <span className="m-0 w-0">{`# ${item.stockName} ∙ ${item.stockId}`}</span>
                   </BodyFont>
                 </div>
               </div>
