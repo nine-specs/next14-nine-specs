@@ -4,6 +4,9 @@ import { addMyStocks, deleteMyStocks, getMyStocks, TMyStocks, TStocks } from "@/
 import React, { useEffect, useState } from "react";
 import loadingSpinner from "/public/images/loading/loadingSpiner.gif";
 import Image from "next/image";
+import { BASE_URL } from "@/constants";
+import { getSession } from "@/lib/getSession";
+import { StockInfo } from "@/components/Report/type/report/stockType";
 
 type TSearchResultStock = {
   searchData: TStocks;
@@ -16,13 +19,19 @@ export default function SearchResultStock({ searchData }: TSearchResultStock) {
   useEffect(() => {
     const fetchMyStocks = async () => {
       try {
-        const myStocks = await getMyStocks();
+        const session = await getSession();
+        const myStocks = await (
+          await fetch(`${BASE_URL}/api/my/stocks`, {
+            method: "POST",
+            body: JSON.stringify({ userId: session?.user?.id }),
+          })
+        ).json();
         console.log("내관심종목" + myStocks);
         //검색한 종식이 내 관심종목리스트에 있는지 확인
-        const stockExists = myStocks.some((stock) => {
+        const stockExists = myStocks.some((stock: StockInfo) => {
           console.log(stock);
           console.log(searchData.stockName);
-          return stock.stockName == searchData.stockName;
+          return stock.name == searchData.stockName;
         });
         // 내 관심종목 yes? no?
         setIsMyStock(stockExists);

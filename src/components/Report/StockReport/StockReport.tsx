@@ -3,7 +3,7 @@ import StockReportList from "./StockReportList";
 import HeadingFont from "@/common/HeadingFont";
 import type { StockReport } from "../type/report/stockType";
 import StockPolarChart from "./StockPolarChart";
-import { reportPrompt } from "@/constants/report/reportPrompt";
+import { reportPrompt } from "@/constants/Report/ReportPrompt";
 
 interface Props {
   code: string;
@@ -47,13 +47,7 @@ export const RenderStockReport = ({
     </div>
     <div className="relative">
       <div className="absolute left-0 w-[210px] h-[175px] z-10">
-        <StockPolarChart
-          dataKey="subject"
-          valueKey="score"
-          data={scores}
-          cx="45%"
-          viewAxis={false}
-        />
+        <StockPolarChart dataKey="subject" valueKey="score" data={scores} cx="45%" viewAxis={false} />
       </div>
       <div className="absolute right-0">
         <StockReportList data={scores} />
