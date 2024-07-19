@@ -1,15 +1,7 @@
 "use server";
 import { TUser } from "@/app/api/profile/route";
 import { firestore } from "@/firebase/firebaseConfig";
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs, query, where } from "firebase/firestore";
 import { revalidatePath } from "next/cache";
 
 export type TStocks = {
@@ -42,12 +34,11 @@ export async function getStockList() {
 }
 
 /**내 관심종목 가져오기 */
-export async function getMyStocks() {
+export async function getMyStocks(userId: string) {
   // //session에서 로그인회원정보 가져오기
 
   // //테스트용 uid
-  const uid = "tvJNWYbo9hcAI2Sn0QtC";
-  const userId = uid;
+  const uid = userId;
 
   const myStocks: TMyStocks[] = [];
   try {
@@ -94,11 +85,7 @@ export async function getStockByKeyword(keyword: string) {
   const stockList: TStocks[] = [];
   try {
     const stocksRef = collection(firestore, "stocks");
-    const q = query(
-      stocksRef,
-      where("stockName", ">=", keyword),
-      where("stockName", "<", keyword + "\uf8ff"),
-    );
+    const q = query(stocksRef, where("stockName", ">=", keyword), where("stockName", "<", keyword + "\uf8ff"));
     const querySnapshot = await getDocs(q);
 
     querySnapshot.forEach((doc) => {
@@ -155,10 +142,7 @@ export async function addMyStocks(stockName: string) {
 
   try {
     //  유저의 myStocks 서브콜렉션 참조
-    const userStocksCollectionRef = collection(
-      firestore,
-      `users/${uid}/myStocks`,
-    );
+    const userStocksCollectionRef = collection(firestore, `users/${uid}/myStocks`);
 
     // 관심종목 데이터 추가
     await addDoc(userStocksCollectionRef, {

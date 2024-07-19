@@ -12,6 +12,7 @@ import CheckIdNickInput from "@/common/CheckIdNickInput";
 import { getStockByKeyword } from "@/hooks/profile/useStocksHandler";
 import { useRouter } from "next/navigation";
 import { useNickCheck } from "@/hooks/common/useNickCheck";
+import Image from "next/image";
 
 type TProfileEdit = {
   onClose: () => void;
@@ -25,8 +26,7 @@ export default function ProfileEdit({ onClose, profileData }: TProfileEdit) {
   const [file, setFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
-  const { nick, setNick, styleStatus, descriptionText, handleNickCheck } =
-    useNickCheck();
+  const { nick, setNick, styleStatus, descriptionText, handleNickCheck } = useNickCheck();
   //프로필 아이콘 클릭시 숨겨진 input이 클릭
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     console.log(nickInputTag);
@@ -73,10 +73,7 @@ export default function ProfileEdit({ onClose, profileData }: TProfileEdit) {
   return (
     <>
       <Modal size="S5" onClose={onClose}>
-        <form
-          action={useUpdateProfile}
-          className="w-full h-full py-[80px] px-[102px] "
-        >
+        <form action={useUpdateProfile} className="w-full h-full py-[80px] px-[102px] ">
           <div className="w-auto h-auto flex flex-col justify-center items-center">
             <HeadingFont level="3" weight="bold" className="text-primary-900">
               프로필 수정
@@ -86,13 +83,13 @@ export default function ProfileEdit({ onClose, profileData }: TProfileEdit) {
                 <button onClick={handleClick}>
                   {/* DB에 저장한 이미지파일을 프사로 표시 */}
                   {file ? ( //업로드한 파일있다면 미리보기 표시
-                    <img
+                    <Image
                       src={URL.createObjectURL(file)}
                       alt="Profile Preview"
                       className="w-full h-full object-cover"
                     />
                   ) : profileImgSrc ? (
-                    <img
+                    <Image
                       src={profileImgSrc} //db에 저장된 이미지 표시
                       alt="Profile Preview"
                       className="w-full h-full object-cover"
@@ -129,11 +126,7 @@ export default function ProfileEdit({ onClose, profileData }: TProfileEdit) {
                   styleStatus={styleStatus}
                   descriptionText={descriptionText}
                 />
-                <input
-                  className="hidden"
-                  name="previousNick"
-                  value={profileData.profileData?.nick}
-                />
+                <input className="hidden" name="previousNick" value={profileData.profileData?.nick} />
                 {/* 닉네임 수정 끝*/}
                 {/* 관심종목 */}
                 <DropDownB />

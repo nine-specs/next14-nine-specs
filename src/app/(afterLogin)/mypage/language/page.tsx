@@ -7,7 +7,7 @@ import { TUser } from "@/app/api/profile/route";
 import loadingSpinner from "/public/images/loading/loadingSpiner.gif";
 import Image from "next/image";
 
-export default function language() {
+export default function Language() {
   const [lang, setLang] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
   // 유저 기본 정보 가져오기
@@ -41,13 +41,8 @@ export default function language() {
                 <BodyFont level="2" weight="bold" className="text-primary-900">
                   언어 설정
                 </BodyFont>
-                <BodyFont
-                  level="4"
-                  weight="regular"
-                  className="text-gray-900 mt-2"
-                >
-                  이 설정에서 번역할 언어 선택하시면 뉴스에서 번역된 기사를
-                  확인하실 수 있습니다.
+                <BodyFont level="4" weight="regular" className="text-gray-900 mt-2">
+                  이 설정에서 번역할 언어 선택하시면 뉴스에서 번역된 기사를 확인하실 수 있습니다.
                 </BodyFont>
               </div>
               <div className="flex justify-between">

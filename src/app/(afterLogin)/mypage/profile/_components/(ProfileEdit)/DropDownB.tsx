@@ -1,17 +1,8 @@
 "use client";
-import React, {
-  useEffect,
-  useState,
-  ChangeEvent,
-  MouseEvent,
-  KeyboardEvent,
-} from "react";
+import React, { useEffect, useState, ChangeEvent, MouseEvent, KeyboardEvent } from "react";
 import BodyFont from "@/common/BodyFont";
-import {
-  getMyStocks,
-  getStockByKeyword,
-  getStockList,
-} from "@/hooks/profile/useStocksHandler";
+import { getMyStocks, getStockByKeyword, getStockList } from "@/hooks/profile/useStocksHandler";
+import { getSession } from "@/lib/getSession";
 
 type Stock = {
   stockId: string;
@@ -27,10 +18,17 @@ export default function DropDownB() {
   const [myStockArr, setStockArr] = useState<string[]>([]);
   const [searchKeyword, setSearchKeyword] = useState<string>("");
   // DB 저장된 내 관심종목 & 주식종목들 불러오기
+
   useEffect(() => {
     async function fetchData() {
+      const session = await getSession();
+      if (!session?.user?.id) {
+        throw new Error("User not authenticated");
+      }
+      const userId = session?.user?.id;
+
       try {
-        const myStocks = await getMyStocks(); // 내 관심종목 가져오기
+        const myStocks = await getMyStocks(userId); // 내 관심종목 가져오기
         console.log("내종목:" + myStock);
         const stockList = await getStockList(); // 주식종목리스트 가져오기
 
@@ -47,7 +45,7 @@ export default function DropDownB() {
       }
     }
     fetchData();
-  }, []);
+  }, [myStock]);
 
   // // 사용자가 입력한 값에 따라 주식 종목 가져오기
   // useEffect(() => {
@@ -163,19 +161,9 @@ export default function DropDownB() {
         {showDropDown && (
           <div className="flex flex-col justify-center items-start gap-0 z-10 absolute border border-grayscale-300 rounded-lg w-[386px] h-auto max-h-[244px] overflow-auto bg-grayscale-0 mt-1">
             {stockList.map((item, index) => (
-              <div
-                key={index}
-                className="flex-grow w-full hover:bg-gray-100 box-border py-4 pl-4 pr-[56px]"
-              >
-                <div
-                  className="w-[314px] h-[24px] cursor-pointer"
-                  onClick={selectOption}
-                >
-                  <BodyFont
-                    level="4"
-                    weight="regular"
-                    className="text-gray-900"
-                  >
+              <div key={index} className="flex-grow w-full hover:bg-gray-100 box-border py-4 pl-4 pr-[56px]">
+                <div className="w-[314px] h-[24px] cursor-pointer" onClick={selectOption}>
+                  <BodyFont level="4" weight="regular" className="text-gray-900">
                     <span className="m-0 w-0">{`# ${item.stockName} ∙ ${item.stockId}`}</span>
                   </BodyFont>
                 </div>
