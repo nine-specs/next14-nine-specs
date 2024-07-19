@@ -1,20 +1,12 @@
 "use server";
 import { firestore } from "@/firebase/firebaseConfig";
-import {
-  collection,
-  getDocs,
-  query,
-  where,
-  updateDoc,
-  doc,
-} from "firebase/firestore";
-import { hash } from "bcrypt";
+import { collection, getDocs, query, where, updateDoc, doc } from "firebase/firestore";
+import { hash } from "bcryptjs";
 import { sendEmail } from "@/lib/nodemailer";
 
 // 임시 비밀번호 생성 함수
 function generateTemporaryPassword(length: number): string {
-  const chars =
-    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()";
+  const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()";
   let password = "";
   for (let i = 0; i < length; i++) {
     const randomIndex = Math.floor(Math.random() * chars.length);
@@ -38,8 +30,7 @@ export async function registeredPw(formData: FormData) {
   if (!userId) missingFields.push("아이디를 입력해주세요");
   const emailValid = /\S+@\S+\.\S+/;
   if (!email) missingFields.push("이메일을 입력해주세요");
-  if (!emailValid.test(email))
-    missingFields.push("유효한 이메일 주소를 입력해주세요");
+  if (!emailValid.test(email)) missingFields.push("유효한 이메일 주소를 입력해주세요");
 
   if (missingFields.length > 0) {
     console.log(`${missingFields.join("\n")}`);

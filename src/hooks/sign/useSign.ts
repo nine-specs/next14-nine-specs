@@ -1,6 +1,6 @@
 "use server";
 
-import { hash } from "bcrypt";
+import { hash } from "bcryptjs";
 import { collection, addDoc, getDocs } from "firebase/firestore";
 import { firestore } from "../../firebase/firebaseConfig";
 import language from "@/app/(afterLogin)/mypage/language/page";
@@ -17,16 +17,7 @@ export async function register(formData: FormData, userEmail: string) {
     email: userEmail,
   };
 
-  const {
-    name,
-    userId,
-    email,
-    nick,
-    password,
-    confirmPassword,
-    phone,
-    birthdate,
-  } = userData;
+  const { name, userId, email, nick, password, confirmPassword, phone, birthdate } = userData;
 
   // 입력값 및 유효성 검사
   const missingFields = [];
@@ -61,9 +52,7 @@ export async function register(formData: FormData, userEmail: string) {
     // 아이디 유효성 검사 (6~12자의 영문, 숫자, _의 조합)
     const userIdRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9_]{6,12}$/;
     if (!userIdRegex.test(userId)) {
-      missingFields.push(
-        "아이디는 6~12자의 영문, 숫자, _의 조합이어야 합니다.",
-      );
+      missingFields.push("아이디는 6~12자의 영문, 숫자, _의 조합이어야 합니다.");
       console.log(`${missingFields.join("\n")}`);
       return;
     }

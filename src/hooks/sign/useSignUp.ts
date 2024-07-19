@@ -1,6 +1,6 @@
 "use server";
 import { firestore, storage } from "@/firebase/firebaseConfig";
-import { hash } from "bcrypt";
+import { hash } from "bcryptjs";
 import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { TStocks } from "../profile/useStocksHandler";
@@ -77,12 +77,7 @@ const signUp = async (
       stockList.push(doc.data() as TStocks);
     });
     // 서브콜렉션 참조
-    const myStocksCollectionRef = collection(
-      firestore,
-      "users",
-      userDocRef.id,
-      "myStocks",
-    );
+    const myStocksCollectionRef = collection(firestore, "users", userDocRef.id, "myStocks");
     // 새로운 관심 종목을 서브 콜렉션에 추가
     const addStockPromises = stockList.map(async (stock) => {
       await addDoc(myStocksCollectionRef, {

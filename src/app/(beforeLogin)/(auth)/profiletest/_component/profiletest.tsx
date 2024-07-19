@@ -156,7 +156,8 @@ export default function ProfileTest() {
             <div className="w-[120px] h-[120px] mb-[24px] relative flex justify-center items-center">
               <button onClick={handleClick}>
                 {file ? (
-                  <Image src={URL.createObjectURL(file)} alt="Profile Preview" className="w-full h-full object-cover" />
+                  <Image src={URL.createObjectURL(file)} alt="Profile Preview"  width={640}
+                  height={640}className="w-full h-full object-cover" />
                 ) : (
                   <ProfileSVG />
                 )}

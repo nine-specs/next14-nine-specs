@@ -188,11 +188,52 @@ import NextAuth from "next-auth";
 import KakaoProvider from "next-auth/providers/kakao";
 import GoogleProvider from "next-auth/providers/google";
 import NaverProvider from "next-auth/providers/naver";
+import credentials from "next-auth/providers/credentials";
 import { authConfig } from "./auth.config";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { firestore } from "./firebase/firebaseConfig";
+import { compare } from "bcryptjs";
 
 export const { auth, signIn, signOut, handlers } = NextAuth({
   ...authConfig,
+
   providers: [
+    credentials({
+      name: "Credentials",
+      credentials: {
+        username: { label: "Username", type: "text", placeholder: "아이디" },
+        password: { label: "Password", type: "password", placeholder: "비밀번호" },
+      },
+      async authorize(credentials) {
+        const { username, password } = credentials;
+        console.log("일반로그인 ", username);
+        console.log("일반로그인 ", password);
+
+        // Firebase에서 사용자 정보 가져오기
+        const q = query(collection(firestore, "users"), where("userId", "==", username));
+        const querySnapshot = await getDocs(q);
+
+        if (querySnapshot.empty) {
+          throw new Error("아이디 또는 비밀번호가 잘못되었습니다.");
+        }
+
+        const userDoc = querySnapshot.docs[0];
+        const userData = userDoc.data();
+
+        // 비밀번호 검증 (예: bcrypt를 사용할 경우)
+        const isValidPassword = compare(password as string, userData.passwordHash as string);
+        if (!isValidPassword) {
+          throw new Error("아이디 또는 비밀번호가 잘못되었습니다.");
+        }
+
+        return {
+          id: userDoc.id,
+          name: userData.name,
+          email: userData.email,
+        };
+      },
+    }),
+
     KakaoProvider({
       clientId: process.env.KAKAO_CLIENT_ID as string,
       clientSecret: process.env.KAKAO_CLIENT_SECRET as string,

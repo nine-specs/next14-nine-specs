@@ -3,18 +3,8 @@
 import { TUser } from "@/app/api/profile/route";
 import { firestore } from "@/firebase/firebaseConfig";
 import { getSession } from "@/lib/getSession";
-import { compare, hash } from "bcrypt";
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  orderBy,
-  query,
-  Timestamp,
-  updateDoc,
-  where,
-} from "firebase/firestore";
+import { hash } from "bcryptjs";
+import { collection, doc, getDoc, getDocs, orderBy, query, Timestamp, updateDoc, where } from "firebase/firestore";
 import { GetServerSideProps } from "next";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
