@@ -206,4 +206,5 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
       clientSecret: process.env.NAVER_CLIENT_SECRET as string,
     }),
   ],
+  secret: process.env.AUTH_SECRET,
 });
