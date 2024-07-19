@@ -10,12 +10,13 @@ import LOGO_LIGHT from "../../../public/images/logo/LOGO_Light.svg";
 
 import navList from "./navList";
 import { usePathname } from "next/navigation";
+import { signOut } from "next-auth/react";
 
-export default function Header({
-  isLoggedIn = false,
-}: {
-  isLoggedIn?: boolean;
-}) {
+const handleLogout = async () => {
+  await signOut({ callbackUrl: "/" }); // 로그아웃 후 리디렉션할 URL
+};
+
+export default function Header({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
   // 게스트 랜딩페이지 경로 확인하는 조건문
   const pathname = usePathname();
   const isBeforeLoginMain = pathname === "/";
@@ -50,7 +51,7 @@ export default function Header({
 
         {isLoggedIn && (
           <div className="w-[102px]">
-            <TextButton variant="outline" size="sm">
+            <TextButton variant="outline" size="sm" onClick={handleLogout}>
               로그아웃
             </TextButton>
           </div>
