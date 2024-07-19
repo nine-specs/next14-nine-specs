@@ -63,7 +63,7 @@ export default function Sign() {
     } else {
       router.push("/error");
     }
-  }, [token, router]);
+  }, [token, router, setEmail]);
 
   if (!isTokenValid) {
     return <LoadingPage />;
