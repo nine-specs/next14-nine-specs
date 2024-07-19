@@ -188,7 +188,7 @@ import NextAuth from "next-auth";
 import KakaoProvider from "next-auth/providers/kakao";
 import GoogleProvider from "next-auth/providers/google";
 import NaverProvider from "next-auth/providers/naver";
-import { authConfig } from "./\bauth.config";
+import { authConfig } from "./auth.config";
 
 export const { auth, signIn, signOut, handlers } = NextAuth({
   ...authConfig,
