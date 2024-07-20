@@ -1,4 +1,4 @@
-import { reportPrompt } from "@/constants/Report/ReportPrompt";
+import { reportPrompt } from "@/constants/report/reportPrompt";
 import StockPolarChart from "../StockReport/StockPolarChart";
 import StockReportList from "../StockReport/StockReportList";
 import { StockReportScore } from "../type/report/stockType";
