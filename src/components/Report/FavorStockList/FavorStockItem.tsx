@@ -2,6 +2,7 @@ import { StockInfo } from "../type/report/stockType";
 import dynamic from "next/dynamic";
 import { StockReport } from "./FavorStockReport";
 import FevorStockHeader from "./FevorStockHeader";
+import Link from "next/link";
 const FavorStockReport = dynamic(() => import("./FavorStockReport"), {
   ssr: false,
   loading: () => (
@@ -16,13 +17,15 @@ interface Props {
 }
 export default async function FavorStockItem({ stockInfo, children }: Props) {
   if (!stockInfo) return null;
-  const { code } = stockInfo;
+  const { code, name } = stockInfo;
 
   return (
     <div className="flex flex-col">
       <article className="flex flex-col justify-between w-full h-full gap-4 ">
         {/* 관심 종목 헤더 */}
-        <FevorStockHeader stockInfo={stockInfo} />
+        <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/report/${name}`}>
+          <FevorStockHeader stockInfo={stockInfo} />
+        </Link>
         {/* 차트와 리포트 */}
         <FavorStockReport code={code} />
       </article>
