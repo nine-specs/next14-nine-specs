@@ -10,12 +10,13 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { NextRequest } from "next/server";
 
-// 임시 uid 설정
-const uid = "tvJNWYbo9hcAI2Sn0QtC";
 export async function GetUser() {
-  // 유저데이터 firestoreDB 요청
-  // const fetchUser = async () => {};
-  // 세션 또는 전역에서 회원정보가져오기
+  // 세션 또는 전역에서 회원정보가져오기  
+  const session = await getSession();
+  if (!session?.user?.id) {
+    throw new Error("User not authenticated");
+  }
+  const uid = session?.user?.id;
 
   try {
     //users콜렉션에서  uid 일치하는 document찾기
@@ -41,6 +42,15 @@ export async function DeleteUser() {}
 
 /**유저 비밀번호,폰,생년월일 변경 */
 export async function UpdateUser(formData: FormData) {
+
+  // 유저 uid 가져오기 
+  const session = await getSession();
+  if (!session?.user?.id) {
+    throw new Error("User not authenticated");
+  }
+  const uid = session?.user?.id;
+
+
   const newData: any = {};
 
   if (formData.get("password")) {
@@ -61,3 +71,6 @@ export async function UpdateUser(formData: FormData) {
     console.log("회원정보 수정 중 에러발생: " + error);
   }
 }
+
+
+

@@ -41,7 +41,7 @@ export default function CheckPassword({
         console.log(result.message);
       } else {
         // 비밀번호 틀릴 시 경고창 -> 추후 변경예정
-        alert("GET OUT!!");
+        alert("현재 비밀번호와 일치하지 않습니다.");
       }
     } catch (error) {
       console.error("비밀번호 확인 중 에러발생:", error);
