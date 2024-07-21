@@ -13,34 +13,27 @@ export default function Language() {
   const [lang, setLang] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-
-
-
-
   useEffect(() => {
     const fetchMyStocks = async () => {
       try {
-        // const session = await getSession();
         const result = await (
           await fetch(`${BASE_URL}/api/profile`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            // body: JSON.stringify({ uid: session?.user?.id }),
           })
         ).json();
-        console.log(result.data.language)
+        console.log(result.data.language);
         setLang(result.data.language);
-      }catch(error){
-          console.log("에러발생:"+error)      
-        }
-        finally{
-          setIsLoading(false)
-        }
-      };
-      fetchMyStocks() },
- []);
+      } catch (error) {
+        console.log("에러발생:" + error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchMyStocks();
+  }, []);
 
   return (
     <div className=" w-[1200px] min-h-[720px] flex gap-[27px] mt-[20px] mb-[112px]">

@@ -13,26 +13,17 @@ interface TAccountSetting {
 }
 
 // 모달창 핸들러 역할
-export default function AccountSetting({
-  onClose,
-  profileData,
-}: TAccountSetting) {
+export default function AccountSetting({ onClose, profileData }: TAccountSetting) {
   const [modalHandler, setModalHandler] = useState("CheckPassword");
 
   return (
     <>
-      {modalHandler == "CheckPassword" && (
-        <CheckPassword onClose={onClose} setModalHandler={setModalHandler} />
-      )}
+      {modalHandler == "CheckPassword" && <CheckPassword onClose={onClose} setModalHandler={setModalHandler} />}
       {modalHandler == "UpdateUserInfo" && (
-        <UpdateUserInfo
-          onClose={onClose}
-          setModalHandler={setModalHandler}
-          profileData={profileData}
-        />
+        <UpdateUserInfo onClose={onClose} setModalHandler={setModalHandler} profileData={profileData} />
       )}
       {modalHandler == "DeleteAccount" && (
-        <DeleteAccount onClose={onClose} setModalHandler={setModalHandler} />
+        <DeleteAccount onClose={onClose} setModalHandler={setModalHandler} profileData={profileData} />
       )}
     </>
   );
