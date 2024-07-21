@@ -6,23 +6,41 @@ import { useEffect, useState } from "react";
 import { TUser } from "@/app/api/profile/route";
 import loadingSpinner from "/public/images/loading/loadingSpiner.gif";
 import Image from "next/image";
+import { getSession } from "@/lib/getSession";
+import { BASE_URL } from "@/constants";
 
 export default function Language() {
   const [lang, setLang] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  // 유저 기본 정보 가져오기
+
+
+
+
+
   useEffect(() => {
-    fetch("/api/profile")
-      .then((r) => r.json())
-      .then((result) => {
+    const fetchMyStocks = async () => {
+      try {
+        // const session = await getSession();
+        const result = await (
+          await fetch(`${BASE_URL}/api/profile`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            // body: JSON.stringify({ uid: session?.user?.id }),
+          })
+        ).json();
+        console.log(result.data.language)
         setLang(result.data.language);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error("에러발생:", error);
-        setIsLoading(false);
-      });
-  }, []);
+      }catch(error){
+          console.log("에러발생:"+error)      
+        }
+        finally{
+          setIsLoading(false)
+        }
+      };
+      fetchMyStocks() },
+ []);
 
   return (
     <div className=" w-[1200px] min-h-[720px] flex gap-[27px] mt-[20px] mb-[112px]">

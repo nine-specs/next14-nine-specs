@@ -9,18 +9,6 @@ export default async function page() {
     throw new Error("User not authenticated");
   }
   const userId = session?.user?.id;
-
-  // const session = await getSession();
-
-  // const user: TUser = await (
-  //   await fetch("/api/profile", {
-  //     method: "POST",
-  //     body: JSON.stringify({ userId: session?.user?.id }),
-  //   })
-  // ).json();
-
-  // const userData = await GetUser();
-
   return (
     <>
       <ProfilePage userId={userId} />
