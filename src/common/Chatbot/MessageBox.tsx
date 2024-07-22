@@ -1,6 +1,6 @@
 import BodyFont from "../BodyFont";
-import { MessagesType } from "./_hooks/useChat";
 import LOGO_ICON from "../../../public/images/logo/LOGO.svg";
+import { MessagesType } from "@/store/chatStore";
 
 export default function MessageBox(props: MessagesType) {
   const { role, content } = props;
@@ -9,11 +9,7 @@ export default function MessageBox(props: MessagesType) {
   if (role === "user")
     return (
       <div className="flex justify-end">
-        <BodyFont
-          level="5"
-          weight="regular"
-          className="p-2 bg-grayscale-100 rounded-md max-w-80"
-        >
+        <BodyFont level="5" weight="regular" className="p-2 bg-grayscale-100 rounded-md max-w-80">
           {content}
         </BodyFont>
       </div>
