@@ -57,6 +57,13 @@ const badStocks: StockInfo[] = [
     code: "KODK.O",
   },
 ];
-
+const defaltStocks: StockInfo[] = [
+  { ticker: "AAPL", name: "애플", code: "AAPL.O" },
+  { ticker: "TSLA", name: "테슬라", code: "TSLA.O" },
+  { ticker: "AMZN", name: "아마존", code: "AMZN.O" },
+  { ticker: "MSFT", name: "MS", code: "MSFT.O" },
+  { ticker: "GOOGL", name: "구글", code: "GOOGL.O" },
+  { ticker: "U", name: "유니티", code: "U" },
+];
 // 전체 목데이터 리스트
-export const mockStockDataList: StockInfo[] = [...goodStocks, ...badStocks];
+export const mockStockDataList: StockInfo[] = [...goodStocks, ...badStocks, ...defaltStocks];
