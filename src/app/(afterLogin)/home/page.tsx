@@ -20,12 +20,12 @@ export default async function Home() {
 
   return (
     <main className="w-[1200px] mx-auto my-[56px] flex flex-col gap-12">
-      <AiReport stocks={userStocks} />
+      <AiReport name={session?.user?.name || "스팩"} stocks={userStocks} />
       <div className="flex gap-5">
         <StockList stocks={[]} title="최근 조회" />
         <StockList stocks={userStocks} title="관심 종목" />
       </div>
-      <StockNews />
+      <StockNews name={session?.user?.name || "스팩"} />
     </main>
   );
 }
