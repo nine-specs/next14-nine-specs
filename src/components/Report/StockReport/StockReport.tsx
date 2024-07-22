@@ -3,7 +3,7 @@ import StockReportList from "./StockReportList";
 import HeadingFont from "@/common/HeadingFont";
 import type { StockReport } from "../type/report/stockType";
 import StockPolarChart from "./StockPolarChart";
-import { reportPrompt } from "@/constants/report/reportPrompt";
+import { reportPrompt } from "@/constants/Report/ReportPrompt";
 
 export const RenderStockReport = ({
   overallScore = 0,
