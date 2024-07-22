@@ -1,7 +1,6 @@
 "use client";
 import TextButton from "@/common/TextButton";
-import React, { use, useEffect, useState } from "react";
-import { setTimeout } from "timers";
+import { useCallback, useEffect, useState } from "react";
 import { StockInfo } from "../type/report/stockType";
 
 interface Props {
@@ -39,19 +38,22 @@ export default function StockFavorButton({ stockInfo }: Props) {
   const [loading, setLoading] = useState(false);
   const uid = "test"; // 임시로 test로 설정
 
-  const chageState = async (stocks: any) => {
-    if (name in stocks) {
-      setFavor(false);
-    } else {
-      setFavor(true);
-    }
-  };
+  const currentFavor = useCallback(
+    (stocks: any) => {
+      if (name in stocks) {
+        setFavor(false);
+      } else {
+        setFavor(true);
+      }
+    },
+    [name],
+  );
   useEffect(() => {
     const fetchAndSetData = async () => {
       setLoading(true);
       try {
         const data = await getData(uid);
-        chageState(data);
+        currentFavor(data);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -59,11 +61,11 @@ export default function StockFavorButton({ stockInfo }: Props) {
       }
     };
     fetchAndSetData();
-  }, [uid, name]);
+  }, [uid, name, currentFavor]); // `chageState` 추가
 
   const handleFavor = async () => {
     const data = await updateData(uid, stockInfo);
-    chageState(data);
+    currentFavor(data);
   };
   return (
     <div className="w-[180px]">
