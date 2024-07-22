@@ -12,13 +12,7 @@ interface Props {
   exchangeRate: string;
 }
 
-export default function StockExchage({
-  price,
-  ticker,
-  fluctuation,
-  changeRate,
-  exchangeRate,
-}: Props) {
+export default function StockExchage({ price, ticker, fluctuation, changeRate, exchangeRate }: Props) {
   const [exchange, setExchange] = useState(true);
 
   const handleExchange = () => {
@@ -28,9 +22,7 @@ export default function StockExchage({
   const numericPrice = (price: string) => Number(price.replace(/,/g, ""));
 
   // 환율 적용 원회 가격
-  const convertedPrice = (
-    numericPrice(price) * numericPrice(exchangeRate)
-  ).toLocaleString("ko-KR", {
+  const convertedPrice = (numericPrice(price) * numericPrice(exchangeRate)).toLocaleString("ko-KR", {
     maximumFractionDigits: 0,
   });
 
@@ -53,9 +45,7 @@ export default function StockExchage({
         <div className="bg-grayscale-200 flex w-[76px] h-[40px] justify-around items-center rounded">
           <button
             onClick={handleExchange}
-            className={`w-[32px] h-[32px] rounded ${
-              exchange ? "bg-white" : "text-grayscale-400"
-            } p-auto text-center`}
+            className={`w-[32px] h-[32px] rounded ${exchange ? "bg-white" : "text-grayscale-400"} p-auto text-center`}
           >
             <BodyFont level="2" weight="bold">
               $
@@ -63,9 +53,7 @@ export default function StockExchage({
           </button>
           <button
             onClick={handleExchange}
-            className={`w-[32px] h-[32px] rounded ${
-              !exchange ? "bg-white" : "text-grayscale-400"
-            } p-auto text-center`}
+            className={`w-[32px] h-[32px] rounded ${!exchange ? "bg-white" : "text-grayscale-400"} p-auto text-center`}
           >
             <BodyFont level="2" weight="medium">
               원
@@ -74,11 +62,7 @@ export default function StockExchage({
         </div>
       </div>
       {/* 등락 */}
-      <StockSubRate
-        className="gap-2"
-        fluctuation={fluctuation}
-        changeRate={changeRate}
-      />
+      <StockSubRate className="gap-2" fluctuation={fluctuation} changeRate={changeRate} />
     </article>
   );
 }

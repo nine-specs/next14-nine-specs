@@ -17,8 +17,7 @@ export default async function StockAnalysis({ stockInfo }: Props) {
   if (!stockInfo) return null;
   const { ticker, name, code } = stockInfo;
   const stockInfomation = await getStockDetails(code);
-  const { closePrice, fluctuationsRatio, compareToPreviousClosePrice } =
-    stockInfomation;
+  const { closePrice, fluctuationsRatio, compareToPreviousClosePrice } = stockInfomation;
 
   return (
     <section className="flex flex-col gap-8">
