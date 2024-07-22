@@ -8,8 +8,7 @@ import MessageBox from "./MessageBox";
 import { useEffect, useRef } from "react";
 
 export default function ChatForm({ onClose }: { onClose: () => void }) {
-  const { messages, handleSubmit, input, handleInputChange, processing } =
-    useChat();
+  const { messages, handleSubmit, input, handleInputChange, processing } = useChat();
   const messagesBoxRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -33,14 +32,11 @@ export default function ChatForm({ onClose }: { onClose: () => void }) {
           </button>
         </header>
 
-        <section
-          ref={messagesBoxRef}
-          className="flex flex-col gap-6 py-8 px-4 h-[488px] overflow-scroll no-scrollbar"
-        >
+        <section ref={messagesBoxRef} className="flex flex-col gap-6 py-8 px-4 h-[488px] overflow-scroll no-scrollbar">
           {messages.map((message) => (
             <MessageBox key={message.id} {...message} />
           ))}
-          {processing && (
+          {/* {processing && (
             <div className="flex gap-2 items-start">
               <div className="p-2 bg-background rounded-md max-w-80">
                 <div className="flex gap-1">
@@ -50,7 +46,7 @@ export default function ChatForm({ onClose }: { onClose: () => void }) {
                 </div>
               </div>
             </div>
-          )}
+          )} */}
         </section>
 
         <form
@@ -63,12 +59,7 @@ export default function ChatForm({ onClose }: { onClose: () => void }) {
             onChange={handleInputChange}
           />
           <div className="w-[63px]">
-            <TextButton
-              type="submit"
-              variant="primary"
-              size="md"
-              disabled={!input || processing}
-            >
+            <TextButton type="submit" variant="primary" size="md" disabled={!input || processing}>
               전송
             </TextButton>
           </div>
