@@ -1,6 +1,7 @@
 "use server";
 import { TUser } from "@/app/api/profile/route";
 import { firestore } from "@/firebase/firebaseConfig";
+import { getSession } from "@/lib/getSession";
 import { addDoc, collection, deleteDoc, doc, getDocs, query, where } from "firebase/firestore";
 import { revalidatePath } from "next/cache";
 
@@ -34,11 +35,15 @@ export async function getStockList() {
 }
 
 /**내 관심종목 가져오기 */
-export async function getMyStocks(userId: string) {
-  // //session에서 로그인회원정보 가져오기
+export async function getMyStocks() {
+  const session = await getSession();
+  if (!session?.user?.id) {
+    throw new Error("User not authenticated");
+  }
+  const userId = session?.user?.id;
 
-  // //테스트용 uid
-  const uid = userId;
+  // // //테스트용 uid
+  // const uid = userId;
 
   const myStocks: TMyStocks[] = [];
   try {
