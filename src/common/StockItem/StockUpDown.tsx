@@ -1,9 +1,11 @@
 import BodyFont from "@/common/BodyFont";
 
 export default function StockUpDown({
+  size,
   fluctuation,
   changeRate,
 }: {
+  size: "4" | "5";
   fluctuation: string;
   changeRate: string;
 }) {
@@ -13,11 +15,9 @@ export default function StockUpDown({
   return (
     <>
       <BodyFont
-        level="4"
+        level={size}
         weight="regular"
-        className={`flex gap-2 ${
-          noChange ? "" : isUp ? "text-warning" : "text-secondary-600"
-        }`}
+        className={`flex gap-2 ${noChange ? "" : isUp ? "text-warning" : "text-secondary-600"}`}
       >
         <span>
           {noChange ? "" : isUp ? "▲" : "▼"}
