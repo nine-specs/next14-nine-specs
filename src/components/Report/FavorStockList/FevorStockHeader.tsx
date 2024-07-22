@@ -2,7 +2,6 @@ import React from "react";
 import StockLogoImage from "../ReportCommon/StockLogoImage";
 import BodyFont from "@/common/BodyFont";
 import { StockInfo } from "../type/report/stockType";
-import { getStockDetails } from "@/service/report/stockDetailsApi";
 import StockSubRate from "../ReportCommon/StockSubRate";
 
 interface Props {

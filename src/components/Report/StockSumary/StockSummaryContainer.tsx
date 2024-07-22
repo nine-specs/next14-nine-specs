@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import StockSummary from "./StockSummary";
-import StockSuspenseLoading from "../ReportCommon/SuspenseLoading";
 import { StockInfo } from "../type/report/stockType";
+import StockSummarySkeleton from "./StockSummarySkeleton";
 
 interface Props {
   stockInfo: StockInfo | undefined;
@@ -9,7 +9,7 @@ interface Props {
 
 export default function StockSumaryContainer({ stockInfo }: Props) {
   return (
-    <Suspense fallback={<StockSuspenseLoading />}>
+    <Suspense fallback={<StockSummarySkeleton />}>
       <StockSummary stockInfo={stockInfo} />
     </Suspense>
   );
