@@ -86,7 +86,7 @@ export async function getMyStocksData(myStocks: string[]): Promise<TStocks[]> {
 }
 
 /**입력된 키워드를 통해 주식종목가져오기 */
-export async function getStockByKeyword(keyword: string) {
+export async function getStockByKeyword(keyword: string): Promise<TStocks[]> {
   const stockList: TStocks[] = [];
   try {
     const stocksRef = collection(firestore, "stocks");
@@ -99,6 +99,7 @@ export async function getStockByKeyword(keyword: string) {
     return stockList;
   } catch (error) {
     console.log("키워드조회 에러발생:" + error);
+    return []; // 에러 발생 시 빈 배열 반환
   }
 }
 

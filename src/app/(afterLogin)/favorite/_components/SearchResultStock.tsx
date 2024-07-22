@@ -29,21 +29,8 @@ export default function SearchResultStock({ searchData }: TSearchResultStock) {
   useEffect(() => {
     const fetchMyStocks = async () => {
       try {
-        // const session = await getSession();
-        // const myStocks = await (
-        //   await fetch(`${BASE_URL}/api/my/stocks`, {
-        //     method: "POST",
-        //     body: JSON.stringify({ userId: session?.user?.id }),
-        //   })
-        // ).json();
         const myStocks = await getMyStocks();
         console.log("내관심종목" + myStocks);
-        //검색한 종식이 내 관심종목리스트에 있는지 확인
-        // const stockExists = myStocks.some((stock: StockInfo) => {
-        //   console.log(stock);
-        //   console.log(searchData.stockName);
-        //   return stock.name == searchData.stockName;
-        // });
 
         const stockExists = myStocks.some((stock: TMyStocks, index: number, array: TMyStocks[]) => {
           console.log(stock);

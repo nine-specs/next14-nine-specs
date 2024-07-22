@@ -6,26 +6,40 @@ import NotFoundIcon from "/public/images/Not_found_icon.svg";
 import { useParams } from "next/navigation";
 import SearchInput from "../_components/SearchInput";
 import Image from "next/image";
+import { getStockByKeyword, TStocks } from "@/hooks/profile/useStocksHandler";
+import { TstockInfoList } from "../../favorite/_components/FavoriteStockLists";
+import StockItem from "@/common/StockItem/StockItem";
+import Link from "next/link";
 
 type TProps = {
   params: {
     searchedId: string;
   };
 };
-
-export default function Page({ params }: TProps) {
+type TsearchStockList =
+  | {
+      word: string;
+    }[]
+  | null;
+export default async function Page({ params }: TProps) {
   const { searchedId } = params;
   const decodedKeyword = decodeURIComponent(searchedId);
-  type TsearchStockList =
-    | {
-        word: string;
-      }[]
-    | null;
-  // 데이터 초기값 설정
-  let data: TsearchStockList = [{ word: "" }, { word: "검색결과2" }, { word: "검색결과3" }];
-  let searchStockList = data;
+  const fetchStocks = async () => {
+    return await getStockByKeyword(decodedKeyword);
+  };
+  const stockdata: TStocks[] = await fetchStocks();
 
   // 데이터 초기값 설정
+  // let data: TsearchStockList = [{ word: "" }, { word: "검색결과2" }, { word: "검색결과3" }];
+  // let searchStockList = data;
+
+  let stockInfoList: TstockInfoList = [];
+  // 타입 변환
+  stockInfoList.push({
+    ticker: stockdata[0].stockCode,
+    name: stockdata[0].stockName,
+    code: stockdata[0].stockCode,
+  });
 
   return (
     <>
@@ -38,26 +52,29 @@ export default function Page({ params }: TProps) {
               주식
             </BodyFont>
             <ButtonFont weight="medium" className="border-none text-[#575757] underline !text-[14px] !leading-[20px]">
-              (12)
+              ({stockInfoList.length})
             </ButtonFont>
           </div>
           <div className="w-full h-auto rounded-lg bg-grayscale-0 p-6 flex flex-col gap-[10px]">
-            {searchStockList ? (
+            {stockInfoList ? (
               <div>
                 <div className="w-[542px] h-[208px]">
                   {/* 여기 데이터 */}
 
-                  {searchStockList.map((a, index) => (
-                    <div key={index}>{a.word} </div>
+                  {stockInfoList.map((a, index) => (
+                    <div key={index} className="w-[264px]">
+                      <Link href={`/report/${decodedKeyword}`} className="w-full">
+                        <StockItem {...a} size="md" />
+                      </Link>
+                    </div>
                   ))}
                 </div>
-                전달받은 params: {decodedKeyword}
-                <div className="mt-2 w-[542px] h-[40px] border-t border-gray-300 pt-4 px-[10px] text-center">
+                <div className="mt-2 w-[542px] h-[40px] border-t border-gray-300 pt-4 px-[10px] text-center cursor-pointer">
                   더보기
                 </div>
               </div>
             ) : (
-              <div className="w-[542px] h-[208px] border flex flex-col items-center justify-center gap-[13px]">
+              <div className="w-[542px] h-[208px] border flex flex-col items-center justify-center gap-[13px] ">
                 <NotFoundIcon />
                 <BodyFont level="2" weight="regular" className="text-primary-900">
                   조회된 검색결과가 없습니다.
@@ -102,7 +119,9 @@ export default function Page({ params }: TProps) {
                 </div>
                 {/* 데이터 끝 */}
               </div>
-              <div className="mt-2 w-[542px] h-[40px] border-t border-gray-300 pt-4 px-[10px] text-center">더보기</div>
+              <div className="mt-2 w-[542px] h-[40px] border-t border-gray-300 pt-4 px-[10px] text-center  cursor-pointer">
+                더보기
+              </div>
             </div>
           </div>
         </div>
