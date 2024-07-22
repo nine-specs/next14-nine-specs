@@ -50,7 +50,7 @@ const examplePrompt = `
 
 const finalPrompt = `${scoringCriteria}${examplePrompt}`;
 
-export const reportPrompt = async (code: string) => {
+export const reportGptPrompt = async (code: string) => {
   const sixMonthsPrice = await getStockPrice(code, "month", "NASDAQ");
   const sixMonthsPriceString = sixMonthsPrice
     .map(
@@ -71,6 +71,7 @@ ${finalPrompt}
 
   return { system, message };
 };
+
 // llama3 요청 문자열
 //   return `<|begin_of_text|>
 // <|begin_of_text|><|start_header_id|>system<|end_header_id|>

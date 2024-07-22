@@ -1,7 +1,7 @@
-import { reportPrompt } from "@/constants/report/reportPrompt";
+import { reportGptPrompt } from "@/constants/report/reportGptPrompt";
 
 export const fetchReportGptReply = async (code: string) => {
-  const { system, message } = await reportPrompt(code);
+  const { system, message } = await reportGptPrompt(code);
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/report/gptReplyStore`, {
     method: "POST",
