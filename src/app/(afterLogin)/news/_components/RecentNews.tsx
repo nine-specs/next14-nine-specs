@@ -6,14 +6,14 @@ import { BASE_URL } from "@/constants";
 import { NewsResponse } from "@/types/news";
 
 export default async function RecentNews() {
-  // const news = await (await fetch(`${BASE_URL}/api/news?category=recentNews&limit=4`)).json();
+  const news = await (await fetch(`${BASE_URL}/api/news?category=recentNews&limit=4`)).json();
 
   return (
     <>
       <section className="w-full mb-12">
         <Title title="최신 뉴스" />
         <ListWrap width="100%" height="148">
-          {/* <ul className="flex flex-col gap-8">
+          <ul className="flex flex-col gap-8">
             {news.map((item: NewsResponse) => (
               <li
                 key={item.newsId}
@@ -22,7 +22,7 @@ export default async function RecentNews() {
                 <RecentNewsItem {...item} />
               </li>
             ))}
-          </ul> */}
+          </ul>
         </ListWrap>
       </section>
     </>
