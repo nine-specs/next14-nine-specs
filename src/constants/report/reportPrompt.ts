@@ -71,7 +71,7 @@ ${finalPrompt}
 
   return { system, message };
 };
-
+// llama3 요청 문자열
 //   return `<|begin_of_text|>
 // <|begin_of_text|><|start_header_id|>system<|end_header_id|>
 // ${finalPrompt}<|eot_id|>
