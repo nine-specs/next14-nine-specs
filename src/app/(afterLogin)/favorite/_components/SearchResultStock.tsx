@@ -55,7 +55,7 @@ export default function SearchResultStock({ searchData }: TSearchResultStock) {
   const handleAddStock = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch("/api/favorite", {
+      const response = await fetch(`${BASE_URL}/api/favorite`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -80,7 +80,7 @@ export default function SearchResultStock({ searchData }: TSearchResultStock) {
   const handleDeleteStock = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch("/api/favorite", {
+      const response = await fetch(`${BASE_URL}/api/favorite`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

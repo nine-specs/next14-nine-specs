@@ -10,6 +10,7 @@ import { TUser } from "@/app/api/profile/route";
 import loadingSpinner from "/public/images/loading/loadingSpiner.gif";
 import Image from "next/image";
 import AccountInfoBox from "./_components/AccountInfoBox";
+import { BASE_URL } from "@/constants";
 
 type TprofilePage = {
   userId: string;
@@ -23,7 +24,7 @@ export default function ProfilePage({ userId }: TprofilePage) {
 
   // 유저 기본 정보 가져오기
   useEffect(() => {
-    fetch("/api/profile", {
+    fetch(`${BASE_URL}/api/profile`, {
       method: "POST",
       body: JSON.stringify({ uid: userId }),
     })

@@ -9,6 +9,7 @@ import Input from "@/common/Input";
 import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { TUser } from "@/app/api/profile/route";
+import { BASE_URL } from "@/constants";
 interface TDeleteAccount {
   onClose: () => void;
   setModalHandler: Dispatch<SetStateAction<string>>;
@@ -33,7 +34,7 @@ export default function DeleteAccount({ onClose, setModalHandler, profileData }:
   const checkPwd = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (reason == "탈퇴 사유를 선택해주세요") return alert("탈퇴 사유를 선택해주세요");
     try {
-      const response = await fetch("/api/profile/checkpwd", {
+      const response = await fetch(`${BASE_URL}/api/profile/checkpwd`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -2,6 +2,7 @@ import HeadingFont from "@/common/HeadingFont";
 import Input from "@/common/Input";
 import { Modal } from "@/common/Modal";
 import TextButton from "@/common/TextButton";
+import { BASE_URL } from "@/constants";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 interface TCheckPassword {
@@ -9,10 +10,7 @@ interface TCheckPassword {
   setModalHandler: Dispatch<SetStateAction<string>>;
 }
 
-export default function CheckPassword({
-  onClose,
-  setModalHandler,
-}: TCheckPassword) {
+export default function CheckPassword({ onClose, setModalHandler }: TCheckPassword) {
   // 비밀번호 스테이트 저장 -> 추후 변경
   const [password, setPassword] = useState("");
   const [activeBtn, setActiveBtn] = useState(false);
@@ -26,7 +24,7 @@ export default function CheckPassword({
   // 비밀번호 검증
   const checkPwd = async (e: React.MouseEvent<HTMLButtonElement>) => {
     try {
-      const response = await fetch("/api/profile/checkpwd", {
+      const response = await fetch(`${BASE_URL}/api/profile/checkpwd`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

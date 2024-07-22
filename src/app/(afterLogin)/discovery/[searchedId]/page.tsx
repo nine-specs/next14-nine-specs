@@ -29,10 +29,6 @@ export default async function Page({ params }: TProps) {
   };
   const stockdata: TStocks[] = await fetchStocks();
 
-  // 데이터 초기값 설정
-  // let data: TsearchStockList = [{ word: "" }, { word: "검색결과2" }, { word: "검색결과3" }];
-  // let searchStockList = data;
-
   let stockInfoList: TstockInfoList = [];
   // 타입 변환
   stockInfoList.push({
