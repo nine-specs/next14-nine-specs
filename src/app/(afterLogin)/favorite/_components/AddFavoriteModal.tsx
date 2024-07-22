@@ -10,12 +10,15 @@ import { getStockByKeyword, getStockList, TStocks } from "@/hooks/profile/useSto
 import TextButton from "@/common/TextButton";
 import SearchResultStock from "./SearchResultStock";
 import { AddSearchCount } from "@/hooks/discovery/useSearchAction";
+import { TstockInfoList } from "./FavoriteStockLists";
+import StockItem from "@/common/StockItem/StockItem";
 
 type TAddFavoriteModal = {
   onClose: () => void;
   popularSearchData: {
-    id: string;
     stockName: string;
+    stockId: string;
+    stockCode: string;
   }[];
 };
 
@@ -26,21 +29,17 @@ export default function AddFavoriteModal({ onClose, popularSearchData }: TAddFav
   const [searchData, setSearchData] = useState<TStocks | null>(null);
   const [isMyStock, setIsMyStock] = useState<boolean>(false);
 
-  const popularSearchList =
-    popularSearchData.length != 0
-      ? popularSearchData
-      : [
-          { stockName: "테슬라" },
-          { stockName: "애플" },
-          { stockName: "테슬라" },
-          { stockName: "테슬라" },
-          { stockName: "테슬라" },
-          { stockName: "테슬라" },
-          { stockName: "코카콜라" },
-          { stockName: "테슬라" },
-          { stockName: "테슬라" },
-          { stockName: "테슬라" },
-        ];
+  const popularSearchList = popularSearchData;
+
+  let stockInfoList: TstockInfoList = [];
+
+  popularSearchList.forEach((a, i) => {
+    stockInfoList.push({
+      ticker: a.stockId,
+      name: a.stockName,
+      code: a.stockCode,
+    });
+  });
 
   // 검색창 submit 핸들러
   const handleSubmit = async (e?: React.FormEvent<HTMLFormElement>) => {
@@ -140,36 +139,36 @@ export default function AddFavoriteModal({ onClose, popularSearchData }: TAddFav
                   </div>
                   <div className="w-full h-full  flex justify-between gap-6 border border-primary-100  rounded-2xl p-6">
                     <div className="w-[321px] h-full">
-                      {popularSearchList.map((a, i) => {
+                      {stockInfoList.map((a, i) => {
                         if (i < 5) {
                           return (
-                            <div key={i} className="w-[321px] h-[48px] py-2 flex justify-start gap-4 border">
+                            <div key={i} className="w-[321px] h-[48px] py-2 flex justify-start gap-4  items-center">
                               <div className="w-[18px]">
                                 <BodyFont level="4" weight="regular" className="text-primary-900">
                                   {i + 1}
                                 </BodyFont>
                               </div>
-                              <BodyFont level="4" weight="regular" className="text-grayscale-600">
-                                {a.stockName}
-                              </BodyFont>
+                              <div className="w-[340px] ">
+                                <StockItem {...a} size="sm" />
+                              </div>
                             </div>
                           );
                         }
                       })}
                     </div>
-                    <div className="w-[321px] h-full border ">
-                      {popularSearchList.map((a, i) => {
+                    <div className="w-[321px] h-full  ">
+                      {stockInfoList.map((a, i) => {
                         if (i >= 5) {
                           return (
-                            <div key={i} className="w-[321px] h-[48px] py-2 flex justify-start gap-4 border">
+                            <div key={i} className="w-[321px] h-[48px] py-2 flex justify-start gap-4 items-center ">
                               <div className="w-[18px]">
                                 <BodyFont level="4" weight="regular" className="text-primary-900">
                                   {i + 1}
                                 </BodyFont>{" "}
                               </div>
-                              <BodyFont level="4" weight="regular" className="text-grayscale-600">
-                                {a.stockName}
-                              </BodyFont>
+                              <div className="w-[340px] ">
+                                <StockItem {...a} size="sm" />
+                              </div>
                             </div>
                           );
                         }

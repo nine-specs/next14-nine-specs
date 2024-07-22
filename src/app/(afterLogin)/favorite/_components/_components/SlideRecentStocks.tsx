@@ -139,7 +139,7 @@ export default function SlideRecentStocks() {
                     key={i}
                     className="border border-primary-100  rounded-2xl min-w-[255px] min-h-[96px] flex-shrink-0 py-6 px-4"
                   >
-                    <StockItem {...a} size="md" />
+                    {/* <StockItem {...a} size="md" /> */}
                   </div>
                 );
               })}

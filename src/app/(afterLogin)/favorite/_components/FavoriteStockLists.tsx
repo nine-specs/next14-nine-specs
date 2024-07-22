@@ -12,8 +12,9 @@ type TFavoriteStockList = {
   // 내관심종목 데이터 타입
   data: TMyStocks[];
   popularSearchData: {
-    id: string;
     stockName: string;
+    stockId: string;
+    stockCode: string;
   }[];
   userId: string;
 };
@@ -23,7 +24,7 @@ const stockInfo = {
   code: "AAPL.O",
 };
 
-type TstockInfoList = {
+export type TstockInfoList = {
   ticker: string;
   name: string;
   code: string;

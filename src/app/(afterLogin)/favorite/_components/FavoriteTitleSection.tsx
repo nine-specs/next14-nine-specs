@@ -6,8 +6,9 @@ import AddFavoriteModal from "./AddFavoriteModal";
 
 type TFavoriteTitleSection = {
   popularSearchData: {
-    id: string;
     stockName: string;
+    stockId: string;
+    stockCode: string;
   }[];
 };
 
