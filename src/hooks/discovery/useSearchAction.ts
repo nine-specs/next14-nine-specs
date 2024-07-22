@@ -3,7 +3,12 @@ import { firestore } from "@/firebase/firebaseConfig";
 import { collection, doc, getDoc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-
+import { TStocks } from "../profile/useStocksHandler";
+type TstockInfoList = {
+  ticker: string;
+  name: string;
+  code: string;
+}[];
 export async function searchAction(formData: FormData) {
   const keyword = formData.get("keyword") as string;
   console.log("서버액션실행-전달받은 데이터:" + keyword);
@@ -38,6 +43,34 @@ export async function AddSearchCount(keyword: string) {
         searchCount: newSearchCount,
       });
     });
+  } catch (error) {
+    console.log("에러 발생:", error);
+  }
+}
+
+/**주식명과 일치하는 모든 주식데이터가져오기 */
+export async function stockListByStockName(stockNameList: string[]) {
+  try {
+    const stocksRef = collection(firestore, "stocks");
+    const q = query(stocksRef, where("stockName", "in", stockNameList));
+    const querySnapshot = await getDocs(q);
+
+    // 데이터를 담을 배열
+    const stocksData: TStocks[] = [];
+
+    // 각 문서 데이터를 배열에 추가
+    querySnapshot.forEach((doc) => {
+      stocksData.push(doc.data() as TStocks);
+    });
+
+    const stockInfo: TstockInfoList = stocksData.map((item) => ({
+      ticker: item.stockCode,
+      name: item.stockName,
+      code: item.stockCode,
+    }));
+
+    console.log("stockInfo Data:", stockInfo);
+    return stockInfo; // 데이터를 반환하도록 수정
   } catch (error) {
     console.log("에러 발생:", error);
   }

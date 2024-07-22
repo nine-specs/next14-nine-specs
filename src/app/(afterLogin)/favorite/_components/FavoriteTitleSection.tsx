@@ -11,9 +11,7 @@ type TFavoriteTitleSection = {
   }[];
 };
 
-export default function FavoriteTitleSection({
-  popularSearchData,
-}: TFavoriteTitleSection) {
+export default function FavoriteTitleSection({ popularSearchData }: TFavoriteTitleSection) {
   const [isAddFavoriteModalOpened, setAddFavoriteModalOpened] = useState(false); // 모달 열고닫기
   return (
     <>
@@ -35,10 +33,7 @@ export default function FavoriteTitleSection({
         </div>
       </div>
       {isAddFavoriteModalOpened && (
-        <AddFavoriteModal
-          onClose={() => setAddFavoriteModalOpened(false)}
-          popularSearchData={popularSearchData}
-        />
+        <AddFavoriteModal onClose={() => setAddFavoriteModalOpened(false)} popularSearchData={popularSearchData} />
       )}
     </>
   );

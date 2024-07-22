@@ -1,9 +1,17 @@
 import BodyFont from "@/common/BodyFont";
 import ButtonFont from "@/common/ButtonFont";
+import StockItem from "@/common/StockItem/StockItem";
+import { StockInfo } from "@/components/Report/type/report/stockType";
+import { BASE_URL } from "@/constants";
+import { stockListByStockName } from "@/hooks/discovery/useSearchAction";
+import { TStocks } from "@/hooks/profile/useStocksHandler";
 import React, { useEffect, useRef, useState } from "react";
-
+type TstockInfoList = {
+  ticker: string;
+  name: string;
+  code: string;
+}[];
 type TrecentData = { keyword: string; date: string }[];
-
 export default function SlideRecentStocks() {
   const [startX, setStartX] = useState(0);
   const [currentMovedX, setCurrentMovedX] = useState(0);
@@ -11,13 +19,29 @@ export default function SlideRecentStocks() {
   const [isMouseClick, setMouseClick] = useState(false);
   const slideRef = useRef<HTMLDivElement>(null);
   const [recentKeywordList, setRecentKeywordList] = useState<TrecentData>([]);
-
+  const [stockInfoList, seStockInfoList] = useState<TstockInfoList>([]);
   // 로컬스토리지에서 최근 검색어 데이터 가져오기
   useEffect(() => {
-    const savedRecentData = localStorage.getItem("recentData");
-    if (savedRecentData) {
-      setRecentKeywordList(JSON.parse(savedRecentData));
-    }
+    const fetchRecentStockData = async () => {
+      const savedRecentData = localStorage.getItem("recentData");
+      if (savedRecentData) {
+        const parsedRecentData: TrecentData = JSON.parse(savedRecentData);
+        setRecentKeywordList(parsedRecentData);
+        console.log("최근검색어" + parsedRecentData);
+
+        const stockNameList = parsedRecentData.map((item) => item.keyword);
+        if (stockNameList.length > 0) {
+          // 빈 배열이 아닌 경우에만 쿼리 실행
+          const recentStockDataList = await stockListByStockName(stockNameList);
+          if (recentStockDataList) {
+            seStockInfoList(recentStockDataList);
+            console.log("최근검색어의 주식데이터" + recentStockDataList[0]);
+          }
+        }
+      }
+    };
+
+    fetchRecentStockData();
   }, []);
 
   /**최근 검색어 모두삭제 클릭이벤트 */
@@ -109,13 +133,13 @@ export default function SlideRecentStocks() {
                 transform: `translateX(${totalMovedX + currentMovedX}px)`,
               }}
             >
-              {recentKeywordList.map((a, i) => {
+              {stockInfoList.map((a, i) => {
                 return (
                   <div
                     key={i}
-                    className="border border-primary-100  rounded-2xl w-[255px] h-[96px] flex-shrink-0 py-6 px-4"
+                    className="border border-primary-100  rounded-2xl min-w-[255px] min-h-[96px] flex-shrink-0 py-6 px-4"
                   >
-                    {a.keyword}
+                    <StockItem {...a} size="md" />
                   </div>
                 );
               })}

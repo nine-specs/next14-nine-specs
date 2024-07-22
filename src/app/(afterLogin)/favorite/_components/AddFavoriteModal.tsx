@@ -2,17 +2,11 @@ import BodyFont from "@/common/BodyFont";
 import { Modal } from "@/common/Modal";
 import CloseIcon from "/public/images/Close_icon.svg";
 import React, { useRef, useState } from "react";
-import SearchInput, {
-  saveRecentSearch,
-} from "../../discovery/_components/SearchInput";
+import SearchInput, { saveRecentSearch } from "../../discovery/_components/SearchInput";
 import Search_icon from "/public/images/Search_icon.svg";
 import ButtonFont from "@/common/ButtonFont";
 import SlideRecentStocks from "./_components/SlideRecentStocks";
-import {
-  getStockByKeyword,
-  getStockList,
-  TStocks,
-} from "@/hooks/profile/useStocksHandler";
+import { getStockByKeyword, getStockList, TStocks } from "@/hooks/profile/useStocksHandler";
 import TextButton from "@/common/TextButton";
 import SearchResultStock from "./SearchResultStock";
 import { AddSearchCount } from "@/hooks/discovery/useSearchAction";
@@ -25,10 +19,7 @@ type TAddFavoriteModal = {
   }[];
 };
 
-export default function AddFavoriteModal({
-  onClose,
-  popularSearchData,
-}: TAddFavoriteModal) {
+export default function AddFavoriteModal({ onClose, popularSearchData }: TAddFavoriteModal) {
   const inputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const [loading, setLoading] = useState(false);
@@ -70,9 +61,7 @@ export default function AddFavoriteModal({
       if (flag) {
         setLoading(true);
         try {
-          const result: TStocks[] | undefined = await getStockByKeyword(
-            keyword,
-          );
+          const result: TStocks[] | undefined = await getStockByKeyword(keyword);
           if (result) {
             console.log("가져온 데이터: " + result[0].stockName);
             saveRecentSearch(keyword); // 최근검색어에 추가
@@ -126,10 +115,7 @@ export default function AddFavoriteModal({
                   ref={inputRef}
                   autoComplete="off"
                 />
-                <div
-                  className="cursor-pointer w-12 h-12 flex justify-center items-center"
-                  onClick={onClick}
-                >
+                <div className="cursor-pointer w-12 h-12 flex justify-center items-center" onClick={onClick}>
                   <Search_icon />
                 </div>
               </div>
@@ -148,11 +134,7 @@ export default function AddFavoriteModal({
                 {/* 인기검색어*/}
                 <div className="w-[714px] h-[332px]  flex flex-col gap-4">
                   <div>
-                    <BodyFont
-                      level="3"
-                      weight="medium"
-                      className="text-primary-900"
-                    >
+                    <BodyFont level="3" weight="medium" className="text-primary-900">
                       인기검색어
                     </BodyFont>
                   </div>
@@ -161,24 +143,13 @@ export default function AddFavoriteModal({
                       {popularSearchList.map((a, i) => {
                         if (i < 5) {
                           return (
-                            <div
-                              key={i}
-                              className="w-[321px] h-[48px] py-2 flex justify-start gap-4 border"
-                            >
+                            <div key={i} className="w-[321px] h-[48px] py-2 flex justify-start gap-4 border">
                               <div className="w-[18px]">
-                                <BodyFont
-                                  level="4"
-                                  weight="regular"
-                                  className="text-primary-900"
-                                >
+                                <BodyFont level="4" weight="regular" className="text-primary-900">
                                   {i + 1}
                                 </BodyFont>
                               </div>
-                              <BodyFont
-                                level="4"
-                                weight="regular"
-                                className="text-grayscale-600"
-                              >
+                              <BodyFont level="4" weight="regular" className="text-grayscale-600">
                                 {a.stockName}
                               </BodyFont>
                             </div>
@@ -190,24 +161,13 @@ export default function AddFavoriteModal({
                       {popularSearchList.map((a, i) => {
                         if (i >= 5) {
                           return (
-                            <div
-                              key={i}
-                              className="w-[321px] h-[48px] py-2 flex justify-start gap-4 border"
-                            >
+                            <div key={i} className="w-[321px] h-[48px] py-2 flex justify-start gap-4 border">
                               <div className="w-[18px]">
-                                <BodyFont
-                                  level="4"
-                                  weight="regular"
-                                  className="text-primary-900"
-                                >
+                                <BodyFont level="4" weight="regular" className="text-primary-900">
                                   {i + 1}
                                 </BodyFont>{" "}
                               </div>
-                              <BodyFont
-                                level="4"
-                                weight="regular"
-                                className="text-grayscale-600"
-                              >
+                              <BodyFont level="4" weight="regular" className="text-grayscale-600">
                                 {a.stockName}
                               </BodyFont>
                             </div>

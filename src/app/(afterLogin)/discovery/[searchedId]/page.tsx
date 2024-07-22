@@ -82,13 +82,13 @@ export default function Page({ params }: TProps) {
                 {/* 여기안에 데이터 */}
                 {/* 더미데이터 */}
                 <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-4">
-                  <Image
-                    width="640"
-                    height="640"
+                  {/* <Image
+                    width={640}
+                    height={640}
                     alt="이미지"
                     src="rectangle-511385.jpeg"
                     className="flex-grow-0 flex-shrink-0 w-[120px] h-16 rounded-lg object-cover"
-                  />
+                  /> */}
                   <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 relative gap-3.5">
                     <p className="flex-grow-0 flex-shrink-0 w-[406px] text-base font-medium text-left text-[#121212]">
                       일본, 빅테크 규제법 내년 시행…사실상 애플·구글 규제
