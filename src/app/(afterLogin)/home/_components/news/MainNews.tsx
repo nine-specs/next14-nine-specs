@@ -9,13 +9,9 @@ import { BASE_URL } from "@/constants";
  * 주요 뉴스
  */
 export default async function MainNews() {
-  const news = await (
-    await fetch(`${BASE_URL}/api/news?category=mainNews&limit=1`)
-  ).json();
+  const news = await (await fetch(`${BASE_URL}/api/my/news?category=mainNews&limit=1`)).json();
 
   const { image, headLine, contents } = news[0];
-
-  // console.log("🚀 ~ FavoriteStockNews ~ news:", news);
   return (
     <>
       <div>
@@ -23,24 +19,14 @@ export default async function MainNews() {
         <Link href={""}>
           <article className="p-12 border border-primary-100 rounded-2xl flex gap-5">
             <div className="rounded-3xl overflow-hidden w-[338px] h-[240px]">
-              <Image
-                src={image}
-                alt=""
-                width={338}
-                height={240}
-                className="h-full object-cover"
-              />
+              <Image src={image} alt="" width={338} height={240} className="h-full object-cover" />
             </div>
             <div className="flex-1">
               <BodyFont level="1" weight="medium">
                 {headLine}
               </BodyFont>
               <hr className="my-6 border-none h-[1px] bg-gray-400" />
-              <BodyFont
-                level="3"
-                weight="regular"
-                className="line-clamp-5 text-[#464646]"
-              >
+              <BodyFont level="3" weight="regular" className="line-clamp-5 text-[#464646]">
                 {contents}
               </BodyFont>
             </div>
