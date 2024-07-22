@@ -10,9 +10,9 @@ type Stock = {
 };
 
 type TMyStocks = string;
-type TDropDownB = {userId : string};
+type TDropDownB = { userId: string };
 
-export default function DropDownB({userId} :TDropDownB) {
+export default function DropDownB({ userId }: TDropDownB) {
   const [showDropDown, setShowDropDown] = useState(false);
   const [myStock, setMyStock] = useState<string>("#관심 종목을 추가해주세요");
   const [stockList, setStockList] = useState<Stock[]>([]);
@@ -23,8 +23,7 @@ export default function DropDownB({userId} :TDropDownB) {
   useEffect(() => {
     async function fetchData() {
       try {
-        const myStocks = await getMyStocks(userId); // 내 관심종목 가져오기
-        console.log("내종목:" + myStock);
+        const myStocks = await getMyStocks(); // 내 관심종목 가져오기
         const stockList = await getStockList(); // 주식종목리스트 가져오기
 
         setStockList(stockList);
