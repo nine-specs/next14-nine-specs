@@ -1,4 +1,3 @@
-import React from "react";
 import StockLogoImage from "../ReportCommon/StockLogoImage";
 import BodyFont from "@/common/BodyFont";
 import { StockInfo } from "../type/report/stockType";
@@ -10,19 +9,15 @@ interface Props {
 export default async function FevorStockHeader({ stockInfo }: Props) {
   if (!stockInfo) return null;
   const { name, code, ticker } = stockInfo;
-  const priceFetch = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/report/price`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ code }),
-      cache: "no-store",
+  const priceFetch = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/report/price`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
     },
-  ); // 주식 가격의 정보 주식의 가격은 항시 변동되기 때문에 캐싱 없이 실시간으로 가져와야함
-  const { closePrice, fluctuationsRatio, compareToPreviousClosePrice } =
-    await priceFetch.json();
+    body: JSON.stringify({ code }),
+    cache: "no-store",
+  }); // 주식 가격의 정보 주식의 가격은 항시 변동되기 때문에 캐싱 없이 실시간으로 가져와야함
+  const { closePrice, fluctuationsRatio, compareToPreviousClosePrice } = await priceFetch.json();
   return (
     <div>
       {/* 종목 정보 */}
