@@ -13,11 +13,12 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { getDownloadURL, ref, StorageReference, uploadBytes } from "firebase/storage";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { TStocks } from "./useStocksHandler";
 import { getSession } from "@/lib/getSession";
+import { GetUser } from "./useGetUser";
 
 //프로필 사진 , 닉네임 , 관심 종목 수정하기
 export async function useUpdateProfile(formData: FormData) {
@@ -46,7 +47,6 @@ export async function useUpdateProfile(formData: FormData) {
     throw new Error("User not authenticated");
   }
   const uid = session?.user?.id;
-
   // users 컬렉션에서 uid일치하는 document가져오기
   const userDocRef = doc(firestore, "users", uid);
 
@@ -57,7 +57,14 @@ export async function useUpdateProfile(formData: FormData) {
       console.log("파일 있음");
       // 파일의 경로 및 파일명 설정
       // userProfile이라는 폴더를 만들고 그 뒤에 uid 경로
-      const locationRef = ref(storage, `userProfile/${userId}`);
+
+      const user = await GetUser();
+      let locationRef: any = "";
+      if (user?.accountType == "K") {
+        locationRef = ref(storage, `userProfile/${user.id}`) as StorageReference;
+      } else {
+        locationRef = ref(storage, `userProfile/${user?.userId}`) as StorageReference;
+      }
       // *참고* 위의 경로와 파일명과 동일한 파일이 있다면 덮어씀.
       // 스토리지에 파일 업로드. 성공 시 결과 반환
       const result = await uploadBytes(locationRef, file);

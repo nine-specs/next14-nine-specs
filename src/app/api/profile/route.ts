@@ -1,14 +1,6 @@
 import { firestore } from "@/firebase/firebaseConfig";
 import { getSession } from "@/lib/getSession";
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  orderBy,
-  query,
-  where,
-} from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, orderBy, query, where } from "firebase/firestore";
 
 // 유저 정보 타입
 export type TUser = {
@@ -24,6 +16,7 @@ export type TUser = {
   myStocks: { myStock: string };
   password: string;
   accountType: string;
+  id: string;
 };
 
 export async function POST(request: Request) {

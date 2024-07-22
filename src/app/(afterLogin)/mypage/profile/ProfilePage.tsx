@@ -125,7 +125,11 @@ export default function ProfilePage({ userId }: TprofilePage) {
         )}
       </div>
       {isProfileModalOpened && (
-        <ProfileEdit onClose={() => setProfileModalOpened(false)} profileData={{ profileData, setProfileData }} userId={userId}/>
+        <ProfileEdit
+          onClose={() => setProfileModalOpened(false)}
+          profileData={{ profileData, setProfileData }}
+          userId={userId}
+        />
       )}
       {isAccountModalOpened && (
         <AccountSetting onClose={() => setAccountModalOpened(false)} profileData={{ profileData, setProfileData }} />

@@ -1,8 +1,8 @@
 import { firestore, storage } from "@/firebase/firebaseConfig";
-import { DeleteUser } from "@/hooks/profile/useGetUser";
+import { DeleteUser, GetUser } from "@/hooks/profile/useGetUser";
 import { getSession } from "@/lib/getSession";
 import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
-import { deleteObject, ref } from "firebase/storage";
+import { deleteObject, ref, StorageReference } from "firebase/storage";
 import { signOut } from "next-auth/react";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
@@ -20,18 +20,24 @@ export async function DELETE(request: NextRequest) {
     if (!uid) {
       return NextResponse.json({ message: "유효하지 않은 요청입니다." }, { status: 400 });
     }
-    const subcollections = await getDocs(collection(firestore, `users/${uid}/myStocks`)); // 서브컬렉션의 이름을 적어주세요.
+
+    // 스토리지에서 프로필 사진 삭제
+    const user = await GetUser();
+    let locationRef: any = "";
+    if (user?.accountType == "K") {
+      locationRef = ref(storage, `userProfile/${user.id}`) as StorageReference;
+    } else {
+      locationRef = ref(storage, `userProfile/${user?.userId}`) as StorageReference;
+    }
+    await deleteObject(locationRef);
+
+    const subcollections = await getDocs(collection(firestore, `users/${uid}/myStocks`));
     // 서브컬렉션의 각 문서를 삭제
     for (const subDoc of subcollections.docs) {
       await deleteDoc(subDoc.ref);
     }
     // DB에서 유저 삭제
     await deleteDoc(doc(firestore, "users", uid));
-
-    // 스토리지에서 프로필 사진 삭제
-    const { userId } = await request.json();
-    const locationRef = ref(storage, `userProfile/${userId}`);
-    await deleteObject(locationRef);
 
     console.log(`사용자 ${uid} 계정 삭제 완료`);
 
