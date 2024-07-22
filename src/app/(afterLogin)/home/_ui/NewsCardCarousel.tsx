@@ -29,13 +29,13 @@ export default async function NewsCardCarousel() {
 }
 
 const NewsCard = (props: any) => {
-  const { creationTime, headLine } = props;
+  const { creationTime, headLine, newsId } = props;
 
   const date = dayjs(creationTime);
   const formattedDate = date.format("YYYY.MM.DD");
 
   return (
-    <Link href={""}>
+    <Link href={`/news/${newsId}`}>
       <article className="flex justify-between items-center px-4 py-6">
         <div className="w-[243px]">
           <BodyFont level="5" weight="regular" className="text-grayscale-400">

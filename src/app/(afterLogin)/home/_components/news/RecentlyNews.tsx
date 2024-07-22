@@ -38,7 +38,7 @@ export default async function RecentlyNews() {
  * 뉴스 아이템
  */
 const NewsItem = (props: any) => {
-  const { headLine, contents, media, image, creationTime } = props;
+  const { headLine, contents, media, image, creationTime, newsId } = props;
 
   // relativeTime 플러그인 등록
   dayjs.extend(relativeTime);
@@ -52,7 +52,7 @@ const NewsItem = (props: any) => {
   const relativeTimeString = pastTime.from(now);
 
   return (
-    <Link href={""}>
+    <Link href={`/news/${newsId}`}>
       <article className="flex gap-5">
         <div className="rounded-2xl overflow-hidden w-[172px] h-[100px]">
           <Image src={image} alt="" width={172} height={100} className="h-full object-cover" />

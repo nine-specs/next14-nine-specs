@@ -11,12 +11,12 @@ import { BASE_URL } from "@/constants";
 export default async function MainNews() {
   const news = await (await fetch(`${BASE_URL}/api/my/news?category=mainNews&limit=1`)).json();
 
-  const { image, headLine, contents } = news[0];
+  const { image, headLine, contents, newsId } = news[0];
   return (
     <>
       <div>
         <SubTitle subTitle="주요 뉴스" />
-        <Link href={""}>
+        <Link href={`/news/${newsId}`}>
           <article className="p-12 border border-primary-100 rounded-2xl flex gap-5">
             <div className="rounded-3xl overflow-hidden w-[338px] h-[240px]">
               <Image src={image} alt="" width={338} height={240} className="h-full object-cover" />
