@@ -1,3 +1,4 @@
+"use client";
 import BodyFont from "@/common/BodyFont";
 import { Modal } from "@/common/Modal";
 import CloseIcon from "/public/images/Close_icon.svg";
@@ -5,13 +6,14 @@ import React, { useRef, useState } from "react";
 import SearchInput, { saveRecentSearch } from "../../discovery/_components/SearchInput";
 import Search_icon from "/public/images/Search_icon.svg";
 import ButtonFont from "@/common/ButtonFont";
-import SlideRecentStocks from "./_components/SlideRecentStocks";
 import { getStockByKeyword, getStockList, TStocks } from "@/hooks/profile/useStocksHandler";
 import TextButton from "@/common/TextButton";
 import SearchResultStock from "./SearchResultStock";
 import { AddSearchCount } from "@/hooks/discovery/useSearchAction";
 import { TstockInfoList } from "./FavoriteStockLists";
 import StockItem from "@/common/StockItem/StockItem";
+import { TrecentData } from "./FavoriteTitleSection";
+import SlideRecentStocks from "./_components/SlideRecentStocks";
 
 type TAddFavoriteModal = {
   onClose: () => void;
@@ -20,9 +22,18 @@ type TAddFavoriteModal = {
     stockId: string;
     stockCode: string;
   }[];
+  recentData: TstockInfoList;
+  setRecentKeywordList: React.Dispatch<React.SetStateAction<TrecentData>>;
+  recentKeywordList: TrecentData;
 };
 
-export default function AddFavoriteModal({ onClose, popularSearchData }: TAddFavoriteModal) {
+export default function AddFavoriteModal({
+  onClose,
+  popularSearchData,
+  recentData,
+  recentKeywordList,
+  setRecentKeywordList,
+}: TAddFavoriteModal) {
   const inputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const [loading, setLoading] = useState(false);
@@ -66,6 +77,12 @@ export default function AddFavoriteModal({ onClose, popularSearchData }: TAddFav
             saveRecentSearch(keyword); // 최근검색어에 추가
             AddSearchCount(keyword); // 검색 카운트 +1
             setSearchData(result[0]);
+            // 최근검색스테이트변경
+            const savedRecentData = localStorage.getItem("recentData");
+            if (savedRecentData) {
+              const parsedRecentData: TrecentData = JSON.parse(savedRecentData);
+              setRecentKeywordList(parsedRecentData);
+            }
           }
         } catch (error) {
           console.error("종목 검색 중 에러발생 " + error);
@@ -129,7 +146,11 @@ export default function AddFavoriteModal({ onClose, popularSearchData }: TAddFav
               <>
                 {/* 서치데이터 X 최근검색항목&인기검색어 표시 */}
                 {/* 최근검색항목 */}
-                <SlideRecentStocks />
+                <SlideRecentStocks
+                  recentData={recentData}
+                  setRecentKeywordList={setRecentKeywordList}
+                  recentKeywordList={recentKeywordList}
+                />
                 {/* 인기검색어*/}
                 <div className="w-[714px] h-[332px]  flex flex-col gap-4">
                   <div>

@@ -1,3 +1,4 @@
+"use client";
 import BodyFont from "@/common/BodyFont";
 import TextButton from "@/common/TextButton";
 import { addMyStocks, deleteMyStocks, getMyStocks, TMyStocks, TStocks } from "@/hooks/profile/useStocksHandler";
