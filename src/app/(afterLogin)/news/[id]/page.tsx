@@ -1,15 +1,17 @@
-import NewsArticle from "./_components/NewsArticle";
+import NewsDetail from "./_components/NewsDetail";
 import RelatedList from "./_components/RelatedList";
 
-export default function NewsDetail({ params: { id } }: { params: { id: string } }) {
+type NewsDetailPageProps = {
+  params: {
+    id: string;
+  };
+};
+
+export default function NewsDetailPage({ params }: NewsDetailPageProps) {
   return (
     <>
       <div className="px-[120px] pt-10 pb-[70px] overflow-hidden flex gap-5 justify-center">
-        <NewsArticle
-          params={{
-            id,
-          }}
-        />
+        <NewsDetail id={params.id} />
         <RelatedList />
       </div>
     </>
