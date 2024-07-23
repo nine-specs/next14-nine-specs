@@ -8,12 +8,15 @@ import Image from "next/image";
 import { BASE_URL } from "@/constants";
 import { TstockInfoList } from "./FavoriteStockLists";
 import StockItemClient from "./_components/StockItemClient";
+import { update } from "firebase/database";
+import { updateData } from "@/components/Report/StockHeader/StockFavorButton";
 
 type TSearchResultStock = {
   searchData: TStocks;
+  userId: string;
 };
 
-export default function SearchResultStock({ searchData }: TSearchResultStock) {
+export default function SearchResultStock({ searchData, userId }: TSearchResultStock) {
   const [isMyStock, setIsMyStock] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -51,6 +54,7 @@ export default function SearchResultStock({ searchData }: TSearchResultStock) {
 
   /**관심종목 추가 */
   const handleAddStock = async () => {
+    updateData(userId, stockInfoList[0]);
     setIsLoading(true);
     try {
       const response = await fetch(`${BASE_URL}/api/favorite`, {
@@ -76,6 +80,7 @@ export default function SearchResultStock({ searchData }: TSearchResultStock) {
   };
   /**관심종목 삭제 */
   const handleDeleteStock = async () => {
+    updateData(userId, stockInfoList[0]);
     setIsLoading(true);
     try {
       const response = await fetch(`${BASE_URL}/api/favorite`, {

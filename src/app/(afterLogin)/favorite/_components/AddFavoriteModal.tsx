@@ -20,9 +20,10 @@ type TAddFavoriteModal = {
     stockId: string;
     stockCode: string;
   }[];
+  userId: string;
 };
 
-export default function AddFavoriteModal({ onClose, popularSearchData }: TAddFavoriteModal) {
+export default function AddFavoriteModal({ onClose, popularSearchData, userId }: TAddFavoriteModal) {
   const inputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const [loading, setLoading] = useState(false);
@@ -127,7 +128,7 @@ export default function AddFavoriteModal({ onClose, popularSearchData }: TAddFav
               <>
                 {" "}
                 {/* 서치데이터 O 검색결과 표시 */}
-                <SearchResultStock searchData={searchData} />
+                <SearchResultStock searchData={searchData} userId={userId} />
               </>
             ) : (
               <>
