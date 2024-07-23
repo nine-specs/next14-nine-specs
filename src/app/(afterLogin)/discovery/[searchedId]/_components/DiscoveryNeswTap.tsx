@@ -27,7 +27,7 @@ export default function DiscoveryNeswTap({ relatedNews }: TDiscoveryNeswTap) {
           </ButtonFont>
         </div>
         <div className="w-full h-auto rounded-lg bg-grayscale-0 p-6 flex flex-col gap-[10px]">
-          <div className={`w-full ${isMore ? "h-auto" : "h-[464px]"} border overflow-hidden flex flex-col gap-2`}>
+          <div className={`w-full ${isMore ? "h-auto" : "h-[464px]"} overflow-hidden flex flex-col gap-2`}>
             {relatedNews.length > 0 ? (
               relatedNews.map((newsItem) => <RecentStockNewsItem key={newsItem.newsId} {...newsItem} />)
             ) : (
