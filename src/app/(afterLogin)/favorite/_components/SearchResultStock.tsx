@@ -112,7 +112,7 @@ export default function SearchResultStock({ searchData, userId }: TSearchResultS
           검색결과
         </BodyFont>
       </div>
-      <div className="border w-full h-full flex justify-between ">
+      <div className=" w-full h-full flex justify-between ">
         {isLoading ? (
           <div className="w-full items-center h-full flex justify-center">
             <Image src={loadingSpinner} alt="Loading" width={85} height={85} />
