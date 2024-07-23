@@ -7,6 +7,10 @@ import { getStockByKeyword, TStocks } from "@/hooks/profile/useStocksHandler";
 import { TstockInfoList } from "../../favorite/_components/FavoriteStockLists";
 import StockItem from "@/common/StockItem/StockItem";
 import Link from "next/link";
+import { getRelatedStockNews } from "@/hooks/discovery/useSearchAction";
+import RecentStockNewsItem from "./_components/RecentStockNewsItem";
+import { NewsResponse } from "@/types/news";
+import DiscoveryNeswTap from "./_components/DiscoveryNeswTap";
 
 type TProps = {
   params: {
@@ -29,10 +33,12 @@ export default async function Page({ params }: TProps) {
   let stockInfoList: TstockInfoList = [];
   // 타입 변환
   stockInfoList.push({
-    ticker: stockdata[0].stockCode,
+    ticker: stockdata[0].stockId,
     name: stockdata[0].stockName,
     code: stockdata[0].stockCode,
   });
+
+  const relatedNews: NewsResponse[] = (await getRelatedStockNews(stockInfoList[0].ticker)) || [];
 
   return (
     <>
@@ -78,45 +84,7 @@ export default async function Page({ params }: TProps) {
         </div>
         <div>
           {/* 뉴스탭 */}
-          <div className="w-[590px] h-[288px] flex flex-col">
-            <div className="w-[590px] h-[32px] mb-2 flex gap-4">
-              <BodyFont level="1" weight="bold" className="text-primary-900">
-                뉴스
-              </BodyFont>
-              <ButtonFont weight="medium" className="border-none text-[#575757] underline !text-[14px] !leading-[20px]">
-                (12)
-              </ButtonFont>
-            </div>
-            <div className="w-full h-auto rounded-lg bg-grayscale-0 p-6 flex flex-col gap-[10px]">
-              <div className="w-full h-auto border">
-                {/* 여기안에 데이터 */}
-                {/* 더미데이터 */}
-                <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-4">
-                  {/* <Image
-                    width={640}
-                    height={640}
-                    alt="이미지"
-                    src="rectangle-511385.jpeg"
-                    className="flex-grow-0 flex-shrink-0 w-[120px] h-16 rounded-lg object-cover"
-                  /> */}
-                  <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 relative gap-3.5">
-                    <p className="flex-grow-0 flex-shrink-0 w-[406px] text-base font-medium text-left text-[#121212]">
-                      일본, 빅테크 규제법 내년 시행…사실상 애플·구글 규제
-                    </p>
-                    <div className="flex justify-start items-start flex-grow-0 flex-shrink-0 relative gap-2">
-                      <p className="flex-grow-0 flex-shrink-0 text-[13px] text-left text-[#575757]">n시간전</p>
-                      <p className="flex-grow-0 flex-shrink-0 text-[13px] text-left text-[#575757]">∙</p>
-                      <p className="flex-grow-0 flex-shrink-0 text-[13px] text-left text-[#575757]">문화일보</p>
-                    </div>
-                  </div>
-                </div>
-                {/* 데이터 끝 */}
-              </div>
-              <div className="mt-2 w-[542px] h-[40px] border-t border-gray-300 pt-4 px-[10px] text-center  cursor-pointer">
-                더보기
-              </div>
-            </div>
-          </div>
+          <DiscoveryNeswTap relatedNews={relatedNews} />
         </div>
       </div>
     </>
