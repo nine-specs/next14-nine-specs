@@ -11,10 +11,7 @@ import LOGO_LIGHT from "../../../public/images/logo/LOGO_Light.svg";
 import navList from "./navList";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
-
-const handleLogout = async () => {
-  await signOut({ callbackUrl: "/" }); // 로그아웃 후 리디렉션할 URL
-};
+import useChatStore from "@/store/chatStore";
 
 export default function Header({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
   // 게스트 랜딩페이지 경로 확인하는 조건문
@@ -23,6 +20,17 @@ export default function Header({ isLoggedIn = false }: { isLoggedIn?: boolean })
 
   const bgStyle = isBeforeLoginMain ? "bg-translate" : "bg-grayscale-0";
   const logoImg = isBeforeLoginMain ? <LOGO_LIGHT /> : <LOGO_DARK />;
+
+  const { clearMessages } = useChatStore((state) => ({
+    clearMessages: state.clearMessages,
+  }));
+
+  const handleLogout = async () => {
+    // 챗봇 데이터 초기화
+    clearMessages();
+    // 로그아웃 후 리디렉션할 URL
+    await signOut({ callbackUrl: "/" });
+  };
 
   return (
     <header className={`${bgStyle} h-[84px] flex items-center`}>
