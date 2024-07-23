@@ -8,7 +8,7 @@ import { addDoc, collection, getDocs } from "firebase/firestore";
 import { NewsResponse } from "@/types/news";
 import { uuid } from "uuidv4";
 import { setImprovedCrawlerPerformance } from "./setImprovedCrawlerPerformance";
-import parseToTimestamp from "./parseToTimestmp";
+import parseToTimestamp from "../parseToTimestmp";
 
 type KeywordsType = {
   [key: string]: string;

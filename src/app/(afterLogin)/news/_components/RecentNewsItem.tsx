@@ -3,11 +3,10 @@ import Image from "next/image";
 
 import Heading from "../_ui/Heading";
 import BodyFont from "@/common/BodyFont";
-import useTimestampToDate from "@/hooks/common/useTimestampToDate";
+import { getTimeAgo } from "@/service/news/setTimestampToDate";
 
 export default function RecentNewsItem(props: any) {
   const { headLine, contents, media, image, newsId, creationTime } = props;
-  const { timeAgo } = useTimestampToDate(creationTime);
 
   return (
     <>
@@ -20,7 +19,7 @@ export default function RecentNewsItem(props: any) {
             <Heading heading={`${headLine}`} />
             <aside className="text-grayscale-600">
               <BodyFont level="5" weight="medium">
-                {timeAgo} ∙ {media}
+                {getTimeAgo(creationTime)} ∙ {media}
               </BodyFont>
             </aside>
           </div>

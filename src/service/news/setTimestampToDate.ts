@@ -1,13 +1,19 @@
-import { useMemo } from "react";
+export const getDate = (timestamp: number) => {
+  return new Date(Number(timestamp));
+};
 
-const formatDate = (date: Date): string => {
+export const getFormattedDate = (timestamp: number) => {
+  const date = getDate(timestamp);
+
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
   return `${year}.${month}.${day}`;
 };
 
-const getTimeAgo = (date: Date): string => {
+export const getTimeAgo = (timestamp: number) => {
+  const date = getDate(timestamp);
+
   const now = new Date();
   const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
@@ -28,21 +34,3 @@ const getTimeAgo = (date: Date): string => {
 
   return "방금 전";
 };
-
-const useTimestampToDate = (timestamp: number | string) => {
-  const date = useMemo(() => {
-    return new Date(Number(timestamp));
-  }, [timestamp]);
-
-  const formattedDate = useMemo(() => {
-    return formatDate(date);
-  }, [date]);
-
-  const timeAgo = useMemo(() => {
-    return getTimeAgo(date);
-  }, [date]);
-
-  return { date, formattedDate, timeAgo };
-};
-
-export default useTimestampToDate;

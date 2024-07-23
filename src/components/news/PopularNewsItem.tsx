@@ -3,11 +3,10 @@ import Link from "next/link";
 
 import BodyFont from "@/common/BodyFont";
 import CardWrap from "@/common/CardWrap";
-import useTimestampToDate from "@/hooks/common/useTimestampToDate";
+import { getFormattedDate } from "@/service/news/setTimestampToDate";
 
 export default async function PopularNewsItem(props: any) {
   const { headLine, contents, media, image, newsId, creationTime, index } = props;
-  const { formattedDate } = useTimestampToDate(creationTime);
 
   return (
     <>
@@ -39,7 +38,7 @@ export default async function PopularNewsItem(props: any) {
             )}
             <aside className="flex gap-2 before:content-['∙'] before:order-2">
               <BodyFont level="5" weight="medium" className="order-1">
-                {formattedDate}
+                {getFormattedDate(creationTime)}
               </BodyFont>
               <BodyFont level="5" weight="medium" className="order-3">
                 {media}
