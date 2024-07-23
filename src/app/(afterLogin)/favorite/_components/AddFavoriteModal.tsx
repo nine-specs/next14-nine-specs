@@ -12,8 +12,8 @@ import SearchResultStock from "./SearchResultStock";
 import { AddSearchCount } from "@/hooks/discovery/useSearchAction";
 import { TstockInfoList } from "./FavoriteStockLists";
 import StockItem from "@/common/StockItem/StockItem";
-import { TrecentData } from "./FavoriteTitleSection";
 import SlideRecentStocks from "./_components/SlideRecentStocks";
+import { TrecentData, useRecentKeywordStore } from "@/store/useRecentKeywordStore";
 
 type TAddFavoriteModal = {
   onClose: () => void;
@@ -23,22 +23,15 @@ type TAddFavoriteModal = {
     stockCode: string;
   }[];
   recentData: TstockInfoList;
-  setRecentKeywordList: React.Dispatch<React.SetStateAction<TrecentData>>;
-  recentKeywordList: TrecentData;
 };
 
-export default function AddFavoriteModal({
-  onClose,
-  popularSearchData,
-  recentData,
-  recentKeywordList,
-  setRecentKeywordList,
-}: TAddFavoriteModal) {
+export default function AddFavoriteModal({ onClose, popularSearchData, recentData }: TAddFavoriteModal) {
   const inputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const [loading, setLoading] = useState(false);
   const [searchData, setSearchData] = useState<TStocks | null>(null);
   const [isMyStock, setIsMyStock] = useState<boolean>(false);
+  const { recentKeywordList, setRecentKeywordList } = useRecentKeywordStore(); //
 
   const popularSearchList = popularSearchData;
 
@@ -77,7 +70,7 @@ export default function AddFavoriteModal({
             saveRecentSearch(keyword); // 최근검색어에 추가
             AddSearchCount(keyword); // 검색 카운트 +1
             setSearchData(result[0]);
-            // 최근검색스테이트변경
+
             const savedRecentData = localStorage.getItem("recentData");
             if (savedRecentData) {
               const parsedRecentData: TrecentData = JSON.parse(savedRecentData);
@@ -146,11 +139,7 @@ export default function AddFavoriteModal({
               <>
                 {/* 서치데이터 X 최근검색항목&인기검색어 표시 */}
                 {/* 최근검색항목 */}
-                <SlideRecentStocks
-                  recentData={recentData}
-                  setRecentKeywordList={setRecentKeywordList}
-                  recentKeywordList={recentKeywordList}
-                />
+                <SlideRecentStocks recentData={recentData} />
                 {/* 인기검색어*/}
                 <div className="w-[714px] h-[332px]  flex flex-col gap-4">
                   <div>

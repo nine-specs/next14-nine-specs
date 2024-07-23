@@ -8,18 +8,18 @@ import { BASE_URL } from "@/constants";
 import { stockListByStockName } from "@/hooks/discovery/useSearchAction";
 import { TStocks } from "@/hooks/profile/useStocksHandler";
 import React, { useEffect, useRef, useState } from "react";
-import { TrecentData } from "../FavoriteTitleSection";
 import { TstockInfoList } from "../FavoriteStockLists";
+import { useRecentKeywordStore } from "@/store/useRecentKeywordStore";
 
 type Tprops = {
   recentData: TstockInfoList;
-  setRecentKeywordList: React.Dispatch<React.SetStateAction<TrecentData>>;
-  recentKeywordList: TrecentData;
 };
 
-export default function SlideRecentStocks({ recentData, setRecentKeywordList, recentKeywordList }: Tprops) {
+export default function SlideRecentStocks({ recentData }: Tprops) {
+  const { recentKeywordList, setRecentKeywordList } = useRecentKeywordStore(); //
+
   /**최근 검색어 모두삭제 클릭이벤트 */
-  const deleteAllRecentWord = async () => {
+  const deleteAllRecentWord = () => {
     localStorage.setItem("recentData", JSON.stringify([]));
     // 스테이트 변경
     setRecentKeywordList([]);
