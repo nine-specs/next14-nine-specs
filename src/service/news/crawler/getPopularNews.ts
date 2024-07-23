@@ -8,10 +8,26 @@ import { addDoc, collection, getDocs } from "firebase/firestore";
 import { NewsResponse } from "@/types/news";
 import { uuid } from "uuidv4";
 import { setImprovedCrawlerPerformance } from "./setImprovedCrawlerPerformance";
-import parseToTimestamp from "./parseToTimestmp";
+import parseToTimestamp from "../parseToTimestmp";
 
 type KeywordsType = {
   [key: string]: string;
+};
+
+const stockList = {
+  애플: "AAPL",
+  아마존: "AMZN",
+  테슬라: "TSLA",
+  마이크로소프트: "MSFT",
+  구글: "GOOGL",
+  유니티: "U",
+  고프로: "GPRO",
+  로빈후드: "HOOD",
+  브로드컴: "AVGO",
+  엔비디아: "NVDA",
+  카사바사이언스: "SAVA",
+  코닥: "KODK",
+  펠로튼: "PTON",
 };
 
 export const getPopularNews = async () => {
@@ -22,7 +38,7 @@ export const getPopularNews = async () => {
     height: 1080,
   });
 
-  setImprovedCrawlerPerformance();
+  setImprovedCrawlerPerformance(page);
 
   try {
     const targetURL = "https://m.stock.naver.com/investment/news/ranknews";
@@ -45,55 +61,41 @@ export const getPopularNews = async () => {
         const html = await page.content();
         const $ = cheerio.load(html);
 
+        let contents = $("._article_content").text();
+
+        // 관련 종목 설정
+        let relatedStocks = [];
+        for (const [key, value] of Object.entries(stockList)) {
+          if (contents.includes(key)) {
+            relatedStocks.push(value);
+          }
+        }
+
         const newsData: NewsResponse = {
           newsId: uuid(),
-          relatedStocks: "",
+          relatedStocks: relatedStocks[0] || "",
           headLine: $("h2#title_area span").text(),
           description: $("meta[property='og:description']").attr("content") as string,
-          contents: $("._article_content").text(),
+          contents: contents.replace(/[\t]/g, ""),
           image: $("meta[property='og:image']").attr("content") as string,
           creationTime: parseToTimestamp($("._ARTICLE_DATE_TIME").text()),
           media: $(".media_end_head_top_logo img").attr("title") as string,
-          category: $(".media_end_categorize_item").text(),
+          category: $(".media_end_categorize_item:first-child").text(),
         };
 
-        // // 중복 확인 후 newsData를 DB에 저장
-        // const querySnapshot = await getDocs(collection(firestore, "news", "popularNews", "articles"));
+        // console.log(newsData);
 
-        // const existingNews = querySnapshot.docs.map((doc) => doc.data().headLine);
+        // 중복 확인 후 newsData를 DB에 저장
+        const querySnapshot = await getDocs(collection(firestore, "news", "popularNews", "articles"));
+        const existingNews = querySnapshot.docs.map((doc) => doc.data().headLine);
 
-        const popularRef = collection(firestore, "news", "popularNews", "articles");
-
-        // if (!existingNews.includes(newsData.headLine)) {
-        //   await addDoc(popularRef, newsData);
-        // } else {
-        //   return;
-        // }
-
-        const keywords: KeywordsType = {
-          애플: "AAPL",
-          테슬라: "TSLA",
-          구글: "GOOGL",
-          마이크로소프트: "MSFT",
-          유니티: "U",
-          아마존: "AMZN",
-        };
-
-        // onChildAdded(popularRef, (snapshot) => {
-        //   const article = snapshot.val();
-        //   const headline = article.headline;
-
-        //   // 키워드 배열을 순회하며 헤드라인에 키워드가 포함되어 있는지 확인
-        //   let relatedStock = null;
-        //   for (const keyword in keywords) {
-        //     if (keywords.hasOwnProperty(keyword) && headline.includes(keyword)) {
-        //       relatedStock = keywords[keyword];
-        //       break;
-        //     }
-        //   }
-        //   newsData.relatedStocks = relatedStock as string;
-        //   console.log(newsData);
-        // });
+        if (!existingNews.includes(newsData.headLine)) {
+          const popularRef = collection(firestore, "news", "popularNews", "articles");
+          await addDoc(popularRef, newsData);
+          console.log("DB에 저장됨");
+        } else {
+          continue;
+        }
       } catch (error) {
         console.error("Error : ", error);
       }

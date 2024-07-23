@@ -39,6 +39,12 @@ const nextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "stock-phinf.pstatic.net",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
   // @svgr/webpack 설정
