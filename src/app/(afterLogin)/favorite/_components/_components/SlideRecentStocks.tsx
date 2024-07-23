@@ -1,4 +1,4 @@
-import { StockCarousel } from "@/app/(afterLogin)/home/_ui/StockCarousel";
+// import { StockCarousel } from "@/app/(afterLogin)/home/_ui/StockCarousel";
 import BodyFont from "@/common/BodyFont";
 import ButtonFont from "@/common/ButtonFont";
 import StockItem from "@/common/StockItem/StockItem";
