@@ -119,17 +119,17 @@ export async function useUpdateProfile(formData: FormData) {
         }), // 자동 생성된 UID로 문서 추가
     );
     //조영님 관심종목 콜렉션 추가
-    let stockInfoList: TstockInfoList = [];
-    stockList.forEach((a, i) => {
-      stockInfoList.push({
-        ticker: a.stockId,
-        name: a.stockName,
-        code: a.stockCode,
-      });
-    });
-    stockInfoList.forEach((a) => {
-      updateData(userDocRef.id, a);
-    });
+    // let stockInfoList: TstockInfoList = [];
+    // stockList.forEach((a, i) => {
+    //   stockInfoList.push({
+    //     ticker: a.stockId,
+    //     name: a.stockName,
+    //     code: a.stockCode,
+    //   });
+    // });
+    // stockInfoList.forEach((a) => {
+    //   updateData(userDocRef.id, a);
+    // });
     //조영님 관심종목 콜렉션 추가 끝
 
     await Promise.all(addStockPromises);

@@ -90,17 +90,17 @@ const signUp = async (
       });
     });
     //조영님 관심종목 콜렉션 추가
-    let stockInfoList: TstockInfoList = [];
-    stockList.forEach((a, i) => {
-      stockInfoList.push({
-        ticker: a.stockId,
-        name: a.stockName,
-        code: a.stockCode,
-      });
-    });
-    stockInfoList.forEach((a) => {
-      updateData(userDocRef.id, a);
-    });
+    // let stockInfoList: TstockInfoList = [];
+    // stockList.forEach((a, i) => {
+    //   stockInfoList.push({
+    //     ticker: a.stockId,
+    //     name: a.stockName,
+    //     code: a.stockCode,
+    //   });
+    // });
+    // stockInfoList.forEach((a) => {
+    //   updateData(userDocRef.id, a);
+    // });
     //조영님 관심종목 콜렉션 추가 끝
     await Promise.all(addStockPromises);
     console.log("관심 종목 추가 완료");
