@@ -10,8 +10,9 @@ type Stock = {
 };
 
 type TMyStocks = string;
+type TDropDownB = { userId: string };
 
-export default function DropDownB() {
+export default function DropDownB({ userId }: TDropDownB) {
   const [showDropDown, setShowDropDown] = useState(false);
   const [myStock, setMyStock] = useState<string>("#관심 종목을 추가해주세요");
   const [stockList, setStockList] = useState<Stock[]>([]);
@@ -21,15 +22,8 @@ export default function DropDownB() {
 
   useEffect(() => {
     async function fetchData() {
-      const session = await getSession();
-      if (!session?.user?.id) {
-        throw new Error("User not authenticated");
-      }
-      const userId = session?.user?.id;
-
       try {
-        const myStocks = await getMyStocks(userId); // 내 관심종목 가져오기
-        console.log("내종목:" + myStock);
+        const myStocks = await getMyStocks(); // 내 관심종목 가져오기
         const stockList = await getStockList(); // 주식종목리스트 가져오기
 
         setStockList(stockList);
@@ -45,7 +39,7 @@ export default function DropDownB() {
       }
     }
     fetchData();
-  }, [myStock]);
+  }, []);
 
   // // 사용자가 입력한 값에 따라 주식 종목 가져오기
   // useEffect(() => {

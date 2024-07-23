@@ -12,7 +12,7 @@ export default async function page() {
   }
   const userId = session?.user?.id;
 
-  const myStocks = await getMyStocks(userId); // 나의 관심종목 가져오기 서버액션 매소드
+  const myStocks = await getMyStocks(); // 나의 관심종목 가져오기 서버액션 매소드
   const popularSearchData = await getPopularSearches(); //인기 검색어 리스트 가져오기
 
   return (

@@ -1,55 +1,49 @@
+"use client";
 import BodyFont from "@/common/BodyFont";
 import { Modal } from "@/common/Modal";
 import CloseIcon from "/public/images/Close_icon.svg";
 import React, { useRef, useState } from "react";
-import SearchInput, {
-  saveRecentSearch,
-} from "../../discovery/_components/SearchInput";
+import SearchInput, { saveRecentSearch } from "../../discovery/_components/SearchInput";
 import Search_icon from "/public/images/Search_icon.svg";
 import ButtonFont from "@/common/ButtonFont";
-import SlideRecentStocks from "./_components/SlideRecentStocks";
-import {
-  getStockByKeyword,
-  getStockList,
-  TStocks,
-} from "@/hooks/profile/useStocksHandler";
+import { getStockByKeyword, getStockList, TStocks } from "@/hooks/profile/useStocksHandler";
 import TextButton from "@/common/TextButton";
 import SearchResultStock from "./SearchResultStock";
 import { AddSearchCount } from "@/hooks/discovery/useSearchAction";
+import { TstockInfoList } from "./FavoriteStockLists";
+import StockItem from "@/common/StockItem/StockItem";
+import SlideRecentStocks from "./_components/SlideRecentStocks";
+import { TrecentData, useRecentKeywordStore } from "@/store/useRecentKeywordStore";
 
 type TAddFavoriteModal = {
   onClose: () => void;
   popularSearchData: {
-    id: string;
     stockName: string;
+    stockId: string;
+    stockCode: string;
   }[];
+  recentData: TstockInfoList;
 };
 
-export default function AddFavoriteModal({
-  onClose,
-  popularSearchData,
-}: TAddFavoriteModal) {
+export default function AddFavoriteModal({ onClose, popularSearchData, recentData }: TAddFavoriteModal) {
   const inputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const [loading, setLoading] = useState(false);
   const [searchData, setSearchData] = useState<TStocks | null>(null);
   const [isMyStock, setIsMyStock] = useState<boolean>(false);
+  const { recentKeywordList, setRecentKeywordList } = useRecentKeywordStore(); //
 
-  const popularSearchList =
-    popularSearchData.length != 0
-      ? popularSearchData
-      : [
-          { stockName: "테슬라" },
-          { stockName: "애플" },
-          { stockName: "테슬라" },
-          { stockName: "테슬라" },
-          { stockName: "테슬라" },
-          { stockName: "테슬라" },
-          { stockName: "코카콜라" },
-          { stockName: "테슬라" },
-          { stockName: "테슬라" },
-          { stockName: "테슬라" },
-        ];
+  const popularSearchList = popularSearchData;
+
+  let stockInfoList: TstockInfoList = [];
+
+  popularSearchList.forEach((a, i) => {
+    stockInfoList.push({
+      ticker: a.stockId,
+      name: a.stockName,
+      code: a.stockCode,
+    });
+  });
 
   // 검색창 submit 핸들러
   const handleSubmit = async (e?: React.FormEvent<HTMLFormElement>) => {
@@ -70,14 +64,18 @@ export default function AddFavoriteModal({
       if (flag) {
         setLoading(true);
         try {
-          const result: TStocks[] | undefined = await getStockByKeyword(
-            keyword,
-          );
+          const result: TStocks[] | undefined = await getStockByKeyword(keyword);
           if (result) {
             console.log("가져온 데이터: " + result[0].stockName);
             saveRecentSearch(keyword); // 최근검색어에 추가
             AddSearchCount(keyword); // 검색 카운트 +1
             setSearchData(result[0]);
+
+            const savedRecentData = localStorage.getItem("recentData");
+            if (savedRecentData) {
+              const parsedRecentData: TrecentData = JSON.parse(savedRecentData);
+              setRecentKeywordList(parsedRecentData);
+            }
           }
         } catch (error) {
           console.error("종목 검색 중 에러발생 " + error);
@@ -126,10 +124,7 @@ export default function AddFavoriteModal({
                   ref={inputRef}
                   autoComplete="off"
                 />
-                <div
-                  className="cursor-pointer w-12 h-12 flex justify-center items-center"
-                  onClick={onClick}
-                >
+                <div className="cursor-pointer w-12 h-12 flex justify-center items-center" onClick={onClick}>
                   <Search_icon />
                 </div>
               </div>
@@ -144,72 +139,46 @@ export default function AddFavoriteModal({
               <>
                 {/* 서치데이터 X 최근검색항목&인기검색어 표시 */}
                 {/* 최근검색항목 */}
-                <SlideRecentStocks />
+                <SlideRecentStocks recentData={recentData} />
                 {/* 인기검색어*/}
                 <div className="w-[714px] h-[332px]  flex flex-col gap-4">
                   <div>
-                    <BodyFont
-                      level="3"
-                      weight="medium"
-                      className="text-primary-900"
-                    >
+                    <BodyFont level="3" weight="medium" className="text-primary-900">
                       인기검색어
                     </BodyFont>
                   </div>
                   <div className="w-full h-full  flex justify-between gap-6 border border-primary-100  rounded-2xl p-6">
                     <div className="w-[321px] h-full">
-                      {popularSearchList.map((a, i) => {
+                      {stockInfoList.map((a, i) => {
                         if (i < 5) {
                           return (
-                            <div
-                              key={i}
-                              className="w-[321px] h-[48px] py-2 flex justify-start gap-4 border"
-                            >
+                            <div key={i} className="w-[321px] h-[48px] py-2 flex justify-start gap-4  items-center">
                               <div className="w-[18px]">
-                                <BodyFont
-                                  level="4"
-                                  weight="regular"
-                                  className="text-primary-900"
-                                >
+                                <BodyFont level="4" weight="regular" className="text-primary-900">
                                   {i + 1}
                                 </BodyFont>
                               </div>
-                              <BodyFont
-                                level="4"
-                                weight="regular"
-                                className="text-grayscale-600"
-                              >
-                                {a.stockName}
-                              </BodyFont>
+                              <div className="w-[340px] ">
+                                <StockItem {...a} size="sm" />
+                              </div>
                             </div>
                           );
                         }
                       })}
                     </div>
-                    <div className="w-[321px] h-full border ">
-                      {popularSearchList.map((a, i) => {
+                    <div className="w-[321px] h-full  ">
+                      {stockInfoList.map((a, i) => {
                         if (i >= 5) {
                           return (
-                            <div
-                              key={i}
-                              className="w-[321px] h-[48px] py-2 flex justify-start gap-4 border"
-                            >
+                            <div key={i} className="w-[321px] h-[48px] py-2 flex justify-start gap-4 items-center ">
                               <div className="w-[18px]">
-                                <BodyFont
-                                  level="4"
-                                  weight="regular"
-                                  className="text-primary-900"
-                                >
+                                <BodyFont level="4" weight="regular" className="text-primary-900">
                                   {i + 1}
                                 </BodyFont>{" "}
                               </div>
-                              <BodyFont
-                                level="4"
-                                weight="regular"
-                                className="text-grayscale-600"
-                              >
-                                {a.stockName}
-                              </BodyFont>
+                              <div className="w-[340px] ">
+                                <StockItem {...a} size="sm" />
+                              </div>
                             </div>
                           );
                         }

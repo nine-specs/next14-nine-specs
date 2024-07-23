@@ -3,22 +3,20 @@ import { Modal } from "@/common/Modal";
 import React from "react";
 import TextButton from "@/common/TextButton";
 import { useRouter } from "next/navigation";
+import { BASE_URL } from "@/constants";
 
 type TAddFavoriteModal = {
   onClose: () => void;
   stock: string;
 };
 
-export default function DeleteFavoriteModal({
-  onClose,
-  stock,
-}: TAddFavoriteModal) {
+export default function DeleteFavoriteModal({ onClose, stock }: TAddFavoriteModal) {
   const router = useRouter();
 
   // 클릭시 삭제이벤트 진행
   const onDeleteClick = async () => {
     try {
-      const response = await fetch("/api/favorite", {
+      const response = await fetch(`${BASE_URL}/api/favorite`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

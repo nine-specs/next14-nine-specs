@@ -7,27 +7,34 @@ import DropDownA from "./DropDownA";
 import BodyFont from "@/common/BodyFont";
 import Input from "@/common/Input";
 import { useRouter } from "next/navigation";
+import { signOut } from "next-auth/react";
+import { TUser } from "@/app/api/profile/route";
+import { BASE_URL } from "@/constants";
 interface TDeleteAccount {
   onClose: () => void;
   setModalHandler: Dispatch<SetStateAction<string>>;
+  profileData: {
+    profileData: TUser | undefined;
+    setProfileData: React.Dispatch<React.SetStateAction<TUser | undefined>>;
+  };
 }
 // 회원탈퇴 모달창
-export default function DeleteAccount({
-  onClose,
-  setModalHandler,
-}: TDeleteAccount) {
+export default function DeleteAccount({ onClose, setModalHandler, profileData }: TDeleteAccount) {
   const [password, setPassword] = useState("");
-  const [activeBtn, setActiveBtn] = useState(false);
-  let router = useRouter();
-
+  const [activeBtn, setActiveBtn] = useState<boolean>(false);
+  const [reason, setReason] = useState("탈퇴 사유를 선택해주세요"); // 탈퇴 사유
+  const reasonState = { reason, setReason };
+  // 버튼 활성화 설정
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
     setPassword(e.target.value);
     password.length >= 7 ? setActiveBtn(true) : setActiveBtn(false);
   };
+
+  // 비밀번호 검증 및 회원탈퇴 진행
   const checkPwd = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (reason == "탈퇴 사유를 선택해주세요") return alert("탈퇴 사유를 선택해주세요");
     try {
-      const response = await fetch("/api/profile/checkpwd", {
+      const response = await fetch(`${BASE_URL}/api/profile/checkpwd`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -44,12 +51,12 @@ export default function DeleteAccount({
             headers: {
               "Content-Type": "application/json",
             },
-            // body: JSON.stringify({ uid: uid }),
+            body: JSON.stringify({ userId: profileData?.profileData?.userId }),
           });
           const result = await response.json();
           if (response.ok) {
             console.log(result.message);
-            router.push("/accountDeletion");
+            await signOut({ callbackUrl: "/accountDeletion" }); //로그아웃 세션무효
           }
         } catch (error) {
           console.log("회원탈퇴 요청 중 에러발생:" + error);
@@ -60,18 +67,6 @@ export default function DeleteAccount({
     } catch (error) {
       console.error("비밀번호 확인 중 에러발생:", error);
     }
-
-    // //임시 비밀번호 설정
-    // const loginPassword = "11111111";
-    // if (password == loginPassword) {
-    //   //임시 비밀번호와 일치시 db에서 삭제.
-    //   //회원탈퇴 페이지이동하기
-    //   //나중에 서버액션으로 보내고 거기서 페이지이동으로 변경
-    //   router.push("/accountDeletion");
-    // } else {
-    //   // 비밀번호 틀릴 시 경고창 -> 추후 변경예정
-    //   alert("GET OUT!!");
-    // }
   };
 
   return (
@@ -84,14 +79,10 @@ export default function DeleteAccount({
             </HeadingFont>
             <div className=" w-[386px] h-[184px] mt-[40px] mb-[56px]">
               {/*<<--탈퇴사유 드롭다운-*/}
-              <DropDownA />
+              <DropDownA reason={reasonState} />
               {/*탈퇴사유 드롭다운-->>*/}
               {/* 비밀번호 입력  */}
-              <BodyFont
-                level="4"
-                weight="medium"
-                className="text-primary-900 mt-4 mb-1"
-              >
+              <BodyFont level="4" weight="medium" className="text-primary-900 mt-4 mb-1">
                 비밀번호 입력
               </BodyFont>
               {/* 비밀번호 */}

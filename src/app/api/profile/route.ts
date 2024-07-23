@@ -1,14 +1,6 @@
 import { firestore } from "@/firebase/firebaseConfig";
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  orderBy,
-  query,
-  where,
-} from "firebase/firestore";
-import { NextRequest } from "next/server";
+import { getSession } from "@/lib/getSession";
+import { collection, doc, getDoc, getDocs, orderBy, query, where } from "firebase/firestore";
 
 // 유저 정보 타입
 export type TUser = {
@@ -24,15 +16,16 @@ export type TUser = {
   myStocks: { myStock: string };
   password: string;
   accountType: string;
+  id: string;
 };
 
-export async function POST(request: NextRequest) {
-  const { uid } = await request.json();
-  console.log("uid:" + uid);
-  // console.log("userId:" + userId);
-  // 유저데이터 firestoreDB 요청
-  // 임시더미 uid 이용
-  // const uid = "tvJNWYbo9hcAI2Sn0QtC";
+export async function POST(request: Request) {
+  const session = await getSession();
+  if (!session?.user?.id) {
+    throw new Error("User not authenticated");
+  }
+  const uid = session?.user?.id;
+  // const { uid } = await request.json();
 
   //users콜렉션에서  uid 일치하는 document찾기
   const userDocRef = doc(firestore, "users", uid);

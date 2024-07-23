@@ -1,22 +1,15 @@
 import { firestore } from "@/firebase/firebaseConfig";
 import { TStocks } from "@/hooks/profile/useStocksHandler";
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  getDoc,
-  getDocs,
-  limit,
-  orderBy,
-  query,
-  where,
-} from "firebase/firestore";
+import { getSession } from "@/lib/getSession";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, limit, orderBy, query, where } from "firebase/firestore";
 import { NextRequest, NextResponse } from "next/server";
-const uid = "tvJNWYbo9hcAI2Sn0QtC";
 // 내 관심종목 추가
 export async function POST(request: NextRequest) {
-  // 임시 유저 uid
+  const session = await getSession();
+  if (!session?.user?.id) {
+    throw new Error("User not authenticated");
+  }
+  const uid = session?.user?.id;
 
   const { stockName } = await request.json();
   try {
@@ -30,19 +23,13 @@ export async function POST(request: NextRequest) {
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.empty) {
-      return NextResponse.json(
-        { message: "해당 주식 데이터를 찾을 수 없습니다." },
-        { status: 404 },
-      );
+      return NextResponse.json({ message: "해당 주식 데이터를 찾을 수 없습니다." }, { status: 404 });
     }
 
     const stockData = querySnapshot.docs[0].data();
 
     // 유저의 myStocks 서브콜렉션 참조
-    const userStocksCollectionRef = collection(
-      firestore,
-      `users/${uid}/myStocks`,
-    );
+    const userStocksCollectionRef = collection(firestore, `users/${uid}/myStocks`);
 
     // 관심종목 데이터 추가
     await addDoc(userStocksCollectionRef, {
@@ -56,29 +43,24 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ status: 200 });
   } catch (error) {
     console.error("주식 데이터를 추가하는 중 에러 발생:", error);
-    return NextResponse.json(
-      { message: "관심종목 추가에 실패했습니다." },
-      { status: 500 },
-    );
+    return NextResponse.json({ message: "관심종목 추가에 실패했습니다." }, { status: 500 });
   }
 }
 /**  내 관심종목 삭제 */
 export async function DELETE(request: NextRequest) {
-  // 임시 유저 uid
+  const session = await getSession();
+  if (!session?.user?.id) {
+    throw new Error("User not authenticated");
+  }
+  const uid = session?.user?.id;
   try {
     const { stockName } = await request.json();
 
     // 유저의 myStocks 서브콜렉션 참조
-    const userStocksCollectionRef = collection(
-      firestore,
-      `users/${uid}/myStocks`,
-    );
+    const userStocksCollectionRef = collection(firestore, `users/${uid}/myStocks`);
 
     // 'myStock' 필드가 stockName과 일치하는 문서를 찾기 위한 쿼리
-    const q = query(
-      userStocksCollectionRef,
-      where("stockName", "==", stockName),
-    );
+    const q = query(userStocksCollectionRef, where("stockName", "==", stockName));
 
     // 쿼리 실행
     const querySnapshot = await getDocs(q);
@@ -95,9 +77,6 @@ export async function DELETE(request: NextRequest) {
     }
   } catch (error) {
     console.log("관심종목 삭제중 에러발생:" + error);
-    return NextResponse.json(
-      { message: "관심종목 삭제에 실패했습니다." },
-      { status: 500 },
-    );
+    return NextResponse.json({ message: "관심종목 삭제에 실패했습니다." }, { status: 500 });
   }
 }

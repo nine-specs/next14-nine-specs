@@ -20,8 +20,9 @@ type TProfileEdit = {
     profileData: TUser | undefined;
     setProfileData: React.Dispatch<React.SetStateAction<TUser | undefined>>;
   };
+  userId: string;
 };
-export default function ProfileEdit({ onClose, profileData }: TProfileEdit) {
+export default function ProfileEdit({ onClose, profileData, userId }: TProfileEdit) {
   const profileImgSrc = profileData.profileData?.image;
   const [file, setFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -133,8 +134,9 @@ export default function ProfileEdit({ onClose, profileData }: TProfileEdit) {
                 <input className="hidden" name="previousNick" value={profileData.profileData?.nick} />
                 {/* 닉네임 수정 끝*/}
                 {/* 관심종목 */}
-                <DropDownB />
+                <DropDownB userId={userId} />
                 {/* 관심종목 끝 */}
+                <input name="userId" className="hidden" value={profileData.profileData?.userId} />
               </div>
             </div>
             <div onClick={onUpdateClick} className="w-full">

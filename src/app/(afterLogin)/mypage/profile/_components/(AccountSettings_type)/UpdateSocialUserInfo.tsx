@@ -19,7 +19,7 @@ interface TUpdateUserInfo {
   };
 }
 
-export default function UpdateUserInfo({ onClose, setModalHandler, profileData }: TUpdateUserInfo) {
+export default function UpdateSocialUserInfo({ onClose, setModalHandler, profileData }: TUpdateUserInfo) {
   const [isBtnActive, setIsBtnActive] = useState(false);
   const [phone, setPhone] = useState(profileData.profileData?.phone);
   const [birthdate, setBirthdate] = useState(profileData.profileData?.birthdate);
@@ -29,20 +29,14 @@ export default function UpdateUserInfo({ onClose, setModalHandler, profileData }
 
   // 회원탈퇴 이동 클릭이벤트
   const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setModalHandler("DeleteAccount");
+    setModalHandler("DeleteSocialAccount");
   };
 
   // 기본 유효성 검사
   const checkActive = (e: React.FormEvent<HTMLFormElement>) => {
     let phoneLength = e.currentTarget.phone.value.length;
     let birthLength = e.currentTarget.birthdate.value.length;
-    let passwordLength = e.currentTarget.password.value.length;
-    let password = e.currentTarget.password.value;
-    let confirmPassword = e.currentTarget.confirmPassword.value;
-    let passwordCheck: boolean;
-    password == confirmPassword ? (passwordCheck = true) : (passwordCheck = false);
-
-    if (phoneLength == 11 || birthLength == 6 || (passwordLength >= 7 && passwordCheck)) {
+    if (phoneLength == 11 || birthLength == 6) {
       setIsBtnActive(true);
     } else {
       setIsBtnActive(false);
@@ -62,15 +56,12 @@ export default function UpdateUserInfo({ onClose, setModalHandler, profileData }
     if (!birthdate) birthdate = profileData.profileData?.birthdate;
     formData.append("birthdate", birthdate);
 
-    if (passwordMatch) {
-      formData.append("password", e.currentTarget.password.value);
-    }
     // 업데이트 실행
     UpdateUser(formData);
   };
 
   return (
-    <Modal size="S6" onClose={onClose} bgClassName="!absolute !min-h-[1028px] " modalClassName="relative  my-[66px] ">
+    <Modal size="S4" onClose={onClose} bgClassName="!absolute !min-h-[1028px] " modalClassName="relative  my-[66px] ">
       <form onSubmit={handleSubmit} className="w-full h-full py-[80px] px-[102px] " onChange={checkActive}>
         <div className="w-[386px] h-[584]px flex flex-col items-center gap-[40px] mb-8">
           {/* 모달 타이틀  */}
@@ -79,25 +70,6 @@ export default function UpdateUserInfo({ onClose, setModalHandler, profileData }
           </HeadingFont>
           <div className="flex flex-col  gap-[16px] self-stretch ">
             {/* 사용자 입력창 */}
-            <Input label="아이디" type="text" disabled={true} placeholder={profileData.profileData?.userId} />
-            <CheckPwInput
-              placeholder="새로운 비밀번호를 입력해주세요"
-              label="새 비밀번호 입력"
-              name="password"
-              type="password"
-              description="* 8~20자 이내 숫자,특수문자,영문자로 조합해주세요"
-              onChange={(e) => handlePasswordChange(e.target.value)}
-              passwordMatch={passwordMatch}
-            />
-            <CheckPwInput
-              placeholder="새로운 비밀번호를 다시 입력해주세요"
-              label="새 비밀번호 확인"
-              name="confirmPassword"
-              type="password"
-              onChange={(e) => handleConfirmPasswordChange(e.target.value)}
-              passwordMatch={passwordMatch}
-              description={passwordMatch ? "비밀번호가 일치합니다." : "비밀번호가 일치하지 않습니다."}
-            />
             <Input
               type="tel"
               label="휴대폰번호"

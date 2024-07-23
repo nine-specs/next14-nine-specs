@@ -2,6 +2,7 @@ import HeadingFont from "@/common/HeadingFont";
 import Input from "@/common/Input";
 import { Modal } from "@/common/Modal";
 import TextButton from "@/common/TextButton";
+import { BASE_URL } from "@/constants";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 interface TCheckPassword {
@@ -9,10 +10,7 @@ interface TCheckPassword {
   setModalHandler: Dispatch<SetStateAction<string>>;
 }
 
-export default function CheckPassword({
-  onClose,
-  setModalHandler,
-}: TCheckPassword) {
+export default function CheckPassword({ onClose, setModalHandler }: TCheckPassword) {
   // 비밀번호 스테이트 저장 -> 추후 변경
   const [password, setPassword] = useState("");
   const [activeBtn, setActiveBtn] = useState(false);
@@ -26,7 +24,7 @@ export default function CheckPassword({
   // 비밀번호 검증
   const checkPwd = async (e: React.MouseEvent<HTMLButtonElement>) => {
     try {
-      const response = await fetch("/api/profile/checkpwd", {
+      const response = await fetch(`${BASE_URL}/api/profile/checkpwd`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,7 +39,7 @@ export default function CheckPassword({
         console.log(result.message);
       } else {
         // 비밀번호 틀릴 시 경고창 -> 추후 변경예정
-        alert("GET OUT!!");
+        alert("현재 비밀번호와 일치하지 않습니다.");
       }
     } catch (error) {
       console.error("비밀번호 확인 중 에러발생:", error);

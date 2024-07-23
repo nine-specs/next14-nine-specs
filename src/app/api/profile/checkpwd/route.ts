@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) {
   const { password } = await request.json();
   try {
-    const user = await GetUser(); // 유저 데이터 가져오기  ->현재 김두한
+    const user = await GetUser(); // 로그인 유저 데이터 가져오기
     // 현재 비밀번호 확인
     if (user) {
       const isPasswordMatch = await compare(password, user?.password);

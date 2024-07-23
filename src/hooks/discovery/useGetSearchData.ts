@@ -2,14 +2,7 @@
 
 import { TUser } from "@/app/api/profile/route";
 import { firestore } from "@/firebase/firebaseConfig";
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  orderBy,
-  query,
-} from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, orderBy, query } from "firebase/firestore";
 
 /**서버액션 : 인기검색어 가져오기 */
 export async function getPopularSearches() {
@@ -26,6 +19,8 @@ export async function getPopularSearches() {
       id: doc.id,
       stockName: doc.data().stockName,
       searchCount: doc.data().searchCount,
+      stockId: doc.data().stockId,
+      stockCode: doc.data().stockCode,
       // ...doc.data(), 모든 데이터
     }));
 

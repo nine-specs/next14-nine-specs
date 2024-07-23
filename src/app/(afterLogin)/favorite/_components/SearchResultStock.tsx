@@ -1,3 +1,4 @@
+"use client";
 import BodyFont from "@/common/BodyFont";
 import TextButton from "@/common/TextButton";
 import { addMyStocks, deleteMyStocks, getMyStocks, TMyStocks, TStocks } from "@/hooks/profile/useStocksHandler";
@@ -7,6 +8,8 @@ import Image from "next/image";
 import { BASE_URL } from "@/constants";
 import { getSession } from "@/lib/getSession";
 import { StockInfo } from "@/components/Report/type/report/stockType";
+import { TstockInfoList } from "./FavoriteStockLists";
+import StockItem from "@/common/StockItem/StockItem";
 
 type TSearchResultStock = {
   searchData: TStocks;
@@ -16,23 +19,27 @@ export default function SearchResultStock({ searchData }: TSearchResultStock) {
   const [isMyStock, setIsMyStock] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  let stockInfoList: TstockInfoList = [];
+  // 타입 변환
+  stockInfoList.push({
+    ticker: searchData.stockId,
+    name: searchData.stockName,
+    code: searchData.stockCode,
+  });
+
   useEffect(() => {
     const fetchMyStocks = async () => {
       try {
-        const session = await getSession();
-        const myStocks = await (
-          await fetch(`${BASE_URL}/api/my/stocks`, {
-            method: "POST",
-            body: JSON.stringify({ userId: session?.user?.id }),
-          })
-        ).json();
+        const myStocks = await getMyStocks();
         console.log("내관심종목" + myStocks);
-        //검색한 종식이 내 관심종목리스트에 있는지 확인
-        const stockExists = myStocks.some((stock: StockInfo) => {
+
+        const stockExists = myStocks.some((stock: TMyStocks, index: number, array: TMyStocks[]) => {
           console.log(stock);
           console.log(searchData.stockName);
-          return stock.name == searchData.stockName;
+          // 여기에 필요한 비교 로직을 추가하세요
+          return stock.stockName == searchData.stockName;
         });
+
         // 내 관심종목 yes? no?
         setIsMyStock(stockExists);
       } catch (error) {
@@ -49,7 +56,7 @@ export default function SearchResultStock({ searchData }: TSearchResultStock) {
   const handleAddStock = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch("/api/favorite", {
+      const response = await fetch(`${BASE_URL}/api/favorite`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -74,7 +81,7 @@ export default function SearchResultStock({ searchData }: TSearchResultStock) {
   const handleDeleteStock = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch("/api/favorite", {
+      const response = await fetch(`${BASE_URL}/api/favorite`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -103,14 +110,16 @@ export default function SearchResultStock({ searchData }: TSearchResultStock) {
           검색결과
         </BodyFont>
       </div>
-      <div className="border w-full h-full flex justify-between">
+      <div className="border w-full h-full flex justify-between ">
         {isLoading ? (
           <div className="w-full items-center h-full flex justify-center">
             <Image src={loadingSpinner} alt="Loading" width={85} height={85} />
           </div>
         ) : (
           <>
-            <div className="w-[573px] h-[48px] border">{searchData?.stockName}</div>
+            <div className="w-[573px] h-[48px] pt-1">
+              <StockItem {...stockInfoList[0]} size="sm" />
+            </div>
             {isMyStock ? (
               <div className="w-[120px]">
                 <TextButton variant="default" size="sm" onClick={handleDeleteStock}>
