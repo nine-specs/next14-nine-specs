@@ -3,23 +3,31 @@ import Image from "next/image";
 import BodyFont from "@/common/BodyFont";
 import CardWrap from "@/common/CardWrap";
 import MoreButton from "../_ui/MoreButton";
+import { getTimeAgo } from "@/service/news/setTimestampToDate";
+import CaptionFont from "@/common/CaptionFont";
 
-import SAMPLE_03 from "../../../../../public/images/news/NewsSample_03.png";
+export default function FavoriteStockRelatedNewsItem(props: any) {
+  const { headLine, media, image, creationTime, relatedStock } = props;
 
-export default function FavoriteStockRelatedNewsItem() {
   return (
     <>
       <CardWrap className="overflow-hidden" width="100%" height="420" padding={false}>
         <div className="w-auto h-[230px] overflow-hidden">
-          <Image src={SAMPLE_03} alt="" className="object-cover object-center" />
+          {image ? (
+            <Image src={image} width={388} height={236} alt="" className="object-cover object-center h-auto" />
+          ) : (
+            <div className="w-full h-full flex justify-center items-center">
+              <CaptionFont weight="regular">관련 이미지가 없습니다.</CaptionFont>
+            </div>
+          )}
         </div>
         <div className="px-6 pt-4 pb-6">
-          <BodyFont level="3" weight="medium" className="text-primary-900">
-            올해 자연재해 채권 발행액↑…美 등 허리케인 피해 크면 손실
+          <BodyFont level="3" weight="medium" className="text-primary-900 min-h-[60px]">
+            {headLine}
           </BodyFont>
           <aside className="flex justify-between pt-2 text-grayscale-600">
             <BodyFont level="5" weight="medium">
-              n시간 전 ∙ 문화일보
+              {getTimeAgo(creationTime)} ∙ {media}
             </BodyFont>
             <MoreButton />
           </aside>

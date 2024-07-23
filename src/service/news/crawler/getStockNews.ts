@@ -6,7 +6,7 @@ import { addDoc, collection, doc, getDocs, writeBatch } from "firebase/firestore
 import { NewsResponse } from "@/types/news";
 import { uuid } from "uuidv4";
 import { setImprovedCrawlerPerformance } from "./setImprovedCrawlerPerformance";
-import parseToTimestamp from "./parseToTimestmp";
+import parseToTimestamp from "../parseToTimestmp";
 
 const stockList = {
   AAPL: "AAPL.O",
