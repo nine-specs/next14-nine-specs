@@ -16,7 +16,7 @@ export default async function PopularNewsItem(props: any) {
         padding={false}
         className="overflow-hidden relative before:absolute before:inset-x-0 before:bottom-0 before:h-3/4 before:bg-gradient-to-t before:from-[#3f3f3f]"
       >
-        <Link href={`news/${newsId}`} className="h-full block">
+        <Link href={`/news/${newsId}`} className="h-full block">
           <div className="h-full">
             <Image
               src={image}
