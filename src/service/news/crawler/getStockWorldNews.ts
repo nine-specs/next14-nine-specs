@@ -72,8 +72,6 @@ export const getStockWorldNews = async () => {
           `https://api.stock.naver.com/news/worldStock/${value}?pageSize=20&page=${pageCount}`,
         );
         const data = await response.json();
-        console.log(`Fetched data for ${key}, page ${pageCount}`);
-
         const timestampDate = getSpecifiedDate();
 
         const recentData = data.filter((item: any) => {
@@ -90,10 +88,8 @@ export const getStockWorldNews = async () => {
 
         // 기간 조건에 맞는 데이터가 없는 경우 while 루프 종료
         if (recentData.length === 0) {
-          console.log(`No recent data for ${key} on page ${pageCount}`);
           break;
         }
-
         allData = [...allData, ...recentData];
         pageCount += 1;
       }
@@ -118,7 +114,6 @@ export const getStockWorldNews = async () => {
             media: $(".HeaderNews_link_press__Nx0pU img").attr("alt") as string,
             category: "",
           };
-
           newsItems.push(newsData);
         } catch (error) {
           console.error(`Error processing URL ${url}: `, error);
@@ -127,7 +122,6 @@ export const getStockWorldNews = async () => {
     }
 
     await browser.close();
-
     await saveDataToFirestore(newsItems);
   } catch (error) {
     console.error("Error: ", error);

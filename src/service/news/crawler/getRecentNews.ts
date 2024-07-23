@@ -35,11 +35,6 @@ export const getRecentNews = async () => {
   setImprovedCrawlerPerformance(page);
 
   try {
-    const targetURL = "https://m.stock.naver.com/investment/news/flashnews";
-
-    // 지정된 URL 접속
-    await page.goto(targetURL);
-
     // API를 이용해 기사 URL에 들어갈 data 가져오기
     try {
       const response = await fetch(
@@ -85,9 +80,7 @@ export const getRecentNews = async () => {
             category: $(".media_end_categorize_item:first-child").text(),
           };
 
-          console.log(newsData);
-
-          // DB에 저장
+          // 중복 검사 후 DB에 저장
           const querySnapshot = await getDocs(collection(firestore, "news", "recentNews", "articles"));
           const existingNews = querySnapshot.docs.map((doc) => doc.data().headLine);
 
