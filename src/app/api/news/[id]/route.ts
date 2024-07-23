@@ -1,5 +1,5 @@
 import { firestore } from "@/firebase/firebaseConfig";
-import { collectionGroup, doc, getDoc, getDocs, query, where } from "firebase/firestore";
+import { collectionGroup, getDocs, query, where } from "firebase/firestore";
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {
   //   await new Promise((resolve) => setTimeout(resolve, 3000));
