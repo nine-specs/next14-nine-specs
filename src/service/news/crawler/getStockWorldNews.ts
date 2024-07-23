@@ -41,7 +41,7 @@ const saveDataToFirestore = async (data: any[]) => {
   for (const chunk of chunkedData) {
     const batch = writeBatch(db);
     chunk.forEach((item) => {
-      const docRef = doc(collection(db, "news", "stockNews", "articles"));
+      const docRef = doc(collection(db, "news", "stockWorldNews", "articles"));
       batch.set(docRef, item);
     });
     await batch.commit();
@@ -105,7 +105,7 @@ export const getStockWorldNews = async () => {
 
           const newsData: NewsResponse = {
             newsId: uuid(),
-            relatedStocks: key,
+            relatedStocks: [key],
             headLine: $("meta[property='og:title']").attr("content") as string,
             description: $(".tr-story-p1").text() as string,
             contents: $(".storyContent").text().replace(/[\t]/g, ""),

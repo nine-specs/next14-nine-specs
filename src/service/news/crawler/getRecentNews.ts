@@ -70,7 +70,7 @@ export const getRecentNews = async () => {
 
           const newsData: NewsResponse = {
             newsId: uuid(),
-            relatedStocks: relatedStocks[0] || "",
+            relatedStocks: relatedStocks || "",
             headLine: $("h2#title_area span").text(),
             description: $("meta[property='og:description']").attr("content") as string,
             contents: contents.replace(/[\t]/g, ""),
