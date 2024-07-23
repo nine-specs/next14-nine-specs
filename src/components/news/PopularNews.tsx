@@ -1,7 +1,8 @@
 import { BASE_URL } from "@/constants";
-import Title from "../_ui/Title";
-import PopularNewsItem from "./PopularNewsItem";
+import Title from "../../app/(afterLogin)/news/_ui/Title";
 import { NewsResponse } from "@/types/news";
+import PopularNewsItem from "./PopularNewsItem";
+import { StockInfo } from "../Report/type/report/stockType";
 
 export default async function PopularNews() {
   const news = await (await fetch(`${BASE_URL}/api/news?category=popularNews&limit=3`)).json();

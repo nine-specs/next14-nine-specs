@@ -6,6 +6,7 @@ import StockSumaryContainer from "./StockSumary/StockSummaryContainer";
 import StockReportContainer from "./StockReport/StockReportContainer";
 import StockAnalysis from "./StockAnalysis/StockAnalysis";
 import { StockInfo } from "./type/report/stockType";
+import PopularNews from "../news/PopularNews";
 
 interface Props {
   stockInfo: StockInfo | undefined;
@@ -17,7 +18,7 @@ interface Props {
  */
 export default async function ReportContainer({ stockInfo }: Props) {
   if (!stockInfo) return null;
-  const { code } = stockInfo;
+  const { code, ticker } = stockInfo;
   return (
     <div className=" w-[1200px] mx-auto py-12  ">
       <div className="flex flex-col flex-wrap gap-6">
@@ -42,6 +43,7 @@ export default async function ReportContainer({ stockInfo }: Props) {
             <StockAnalysis stockInfo={stockInfo} />
           </CardWrap>
         </article>
+        <PopularNews />
       </div>
     </div>
   );
