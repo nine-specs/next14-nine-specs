@@ -5,6 +5,8 @@ import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { TStocks } from "../profile/useStocksHandler";
 import language from "@/app/(afterLogin)/mypage/language/page";
+import { updateData } from "@/components/Report/StockHeader/StockFavorButton";
+import { TstockInfoList } from "@/app/(afterLogin)/favorite/_components/FavoriteStockLists";
 
 const signUp = async (
   data: {
@@ -87,7 +89,19 @@ const signUp = async (
         stockCode: stock.stockCode,
       });
     });
-
+    //조영님 관심종목 콜렉션 추가
+    // let stockInfoList: TstockInfoList = [];
+    // stockList.forEach((a, i) => {
+    //   stockInfoList.push({
+    //     ticker: a.stockId,
+    //     name: a.stockName,
+    //     code: a.stockCode,
+    //   });
+    // });
+    // stockInfoList.forEach((a) => {
+    //   updateData(userDocRef.id, a);
+    // });
+    //조영님 관심종목 콜렉션 추가 끝
     await Promise.all(addStockPromises);
     console.log("관심 종목 추가 완료");
     return { success: true };

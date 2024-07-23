@@ -19,6 +19,8 @@ import { redirect } from "next/navigation";
 import { TStocks } from "./useStocksHandler";
 import { getSession } from "@/lib/getSession";
 import { GetUser } from "./useGetUser";
+import { TstockInfoList } from "@/app/(afterLogin)/favorite/_components/FavoriteStockLists";
+import { updateData } from "@/components/Report/StockHeader/StockFavorButton";
 
 //프로필 사진 , 닉네임 , 관심 종목 수정하기
 export async function useUpdateProfile(formData: FormData) {
@@ -116,6 +118,20 @@ export async function useUpdateProfile(formData: FormData) {
           stockCode: stock.stockCode,
         }), // 자동 생성된 UID로 문서 추가
     );
+    //조영님 관심종목 콜렉션 추가
+    // let stockInfoList: TstockInfoList = [];
+    // stockList.forEach((a, i) => {
+    //   stockInfoList.push({
+    //     ticker: a.stockId,
+    //     name: a.stockName,
+    //     code: a.stockCode,
+    //   });
+    // });
+    // stockInfoList.forEach((a) => {
+    //   updateData(userDocRef.id, a);
+    // });
+    //조영님 관심종목 콜렉션 추가 끝
+
     await Promise.all(addStockPromises);
 
     console.log("관심 종목 수정 완료");

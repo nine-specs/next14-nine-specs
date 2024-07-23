@@ -1,9 +1,10 @@
 "use server";
 import { firestore } from "@/firebase/firebaseConfig";
-import { collection, doc, getDoc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, limit, query, setDoc, updateDoc, where } from "firebase/firestore";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { TStocks } from "../profile/useStocksHandler";
+import { getStockByKeyword, TStocks } from "../profile/useStocksHandler";
+import { NewsResponse } from "@/types/news";
 type TstockInfoList = {
   ticker: string;
   name: string;
@@ -73,5 +74,25 @@ export async function stockListByStockName(stockNameList: string[]) {
     return stockInfo; // 데이터를 반환하도록 수정
   } catch (error) {
     console.log("에러 발생:", error);
+  }
+}
+/**검색 종목의 관련뉴스가져오기 */
+export async function getRelatedStockNews(stockId: string) {
+  try {
+    // console.log("가져온 stockId:" + stockId);
+    const userStocksCollectionRef = collection(firestore, `news/stockNews/articles`);
+    const q = query(userStocksCollectionRef, where("relatedStocks", "==", stockId), limit(20)); // AMZN 또는 GOOGL , MSFT
+    // 쿼리 실행
+    const querySnapshot = await getDocs(q);
+
+    const newsList: NewsResponse[] = [];
+
+    querySnapshot.forEach((doc) => {
+      newsList.push(doc.data() as NewsResponse);
+    });
+    // console.log("가져온 뉴스 데이터" + newsList);
+    return newsList;
+  } catch (e) {
+    console.error;
   }
 }

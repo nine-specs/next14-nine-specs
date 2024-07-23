@@ -3,17 +3,15 @@ import BodyFont from "@/common/BodyFont";
 import { Modal } from "@/common/Modal";
 import CloseIcon from "/public/images/Close_icon.svg";
 import React, { useRef, useState } from "react";
-import SearchInput, { saveRecentSearch } from "../../discovery/_components/SearchInput";
+import { saveRecentSearch } from "../../discovery/_components/SearchInput";
 import Search_icon from "/public/images/Search_icon.svg";
-import ButtonFont from "@/common/ButtonFont";
 import { getStockByKeyword, getStockList, TStocks } from "@/hooks/profile/useStocksHandler";
-import TextButton from "@/common/TextButton";
 import SearchResultStock from "./SearchResultStock";
 import { AddSearchCount } from "@/hooks/discovery/useSearchAction";
 import { TstockInfoList } from "./FavoriteStockLists";
-import StockItem from "@/common/StockItem/StockItem";
 import SlideRecentStocks from "./_components/SlideRecentStocks";
 import { TrecentData, useRecentKeywordStore } from "@/store/useRecentKeywordStore";
+import StockItemClient from "./_components/StockItemClient";
 
 type TAddFavoriteModal = {
   onClose: () => void;
@@ -22,22 +20,19 @@ type TAddFavoriteModal = {
     stockId: string;
     stockCode: string;
   }[];
-  recentData: TstockInfoList;
+  userId: string;
 };
 
-export default function AddFavoriteModal({ onClose, popularSearchData, recentData }: TAddFavoriteModal) {
+export default function AddFavoriteModal({ onClose, popularSearchData, userId }: TAddFavoriteModal) {
   const inputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const [loading, setLoading] = useState(false);
   const [searchData, setSearchData] = useState<TStocks | null>(null);
-  const [isMyStock, setIsMyStock] = useState<boolean>(false);
   const { recentKeywordList, setRecentKeywordList } = useRecentKeywordStore(); //
-
-  const popularSearchList = popularSearchData;
 
   let stockInfoList: TstockInfoList = [];
 
-  popularSearchList.forEach((a, i) => {
+  popularSearchData.forEach((a, i) => {
     stockInfoList.push({
       ticker: a.stockId,
       name: a.stockName,
@@ -133,13 +128,13 @@ export default function AddFavoriteModal({ onClose, popularSearchData, recentDat
               <>
                 {" "}
                 {/* 서치데이터 O 검색결과 표시 */}
-                <SearchResultStock searchData={searchData} />
+                <SearchResultStock searchData={searchData} userId={userId} />
               </>
             ) : (
               <>
                 {/* 서치데이터 X 최근검색항목&인기검색어 표시 */}
                 {/* 최근검색항목 */}
-                <SlideRecentStocks recentData={recentData} />
+                <SlideRecentStocks />
                 {/* 인기검색어*/}
                 <div className="w-[714px] h-[332px]  flex flex-col gap-4">
                   <div>
@@ -159,7 +154,7 @@ export default function AddFavoriteModal({ onClose, popularSearchData, recentDat
                                 </BodyFont>
                               </div>
                               <div className="w-[340px] ">
-                                <StockItem {...a} size="sm" />
+                                <StockItemClient {...a} size="sm" />
                               </div>
                             </div>
                           );
@@ -177,7 +172,7 @@ export default function AddFavoriteModal({ onClose, popularSearchData, recentDat
                                 </BodyFont>{" "}
                               </div>
                               <div className="w-[340px] ">
-                                <StockItem {...a} size="sm" />
+                                <StockItemClient {...a} size="sm" />
                               </div>
                             </div>
                           );

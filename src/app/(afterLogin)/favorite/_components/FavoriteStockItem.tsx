@@ -1,17 +1,12 @@
 "use client";
-import TextButton from "@/common/TextButton";
-import Link from "next/link";
 import React, { useState } from "react";
-import DeleteFavoriteModal from "./DeleteFavoriteModal";
 import FavoriteStockButtons from "./FavoriteStockButtons";
 
 type TFavoriteStockItemProps = {
   myStock: string;
 };
 
-export default function FavoriteStockItem({
-  myStock,
-}: TFavoriteStockItemProps) {
+export default function FavoriteStockItem({ myStock }: TFavoriteStockItemProps) {
   // 전달할 파라미터 인코딩
 
   return (
