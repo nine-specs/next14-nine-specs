@@ -51,11 +51,6 @@ const badStocks: StockInfo[] = [
     name: "고프로",
     code: "GPRO.O",
   },
-  {
-    ticker: "KODK",
-    name: "코닥",
-    code: "KODK.O",
-  },
 ];
 const defaltStocks: StockInfo[] = [
   { ticker: "AAPL", name: "애플", code: "AAPL.O" },
