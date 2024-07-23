@@ -9,14 +9,36 @@ import { stockListByStockName } from "@/hooks/discovery/useSearchAction";
 import { TStocks } from "@/hooks/profile/useStocksHandler";
 import React, { useEffect, useRef, useState } from "react";
 import { TstockInfoList } from "../FavoriteStockLists";
-import { useRecentKeywordStore } from "@/store/useRecentKeywordStore";
+import { TrecentData, useRecentKeywordStore } from "@/store/useRecentKeywordStore";
 
-type Tprops = {
-  recentData: TstockInfoList;
-};
-
-export default function SlideRecentStocks({ recentData }: Tprops) {
+export default function SlideRecentStocks() {
   const { recentKeywordList, setRecentKeywordList } = useRecentKeywordStore(); //
+  const [stockInfoList, setStockInfoList] = useState<TstockInfoList>([]);
+  // 최근 검색종목 데이터가져오기
+  useEffect(() => {
+    (async () => {
+      const savedRecentData = localStorage.getItem("recentData");
+      if (savedRecentData) {
+        const parsedRecentData: TrecentData = JSON.parse(savedRecentData);
+        setRecentKeywordList(parsedRecentData);
+        console.log("최근검색어", parsedRecentData);
+
+        const stockNameList = parsedRecentData.map((item) => item.keyword);
+        if (stockNameList.length > 0) {
+          try {
+            const recentStockDataList = await stockListByStockName(stockNameList);
+            console.log("최근검색데이터리스트", recentStockDataList);
+            if (recentStockDataList) {
+              setStockInfoList(recentStockDataList);
+              console.log("최근검색어의 주식데이터", recentStockDataList[0]);
+            }
+          } catch (e) {
+            console.error("Error:", e);
+          }
+        }
+      }
+    })();
+  }, [setRecentKeywordList]);
 
   /**최근 검색어 모두삭제 클릭이벤트 */
   const deleteAllRecentWord = () => {
@@ -49,8 +71,8 @@ export default function SlideRecentStocks({ recentData }: Tprops) {
             orientation="horizontal"
             className="w-full"
           >
-            <CarouselContent className="mt-0 h-[96px] gap-5">
-              {recentData.map((stock, index) => (
+            <CarouselContent className="mt-0 h-[96px] gap-5  px-4">
+              {stockInfoList.map((stock, index) => (
                 <div
                   key={index}
                   className="border border-primary-100  rounded-2xl min-w-[255px] min-h-[96px] flex-shrink-0 py-6 pr-4"

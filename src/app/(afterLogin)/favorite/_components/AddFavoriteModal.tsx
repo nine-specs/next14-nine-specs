@@ -22,10 +22,9 @@ type TAddFavoriteModal = {
     stockId: string;
     stockCode: string;
   }[];
-  recentData: TstockInfoList;
 };
 
-export default function AddFavoriteModal({ onClose, popularSearchData, recentData }: TAddFavoriteModal) {
+export default function AddFavoriteModal({ onClose, popularSearchData }: TAddFavoriteModal) {
   const inputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const [loading, setLoading] = useState(false);
@@ -33,11 +32,9 @@ export default function AddFavoriteModal({ onClose, popularSearchData, recentDat
   const [isMyStock, setIsMyStock] = useState<boolean>(false);
   const { recentKeywordList, setRecentKeywordList } = useRecentKeywordStore(); //
 
-  const popularSearchList = popularSearchData;
-
   let stockInfoList: TstockInfoList = [];
 
-  popularSearchList.forEach((a, i) => {
+  popularSearchData.forEach((a, i) => {
     stockInfoList.push({
       ticker: a.stockId,
       name: a.stockName,
@@ -139,7 +136,7 @@ export default function AddFavoriteModal({ onClose, popularSearchData, recentDat
               <>
                 {/* 서치데이터 X 최근검색항목&인기검색어 표시 */}
                 {/* 최근검색항목 */}
-                <SlideRecentStocks recentData={recentData} />
+                <SlideRecentStocks />
                 {/* 인기검색어*/}
                 <div className="w-[714px] h-[332px]  flex flex-col gap-4">
                   <div>
