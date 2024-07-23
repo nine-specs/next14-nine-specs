@@ -1,14 +1,12 @@
 import CardWrap from "@/common/CardWrap";
 import Title from "./Title";
 import NOTFOUND_ICON from "../../../../../public/images/Not_found_icon.svg";
-
 import BodyFont from "@/common/BodyFont";
 import { StockInfo } from "@/components/Report/type/report/stockType";
-import { StockCarousel } from "./StockCarousel";
+import StockCarousel from "./StockCarousel";
 
-export default async function StockList({ stocks, title }: { stocks: StockInfo[]; title: string }) {
+export default function StockList({ stocks, title }: { stocks: StockInfo[]; title: string }) {
   const emptyStocks = !stocks.length;
-
   return (
     <>
       <div className="flex-1">
