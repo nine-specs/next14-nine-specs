@@ -6,11 +6,11 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: Request) {
   try {
     const reportData = await request.json();
-    const { system, message } = reportData;
+    const { system, message, code } = reportData;
     const CollectionName = "reportGptResponse";
     const today = dayjs().format("YYYY-MM-DD");
 
-    const stockRef = doc(firestore, CollectionName, today); // 문서 참조 생성
+    const stockRef = doc(firestore, CollectionName, `${today}_${code}`); // 문서 참조 생성
     const docSnap = await getDoc(stockRef); // 문서 조회
     if (!docSnap.exists()) {
       const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/gpt`, {

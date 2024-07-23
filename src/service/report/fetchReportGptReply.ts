@@ -11,6 +11,7 @@ export const fetchReportGptReply = async (code: string) => {
     body: JSON.stringify({
       system,
       message,
+      code,
     }),
     cache: "no-store",
   });
