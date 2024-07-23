@@ -18,8 +18,6 @@ const stockList = {
 };
 
 export const getStockNews = async () => {
-  setImprovedCrawlerPerformance();
-
   try {
     const items: any[] = [];
     for (const [key, value] of Object.entries(stockList)) {
@@ -50,6 +48,8 @@ export const getStockNews = async () => {
       //       width: 1920,
       //       height: 1080,
       //     });
+      //    setImprovedCrawlerPerformance(page);
+
       //     await page.goto(url);
 
       //     const html = await page.content();
