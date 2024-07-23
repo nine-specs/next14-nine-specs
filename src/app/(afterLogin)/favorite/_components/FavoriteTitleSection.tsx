@@ -4,7 +4,6 @@ import TextButton from "@/common/TextButton";
 import React, { useEffect, useState } from "react";
 import AddFavoriteModal from "./AddFavoriteModal";
 import { TstockInfoList } from "./FavoriteStockLists";
-import { useRecentKeywordStore, TrecentData } from "@/store/useRecentKeywordStore";
 
 export type TFavoriteTitleSection = {
   popularSearchData: {
@@ -16,7 +15,6 @@ export type TFavoriteTitleSection = {
 
 export default function FavoriteTitleSection({ popularSearchData }: TFavoriteTitleSection) {
   const [isAddFavoriteModalOpened, setAddFavoriteModalOpened] = useState(false); // 모달 열고닫기
-  const [stockInfoList, setStockInfoList] = useState<TstockInfoList>([]);
 
   return (
     <>

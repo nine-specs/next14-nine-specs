@@ -3,10 +3,8 @@ import BodyFont from "@/common/BodyFont";
 import { LanguageButton } from "@/common/LanguageButton";
 import SideBar from "../_components/SideBar";
 import { useEffect, useState } from "react";
-import { TUser } from "@/app/api/profile/route";
 import loadingSpinner from "/public/images/loading/loadingSpiner.gif";
 import Image from "next/image";
-import { getSession } from "@/lib/getSession";
 import { BASE_URL } from "@/constants";
 
 export default function Language() {

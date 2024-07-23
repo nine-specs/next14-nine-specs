@@ -1,15 +1,11 @@
-import { StockCarousel } from "@/app/(afterLogin)/home/_ui/StockCarousel";
 import BodyFont from "@/common/BodyFont";
 import ButtonFont from "@/common/ButtonFont";
-import StockItem from "@/common/StockItem/StockItem";
-import { StockInfo } from "@/components/Report/type/report/stockType";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
-import { BASE_URL } from "@/constants";
 import { stockListByStockName } from "@/hooks/discovery/useSearchAction";
-import { TStocks } from "@/hooks/profile/useStocksHandler";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TstockInfoList } from "../FavoriteStockLists";
 import { TrecentData, useRecentKeywordStore } from "@/store/useRecentKeywordStore";
+import StockItemClient from "./StockItemClient";
 
 export default function SlideRecentStocks() {
   const { recentKeywordList, setRecentKeywordList } = useRecentKeywordStore(); //
@@ -78,7 +74,7 @@ export default function SlideRecentStocks() {
                   className="border border-primary-100  rounded-2xl min-w-[255px] min-h-[96px] flex-shrink-0 py-6 pr-4"
                 >
                   <CarouselItem key={stock.code} className=" basis-4/4">
-                    <StockItem {...stock} size="md" />
+                    <StockItemClient {...stock} size="md" />
                   </CarouselItem>
                 </div>
               ))}

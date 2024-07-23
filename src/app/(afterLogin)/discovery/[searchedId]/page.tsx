@@ -1,11 +1,8 @@
 import React from "react";
-import Search_icon from "/public/images/Search_icon.svg";
 import BodyFont from "@/common/BodyFont";
 import ButtonFont from "@/common/ButtonFont";
 import NotFoundIcon from "/public/images/Not_found_icon.svg";
-import { useParams } from "next/navigation";
 import SearchInput from "../_components/SearchInput";
-import Image from "next/image";
 import { getStockByKeyword, TStocks } from "@/hooks/profile/useStocksHandler";
 import { TstockInfoList } from "../../favorite/_components/FavoriteStockLists";
 import StockItem from "@/common/StockItem/StockItem";

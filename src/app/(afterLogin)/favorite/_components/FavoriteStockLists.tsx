@@ -1,7 +1,3 @@
-import HeadingFont from "@/common/HeadingFont";
-import TextButton from "@/common/TextButton";
-import FavoriteStockItem from "./FavoriteStockItem";
-import AddFavoriteModal from "./AddFavoriteModal";
 import { TMyStocks, TStocks } from "@/hooks/profile/useStocksHandler";
 import FavoriteTitleSection from "./FavoriteTitleSection";
 import CardWrap from "@/common/CardWrap";

@@ -3,17 +3,15 @@ import BodyFont from "@/common/BodyFont";
 import { Modal } from "@/common/Modal";
 import CloseIcon from "/public/images/Close_icon.svg";
 import React, { useRef, useState } from "react";
-import SearchInput, { saveRecentSearch } from "../../discovery/_components/SearchInput";
+import { saveRecentSearch } from "../../discovery/_components/SearchInput";
 import Search_icon from "/public/images/Search_icon.svg";
-import ButtonFont from "@/common/ButtonFont";
 import { getStockByKeyword, getStockList, TStocks } from "@/hooks/profile/useStocksHandler";
-import TextButton from "@/common/TextButton";
 import SearchResultStock from "./SearchResultStock";
 import { AddSearchCount } from "@/hooks/discovery/useSearchAction";
 import { TstockInfoList } from "./FavoriteStockLists";
-import StockItem from "@/common/StockItem/StockItem";
 import SlideRecentStocks from "./_components/SlideRecentStocks";
 import { TrecentData, useRecentKeywordStore } from "@/store/useRecentKeywordStore";
+import StockItemClient from "./_components/StockItemClient";
 
 type TAddFavoriteModal = {
   onClose: () => void;
@@ -29,7 +27,6 @@ export default function AddFavoriteModal({ onClose, popularSearchData }: TAddFav
   const formRef = useRef<HTMLFormElement>(null);
   const [loading, setLoading] = useState(false);
   const [searchData, setSearchData] = useState<TStocks | null>(null);
-  const [isMyStock, setIsMyStock] = useState<boolean>(false);
   const { recentKeywordList, setRecentKeywordList } = useRecentKeywordStore(); //
 
   let stockInfoList: TstockInfoList = [];
@@ -156,7 +153,7 @@ export default function AddFavoriteModal({ onClose, popularSearchData }: TAddFav
                                 </BodyFont>
                               </div>
                               <div className="w-[340px] ">
-                                <StockItem {...a} size="sm" />
+                                <StockItemClient {...a} size="sm" />
                               </div>
                             </div>
                           );
@@ -174,7 +171,7 @@ export default function AddFavoriteModal({ onClose, popularSearchData }: TAddFav
                                 </BodyFont>{" "}
                               </div>
                               <div className="w-[340px] ">
-                                <StockItem {...a} size="sm" />
+                                <StockItemClient {...a} size="sm" />
                               </div>
                             </div>
                           );

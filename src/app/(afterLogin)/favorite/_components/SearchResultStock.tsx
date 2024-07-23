@@ -1,15 +1,13 @@
 "use client";
 import BodyFont from "@/common/BodyFont";
 import TextButton from "@/common/TextButton";
-import { addMyStocks, deleteMyStocks, getMyStocks, TMyStocks, TStocks } from "@/hooks/profile/useStocksHandler";
+import { getMyStocks, TMyStocks, TStocks } from "@/hooks/profile/useStocksHandler";
 import React, { useEffect, useState } from "react";
 import loadingSpinner from "/public/images/loading/loadingSpiner.gif";
 import Image from "next/image";
 import { BASE_URL } from "@/constants";
-import { getSession } from "@/lib/getSession";
-import { StockInfo } from "@/components/Report/type/report/stockType";
 import { TstockInfoList } from "./FavoriteStockLists";
-import StockItem from "@/common/StockItem/StockItem";
+import StockItemClient from "./_components/StockItemClient";
 
 type TSearchResultStock = {
   searchData: TStocks;
@@ -36,8 +34,7 @@ export default function SearchResultStock({ searchData }: TSearchResultStock) {
         const stockExists = myStocks.some((stock: TMyStocks, index: number, array: TMyStocks[]) => {
           console.log(stock);
           console.log(searchData.stockName);
-          // 여기에 필요한 비교 로직을 추가하세요
-          return stock.stockName == searchData.stockName;
+          return stock.stockName == searchData.stockName; // 내관심종목 여부 확인
         });
 
         // 내 관심종목 yes? no?
@@ -50,7 +47,7 @@ export default function SearchResultStock({ searchData }: TSearchResultStock) {
     };
 
     fetchMyStocks();
-  }, [searchData]);
+  }, [searchData.stockName]);
 
   /**관심종목 추가 */
   const handleAddStock = async () => {
@@ -118,7 +115,7 @@ export default function SearchResultStock({ searchData }: TSearchResultStock) {
         ) : (
           <>
             <div className="w-[573px] h-[48px] pt-1">
-              <StockItem {...stockInfoList[0]} size="sm" />
+              <StockItemClient {...stockInfoList[0]} size="sm" />
             </div>
             {isMyStock ? (
               <div className="w-[120px]">
