@@ -1,6 +1,6 @@
 import BodyFont from "@/common/BodyFont";
 import { StockInfo } from "../type/report/stockType";
-import { gptAnalysisPrompt } from "@/constants/analysis/gptAnalysis";
+import { gptAnalysisPrompt } from "@/constants/Analysis/gptAnalysis";
 
 interface Props {
   stockInfo: StockInfo | undefined;
