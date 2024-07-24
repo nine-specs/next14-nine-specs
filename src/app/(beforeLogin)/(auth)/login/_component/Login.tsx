@@ -16,9 +16,9 @@ export default function LoginComponent() {
   const [password, setPassword] = useState("");
 
   const socialProviders = [
-    { name: "kakao", imageSrc: "/images/logo/kakao.svg" },
-    { name: "naver", imageSrc: "/images/logo/Naver.svg" },
-    { name: "google", imageSrc: "/images/logo/Google.svg" },
+    { name: "Kakao", imageSrc: "/images/logo/kakao.svg" },
+    { name: "Naver", imageSrc: "/images/logo/Naver.svg" },
+    { name: "Google", imageSrc: "/images/logo/Google.svg" },
   ];
 
   const handleSocialLogin = async (provider: any) => {
