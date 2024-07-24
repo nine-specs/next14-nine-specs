@@ -8,7 +8,6 @@ import { getFormattedDate } from "@/service/news/setTimestampToDate";
 
 import TranslateIcon from "../../../../../../public/images/Translate_icon.svg";
 import AiIcon from "../../../../../../public/images/logo/LOGO.svg";
-import { ReactNode } from "react";
 
 export type NewsDetailProps = {
   id: string;
@@ -19,7 +18,6 @@ export default async function NewsDetail({ id }: NewsDetailProps) {
 
   const { contents } = article;
   const sentences = contents.split("다.");
-  console.log(sentences);
 
   return (
     <>

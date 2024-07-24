@@ -2,15 +2,10 @@ import BodyFont from "@/common/BodyFont";
 import ListWrap from "@/common/ListWrap";
 import RelatedNewsItem from "./RelatedNewsItem";
 
-export default function RelatedNews() {
+export default async function RelatedNews() {
   return (
     <>
-      <ListWrap
-        width="382px"
-        height="auto"
-        padding="md"
-        className="flex flex-col gap-5"
-      >
+      <ListWrap width="382px" height="auto" padding="md" className="flex flex-col gap-5">
         <BodyFont level="3" weight="bold" className="text-primary-900">
           관련 기사
         </BodyFont>
