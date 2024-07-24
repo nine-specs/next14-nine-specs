@@ -27,7 +27,7 @@ export const authConfig = {
       return true;
     },
     async signIn({ user, account }: { user: any; account: any }) {
-      if (account?.provider === "kakao" || account?.provider === "google" || account?.provider === "naver") {
+      if (account?.provider === "Kakao" || account?.provider === "google" || account?.provider === "naver") {
         const { id, name, email, birthdate, image } = user;
         console.log(`[signIn callback] ${account.provider.toUpperCase()} 사용자 정보:`, user);
 
