@@ -16,7 +16,7 @@ export default function LoginComponent() {
   const [password, setPassword] = useState("");
 
   const socialProviders = [
-    { name: "kakao", imageSrc: "/images/logo/kakao.svg" },
+    { name: "kakao", imageSrc: "/images/logo/Kakao.svg" },
     { name: "Naver", imageSrc: "/images/logo/Naver.svg" },
     { name: "Google", imageSrc: "/images/logo/Google.svg" },
   ];
