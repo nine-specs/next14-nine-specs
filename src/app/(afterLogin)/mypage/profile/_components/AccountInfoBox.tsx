@@ -1,6 +1,6 @@
 import BodyFont from "@/common/BodyFont";
 import React from "react";
-import Kakao from "/public/images/logo/KaKao.svg";
+import Kakao from "/public/images/logo/Kakao.svg";
 type tAccountInfoBox = {
   title: string;
   info?: string;
