@@ -5,22 +5,19 @@ interface AnalystResponse {
   system: string;
 }
 
-export const gptAnalysisPrompt = async (
-  code: string,
-): Promise<AnalystResponse> => {
-  const sixMonthsPrice = await getStockPrice(code, "month&range=6", "NASDAQ");
-
-  const sixMonthsPriceString = sixMonthsPrice
-    .map(
-      (item) =>
-        `날짜: ${item.localDate}, 종가: ${item.closePrice}, 시가: ${item.openPrice}, 최고가: ${item.highPrice}, 최저가: ${item.lowPrice}, 거래량: ${item.accumulatedTradingVolume}`,
-    )
-    .join("\n");
+export const gptAnalysisPrompt = async (code: string): Promise<AnalystResponse> => {
+  const sixMonthsPrice = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/report/stockprice`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ code, periodType: "month&range=6", stockExchangeType: "NASDAQ" }),
+  });
 
   const message = `
 종목: ${code}
 해당 종목의 최근 6개월 가격 데이터:
-${sixMonthsPriceString}
+${sixMonthsPrice}
 응답 데이터:
 1. 거래 데이터를 바탕으로 주식에 대한 [강력한 매수, 매수, 중립, 매도, 강력한 매도] 중 하나의 전문가 의견을 제시하세요.
 2. 제공된 데이터를 기반으로 현재 주가를 표시하세요.

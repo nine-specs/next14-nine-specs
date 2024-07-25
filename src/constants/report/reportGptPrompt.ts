@@ -1,5 +1,3 @@
-import { getStockPrice } from "@/service/report/stockPriceApi";
-
 const system = `당신은 스윙 매매를 전문으로 하는 주식 분석가입니다. 사용자로부터 주식 정보와 최근 6개월 간의 데이터를 제공받습니다. 
 이 데이터를 바탕으로 주식의 투자 가치를 평가해야 합니다. 
 주가, 투자지수, 수익성, 성장성, 관심도 등 다양한 요소를 고려하여 각 요소에 0에서 100까지 점수를 부여하고, 이 점수들의 평균으로 종합 점수를 산출합니다. 
@@ -56,17 +54,17 @@ const examplePrompt = `
 const finalPrompt = `${scoringCriteria}${examplePrompt}`;
 
 export const reportGptPrompt = async (code: string) => {
-  const sixMonthsPrice = await getStockPrice(code, "month", "NASDAQ");
-  const sixMonthsPriceString = sixMonthsPrice
-    .map(
-      (item) =>
-        `날짜: ${item.localDate}, 종가: ${item.closePrice}, 시가: ${item.openPrice}, 최고가: ${item.highPrice}, 최저가: ${item.lowPrice}, 거래량: ${item.accumulatedTradingVolume}`,
-    )
-    .join("\n");
+  const sixMonthsPrice = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/report/stockprice`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ code, periodType: "month&range=6", stockExchangeType: "NASDAQ" }),
+  });
 
   const message = `
 조회 할 주식 정보: ${code}
-최근 6개월의 주식 데이터: ${sixMonthsPriceString}
+최근 6개월의 주식 데이터: ${sixMonthsPrice}
 ${finalPrompt}
 `;
   return { system, message };
