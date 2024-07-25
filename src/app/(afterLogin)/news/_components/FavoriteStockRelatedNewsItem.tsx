@@ -5,9 +5,10 @@ import CardWrap from "@/common/CardWrap";
 import MoreButton from "../_ui/MoreButton";
 import { getTimeAgo } from "@/service/news/setTimestampToDate";
 import CaptionFont from "@/common/CaptionFont";
+import { NewsResponse } from "@/types/news";
 
-export default function FavoriteStockRelatedNewsItem(props: any) {
-  const { headLine, media, image, creationTime, relatedStock } = props;
+export default function FavoriteStockRelatedNewsItem(props: NewsResponse) {
+  const { headLine, media, image, creationTime, newsId } = props;
 
   return (
     <>
@@ -22,14 +23,14 @@ export default function FavoriteStockRelatedNewsItem(props: any) {
           )}
         </div>
         <div className="px-6 pt-4 pb-6">
-          <BodyFont level="3" weight="medium" className="text-primary-900 min-h-[60px]">
+          <BodyFont level="3" weight="medium" className="text-primary-900 min-h-[60px] line-clamp-2">
             {headLine}
           </BodyFont>
           <aside className="flex justify-between pt-2 text-grayscale-600">
             <BodyFont level="5" weight="medium">
               {getTimeAgo(creationTime)} ∙ {media}
             </BodyFont>
-            <MoreButton />
+            <MoreButton newsId={newsId} />
           </aside>
         </div>
       </CardWrap>

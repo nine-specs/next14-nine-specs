@@ -30,9 +30,8 @@ export async function getPopularSearches() {
     return [];
   }
 }
-
+/**  현재 시간 가져오기 */
 export async function getCurrentTime() {
-  // 현재 시간 가져오기
   const now = new Date();
 
   // 시간과 분을 가져오기

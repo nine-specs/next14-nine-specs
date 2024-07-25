@@ -19,7 +19,7 @@ const getData = async (uid: string) => {
   return data;
 };
 
-const updateData = async (uid: string, stockInfo: StockInfo) => {
+export const updateData = async (uid: string, stockInfo: StockInfo) => {
   const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/favorStock`, {
     method: "PUT",
     headers: {

@@ -1,6 +1,6 @@
 import BodyFont from "@/common/BodyFont";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 const sideBarCSS = "h-[60px] py-[16px] px-[24px]";
 const activeMenuCSS = "border-l-8 border-l-primary-900 box-border !pl-[16px]";
@@ -49,15 +49,8 @@ export default function SideBar({ menu }: TSidebar) {
     >
       <div className="mt-[24px] flex-col">
         {Object.entries(sideMenuList).map(([key, value]) => (
-          <div
-            key={key}
-            className={`${sideBarCSS} ${value.selected ? activeMenuCSS : ""}`}
-          >
-            <BodyFont
-              level="2"
-              weight={`${value.selected ? "bold" : "medium"}`}
-              className="text-primary-900"
-            >
+          <div key={key} className={`${sideBarCSS} ${value.selected ? activeMenuCSS : ""}`}>
+            <BodyFont level="2" weight={`${value.selected ? "bold" : "medium"}`} className="text-primary-900">
               <Link href={`/mypage/${value.href}`}>{value.menuText}</Link>
             </BodyFont>
           </div>

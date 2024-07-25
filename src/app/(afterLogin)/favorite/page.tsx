@@ -2,7 +2,6 @@ import React from "react";
 import FavoriteStockLists from "./_components/FavoriteStockLists";
 import { getMyStocks, getMyStocksData } from "@/hooks/profile/useStocksHandler";
 import { getPopularSearches } from "@/hooks/discovery/useGetSearchData";
-import { create } from "zustand";
 import { getSession } from "@/lib/getSession";
 
 export default async function page() {

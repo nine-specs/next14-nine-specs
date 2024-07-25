@@ -1,16 +1,35 @@
-import NewsArticle from "./_components/NewsArticle";
+import { StockInfo } from "@/components/Report/type/report/stockType";
+import NewsDetail from "./_components/NewsDetail";
 import RelatedList from "./_components/RelatedList";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { firestore } from "@/firebase/firebaseConfig";
 
-export default function NewsDetail({ params: { id } }: { params: { id: string } }) {
+type NewsDetailPageProps = {
+  params: {
+    id: string;
+  };
+};
+
+export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
+  const id = params.id;
+  const article = await (await fetch(`http://localhost:3000/api/news/${id}`)).json();
+  const { relatedStocks } = article;
+  const stockList: StockInfo[] = [];
+
+  if (relatedStocks.length > 0) {
+    const stocksRef = collection(firestore, "stockList");
+    const q = query(stocksRef, where("ticker", "in", relatedStocks));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      stockList.push(doc.data() as StockInfo);
+    });
+  }
+
   return (
     <>
       <div className="px-[120px] pt-10 pb-[70px] overflow-hidden flex gap-5 justify-center">
-        <NewsArticle
-          params={{
-            id,
-          }}
-        />
-        <RelatedList />
+        <NewsDetail id={id} />
+        <RelatedList stockList={stockList} />
       </div>
     </>
   );

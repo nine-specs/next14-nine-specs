@@ -34,7 +34,7 @@ export default function RecentlyViewedStockItem(props: StockInfo) {
       setData({ closePrice, fluctuationsRatio, compareToPreviousClosePrice });
     };
     loadData();
-  }, []);
+  }, [code]);
 
   if (!data) return <div className="animate-pulse h-full w-full bg-white"></div>;
 

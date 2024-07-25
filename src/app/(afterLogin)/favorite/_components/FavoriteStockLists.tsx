@@ -1,7 +1,3 @@
-import HeadingFont from "@/common/HeadingFont";
-import TextButton from "@/common/TextButton";
-import FavoriteStockItem from "./FavoriteStockItem";
-import AddFavoriteModal from "./AddFavoriteModal";
 import { TMyStocks, TStocks } from "@/hooks/profile/useStocksHandler";
 import FavoriteTitleSection from "./FavoriteTitleSection";
 import CardWrap from "@/common/CardWrap";
@@ -44,7 +40,7 @@ export default function FavoriteStockLists({ data, popularSearchData, userId }: 
   return (
     <>
       <div className="w-[1214px] h-auto  flex flex-col justify-between gap-6 mx-auto  mt-[56px]">
-        <FavoriteTitleSection popularSearchData={popularSearchData} />
+        <FavoriteTitleSection popularSearchData={popularSearchData} userId={userId} />
         <div className="flex flex-col justify-between gap-6">
           {/* 관심종목 리스트 */}
           <div className="w-[1214px] min-h-[360px]  flex  gap-[19px] flex-wrap justify-start">

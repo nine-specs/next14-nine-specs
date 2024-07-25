@@ -20,10 +20,7 @@ export async function GET(request: NextRequest) {
   const limitParams = searchParams.get("limit");
 
   if (!category) {
-    return Response.json(
-      { error: "'sort' 쿼리 매개변수가 누락되었습니다." },
-      { status: 400 },
-    );
+    return Response.json({ error: "'sort' 쿼리 매개변수가 누락되었습니다." }, { status: 400 });
   }
 
   const newsDocRef = doc(firestore, "news", category);

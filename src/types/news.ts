@@ -9,9 +9,9 @@ export interface NewsResponse {
   newsId: string;
 
   /**
-   * @property {string} relatedStocks - 뉴스 기사와 관련된 주식 심볼 문자열
+   * @property {array} relatedStocks - 뉴스 기사와 관련된 주식 심볼 배열
    */
-  relatedStocks?: string;
+  relatedStocks?: string[];
 
   /**
    * @property {string} headLine - 뉴스 기사의 제목

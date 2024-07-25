@@ -73,7 +73,7 @@ export const getPopularNews = async () => {
 
         const newsData: NewsResponse = {
           newsId: uuid(),
-          relatedStocks: relatedStocks[0] || "",
+          relatedStocks: relatedStocks || "",
           headLine: $("h2#title_area span").text(),
           description: $("meta[property='og:description']").attr("content") as string,
           contents: contents.replace(/[\t]/g, ""),
@@ -82,8 +82,6 @@ export const getPopularNews = async () => {
           media: $(".media_end_head_top_logo img").attr("title") as string,
           category: $(".media_end_categorize_item:first-child").text(),
         };
-
-        // console.log(newsData);
 
         // 중복 확인 후 newsData를 DB에 저장
         const querySnapshot = await getDocs(collection(firestore, "news", "popularNews", "articles"));

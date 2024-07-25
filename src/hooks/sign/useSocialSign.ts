@@ -3,6 +3,8 @@ import { firestore, storage } from "@/firebase/firebaseConfig";
 import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { TStocks } from "../profile/useStocksHandler";
+import { TstockInfoList } from "@/app/(afterLogin)/favorite/_components/FavoriteStockLists";
+import { updateData } from "@/components/Report/StockHeader/StockFavorButton";
 
 export async function SocialSignUp(
   userInfo: {
@@ -97,12 +99,7 @@ export async function SocialSignUp(
       stockList.push(doc.data() as TStocks);
     });
 
-    const myStocksCollectionRef = collection(
-      firestore,
-      "users",
-      userDocRef.id,
-      "myStocks",
-    );
+    const myStocksCollectionRef = collection(firestore, "users", userDocRef.id, "myStocks");
 
     const addStockPromises = stockList.map(async (stock) => {
       await addDoc(myStocksCollectionRef, {
@@ -112,6 +109,19 @@ export async function SocialSignUp(
         stockCode: stock.stockCode,
       });
     });
+    //조영님 관심종목 콜렉션 추가
+    // let stockInfoList: TstockInfoList = [];
+    // stockList.forEach((a, i) => {
+    //   stockInfoList.push({
+    //     ticker: a.stockId,
+    //     name: a.stockName,
+    //     code: a.stockCode,
+    //   });
+    // });
+    // stockInfoList.forEach((a) => {
+    //   updateData(userDocRef.id, a);
+    // });
+    //조영님 관심종목 콜렉션 추가 끝
 
     await Promise.all(addStockPromises);
     console.log("회원 가입 및 프로필 설정 완료");

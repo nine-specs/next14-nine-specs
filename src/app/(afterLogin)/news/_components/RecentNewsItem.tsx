@@ -14,7 +14,7 @@ export default function RecentNewsItem(props: any) {
         <Image src={image} alt="" width={252} height={148} className="object-cover object-center h-auto" />
       </div>
       <div className="flex-1">
-        <Link href={`news/${newsId}`}>
+        <Link href={`/news/${newsId}`}>
           <div className="mb-4 flex justify-between items-center">
             <Heading heading={`${headLine}`} />
             <aside className="text-grayscale-600">

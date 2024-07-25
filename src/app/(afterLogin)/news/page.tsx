@@ -6,9 +6,9 @@ export default function NewsHome() {
   return (
     <>
       <div className="max-w-[1200px] pt-14 pb-20 overflow-hidden">
-        <PopularNews />
+        {/* <PopularNews />
         <FavoriteStockRelatedNews />
-        <RecentNews />
+        <RecentNews /> */}
       </div>
     </>
   );
