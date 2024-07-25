@@ -42,7 +42,7 @@ export default function RecentStockNewsItem({
             <p className="flex flex-shrink-0 w-[406px] text-base font-medium text-left text-[#121212]">{headLine}</p>
             <div className="flex justify-start items-start flex-grow-0 flex-shrink-0 relative gap-2">
               <p className="flex-grow-0 flex-shrink-0 text-[13px] text-left text-[#575757]">{relativeTimeString}</p>
-              <p className="flex-grow-0 flex-shrink-0 text-[13px] text-left text-[#575757]">∙∙</p>
+              <p className="flex-grow-0 flex-shrink-0 text-[13px] text-left text-[#575757]">∙</p>
               <p className="flex-grow-0 flex-shrink-0 text-[13px] text-left text-[#575757]">{media}</p>
             </div>
           </div>
