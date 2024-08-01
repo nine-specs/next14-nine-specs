@@ -5,7 +5,7 @@ import { NewsResponse } from "@/types/news";
 
 export default async function FavoriteStockRelatedNews({ userId }: { userId: string }) {
   const stockRelatedNews = await (
-    await fetch(`${BASE_URL}/api/news/related`, {
+    await fetch(`${BASE_URL}/api/news/favorite`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -14,7 +14,7 @@ type NewsDetailPageProps = {
 export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
   const id = params.id;
   const article = await (await fetch(`${BASE_URL}/api/news/${id}`)).json();
-  const { relatedStocks } = article;
+  const { relatedStocks, category } = article;
   const stockList: StockInfo[] = [];
 
   if (relatedStocks.length > 0) {
@@ -30,7 +30,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
     <>
       <div className="px-[120px] pt-10 pb-[70px] overflow-hidden flex gap-5 justify-center">
         <NewsDetail id={id} />
-        <RelatedList stockList={stockList} />
+        <RelatedList stockList={stockList} category={category} relatedStocks={relatedStocks} />
       </div>
     </>
   );
