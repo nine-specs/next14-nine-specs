@@ -27,8 +27,6 @@ export default async function PopularNews({ data = [], type }: Props) {
     news = await (await fetch(`${BASE_URL}/api/news?category=popularNews&limit=3`)).json();
   }
 
-  console.log(news);
-
   return (
     <>
       <section className="w-full mb-12">
