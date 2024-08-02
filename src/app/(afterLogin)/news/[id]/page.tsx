@@ -3,6 +3,7 @@ import NewsDetail from "./_components/NewsDetail";
 import RelatedList from "./_components/RelatedList";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { firestore } from "@/firebase/firebaseConfig";
+import { BASE_URL } from "@/constants";
 
 type NewsDetailPageProps = {
   params: {
@@ -12,8 +13,8 @@ type NewsDetailPageProps = {
 
 export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
   const id = params.id;
-  const article = await (await fetch(`http://localhost:3000/api/news/${id}`)).json();
-  const { relatedStocks } = article;
+  const article = await (await fetch(`${BASE_URL}/api/news/${id}`)).json();
+  const { relatedStocks, category } = article;
   const stockList: StockInfo[] = [];
 
   if (relatedStocks.length > 0) {
@@ -29,7 +30,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
     <>
       <div className="px-[120px] pt-10 pb-[70px] overflow-hidden flex gap-5 justify-center">
         <NewsDetail id={id} />
-        <RelatedList stockList={stockList} />
+        <RelatedList stockList={stockList} category={category} relatedStocks={relatedStocks} />
       </div>
     </>
   );
