@@ -1,5 +1,5 @@
 import { firestore } from "@/firebase/firebaseConfig";
-import { collection, collectionGroup, getDocs, query, where } from "firebase/firestore";
+import { collection, collectionGroup, getDocs, limit, orderBy, query, where } from "firebase/firestore";
 
 export async function POST(request: Request) {
   const { userId } = await request.json();
@@ -13,12 +13,16 @@ export async function POST(request: Request) {
       const stocks = userStocks.docs.map((doc) => doc.data().stockId);
 
       // 'articles' 컬렉션 그룹에서 relatedStocks로 문서 검색
-      const q = query(collectionGroup(firestore, "articles"), where("relatedStocks", "array-contains-any", stocks));
+      const q = query(
+        collectionGroup(firestore, "articles"),
+        where("relatedStocks", "array-contains-any", stocks),
+        // orderBy("creationTime", "desc"),
+        limit(3),
+      );
       const querySnapshot = await getDocs(q);
 
       if (!querySnapshot.empty) {
-        // 기사 3개만 가져오도록 slice 처리
-        const stockRelatedNews = querySnapshot.docs.slice(0, 3).map((doc) => doc.data());
+        const stockRelatedNews = querySnapshot.docs.map((doc) => doc.data());
 
         return new Response(JSON.stringify(stockRelatedNews), {
           status: 200,
